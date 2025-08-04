@@ -1,0 +1,203 @@
+@import "tailwindcss";
+
+/* Sacco Font Definitions */
+@font-face {
+  font-family: 'Sacco';
+  src: url('/sacco/web/Sacco-SemiBoldCondensed.woff2') format('woff2'),
+       url('/sacco/web/Sacco-SemiBoldCondensed.woff') format('woff'),
+       url('/sacco/web/Sacco-SemiBoldCondensed.eot') format('embedded-opentype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sacco';
+  src: url('/sacco/web/Sacco-SemiBoldExtraCondensed.woff2') format('woff2'),
+       url('/sacco/web/Sacco-SemiBoldExtraCondensed.woff') format('woff'),
+       url('/sacco/web/Sacco-SemiBoldExtraCondensed.eot') format('embedded-opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sacco';
+  src: url('/sacco/web/Sacco-SemiBoldUltraCondensed.woff2') format('woff2'),
+       url('/sacco/web/Sacco-SemiBoldUltraCondensed.woff') format('woff'),
+       url('/sacco/web/Sacco-SemiBoldUltraCondensed.eot') format('embedded-opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-sacco: 'Sacco', Arial, sans-serif;
+  --font-impact: 'Impact', Arial Black, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Flyout animations - start from bottom center and fly to corner positions */
+@keyframes flyToTopLeft {
+  0% {
+    transform: translate(-50vw, 100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) rotate(-15deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flyToTopRight {
+  0% {
+    transform: translate(50vw, 100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) rotate(25deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flyToBottomLeft {
+  0% {
+    transform: translate(-50vw, 100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) rotate(45deg);
+    opacity: 1;
+  }
+}
+
+@keyframes flyToBottomRight {
+  0% {
+    transform: translate(50vw, 100vh) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) rotate(-35deg);
+    opacity: 1;
+  }
+}
+
+/* Custom card colors for InteractiveScrollingCards */
+.bg-card-green {
+  background-color: #e0cc75;
+}
+
+.bg-card-brown {
+  background-color: #7bb1a0;
+}
+
+.bg-card-gray {
+  background-color: #b7634c;
+}
+
+.bg-card-orange {
+  background-color: #b4d686;
+}
+
+.bg-app-bg {
+  background-color: #2e2e2e;
+}
+
+/* Smooth scrolling behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom rounded corners */
+.rounded-t-5xl {
+  border-top-left-radius: 3rem;
+  border-top-right-radius: 3rem;
+}
+
+/* Card-specific animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes countUp {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-count-up {
+  animation: countUp 0.8s ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft 0.7s ease-out forwards;
+}
+
+/* Hover effects for interactive elements */
+.card-hover-effect {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover-effect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* Smooth Cursor - Hide default browser cursor */
+* {
+  cursor: none !important;
+}
+
+input,
+textarea,
+select {
+  cursor: text !important;
+}
