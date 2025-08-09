@@ -3,6 +3,7 @@ import Link from "next/link";
 import InteractiveScrollingCards, { CardData } from "./components/InteractiveScrollingCards";
 import SponsorsTitle from "./components/SponsorsTitle";
 import SponsorsGrid from "./components/SponsorsGrid";
+import GradientSection from "./components/GradientSection";
 import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
 
@@ -168,6 +169,9 @@ export default function Home() {
         <SponsorsTitle />
         <SponsorsGrid />
       </div>
+
+      {/* Gradient Section */}
+      <GradientSection />
 
       {/* Footer */}
       <Footer />

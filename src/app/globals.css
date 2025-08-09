@@ -266,6 +266,26 @@ html {
   --sidebar-ring: oklch(0.556 0 0);
 }
 
+/* ===== CUSTOM SCROLLBAR STYLES ===== */
+.terminal-scrollbar::-webkit-scrollbar {
+  width: 8px;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-track {
+  background: #374151;
+  border-radius: 4px;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-thumb {
+  background: #10b981;
+  border-radius: 4px;
+  border: 1px solid #374151;
+}
+
+.terminal-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #059669;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

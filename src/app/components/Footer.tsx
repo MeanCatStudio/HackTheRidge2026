@@ -175,8 +175,48 @@ const Footer: React.FC = () => {
           variants={itemVariants}
           className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-teal-300/20 mt-8"
         >
-          <div className="text-teal-200/80 text-sm mb-4 md:mb-0">
-            © {currentYear} Hack the Ridge. All rights reserved.
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-teal-200/80 text-sm mb-4 md:mb-0">
+            <div>© {currentYear} Hack the Ridge. All rights reserved.</div>
+            <div className="flex items-center space-x-1">
+              <span>Developed by</span>
+              <div className="flex items-center space-x-1">
+                <Link
+                  href="https://github.com/peteryhs"
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Peter
+                </Link>
+                <span className="text-teal-200/80">,</span>
+                <Link
+                  href="https://github.com/AahanGhode"
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Aahan
+                </Link>
+                <span className="text-teal-200/80">,</span>
+                <Link
+                  href=""
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Jerry
+                </Link>
+                <span className="text-teal-200/80"> and </span>
+                <Link
+                  href="https://claude.ai"
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Kilo (Claude)
+                </Link>
+              </div>
+            </div>
           </div>
           <div className="flex space-x-6 text-sm">
             <Link href="#" className="text-teal-200/80 hover:text-cyan-200 transition-colors duration-300">

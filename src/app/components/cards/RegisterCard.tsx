@@ -107,11 +107,6 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </a>
         </div>
       </div>
-
-      {/* Cool Hover Animation Text (for development/preview) */}
-      <div className="absolute top-4 sm:top-8 right-4 sm:right-8 text-white text-xs sm:text-sm opacity-50 z-20 hidden lg:block">
-        Cool hover animation here
-      </div>
     </div>
   );
 };
