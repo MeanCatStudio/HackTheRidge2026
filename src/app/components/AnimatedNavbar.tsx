@@ -20,62 +20,81 @@ const navItems: NavItem[] = [
 
 const AnimatedNavbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
+      // Trigger compact mode the moment we reach the first scrolling card
+      // Landing page is 100vh, so trigger at exactly 100vh (when scrolling cards start)
+      const landingPageHeight = window.innerHeight; // Full viewport height
       const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 50);
+      setIsScrolled(scrollPosition >= landingPageHeight);
     };
 
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    // Initial check
+    handleResize();
+
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleResize, { passive: true });
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
   }, []);
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
-    <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center transition-all duration-500 ease-out"
-      initial={{ y: 0 }}
-      animate={{
-        paddingTop: isScrolled ? '1rem' : '2rem',
-        paddingBottom: isScrolled ? '1rem' : '2rem',
-      }}
-      transition={{ duration: 0.5, ease: 'easeOut' }}
-    >
-      <motion.div
-        className="flex items-center justify-center"
+    <>
+      <motion.nav
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center transition-all duration-500 ease-out"
+        initial={{ y: 0 }}
         animate={{
-          backgroundColor: isScrolled ? 'rgba(46, 46, 46, 0.95)' : 'transparent',
-          backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
-          borderRadius: isScrolled ? '2rem' : '0rem',
-          padding: isScrolled ? '0.75rem 2rem' : '0rem',
-          boxShadow: isScrolled 
-            ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
-            : '0 0px 0px rgba(0, 0, 0, 0)',
+          paddingTop: isScrolled ? '1rem' : '2rem',
+          paddingBottom: isScrolled ? '1rem' : '2rem',
         }}
-        transition={{ 
-          duration: 0.5, 
-          ease: 'easeOut',
-          backgroundColor: { duration: 0.3 },
-          backdropFilter: { duration: 0.3 },
-          boxShadow: { duration: 0.4 },
-        }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
       >
+        {/* Mobile Layout */}
         <motion.div
-          className="flex items-center"
+          className="flex lg:hidden items-center justify-between w-full px-4 sm:px-6"
           animate={{
-            gap: isScrolled ? '1.5rem' : '3rem',
+            backgroundColor: isScrolled ? 'rgba(46, 46, 46, 0.95)' : 'transparent',
+            backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
+            borderRadius: isScrolled ? '2rem' : '0rem',
+            padding: isScrolled ? '0.75rem 2rem' : '1rem 2rem',
+            boxShadow: isScrolled 
+              ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
+              : '0 0px 0px rgba(0, 0, 0, 0)',
           }}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
+          transition={{ 
+            duration: 0.5, 
+            ease: 'easeOut',
+            backgroundColor: { duration: 0.3 },
+            backdropFilter: { duration: 0.3 },
+            boxShadow: { duration: 0.4 },
+          }}
         >
-          {/* Logo - only visible when scrolled */}
+          {/* Mobile Logo */}
           <AnimatePresence>
-            {isScrolled && (
+            {(isScrolled || isMobile) && (
               <motion.div
                 initial={{ opacity: 0, scale: 0.8, x: -20 }}
                 animate={{ opacity: 1, scale: 1, x: 0 }}
                 exit={{ opacity: 0, scale: 0.8, x: -20 }}
                 transition={{ duration: 0.4, ease: 'easeOut' }}
-                className="mr-4"
               >
                 <Link href="#home" className="flex items-center">
                   <Image
@@ -90,49 +109,193 @@ const AnimatedNavbar: React.FC = () => {
             )}
           </AnimatePresence>
 
-          {/* Navigation Items */}
-          {navItems.map((item, index) => (
-            <motion.div
-              key={item.href}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: index * 0.1,
-                duration: 0.6,
-                ease: 'easeOut'
+          {/* Mobile Hamburger Menu Button */}
+          <motion.button
+            className="flex flex-col justify-center items-center w-8 h-8 space-y-1.5"
+            onClick={toggleMobileMenu}
+            whileTap={{ scale: 0.95 }}
+            aria-label="Toggle mobile menu"
+          >
+            <motion.span
+              className="w-6 h-0.5 bg-white origin-center"
+              animate={{
+                rotate: isMobileMenuOpen ? 45 : 0,
+                y: isMobileMenuOpen ? 6 : 0,
               }}
-            >
-              <Link
-                href={item.href}
-                className="relative group"
-              >
-                <motion.span
-                  className="text-white font-bold tracking-wider transition-colors duration-300 hover:text-gray-300"
-                  style={{
-                    fontFamily: 'Impact, Arial Black, sans-serif',
-                  }}
-                  animate={{
-                    fontSize: isScrolled ? '1.125rem' : '1.5rem',
-                  }}
-                  transition={{ duration: 0.5, ease: 'easeOut' }}
-                >
-                  {item.label}
-                </motion.span>
-                
-                {/* Animated underline */}
-                <motion.div
-                  className="absolute bottom-0 left-0 h-0.5 bg-white origin-left"
-                  initial={{ scaleX: 0 }}
-                  whileHover={{ scaleX: 1 }}
-                  transition={{ duration: 0.3, ease: 'easeOut' }}
-                  style={{ width: '100%' }}
-                />
-              </Link>
-            </motion.div>
-          ))}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            />
+            <motion.span
+              className="w-6 h-0.5 bg-white"
+              animate={{
+                opacity: isMobileMenuOpen ? 0 : 1,
+              }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            />
+            <motion.span
+              className="w-6 h-0.5 bg-white origin-center"
+              animate={{
+                rotate: isMobileMenuOpen ? -45 : 0,
+                y: isMobileMenuOpen ? -6 : 0,
+              }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            />
+          </motion.button>
         </motion.div>
-      </motion.div>
-    </motion.nav>
+
+        {/* Desktop Layout - Centered */}
+        <motion.div
+          className="hidden lg:flex items-center justify-center"
+          animate={{
+            backgroundColor: isScrolled ? 'rgba(46, 46, 46, 0.95)' : 'transparent',
+            backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
+            borderRadius: isScrolled ? '2rem' : '0rem',
+            padding: isScrolled ? '0.75rem 2rem' : '0rem',
+            boxShadow: isScrolled 
+              ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
+              : '0 0px 0px rgba(0, 0, 0, 0)',
+          }}
+          transition={{ 
+            duration: 0.5, 
+            ease: 'easeOut',
+            backgroundColor: { duration: 0.3 },
+            backdropFilter: { duration: 0.3 },
+            boxShadow: { duration: 0.4 },
+          }}
+        >
+          <motion.div
+            className="flex items-center"
+            animate={{
+              gap: isScrolled ? '1.5rem' : '3rem',
+            }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
+          >
+            {/* Desktop Logo - only visible when scrolled */}
+            <AnimatePresence>
+              {isScrolled && (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8, x: -20 }}
+                  animate={{ opacity: 1, scale: 1, x: 0 }}
+                  exit={{ opacity: 0, scale: 0.8, x: -20 }}
+                  transition={{ duration: 0.4, ease: 'easeOut' }}
+                  className="mr-4"
+                >
+                  <Link href="#home" className="flex items-center">
+                    <Image
+                      src="/logo.png"
+                      alt="Hack the Ridge Logo"
+                      width={32}
+                      height={32}
+                      className="hover:scale-110 transition-transform duration-300"
+                    />
+                  </Link>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Desktop Navigation Items */}
+            {navItems.map((item, index) => (
+              <motion.div
+                key={item.href}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.1,
+                  duration: 0.6,
+                  ease: 'easeOut'
+                }}
+              >
+                <Link
+                  href={item.href}
+                  className="relative group"
+                >
+                  <motion.span
+                    className="text-white font-bold tracking-wider transition-colors duration-300 hover:text-gray-300 navbar-link"
+                    animate={{
+                      fontSize: isScrolled ? '1.25rem' : '1.5rem',
+                    }}
+                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    style={{
+                      fontFamily: 'Impact, Arial Black, sans-serif',
+                    }}
+                  >
+                    {item.label}
+                  </motion.span>
+                  
+                  {/* Animated underline */}
+                  <motion.div
+                    className="absolute bottom-0 left-0 h-0.5 bg-white origin-left"
+                    initial={{ scaleX: 0 }}
+                    whileHover={{ scaleX: 1 }}
+                    transition={{ duration: 0.3, ease: 'easeOut' }}
+                    style={{ width: '100%' }}
+                  />
+                </Link>
+              </motion.div>
+            ))}
+          </motion.div>
+        </motion.div>
+      </motion.nav>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {isMobileMenuOpen && (
+          <motion.div
+            className="fixed inset-0 z-40 lg:hidden"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            {/* Backdrop */}
+            <motion.div
+              className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
+              onClick={closeMobileMenu}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+            
+            {/* Menu Content */}
+            <motion.div
+              className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-gray-900 shadow-xl"
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ duration: 0.3, ease: 'easeOut' }}
+            >
+              <div className="flex flex-col h-full pt-20 px-6">
+                {/* Mobile Navigation Items */}
+                <div className="flex flex-col space-y-6">
+                  {navItems.map((item, index) => (
+                    <motion.div
+                      key={item.href}
+                      initial={{ opacity: 0, x: 50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{
+                        delay: index * 0.1,
+                        duration: 0.4,
+                        ease: 'easeOut'
+                      }}
+                    >
+                      <Link
+                        href={item.href}
+                        className="block py-3 px-4 text-white text-xl font-bold tracking-wider hover:text-gray-300 hover:bg-gray-800 rounded-lg transition-all duration-300"
+                        style={{
+                          fontFamily: 'Impact, Arial Black, sans-serif',
+                        }}
+                        onClick={closeMobileMenu}
+                      >
+                        {item.label}
+                      </Link>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 

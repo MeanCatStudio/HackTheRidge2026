@@ -36,8 +36,8 @@ const DefaultCursorSVG = () => (
 const defaultSpringConfig: SpringConfig = {
   damping: 40,
   stiffness: 600,
-  mass: 0.5,
-  restDelta: 0.001,
+  mass: 0.1,
+  restDelta: 0.00001,
 };
 
 // Separate config for rotation - more damped to reduce jitter
@@ -45,7 +45,7 @@ const rotationSpringConfig: SpringConfig = {
   damping: 50,
   stiffness: 80,
   mass: 0.1,
-  restDelta: 0.001,
+  restDelta: 0.00001,
 };
 
 export function SmoothCursor({

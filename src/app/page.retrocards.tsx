@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import InteractiveScrollingCards, { CardData } from "./components/InteractiveScrollingCards";
@@ -6,13 +8,17 @@ import SponsorsGrid from "./components/SponsorsGrid";
 import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
 
-// Card data for the second page
+// Enhanced card data with structured sentences for better layout
 const CARDS_DATA: CardData[] = [
   {
     id: 1,
-    headerTitle: 'ABOUT HTR.',
+    headerTitle: 'ABOUT HACK THE RIDGE.',
     title: 'Where Innovation Meets Community',
-    content: 'Join 200+ students, developers, and creators for an epic 24-hour journey of building, learning, and connecting. Transform your ideas into reality.',
+    sentences: [
+      'Join 200+ students, developers, and creators for an epic 24-hour journey.',
+      'Build, learn, and connect with like-minded innovators from across the region.',
+      'Transform your wildest ideas into reality with cutting-edge tools and mentorship.'
+    ],
     imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop',
     bgColor: 'bg-card-green',
     textColor: 'text-white',
@@ -21,7 +27,11 @@ const CARDS_DATA: CardData[] = [
     id: 2,
     headerTitle: 'HISTORY',
     title: '500+ Past Participants',
-    content: 'Since 2019, we\'ve grown from 50 to 200+ hackers annually, creating lasting impact.',
+    sentences: [
+      'Since 2019, we\'ve grown from 50 to 200+ hackers annually.',
+      'Our community has built over 150 projects spanning AI, web, mobile, and IoT.',
+      'Five years of fostering innovation and creating lasting connections in tech.'
+    ],
     imageUrl: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
     bgColor: 'bg-card-brown',
     textColor: 'text-white',
@@ -29,9 +39,13 @@ const CARDS_DATA: CardData[] = [
   {
     id: 3,
     headerTitle: 'LAST YEAR',
-    title: 'Healthcare Revolution',
-    content: '2024 marked our most impactful year as 300+ innovators pushed healthcare boundaries with cutting-edge AI solutions.',
-    imageUrl: 'https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=2070&auto=format&fit=crop',
+    title: '48 Projects Built',
+    sentences: [
+      'From AI-powered solutions to innovative mobile apps, 2024 was our biggest year yet.',
+      'Teams competed across six categories with $10K+ in prizes and sponsor opportunities.',
+      'The energy was electric, the projects were groundbreaking, and the community stronger than ever.'
+    ],
+    imageUrl: 'https://images.unsplash.com/photo-1551434678-e076c223a692?q=80&w=2070&auto=format&fit=crop',
     bgColor: 'bg-card-gray',
     textColor: 'text-white',
   },
@@ -39,14 +53,18 @@ const CARDS_DATA: CardData[] = [
     id: 4,
     headerTitle: '2025',
     title: 'Ready to Build?',
-    content: 'Join us for our biggest event yet. Registration opens soon.',
+    sentences: [
+      'Join us for our biggest event yet with more prizes, sponsors, and opportunities.',
+      'Registration opens soon - be the first to secure your spot in this epic hackathon.',
+      'Get ready to push boundaries, make connections, and create something extraordinary.'
+    ],
     imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-app-bg',
+    bgColor: 'bg-card-orange',
     textColor: 'text-white',
   },
 ];
 
-export default function Home() {
+export default function RetroCardsPreview() {
   return (
     <div className="bg-app-bg">
       {/* Animated Navbar - Fixed Position */}
@@ -68,6 +86,11 @@ export default function Home() {
               <span className="block sm:inline">HACK THE</span>
               <span className="block sm:inline sm:ml-4">RIDGE</span>
             </h1>
+            
+            {/* Subtitle for preview */}
+            <p className="text-xl sm:text-2xl text-white/80 mt-8 font-medium">
+              New Retro Card Layouts Preview
+            </p>
           </div>
           
           {/* Wolf Logo positioned at bottom with 1/4 cut off - maintaining aspect ratio */}
@@ -158,7 +181,7 @@ export default function Home() {
         </main>
       </div>
 
-      {/* Second Page - Interactive Scrolling Cards */}
+      {/* Second Page - Interactive Scrolling Cards with New Layouts */}
       <div id="about">
         <InteractiveScrollingCards cards={CARDS_DATA} />
       </div>
