@@ -4,6 +4,7 @@ import InteractiveScrollingCards, { CardData } from "./components/InteractiveScr
 import SponsorsTitle from "./components/SponsorsTitle";
 import SponsorsGrid from "./components/SponsorsGrid";
 import GradientSection from "./components/GradientSection";
+import TeamSection from "./components/TeamSection";
 import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
 
@@ -172,6 +173,9 @@ export default function Home() {
 
       {/* Gradient Section */}
       <GradientSection />
+      
+      {/* Team Section */}
+      <TeamSection />
 
       {/* Footer */}
       <Footer />
