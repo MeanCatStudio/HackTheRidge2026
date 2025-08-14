@@ -13,7 +13,6 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
   const [colGap, setColGap] = useState(20);
   const [open, setOpen] = useState(false);
   const [animIn, setAnimIn] = useState(false);
-  const [flipLeft, setFlipLeft] = useState(false);
 
   // Measure base width and grid gap
   useEffect(() => {
@@ -42,24 +41,9 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
     };
   }, []);
 
-  const computeFlip = () => {
-    const el = rootRef.current;
-    if (!el) return false;
-    const grid = el.closest(".team-grid") as HTMLElement | null;
-    const gridRect = grid?.getBoundingClientRect();
-    const cardRect = el.getBoundingClientRect();
-    const margin = 8;
-    const expandedPx = baseW * 2 + colGap;
-    if (!gridRect) return false;
-    const wouldRight = cardRect.left + expandedPx;
-    return wouldRight > gridRect.right - margin;
-  };
-
   const openWithAnim = () => {
-    setFlipLeft(computeFlip());
     setOpen(true);
     setAnimIn(false);
-    // wait a frame so CSS transitions pick up
     requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
   };
 
@@ -80,7 +64,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
   };
 
   const expandedPx = baseW * 2 + colGap;
-  const offsetX = flipLeft ? 20 : -20;
+  const offsetX = -20; // always slide in from left
 
   return (
     <div
@@ -91,22 +75,18 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
       aria-expanded={open}
       onClick={toggleOpen}
       onKeyDown={onKeyDown}
-      // ensure this card stacks above neighbors when open
       style={{ zIndex: open ? 30 : 0, overflow: "visible" }}
     >
       {/* Intrinsic height for the grid cell */}
       <div className="aspect-[4/5]" aria-hidden="true" />
 
-      {/* Expanding overlay within the same DOM (no portal) */}
+      {/* Expanding overlay always anchored to the left */}
       <div
         className="absolute inset-0 rounded-2xl overflow-hidden bg-[#2b2b2b] border border-white/15 ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
         style={{
-          // Grow width to about two columns
           width: open ? expandedPx : "100%",
-          // Anchor to side based on flip
-          left: flipLeft ? "auto" as const : 0,
-          right: flipLeft ? 0 : "auto",
-          // Slide + fade
+          left: 0,
+          right: "auto",
           transform: animIn ? "translateX(0) scale(1)" : `translateX(${open ? offsetX : 0}px) scale(${open ? 0.985 : 1})`,
           opacity: animIn ? 1 : open ? 0 : 1,
           transition: `width 480ms ${EASE}, transform 510ms ${EASE}, opacity 470ms ${EASE}`,
@@ -137,7 +117,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
           <div
             className="flex-1 min-w-0 flex flex-col justify-end p-4 text-white"
             style={{
-              transform: animIn ? "translateX(0)" : open ? `translateX(${flipLeft ? 10 : -10}px)` : "translateX(0)",
+              transform: animIn ? "translateX(0)" : open ? "translateX(-10px)" : "translateX(0)",
               opacity: animIn ? 1 : open ? 0 : 1,
               transition: `transform 530ms ${EASE} 120ms, opacity 530ms ${EASE} 120ms`,
             }}
