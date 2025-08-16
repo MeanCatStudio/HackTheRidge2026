@@ -69,12 +69,12 @@ const AnimatedNavbar: React.FC = () => {
       >
         {/* Mobile Layout */}
         <motion.div
-          className="flex lg:hidden items-center justify-between w-full px-4 sm:px-6"
+          className="flex lg:hidden items-center justify-between w-full px-4 sm:px-6 md:px-8"
           animate={{
             backgroundColor: isScrolled ? 'rgba(46, 46, 46, 0.95)' : 'transparent',
             backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
             borderRadius: isScrolled ? '2rem' : '0rem',
-            padding: isScrolled ? '0.75rem 2rem' : '1rem 2rem',
+            padding: isScrolled ? '0.75rem 1.5rem sm:0.75rem 2rem' : '1rem 1.5rem sm:1rem 2rem',
             boxShadow: isScrolled 
               ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
               : '0 0px 0px rgba(0, 0, 0, 0)',
@@ -102,7 +102,7 @@ const AnimatedNavbar: React.FC = () => {
                     alt="Hack the Ridge Logo"
                     width={32}
                     height={32}
-                    className="hover:scale-110 transition-transform duration-300"
+                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:scale-110 transition-transform duration-300"
                   />
                 </Link>
               </motion.div>
@@ -111,13 +111,13 @@ const AnimatedNavbar: React.FC = () => {
 
           {/* Mobile Hamburger Menu Button */}
           <motion.button
-            className="flex flex-col justify-center items-center w-8 h-8 space-y-1.5"
+            className="flex flex-col justify-center items-center w-8 h-8 sm:w-10 sm:h-10 space-y-1.5"
             onClick={toggleMobileMenu}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle mobile menu"
           >
             <motion.span
-              className="w-6 h-0.5 bg-white origin-center"
+              className="w-6 h-0.5 sm:w-7 bg-white origin-center"
               animate={{
                 rotate: isMobileMenuOpen ? 45 : 0,
                 y: isMobileMenuOpen ? 6 : 0,
@@ -125,14 +125,14 @@ const AnimatedNavbar: React.FC = () => {
               transition={{ duration: 0.3, ease: 'easeOut' }}
             />
             <motion.span
-              className="w-6 h-0.5 bg-white"
+              className="w-6 h-0.5 sm:w-7 bg-white"
               animate={{
                 opacity: isMobileMenuOpen ? 0 : 1,
               }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
             />
             <motion.span
-              className="w-6 h-0.5 bg-white origin-center"
+              className="w-6 h-0.5 sm:w-7 bg-white origin-center"
               animate={{
                 rotate: isMobileMenuOpen ? -45 : 0,
                 y: isMobileMenuOpen ? -6 : 0,
@@ -257,15 +257,15 @@ const AnimatedNavbar: React.FC = () => {
             
             {/* Menu Content */}
             <motion.div
-              className="absolute top-0 right-0 h-full w-80 max-w-[85vw] bg-gray-900 shadow-xl"
+              className="absolute top-0 right-0 h-full w-72 sm:w-80 max-w-[85vw] bg-gray-900 shadow-xl"
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
             >
-              <div className="flex flex-col h-full pt-20 px-6">
+              <div className="flex flex-col h-full pt-16 sm:pt-20 px-4 sm:px-6">
                 {/* Mobile Navigation Items */}
-                <div className="flex flex-col space-y-6">
+                <div className="flex flex-col space-y-4 sm:space-y-6">
                   {navItems.map((item, index) => (
                     <motion.div
                       key={item.href}
@@ -279,7 +279,7 @@ const AnimatedNavbar: React.FC = () => {
                     >
                       <Link
                         href={item.href}
-                        className="block py-3 px-4 text-white text-xl font-bold tracking-wider hover:text-gray-300 hover:bg-gray-800 rounded-lg transition-all duration-300"
+                        className="block py-3 px-4 text-white text-lg sm:text-xl font-bold tracking-wider hover:text-gray-300 hover:bg-gray-800 rounded-lg transition-all duration-300"
                         style={{
                           fontFamily: 'Impact, Arial Black, sans-serif',
                         }}

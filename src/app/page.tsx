@@ -50,25 +50,25 @@ const CARDS_DATA: CardData[] = [
 
 export default function Home() {
   return (
-    <div className="bg-app-bg">
+    <div className="bg-app-bg w-full min-w-full">
       {/* Animated Navbar - Fixed Position */}
       <AnimatedNavbar />
       
       {/* First Page - Landing Section */}
-      <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#2e2e2e' }}>
+      <div className="min-h-screen flex flex-col w-full" style={{ backgroundColor: '#2e2e2e' }}>
         {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center relative overflow-hidden">
-          <div className="text-center relative z-10 px-4">
+        <main className="flex-1 flex items-center justify-center relative overflow-hidden px-4 sm:px-6 md:px-8">
+          <div className="text-center relative z-10">
             {/* Main Title */}
             <h1
-              className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[11rem] 2xl:text-[13rem] font-bold text-white leading-none"
+              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[11rem] font-bold text-white leading-none px-2 sm:px-4"
               style={{
                 fontFamily: 'Sacco, Arial, sans-serif',
                 letterSpacing: '0.05em'
               }}
             >
               <span className="block sm:inline">HACK THE</span>
-              <span className="block sm:inline sm:ml-4">RIDGE</span>
+              <span className="block sm:inline sm:ml-2 md:ml-4">RIDGE</span>
             </h1>
           </div>
           
@@ -79,7 +79,7 @@ export default function Home() {
               alt="Wolf Logo"
               width={400}
               height={400}
-              className="opacity-100 object-contain sm:w-[450px] sm:h-[450px] md:w-[500px] md:h-[500px] lg:w-[550px] lg:h-[550px] xl:w-[600px] xl:h-[600px]"
+              className="w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] xl:w-[550px] xl:h-[550px] 2xl:w-[600px] 2xl:h-[600px] opacity-100 object-contain"
               priority
             />
           </div>
@@ -88,7 +88,7 @@ export default function Home() {
           
           {/* Top Left - Moved closer to center vertically */}
           <div
-            className="absolute top-24 left-36 z-30 hidden sm:block"
+            className="absolute top-16 sm:top-20 md:top-24 left-8 sm:left-20 md:left-36 z-30 hidden sm:block"
             style={{
               transform: 'translate(-50vw, 100vh)',
               animation: 'flyToTopLeft 2s ease-out forwards',
@@ -100,13 +100,13 @@ export default function Home() {
               alt="Top left decoration"
               width={80}
               height={80}
-              className="shadow-lg sm:w-[100px] sm:h-[100px] md:w-[120px] md:h-[120px]"
+              className="w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] md:w-[100px] md:h-[100px] lg:w-[120px] lg:h-[120px] shadow-lg"
             />
           </div>
 
           {/* Top Right - Moved closer to center vertically */}
           <div
-            className="absolute top-32 right-36 z-30 hidden sm:block"
+            className="absolute top-20 sm:top-24 md:top-32 right-8 sm:right-20 md:right-36 z-30 hidden sm:block"
             style={{
               transform: 'translate(50vw, 100vh)',
               animation: 'flyToTopRight 2.2s ease-out forwards',
@@ -118,13 +118,13 @@ export default function Home() {
               alt="Top right decoration"
               width={70}
               height={70}
-              className="shadow-lg sm:w-[80px] sm:h-[80px] md:w-[100px] md:h-[100px]"
+              className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] shadow-lg"
             />
           </div>
 
           {/* Bottom Left - Moved closer to center vertically */}
           <div
-            className="absolute bottom-36 left-36 z-30 hidden sm:block"
+            className="absolute bottom-20 sm:bottom-28 md:bottom-36 left-8 sm:left-20 md:left-36 z-30 hidden sm:block"
             style={{
               transform: 'translate(-50vw, 100vh)',
               animation: 'flyToBottomLeft 1.8s ease-out forwards',
@@ -136,13 +136,13 @@ export default function Home() {
               alt="Bottom left decoration"
               width={100}
               height={100}
-              className="shadow-lg sm:w-[120px] sm:h-[120px] md:w-[140px] md:h-[140px]"
+              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[120px] md:h-[120px] lg:w-[140px] lg:h-[140px] shadow-lg"
             />
           </div>
 
           {/* Bottom Right - Moved closer to center vertically */}
           <div
-            className="absolute bottom-32 right-36 z-30 hidden sm:block"
+            className="absolute bottom-16 sm:bottom-24 md:bottom-32 right-8 sm:right-20 md:right-36 z-30 hidden sm:block"
             style={{
               transform: 'translate(50vw, 100vh)',
               animation: 'flyToBottomRight 2.1s ease-out forwards',
@@ -154,31 +154,37 @@ export default function Home() {
               alt="Bottom right decoration"
               width={80}
               height={80}
-              className="shadow-lg sm:w-[90px] sm:h-[90px] md:w-[110px] md:h-[110px]"
+              className="w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] md:w-[90px] md:h-[90px] lg:w-[110px] lg:h-[110px] shadow-lg"
             />
           </div>
         </main>
       </div>
 
       {/* Second Page - Interactive Scrolling Cards */}
-      <div id="about">
+      <div id="about" className="w-full">
         <InteractiveScrollingCards cards={CARDS_DATA} />
       </div>
 
       {/* Third Page - Sponsors Section */}
-      <div id="sponsors" className="min-h-screen" style={{ backgroundColor: '#2e2e2e' }}>
+      <div id="sponsors" className="min-h-screen w-full" style={{ backgroundColor: '#2e2e2e' }}>
         <SponsorsTitle />
         <SponsorsGrid />
       </div>
 
       {/* Gradient Section */}
-      <GradientSection />
+      <div className="w-full">
+        <GradientSection />
+      </div>
       
       {/* Team Section */}
-      <TeamSection />
+      <div className="w-full">
+        <TeamSection />
+      </div>
 
       {/* Footer */}
-      <Footer />
+      <div className="w-full">
+        <Footer />
+      </div>
     </div>
   );
 }
