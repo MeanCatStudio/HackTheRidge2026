@@ -49,10 +49,10 @@ const generateStaticPositions = (count: number): CardPosition[] => {
   let widthMultiplier, heightMultiplier, minClearance;
   
   if (isMobile) {
-    // Mobile: tighter positioning, more vertical space
-    widthMultiplier = 0.4;
-    heightMultiplier = 0.35;
-    minClearance = 0.25;
+    // Mobile: tighter positioning, more vertical space, smaller cards
+    widthMultiplier = 0.35;
+    heightMultiplier = 0.3;
+    minClearance = 0.2;
   } else if (isTablet) {
     // Tablet: moderate positioning
     widthMultiplier = 0.55;
@@ -101,13 +101,9 @@ const generateStaticPositions = (count: number): CardPosition[] => {
       baseY *= scale;
     }
     
-    // Convert to pixel positions with safety margins
-    const maxX = (viewportWidth * 0.45) - 100; // Leave 100px margin from edges
-    const maxY = (viewportHeight * 0.4) - 80;  // Leave 80px margin from top/bottom
-    
     return {
-      x: Math.max(-maxX, Math.min(maxX, baseX * viewportWidth)),
-      y: Math.max(-maxY, Math.min(maxY, baseY * viewportHeight)),
+      x: baseX,
+      y: baseY,
       tilt: pos.tilt
     };
   });
