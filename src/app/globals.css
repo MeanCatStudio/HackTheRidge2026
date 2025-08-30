@@ -98,9 +98,36 @@ html {
 .bg-app-bg { background-color: #2e2e2e; }
 
 /* ===== UTILITY CLASSES ===== */
-.rounded-t-5xl {
-  border-top-left-radius: 3rem;
-  border-top-right-radius: 3rem;
+
+/* ===== TEAM GRID RESPONSIVE STYLES ===== */
+@media (max-width: 640px) {
+  .team-grid {
+    gap: 0.75rem;
+    max-width: 100%;
+    margin: 0 auto;
+  }
+  
+  .team-grid > * {
+    max-width: 140px;
+    max-height: 160px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 768px) {
+  .team-grid {
+    gap: 1.25rem;
+  }
+  
+  .team-grid > * {
+    max-width: 140px;
+    max-height: 160px;
+  }
+}
+
+@media (min-width: 769px) {
+  .team-grid {
+    gap: 1.5rem;
+  }
 }
 
 .card-hover-effect {

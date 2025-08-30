@@ -6,13 +6,23 @@ import type { TeamMember } from "./TeamMember";
 
 const EASE = "cubic-bezier(0.2, 0.8, 0.2, 1)";
 
-const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
+const TeamCard: React.FC<{ 
+  member: TeamMember;
+  isOpen?: boolean;
+  onOpen?: (cardId: number) => void;
+  onClose?: () => void;
+  columnIndex?: number;
+  totalColumns?: number;
+}> = ({ member, isOpen: externalIsOpen, onOpen, onClose, columnIndex, totalColumns }) => {
   const rootRef = useRef<HTMLDivElement | null>(null);
 
   const [baseW, setBaseW] = useState(0);
   const [colGap, setColGap] = useState(20);
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
   const [animIn, setAnimIn] = useState(false);
+
+  // Use external open state if provided, otherwise use internal state
+  const open = externalIsOpen !== undefined ? externalIsOpen : internalOpen;
 
   // Measure base width and grid gap
   useEffect(() => {
@@ -42,14 +52,29 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
   }, []);
 
   const openWithAnim = () => {
-    setOpen(true);
+    if (onOpen) {
+      onOpen(member.id);
+    } else {
+      setInternalOpen(true);
+    }
     setAnimIn(false);
     requestAnimationFrame(() => requestAnimationFrame(() => setAnimIn(true)));
   };
 
   const closeWithAnim = () => {
+    if (onClose) {
+      onClose();
+    } else {
+      setInternalOpen(false);
+    }
     setAnimIn(false);
-    setTimeout(() => setOpen(false), 480);
+    setTimeout(() => {
+      if (onClose) {
+        // External control - no need to set internal state
+      } else {
+        setInternalOpen(false);
+      }
+    }, 480);
   };
 
   const toggleOpen = () => (open ? closeWithAnim() : openWithAnim());
@@ -64,7 +89,12 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
   };
 
   const expandedPx = baseW * 2 + colGap;
-  const offsetX = -20; // always slide in from left
+  
+  // Determine expansion direction based on column position
+  // For mobile (3 columns): only rightmost column (index 2) expands right
+  // For desktop (4+ columns): ALL columns expand left
+  const isRightmostColumn = totalColumns === 3 ? columnIndex === 2 : false; // Mobile: only rightmost, Desktop: none
+  const offsetX = isRightmostColumn ? 20 : -20; // Right columns slide from right, others from left
 
   return (
     <div
@@ -78,16 +108,16 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
       style={{ zIndex: open ? 30 : 0, overflow: "visible" }}
     >
       {/* Intrinsic height for the grid cell */}
-      <div className="aspect-[4/5]" aria-hidden="true" />
+      <div className="h-[160px] sm:h-[160px] md:h-[180px] lg:h-[200px] w-full" aria-hidden="true" />
 
-      {/* Expanding overlay always anchored to the left */}
+      {/* Expanding overlay with conditional positioning */}
       <div
         className="absolute inset-0 rounded-2xl overflow-hidden bg-[#2b2b2b] border border-white/15 ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
         style={{
           width: open ? expandedPx : "100%",
-          left: 0,
-          right: "auto",
-          transform: animIn ? "translateX(0) scale(1)" : `translateX(${open ? offsetX : 0}px) scale(${open ? 0.985 : 1})`,
+          left: isRightmostColumn ? "auto" : 0,
+          right: isRightmostColumn ? 0 : "auto",
+          transform: animIn ? "translateX(0) scale(1)" : `translateX(${open ? (isRightmostColumn ? -offsetX : offsetX) : 0}px) scale(${open ? 0.985 : 1})`,
           opacity: animIn ? 1 : open ? 0 : 1,
           transition: `width 480ms ${EASE}, transform 510ms ${EASE}, opacity 470ms ${EASE}`,
           willChange: "width, transform, opacity",
@@ -96,7 +126,7 @@ const TeamCard: React.FC<{ member: TeamMember }> = ({ member }) => {
         <div className="relative h-full flex">
           {/* Left: headshot locked to base width */}
           <div
-            className="relative h-full shrink-0 overflow-hidden rounded-l-2xl"
+            className={`relative h-full shrink-0 overflow-hidden ${isRightmostColumn ? 'rounded-r-2xl' : 'rounded-l-2xl'}`}
             style={{
               width: baseW || "100%",
               transform: animIn ? "scale(1)" : open ? "scale(1.01)" : "scale(1)",

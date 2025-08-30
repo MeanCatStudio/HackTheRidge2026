@@ -11,6 +11,29 @@ const PLANNING_START_ISO = "2025-01-01";
 const MONEY_RAISED = 3000000;
 
 const TeamSection: React.FC = () => {
+  const [openCardId, setOpenCardId] = React.useState<number | null>(null);
+  const [isDesktop, setIsDesktop] = React.useState(false);
+
+  const handleCardOpen = (cardId: number) => {
+    setOpenCardId(cardId);
+  };
+
+  const handleCardClose = () => {
+    setOpenCardId(null);
+  };
+
+  // Handle responsive grid columns
+  React.useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1280); // xl breakpoint
+    };
+    
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
+
   return (
     <section id="team" className="w-full bg-app-bg">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
@@ -19,7 +42,7 @@ const TeamSection: React.FC = () => {
           <div className="flex flex-col">
             <div className="flex items-center gap-3">
               <span className="text-3xl sm:text-4xl font-extrabold tracking-wide text-[#B8B8B8]">THE</span>
-              <Image src="/wolf.svg" alt="wolf" width={36} height={36} className="opacity-90" />
+              <Image src="/globe.svg" alt="globe" width={36} height={36} className="opacity-90" />
               <span className="text-3xl sm:text-4xl font-extrabold tracking-wide text-[#A5A5A5]">TEAM</span>
             </div>
 
@@ -47,10 +70,25 @@ const TeamSection: React.FC = () => {
 
           {/* right grid */}
           <div>
-            <div className="team-grid grid grid-cols-2 md:grid-cols-3 xl:grid-cols-4 grid-flow-row-dense gap-5 sm:gap-6">
-              {teamMembers.map((m) => (
-                <TeamCard key={m.id} member={m} />
-              ))}
+            <div className="team-grid grid grid-cols-3 md:grid-cols-3 xl:grid-cols-4 grid-flow-row-dense gap-5 sm:gap-6">
+              {teamMembers.map((m, index) => {
+                // Calculate column index based on responsive grid
+                // Mobile/tablet: 3 columns, Desktop: 4 columns
+                const totalColumns = isDesktop ? 4 : 3;
+                const columnIndex = index % totalColumns;
+                
+                return (
+                  <TeamCard 
+                    key={m.id} 
+                    member={m} 
+                    isOpen={openCardId === m.id}
+                    onOpen={handleCardOpen}
+                    onClose={handleCardClose}
+                    columnIndex={columnIndex}
+                    totalColumns={totalColumns}
+                  />
+                );
+              })}
             </div>
           </div>
         </div>

@@ -59,7 +59,7 @@ const AnimatedNavbar: React.FC = () => {
   return (
     <>
       <motion.nav
-        className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center transition-all duration-500 ease-out"
+        className="fixed top-0 left-0 right-0 z-50 flex justify-center items-center transition-all duration-500 ease-out px-2 sm:px-4"
         initial={{ y: 0 }}
         animate={{
           paddingTop: isScrolled ? '1rem' : '2rem',
@@ -69,12 +69,12 @@ const AnimatedNavbar: React.FC = () => {
       >
         {/* Mobile Layout */}
         <motion.div
-          className="flex lg:hidden items-center justify-between w-full px-4 sm:px-6 md:px-8"
+          className="flex lg:hidden items-center justify-between w-full max-w-[600px] mx-auto gap-4"
           animate={{
             backgroundColor: isScrolled ? 'rgba(46, 46, 46, 0.95)' : 'transparent',
             backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
             borderRadius: isScrolled ? '2rem' : '0rem',
-            padding: isScrolled ? '0.75rem 1.5rem sm:0.75rem 2rem' : '1rem 1.5rem sm:1rem 2rem',
+            padding: isScrolled ? '0.75rem 1.25rem' : '1rem 1.25rem',
             boxShadow: isScrolled 
               ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
               : '0 0px 0px rgba(0, 0, 0, 0)',
@@ -88,33 +88,30 @@ const AnimatedNavbar: React.FC = () => {
           }}
         >
           {/* Mobile Logo */}
-          <AnimatePresence>
-            {(isScrolled || isMobile) && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0.8, x: -20 }}
-                animate={{ opacity: 1, scale: 1, x: 0 }}
-                exit={{ opacity: 0, scale: 0.8, x: -20 }}
-                transition={{ duration: 0.4, ease: 'easeOut' }}
-              >
-                <Link href="#home" className="flex items-center">
-                  <Image
-                    src="/logo.png"
-                    alt="Hack the Ridge Logo"
-                    width={32}
-                    height={32}
-                    className="w-8 h-8 sm:w-10 sm:h-10 md:w-12 md:h-12 hover:scale-110 transition-transform duration-300"
-                  />
-                </Link>
-              </motion.div>
-            )}
-          </AnimatePresence>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8, x: -20 }}
+            animate={{ opacity: 1, scale: 1, x: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <Link href="#home" className="flex items-center touch-target">
+              <Image
+                src="/logo.png"
+                alt="Hack the Ridge Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 hover:scale-110 transition-transform duration-300 object-contain"
+                priority
+              />
+            </Link>
+          </motion.div>
 
           {/* Mobile Hamburger Menu Button */}
           <motion.button
-            className="flex flex-col justify-center items-center w-8 h-8 sm:w-10 sm:h-10 space-y-1.5"
+            className="flex flex-col justify-center items-center w-10 h-10 sm:w-11 sm:h-11 space-y-1.5 touch-target"
             onClick={toggleMobileMenu}
             whileTap={{ scale: 0.95 }}
             aria-label="Toggle mobile menu"
+            tabIndex={0}
           >
             <motion.span
               className="w-6 h-0.5 sm:w-7 bg-white origin-center"
@@ -240,57 +237,54 @@ const AnimatedNavbar: React.FC = () => {
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
-            className="fixed inset-0 z-40 lg:hidden"
+            className="fixed inset-0 z-40 lg:hidden flex items-center justify-center bg-black/40 backdrop-blur-sm"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
           >
-            {/* Backdrop */}
-            <motion.div
-              className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-sm"
-              onClick={closeMobileMenu}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            />
-            
             {/* Menu Content */}
             <motion.div
-              className="absolute top-0 right-0 h-full w-72 sm:w-80 max-w-[85vw] bg-gray-900 shadow-xl"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ duration: 0.3, ease: 'easeOut' }}
+              className="relative w-[90vw] max-w-xs bg-[#151c26] rounded-2xl shadow-2xl flex flex-col items-center py-8 px-4 animate-fade-in-up"
+              initial={{ y: 40, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: 40, opacity: 0 }}
+              transition={{ duration: 0.35, ease: 'easeOut' }}
             >
-              <div className="flex flex-col h-full pt-16 sm:pt-20 px-4 sm:px-6">
-                {/* Mobile Navigation Items */}
-                <div className="flex flex-col space-y-4 sm:space-y-6">
-                  {navItems.map((item, index) => (
+              {/* Mobile Navigation Items */}
+              <nav className="flex flex-col items-center w-full mt-4">
+                {navItems.map((item, index) => (
+                  <>
                     <motion.div
                       key={item.href}
                       initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{
-                        delay: index * 0.1,
-                        duration: 0.4,
+                        delay: index * 0.08,
+                        duration: 0.35,
                         ease: 'easeOut'
                       }}
+                      className="w-full"
                     >
                       <Link
                         href={item.href}
-                        className="block py-3 px-4 text-white text-lg sm:text-xl font-bold tracking-wider hover:text-gray-300 hover:bg-gray-800 rounded-lg transition-all duration-300"
+                        className="block w-full text-center py-3 px-4 text-white text-lg font-semibold tracking-wide rounded-xl hover:bg-white/10 active:bg-white/20 transition-all duration-200 mobile-nav-item touch-target"
                         style={{
-                          fontFamily: 'Impact, Arial Black, sans-serif',
+                          fontFamily: 'Sacco, Impact, Arial Black, sans-serif',
+                          letterSpacing: '0.04em',
                         }}
                         onClick={closeMobileMenu}
+                        tabIndex={0}
                       >
                         {item.label}
                       </Link>
                     </motion.div>
-                  ))}
-                </div>
-              </div>
+                    {index < navItems.length - 1 && (
+                      <div className="w-3/4 mx-auto h-px bg-white/10 my-1" />
+                    )}
+                  </>
+                ))}
+              </nav>
             </motion.div>
           </motion.div>
         )}
