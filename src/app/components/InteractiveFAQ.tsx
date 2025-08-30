@@ -292,14 +292,14 @@ const InteractiveFAQ: React.FC = () => {
 
       {/* Additional Info */}
       <motion.div
-        className="text-left mt-12"
+        className="text-center mt-12"
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <p className="text-teal-200/80 text-sm">
-          Still have questions? Reach out to us at{" "}
+        <p className="text-teal-200/80 text-sm mx-auto max-w-xl">
+          Still have questions? Reach out to us at{' '}
           <a
             href="mailto:hello@hacktheridge.ca"
             className="text-teal-300 hover:text-white transition-colors underline"

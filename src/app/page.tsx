@@ -61,7 +61,7 @@ export default function Home() {
           <div className="text-center relative z-10">
             {/* Main Title */}
             <h1
-              className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl 2xl:text-[11rem] font-bold text-white leading-none px-2 sm:px-4"
+              className="text-8xl sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl 2xl:text-[11rem] font-bold text-white leading-none px-2 sm:px-4"
               style={{
                 fontFamily: 'Sacco, Arial, sans-serif',
                 letterSpacing: '0.05em'

@@ -130,9 +130,10 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
   const [isHovered, setIsHovered] = useState(false);
   
   const sizeClasses = {
-    large: 'h-36', // Tier 1 - same height as tier 2
-    medium: 'h-36', // Tier 2 - same height as tier 1
-    small: 'h-28',  // Tiers 3,4,5 - fixed uniform height
+  // Unified heights across all sponsor card sizes (mobile and up)
+  large: 'h-28 sm:h-36',
+  medium: 'h-28 sm:h-36',
+  small: 'h-28 sm:h-36',
   };
 
   const textSizes = {
@@ -173,11 +174,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
         <img
           src={sponsor.logoUrl}
           alt={sponsor.name}
-          className={`object-contain ${
-            size === 'large' ? 'w-36 h-24' : 
-            size === 'medium' ? 'w-28 h-18' : 
-            'w-20 h-12'
-          }`}
+          className={`max-h-full max-w-full object-contain`}
         />
       </div>
       
@@ -234,7 +231,7 @@ const SponsorCarousel: React.FC<CarouselProps> = ({ sponsors }) => {
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
             {sponsors.map((sponsor, index) => (
-              <div key={sponsor.id} className="w-full flex-shrink-0 flex items-center justify-between gap-6 py-2">
+              <div key={sponsor.id} className="w-full flex-shrink-0 flex flex-col md:flex-row items-center md:justify-between gap-6 py-2">
                 {/* Left side - Company info */}
                 <div className="flex-1">
                   <h3 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: 'Sacco, Impact, Arial Black, sans-serif' }}>
@@ -254,7 +251,7 @@ const SponsorCarousel: React.FC<CarouselProps> = ({ sponsors }) => {
                       <img
                         src={sponsor.logoUrl}
                         alt={sponsor.name}
-                        className="w-20 h-10 object-contain"
+                        className="w-28 h-14 md:w-20 md:h-10 object-contain"
                       />
                     </div>
                     
@@ -335,13 +332,14 @@ const TopTierGrid: React.FC<{ tier1Sponsors: Sponsor[]; tier2Sponsors: Sponsor[]
         
         {/* Tier 2 sponsors - take up fewer columns */}
         {tier2Sponsors.map((sponsor) => (
-          <div key={sponsor.id} className="col-span-6 sm:col-span-4 lg:col-span-3">
-            <SponsorCard sponsor={sponsor} size="medium" />
-          </div>
-        ))}
-      </div>
-    </div>
-  );
+          // On mobile make tier2 slightly narrower than tier1 (col-span-8)
+          <div key={sponsor.id} className="col-span-8 sm:col-span-6 lg:col-span-3">
+             <SponsorCard sponsor={sponsor} size="medium" />
+           </div>
+         ))}
+       </div>
+     </div>
+   );
 };
 
 const LowerTierGrid: React.FC<{ sponsors: Sponsor[] }> = ({ sponsors }) => {
@@ -350,7 +348,8 @@ const LowerTierGrid: React.FC<{ sponsors: Sponsor[] }> = ({ sponsors }) => {
   return (
     <div className="mb-16">
       {/* Lower tiers: Same sized cards with color-coded borders */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
+  {/* Default to 2 columns on very small screens so these cards are ~half the width of TechCorp */}
+  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
         {sponsors.map((sponsor) => (
           <SponsorCard key={sponsor.id} sponsor={sponsor} size="small" />
         ))}
@@ -389,7 +388,7 @@ const SponsorsGrid: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-8 py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
       {/* Top Tier Grid - Tier 1 (1.5x width) and Tier 2 in same grid */}
       <TopTierGrid tier1Sponsors={tier1Sponsors} tier2Sponsors={tier2Sponsors} />
       
