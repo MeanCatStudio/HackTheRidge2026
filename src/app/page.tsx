@@ -73,13 +73,13 @@ export default function Home() {
           </div>
           
           {/* Wolf Logo positioned at bottom with 1/4 cut off - maintaining aspect ratio */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/4 z-20">
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[35%] sm:translate-y-1/4 z-20">
             <Image
               src="/logo.png"
               alt="Wolf Logo"
               width={400}
               height={400}
-              className="w-[250px] h-[250px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] xl:w-[550px] xl:h-[550px] 2xl:w-[600px] 2xl:h-[600px] opacity-100 object-contain"
+              className="w-[500px] h-[500px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] xl:w-[550px] xl:h-[550px] 2xl:w-[600px] 2xl:h-[600px] opacity-100 object-contain"
               priority
             />
           </div>
@@ -96,11 +96,11 @@ export default function Home() {
             }}
           >
             <Image
-              src="https://picsum.photos/120/120?random=1"
+              src="/homepage/bubble.svg"
               alt="Top left decoration"
-              width={80}
-              height={80}
-              className="w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] md:w-[100px] md:h-[100px] lg:w-[120px] lg:h-[120px] shadow-lg"
+              width={100}
+              height={100}
+              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px] bg-transparent"
             />
           </div>
 
@@ -114,11 +114,11 @@ export default function Home() {
             }}
           >
             <Image
-              src="https://picsum.photos/100/100?random=2"
+              src="/homepage/cloud.svg"
               alt="Top right decoration"
-              width={70}
-              height={70}
-              className="w-[50px] h-[50px] sm:w-[60px] sm:h-[60px] md:w-[80px] md:h-[80px] lg:w-[100px] lg:h-[100px] shadow-lg"
+              width={90}
+              height={90}
+              className="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] md:w-[110px] md:h-[110px] lg:w-[130px] lg:h-[130px] bg-transparent"
             />
           </div>
 
@@ -132,11 +132,11 @@ export default function Home() {
             }}
           >
             <Image
-              src="https://picsum.photos/140/140?random=3"
+              src="/homepage/headphones.svg"
               alt="Bottom left decoration"
-              width={100}
-              height={100}
-              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[120px] md:h-[120px] lg:w-[140px] lg:h-[140px] shadow-lg"
+              width={140}
+              height={140}
+              className="w-[100px] h-[100px] sm:w-[110px] sm:h-[110px] md:w-[150px] md:h-[150px] lg:w-[180px] lg:h-[180px] bg-transparent -rotate-45"
             />
           </div>
 
@@ -150,11 +150,11 @@ export default function Home() {
             }}
           >
             <Image
-              src="https://picsum.photos/110/110?random=4"
+              src="/homepage/usb.svg"
               alt="Bottom right decoration"
-              width={80}
-              height={80}
-              className="w-[60px] h-[60px] sm:w-[70px] sm:h-[70px] md:w-[90px] md:h-[90px] lg:w-[110px] lg:h-[110px] shadow-lg"
+              width={100}
+              height={100}
+              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px] bg-transparent rotate-20"
             />
           </div>
         </main>
@@ -171,15 +171,21 @@ export default function Home() {
         <SponsorsGrid />
       </div>
 
+      {/* Soft shadow transition between Sponsors and Team */}
+      <div aria-hidden className="relative w-full h-10 sm:h-14 overflow-visible">
+        <div className="absolute inset-x-0 top-0 h-full bg-gradient-to-b from-black/25 via-black/10 to-transparent blur-sm opacity-80" />
+      </div>
+
+      {/* Team Section */}
+      <div className="w-full">
+        <TeamSection />
+      </div>
+
       {/* Gradient Section */}
       <div className="w-full">
         <GradientSection />
       </div>
       
-      {/* Team Section */}
-      <div className="w-full">
-        <TeamSection />
-      </div>
 
       {/* Footer */}
       <div className="w-full">

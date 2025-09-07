@@ -98,7 +98,7 @@ const Footer: React.FC = () => {
                 alt="Hack the Ridge Logo"
                 width={48}
                 height={48}
-                className="w-10 h-10 sm:w-12 sm:h-12 lg:w-12 lg:h-12"
+                className="h-10 w-auto sm:h-12 lg:h-12 object-contain"
               />
               <span className="ml-3 text-lg sm:text-xl lg:text-2xl font-bold text-white">Hack The Ridge</span>
             </div>

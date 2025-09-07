@@ -37,7 +37,7 @@ const SponsorsTitle: React.FC = () => {
             }}
           >
             <h1
-              className="text-white font-bold text-xl sm:text-2xl md:text-3xl tracking-wider text-center px-2"
+              className="text-white font-bold text-2xl sm:text-3xl md:text-5xl tracking-wider text-center px-2"
               style={{
                 fontFamily: 'Sacco, Impact, Arial Black, sans-serif',
                 letterSpacing: '0.08em'

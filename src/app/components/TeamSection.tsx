@@ -39,27 +39,27 @@ const TeamSection: React.FC = () => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24">
         <div className="grid gap-10 lg:gap-12 lg:grid-cols-[minmax(300px,480px)_2px_1fr]">
           {/* left info panel */}
-          <div className="flex flex-col">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl sm:text-4xl font-extrabold tracking-wide text-[#B8B8B8]">THE</span>
-              <Image src="/globe.svg" alt="globe" width={36} height={36} className="opacity-90" />
-              <span className="text-3xl sm:text-4xl font-extrabold tracking-wide text-[#A5A5A5]">TEAM</span>
+          <div className="flex flex-col items-center lg:items-start" style={{ fontFamily: "Palalabas Wide, Impact, Arial Black, sans-serif" }}>
+            <div className="flex items-center justify-center lg:justify-start gap-1">
+              <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wide text-[#A5A5A5]">THE</span>
+              <Image src="/logo.svg" alt="logo" width={96} height={96} className="opacity-90 -mx-0.5 sm:-mx-1 w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24" />
+              <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wide text-[#A5A5A5]">TEAM</span>
             </div>
 
-            <div className="mt-7 text-2xl sm:text-[28px] font-extrabold tracking-wide text-[#9A9A9A]">
+            <div className="mt-7 text-center lg:text-left text-3xl sm:text-[34px] md:text-[38px] font-extrabold tracking-wide text-[#A5A5A5]">
               <WeeksCounter startDateISO={PLANNING_START_ISO} className="text-[#6BC59A]" /> WEEKS OF PLANNING
             </div>
 
-            <div className="mt-4 text-2xl sm:text-[28px] font-extrabold tracking-wide">
+            <div className="mt-4 text-center lg:text-left text-3xl sm:text-[34px] md:text-[38px] font-extrabold tracking-wide">
               <span className="text-[#6BC59A]">
                 <InlineCurrencyCounter value={MONEY_RAISED} />
               </span>{" "}
-              <span className="text-[#C8C8C8]">RAISED</span>
+              <span className="text-[#A5A5A5]">RAISED</span>
             </div>
 
             <div className="mt-7">
-              <div className="text-white/85 text-2xl sm:text-[28px] font-extrabold tracking-wide">FOR ONE DAY OF</div>
-              <div className="mt-3 text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-wide" style={{ color: "#D7A86E" }}>
+              <div className="text-center lg:text-left text-white/85 text-3xl sm:text-[34px] md:text-[38px] font-extrabold tracking-wide">FOR ONE DAY OF</div>
+              <div className="mt-3 text-center lg:text-left text-6xl sm:text-7xl lg:text-8xl font-extrabold tracking-wide" style={{ color: "#D7A86E" }}>
                 INNOVATION
               </div>
             </div>
