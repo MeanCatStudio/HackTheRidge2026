@@ -15,6 +15,9 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
         .register-label { font-size: clamp(18px, 3.5vw, 56px); }
         @media (min-width: 1024px) {
           .register-label { font-size: 96px !important; }
+          /* Laptop-only: nudge labels inward to overlap the button slightly */
+          .register-label-laptop-top { transform: translate(-24%, -24%) !important; }
+          .register-label-laptop-bottom { transform: translate(-35%, 16%) !important; }
         }
         /* Mobile tweaks: shorter blob, larger labels, labels closer to blob */
         @media (max-width: 640px) {
@@ -55,7 +58,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
 
           {/* REGISTER top-left (sibling to blob so it won't be clipped) */}
           <span
-            className="absolute z-30 whitespace-nowrap font-bold text-white tracking-wider register-label register-label-mobile-top"
+            className="absolute z-30 whitespace-nowrap font-bold text-white tracking-wider register-label register-label-mobile-top register-label-laptop-top"
             style={{
               fontFamily: 'Sacco, Arial, sans-serif',
               fontWeight: 800,
@@ -70,7 +73,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
 
           {/* NOW bottom-right (sibling to blob so it won't be clipped) */}
           <span
-            className="absolute z-30 whitespace-nowrap font-bold text-white tracking-wider register-label register-label-mobile-bottom"
+            className="absolute z-30 whitespace-nowrap font-bold text-white tracking-wider register-label register-label-mobile-bottom register-label-laptop-bottom"
             style={{
               fontFamily: 'Sacco, Arial, sans-serif',
               fontWeight: 800,

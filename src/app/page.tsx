@@ -61,7 +61,7 @@ export default function Home() {
           <div className="text-center relative z-10">
             {/* Main Title */}
             <h1
-              className="text-8xl sm:text-7xl md:text-8xl lg:text-8xl xl:text-9xl 2xl:text-[11rem] font-bold text-white leading-none px-2 sm:px-4"
+              className="text-8xl sm:text-7xl md:text-9xl lg:text-[11rem] xl:text-[12rem] 2xl:text-[13rem] font-bold text-white leading-none px-2 sm:px-4"
               style={{
                 fontFamily: 'Sacco, Arial, sans-serif',
                 letterSpacing: '0.05em'
@@ -122,9 +122,9 @@ export default function Home() {
             />
           </div>
 
-          {/* Bottom Left - Moved closer to center vertically */}
+          {/* Bottom Left - Moved slightly closer to the bottom-left corner */}
           <div
-            className="absolute bottom-20 sm:bottom-28 md:bottom-36 left-8 sm:left-20 md:left-36 z-30 hidden sm:block"
+            className="absolute bottom-20 sm:bottom-24 md:bottom-25 left-4 sm:left-16 md:left-32 z-30 hidden sm:block"
             style={{
               transform: 'translate(-50vw, 100vh)',
               animation: 'flyToBottomLeft 1.8s ease-out forwards',

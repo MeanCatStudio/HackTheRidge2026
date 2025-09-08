@@ -91,8 +91,8 @@ const TeamCard: React.FC<{
   const expandedPx = baseW * 2 + colGap;
   
   // Determine expansion direction based on column position
-  // For mobile (3 columns): only rightmost column (index 2) expands right
-  // For desktop (4+ columns): ALL columns expand left
+  // For 3 columns (mobile/laptop): the rightmost column (index 2) opens to the LEFT (anchored to the right)
+  // For 4+ columns (desktop 2xl+): ALL columns open to the RIGHT (anchored to the left)
   const isRightmostColumn = totalColumns === 3 ? columnIndex === 2 : false; // Mobile: only rightmost, Desktop: none
   const offsetX = isRightmostColumn ? 20 : -20; // Right columns slide from right, others from left
 

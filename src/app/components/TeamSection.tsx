@@ -25,7 +25,8 @@ const TeamSection: React.FC = () => {
   // Handle responsive grid columns
   React.useEffect(() => {
     const checkScreenSize = () => {
-      setIsDesktop(window.innerWidth >= 1280); // xl breakpoint
+      // Consider only very wide screens (2xl) as "desktop" for 4 columns
+      setIsDesktop(window.innerWidth >= 1536); // 2xl breakpoint
     };
     
     checkScreenSize();
@@ -70,10 +71,10 @@ const TeamSection: React.FC = () => {
 
           {/* right grid */}
           <div>
-            <div className="team-grid grid grid-cols-3 md:grid-cols-3 xl:grid-cols-4 grid-flow-row-dense gap-5 sm:gap-6">
+      <div className="team-grid grid grid-cols-3 md:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 grid-flow-row-dense gap-5 sm:gap-6">
               {teamMembers.map((m, index) => {
                 // Calculate column index based on responsive grid
-                // Mobile/tablet: 3 columns, Desktop: 4 columns
+        // Mobile/laptop (<= xl): 3 columns, Wide desktop (2xl+): 4 columns
                 const totalColumns = isDesktop ? 4 : 3;
                 const columnIndex = index % totalColumns;
                 
