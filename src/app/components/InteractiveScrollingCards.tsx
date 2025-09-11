@@ -284,8 +284,8 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                       key={year}
                       className="absolute transition-all duration-500 ease-out"
                       style={{
-                        left: `calc(50% + ${position.x}px)`,
-                        top: `calc(50% + ${position.y}px)`,
+                        left: `calc(50% + ${position.x * (typeof window !== 'undefined' ? window.innerWidth : 1200)}px)`,
+                        top: `calc(50% + ${position.y * (typeof window !== 'undefined' ? window.innerHeight : 800)}px)`,
                         transform: `translate(-50%, -50%) rotate(${position.tilt}deg)`,
                       }}
                     >

@@ -81,42 +81,53 @@ const Footer: React.FC = () => {
       <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent pointer-events-none" />
       
       <motion.div
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16"
+        className="relative z-10 max-w-7xl mx-auto px-6 py-16"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
         {/* Main Footer Content */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 lg:gap-12 mb-8 sm:mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           
           {/* Logo & Description */}
-          <motion.div variants={itemVariants} className="sm:col-span-2 text-center sm:text-left">
-            <div className="flex items-center justify-center sm:justify-start mb-4 sm:mb-6">
+          <motion.div variants={itemVariants} className="lg:col-span-2">
+            <div className="flex items-center mb-6">
               <Image
                 src="/logo.png"
                 alt="Hack the Ridge Logo"
                 width={48}
                 height={48}
-                className="h-10 w-auto sm:h-12 lg:h-12 object-contain"
+                className="mr-4"
               />
-              <span className="ml-3 text-lg sm:text-xl lg:text-2xl font-bold text-white">Hack The Ridge</span>
+              <h3 
+                className="text-2xl font-bold text-white tracking-wider"
+                style={{ fontFamily: 'Sacco, Arial, sans-serif' }}
+              >
+                HACK THE RIDGE
+              </h3>
             </div>
-            
-            <p className="text-gray-200 text-sm sm:text-base leading-relaxed max-w-md mx-auto sm:mx-0">
+            <p className="text-teal-100 text-lg leading-relaxed mb-6 max-w-md">
               Join 200+ students, developers, and creators for an epic 24-hour journey of building, learning, and connecting.
             </p>
+            <div className="flex items-center space-x-4">
+              <div className="px-4 py-2 bg-gradient-to-r from-[#e0cc75] to-[#51746f] rounded-full shadow-lg">
+                <span className="text-white font-semibold text-sm">2025 Coming Soon</span>
+              </div>
+            </div>
           </motion.div>
 
           {/* Quick Links */}
-          <motion.div variants={itemVariants} className="text-center sm:text-left">
-            <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-white mb-4 sm:mb-6">Quick Links</h3>
-            <ul className="space-y-2 sm:space-y-3">
+          <motion.div variants={itemVariants}>
+            <h4 className="text-white font-bold text-lg mb-6 tracking-wider" style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
+              QUICK LINKS
+            </h4>
+            <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     href={link.href}
-                    className="text-gray-300 hover:text-white transition-colors duration-200 text-sm sm:text-base"
+                    className="text-teal-100 hover:text-cyan-200 transition-colors duration-300 text-base hover:translate-x-1 transform transition-transform"
                   >
                     {link.name}
                   </Link>
@@ -125,47 +136,106 @@ const Footer: React.FC = () => {
             </ul>
           </motion.div>
 
-          {/* Contact Info */}
-          <motion.div variants={itemVariants} className="text-center sm:text-left">
-            <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-white mb-4 sm:mb-6">Contact</h3>
-            <div className="space-y-2 sm:space-y-3">
-              <div className="flex items-center justify-center sm:justify-start space-x-2">
+          {/* Contact & Social */}
+          <motion.div variants={itemVariants}>
+            <h4 className="text-white font-bold text-lg mb-6 tracking-wider" style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
+              CONNECT
+            </h4>
+            <div className="space-y-4 mb-6">
+              <div className="flex items-center text-teal-100">
                 <EmailIcon />
-                <span className="text-gray-300 text-sm sm:text-base">info@hacktheridge.com</span>
+                <p className="text-sm ml-3">hello@hacktheridge.ca</p>
               </div>
-              <div className="flex items-center justify-center sm:justify-start space-x-2">
+              <div className="flex items-center text-teal-100">
                 <LocationIcon />
-                <span className="text-gray-300 text-sm sm:text-base">Ridge University</span>
+                <p className="text-sm ml-3">Maple Ridge, BC</p>
               </div>
+            </div>
+            
+            {/* Social Links */}
+            <div className="flex space-x-4">
+              {socialLinks.map((social) => (
+                <motion.a
+                  key={social.name}
+                  href={social.href}
+                  className="w-10 h-10 bg-slate-700/50 backdrop-blur-sm rounded-full flex items-center justify-center hover:bg-slate-600/60 transition-all duration-300 border border-teal-300/20 text-teal-100 hover:text-white"
+                  whileHover={{ scale: 1.1, rotate: 5 }}
+                  whileTap={{ scale: 0.95 }}
+                  title={social.name}
+                >
+                  {social.icon}
+                </motion.a>
+              ))}
             </div>
           </motion.div>
         </div>
 
-        {/* Social Links & Copyright */}
-        <motion.div 
+        {/* Bottom Bar */}
+        <motion.div
           variants={itemVariants}
-          className="pt-6 sm:pt-8 border-t border-white/20 flex flex-col sm:flex-row items-center justify-between space-y-4 sm:space-y-0"
+          className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-teal-300/20 mt-8"
         >
-          {/* Social Links */}
-          <div className="flex space-x-4 sm:space-x-6">
-            {socialLinks.map((social) => (
-              <Link
-                key={social.name}
-                href={social.href}
-                className="text-gray-300 hover:text-white transition-colors duration-200 p-2 hover:bg-white/10 rounded-lg"
-                aria-label={social.name}
-              >
-                {social.icon}
-              </Link>
-            ))}
+          <div className="flex flex-col md:flex-row items-center space-y-2 md:space-y-0 md:space-x-6 text-teal-200/80 text-sm mb-4 md:mb-0">
+            <div>© {currentYear} Hack the Ridge. All rights reserved.</div>
+            <div className="flex items-center space-x-1">
+              <span>Developed by</span>
+              <div className="flex items-center space-x-1">
+                <Link
+                  href="https://github.com/peteryhs"
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Peter
+                </Link>
+                <span className="text-teal-200/80">,</span>
+                <Link
+                  href="https://github.com/AahanGhode"
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Aahan
+                </Link>
+                <span className="text-teal-200/80">,</span>
+                <Link
+                  href=""
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Jerry
+                </Link>
+                <span className="text-teal-200/80"> and </span>
+                <Link
+                  href="https://claude.ai"
+                  className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Kilo (Claude)
+                </Link>
+              </div>
+            </div>
           </div>
-
-          {/* Copyright */}
-          <p className="text-gray-300 text-sm sm:text-base text-center sm:text-right">
-            © {currentYear} Hack The Ridge. All rights reserved.
-          </p>
+          <div className="flex space-x-6 text-sm">
+            <Link href="#" className="text-teal-200/80 hover:text-cyan-200 transition-colors duration-300">
+              Privacy Policy
+            </Link>
+            <Link href="#" className="text-teal-200/80 hover:text-cyan-200 transition-colors duration-300">
+              Terms of Service
+            </Link>
+            <Link href="#" className="text-teal-200/80 hover:text-cyan-200 transition-colors duration-300">
+              Code of Conduct
+            </Link>
+          </div>
         </motion.div>
       </motion.div>
+
+      {/* Decorative Elements */}
+      <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-cyan-400/15 to-transparent rounded-full blur-xl" />
+      <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-teal-300/15 to-transparent rounded-full blur-xl" />
+      <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-emerald-400/10 to-transparent rounded-full blur-2xl" />
     </footer>
   );
 };

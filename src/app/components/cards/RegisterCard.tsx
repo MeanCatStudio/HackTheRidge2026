@@ -9,42 +9,67 @@ interface RegisterCardProps {
 
 const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
   return (
-    <div className="w-full h-full flex items-center justify-center relative overflow-visible register-card-container shadow-none" style={{ boxShadow: 'none', filter: 'none', overflow: 'visible' }}>
-    <style>{`
-        /* register/now label sizing: keep mobile moderate, beef up on desktop */
-        .register-label { font-size: clamp(18px, 3.5vw, 56px); }
-        @media (min-width: 1024px) {
-          .register-label { font-size: 96px !important; }
-          /* Laptop-only: nudge labels inward to overlap the button slightly */
-          .register-label-laptop-top { transform: translate(-24%, -24%) !important; }
-          .register-label-laptop-bottom { transform: translate(-35%, 16%) !important; }
-        }
-        /* Mobile tweaks: shorter blob, larger labels, labels closer to blob */
-        @media (max-width: 640px) {
-          .register-card-mobile-blob { width: 88vw !important; }
-          .register-label { font-size: clamp(20px, 7vw, 64px) !important; }
-          .register-label-mobile-top { transform: translate(-18%, -18%) !important; }
-          .register-label-mobile-bottom { transform: translate(18%, 18%) !important; }
-      /* Social links: keep horizontal on mobile */
-      .register-social { flex-wrap: nowrap !important; }
-      .register-sep { display: inline-block !important; margin: 0 8px; }
-        }
-      `}</style>
+    <div className="w-full h-full flex items-center justify-center relative overflow-hidden register-card-container shadow-none" style={{ boxShadow: 'none', filter: 'none' }}>
       {/* Main Content Container - Centered Layout */}
-  <div className="relative z-10 w-full h-full flex items-center justify-center" style={{overflow: 'visible'}}>
+      <div className="relative z-10 w-full h-full flex items-center justify-center">
         
-        {/* Central Gradient Blob Container */}
-  <div className="relative flex items-center justify-center w-full max-w-[120vw] sm:max-w-[95vw] lg:max-w-[900px] register-card-mobile-blob" style={{overflow: 'visible'}}>
-          <DynamicGradientBlob
-            width="100%"
-            height="100%"
-            className="relative z-20 w-full h-full lg:w-[650px] xl:w-[700px] 2xl:w-[800px] aspect-[3/1]"
-            href="https://example.com"
-          >
-            <div className="relative w-full h-full" style={{overflow: 'visible'}}>
+        {/* Mobile Version - Desktop Layout with Static Gradient (sm and below) */}
+        <div className="block md:hidden">
+          <div className="flex flex-col items-center space-y-4">
+            {/* REGISTER NOW Text - Above Button */}
+            <div className="text-center">
+              <h1
+                className="text-4xl sm:text-5xl font-bold text-white leading-none tracking-wider"
+                style={{
+                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontWeight: 800
+                }}
+              >
+                REGISTER NOW
+              </h1>
+            </div>
+
+            {/* Central Static Gradient Container */}
+            <div className="relative flex items-center justify-center">
+              {/* Static Gradient Button */}
+              <a
+                href="https://example.com"
+                className="relative z-20 w-80 h-32 sm:w-96 sm:h-36 shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(135deg, #a8e6a3 0%, #88d8a3 25%, #ffd89b 50%, #ffb347 75%, #ff8c69 100%)',
+                  borderRadius: '60px'
+                }}
+              >
+                {/* Date Text Overlay - Centered */}
+                <span
+                  className="text-2xl sm:text-3xl font-bold text-white leading-none tracking-wider"
+                  style={{
+                    fontFamily: 'Sacco, Arial, sans-serif',
+                    fontWeight: 800,
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                  }}
+                >
+                  2025 XX XX
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Desktop Version - Complex Design (md and above) */}
+        <div className="hidden md:block">
+          {/* Central Gradient Blob Container */}
+          <div className="relative flex items-center justify-center">
+            {/* Dynamic Gradient Blob with color-changing balls */}
+            <DynamicGradientBlob
+              width="800px"
+              height="280px"
+              className="relative z-20"
+              href="https://example.com"
+            >
               {/* Date Text Overlay - Centered */}
               <span
-                className="absolute inset-0 flex items-center justify-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold text-white leading-none tracking-wider px-2"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-none tracking-wider"
                 style={{
                   fontFamily: 'Sacco, Arial, sans-serif',
                   fontWeight: 800,
@@ -53,77 +78,73 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               >
                 2025 XX XX
               </span>
+            </DynamicGradientBlob>
+
+            {/* REGISTER Text - Top Left, overlapping with gradient, higher z-index */}
+            <div className="absolute -top-8 -left-24 lg:-top-12 lg:-left-32 xl:-top-16 xl:-left-40 z-30">
+              <h1
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] font-bold text-white leading-none tracking-wider"
+                style={{
+                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontWeight: 800
+                }}
+              >
+                REGISTER
+              </h1>
             </div>
-          </DynamicGradientBlob>
 
-          {/* REGISTER top-left (sibling to blob so it won't be clipped) */}
-          <span
-            className="absolute z-30 whitespace-nowrap font-bold text-white tracking-wider register-label register-label-mobile-top register-label-laptop-top"
-            style={{
-              fontFamily: 'Sacco, Arial, sans-serif',
-              fontWeight: 800,
-              top: 0,
-              left: 0,
-              transform: 'translate(-38%, -38%)',
-              pointerEvents: 'none',
-            }}
-          >
-            REGISTER
-          </span>
-
-          {/* NOW bottom-right (sibling to blob so it won't be clipped) */}
-          <span
-            className="absolute z-30 whitespace-nowrap font-bold text-white tracking-wider register-label register-label-mobile-bottom register-label-laptop-bottom"
-            style={{
-              fontFamily: 'Sacco, Arial, sans-serif',
-              fontWeight: 800,
-              bottom: 0,
-              right: 0,
-              transform: 'translate(28%, 28%)',
-              pointerEvents: 'none',
-            }}
-          >
-            NOW
-          </span>
+            {/* NOW Text - Bottom Right, overlapping with gradient, higher z-index */}
+            <div className="absolute -bottom-8 -right-16 lg:-bottom-12 lg:-right-20 xl:-bottom-16 xl:-right-24 z-30">
+              <h1
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] font-bold text-white leading-none tracking-wider"
+                style={{
+                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontWeight: 800
+                }}
+              >
+                NOW
+              </h1>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Social Links - Positioned closer to blob */}
-      <div className="absolute bottom-8 sm:bottom-12 md:bottom-16 lg:bottom-20 xl:bottom-24 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="flex items-center justify-center register-social gap-1 sm:gap-2 md:gap-3 lg:gap-4 xl:gap-6 text-gray-400 px-2">
+      {/* Social Links - Positioned at bottom for both mobile and desktop */}
+      <div className="absolute bottom-20 sm:bottom-24 md:bottom-28 lg:bottom-32 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-4 lg:gap-6 text-gray-400">
           <a
             href="#"
-            className="hover:text-white transition-colors duration-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold tracking-wider whitespace-nowrap"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
             }}
           >
-            {'DEV\u00A0POST'}
+            DEV POST
           </a>
-          <span className="text-gray-500 register-sep">|</span>
+          <span className="text-gray-500 hidden sm:inline">|</span>
           <a
             href="#"
-            className="hover:text-white transition-colors duration-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
             }}
           >
             ADDRESS
           </a>
-          <span className="text-gray-500 register-sep">|</span>
+          <span className="text-gray-500 hidden sm:inline">|</span>
           <a
             href="#"
-            className="hover:text-white transition-colors duration-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
             }}
           >
             DISCORD
           </a>
-          <span className="text-gray-500 register-sep">|</span>
+          <span className="text-gray-500 hidden sm:inline">|</span>
           <a
             href="#"
-            className="hover:text-white transition-colors duration-300 text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
             }}
