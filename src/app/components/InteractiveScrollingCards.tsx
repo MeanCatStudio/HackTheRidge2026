@@ -293,21 +293,17 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                         className="w-24 h-28 sm:w-28 sm:h-32 md:w-32 md:h-36 lg:w-36 lg:h-40 xl:w-40 xl:h-44 min-h-0 backdrop-blur-sm border border-white/30 p-1 sm:p-1.5 md:p-1.5 lg:p-2 text-center flex flex-col overflow-hidden transition-all duration-300"
                         style={{ backgroundColor: cardColor + '20' }}
                       >
-                        {/* Consistent placeholder image */}
+                        {/* Local history photo */}
                         <div
                           className="w-full flex-1 rounded-2xl flex items-center justify-center overflow-hidden"
                           style={{ backgroundColor: cardColor }}
                         >
                           <img
-                            src={`https://picsum.photos/id/${10 + i}/240/160`}
-                            alt={`${year}`}
+                            src={`/history photos/photo${i + 1}.jpg`}
+                            alt={`${year} Hack the Ridge`}
                             className="w-full h-full object-cover rounded-2xl opacity-90"
+                            draggable={false}
                           />
-                        </div>
-                        
-                        {/* Year only */}
-                        <div className="text-2xl font-bold text-white leading-none py-1">
-                          {year}
                         </div>
                         </DraggableCardBody>
                     </div>

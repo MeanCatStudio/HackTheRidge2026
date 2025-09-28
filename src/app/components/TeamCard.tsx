@@ -139,6 +139,7 @@ const TeamCard: React.FC<{
               fill
               sizes="(max-width: 768px) 45vw, (max-width: 1280px) 22vw, 16vw"
               className="object-cover"
+              style={member.name === "Michelle Wang" ? { objectPosition: "center 0%" } : {}}
               priority={false}
             />
           </div>
@@ -149,11 +150,14 @@ const TeamCard: React.FC<{
             style={{
               transform: animIn ? "translateX(0)" : open ? "translateX(-10px)" : "translateX(0)",
               opacity: animIn ? 1 : open ? 0 : 1,
-              transition: `transform 530ms ${EASE} 120ms, opacity 530ms ${EASE} 120ms`,
+              transition: `transform 480ms ${EASE} 80ms, opacity 480ms ${EASE} 80ms`,
+              width: open ? baseW - 32 : 'auto', // Fixed width during expansion (baseW minus padding)
             }}
           >
-            <h3 className="text-lg font-semibold leading-tight truncate">{member.name}</h3>
-            <p className="text-sm text-white/80 truncate">{member.role}</p>
+            <div style={{ minHeight: '3rem' }} className="flex flex-col justify-end">
+              <h3 className="text-lg font-semibold leading-tight whitespace-normal break-words hyphens-auto overflow-visible">{member.name}</h3>
+              <p className="text-sm text-white/80 whitespace-normal break-words hyphens-auto overflow-visible leading-snug">{member.role}</p>
+            </div>
           </div>
         </div>
       </div>

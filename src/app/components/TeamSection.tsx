@@ -42,16 +42,16 @@ const TeamSection: React.FC = () => {
           {/* left info panel */}
           <div className="flex flex-col items-center lg:items-start" style={{ fontFamily: "Palalabas Wide, Impact, Arial Black, sans-serif" }}>
             <div className="flex items-center justify-center lg:justify-start gap-1">
-              <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wide text-[#A5A5A5]">THE</span>
+              <span className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-wide text-[#A5A5A5]">THE</span>
               <Image src="/logo.svg" alt="logo" width={96} height={96} className="opacity-90 -mx-0.5 sm:-mx-1 w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24" />
-              <span className="text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-wide text-[#A5A5A5]">TEAM</span>
+              <span className="text-4xl sm:text-5xl md:text-6xl font-medium tracking-wide text-[#A5A5A5]">TEAM</span>
             </div>
 
-            <div className="mt-7 text-center lg:text-left text-3xl sm:text-[34px] md:text-[38px] font-extrabold tracking-wide text-[#A5A5A5]">
+            <div className="mt-7 text-center lg:text-left text-3xl sm:text-[34px] md:text-[38px] font-normal tracking-wide text-[#A5A5A5]">
               <WeeksCounter startDateISO={PLANNING_START_ISO} className="text-[#6BC59A]" /> WEEKS OF PLANNING
             </div>
 
-            <div className="mt-4 text-center lg:text-left text-3xl sm:text-[34px] md:text-[38px] font-extrabold tracking-wide">
+            <div className="mt-4 text-center lg:text-left text-3xl sm:text-[34px] md:text-[38px] font-normal tracking-wide">
               <span className="text-[#6BC59A]">
                 <InlineCurrencyCounter value={MONEY_RAISED} />
               </span>{" "}
@@ -59,8 +59,8 @@ const TeamSection: React.FC = () => {
             </div>
 
             <div className="mt-7">
-              <div className="text-center lg:text-left text-white/85 text-3xl sm:text-[34px] md:text-[38px] font-extrabold tracking-wide">FOR ONE DAY OF</div>
-              <div className="mt-3 text-center lg:text-left text-6xl sm:text-7xl lg:text-8xl font-extrabold tracking-wide" style={{ color: "#D7A86E" }}>
+              <div className="text-center lg:text-left text-white/85 text-3xl sm:text-[34px] md:text-[38px] font-normal tracking-wide">FOR ONE DAY OF</div>
+              <div className="mt-3 text-center lg:text-left text-6xl sm:text-7xl lg:text-8xl font-medium tracking-wide" style={{ color: "#D7A86E" }}>
                 INNOVATION
               </div>
             </div>
