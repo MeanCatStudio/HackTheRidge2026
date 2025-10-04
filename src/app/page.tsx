@@ -30,11 +30,11 @@ const CARDS_DATA: CardData[] = [
   },
   {
     id: 3,
-    headerTitle: 'LAST YEAR',
+    headerTitle: 'Last year...',
     title: 'Healthcare Revolution',
     content: '2024 marked our most impactful year as 300+ innovators pushed healthcare boundaries with cutting-edge AI solutions.',
-    imageUrl: 'https://images.unsplash.com/photo-1576671081837-49000212a370?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-card-gray',
+    imageUrl: '',
+    bgColor: 'bg-[#c39c74]',
     textColor: 'text-white',
   },
   {
@@ -182,7 +182,7 @@ export default function Home() {
       </div>
 
       {/* Gradient Section */}
-      <div className="w-full">
+      <div id="faq" className="w-full">
         <GradientSection />
       </div>
       

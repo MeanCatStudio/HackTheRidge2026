@@ -5,6 +5,99 @@ import RegisterCard from './cards/RegisterCard';
 import { VideoText } from '../../components/magicui/video-text';
 import { DraggableCardBody, DraggableCardContainer } from '../../components/ui/draggable-card';
 
+// Carousel Component for Last Year Card
+const CarouselComponent: React.FC = () => {
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  
+  const carouselImages = [
+    '/history photos/photo1.jpg',
+    '/history photos/photo2.jpg',
+    '/history photos/photo3.jpg',
+    '/history photos/photo4.jpg',
+    '/history photos/photo5.jpg'
+  ];
+
+  // Auto-rotate carousel
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
+    }, 6000); // 6 second intervals
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
+
+  const goToPrevious = () => {
+    setCurrentImageIndex((prev) => 
+      prev === 0 ? carouselImages.length - 1 : prev - 1
+    );
+  };
+
+  const goToNext = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
+  };
+
+  return (
+    <div className="relative bg-white/10 rounded-lg overflow-hidden h-24 md:h-48 lg:h-96 backdrop-blur-sm">
+      {/* Image Display */}
+      <div className="relative w-full h-full">
+        <img
+          src={carouselImages[currentImageIndex]}
+          alt={`Healthcare hackathon photo ${currentImageIndex + 1}`}
+          className="w-full h-full object-cover transition-opacity duration-500"
+          draggable={false}
+        />
+        
+        {/* Fallback mountain landscape for missing images */}
+        <div className="absolute inset-0 flex items-center justify-center bg-white/10">
+          <div className="relative w-full h-full flex items-center justify-center opacity-30">
+            <div className="absolute inset-0 flex items-end justify-center">
+              <div className="w-32 h-24 bg-white/20 rounded-t-full"></div>
+            </div>
+            <div className="absolute inset-0 flex items-end justify-center">
+              <div className="w-20 h-16 bg-white/30 rounded-t-full mb-6"></div>
+            </div>
+            <div className="absolute top-8 right-12 w-6 h-6 rounded-full bg-white/30"></div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Navigation Arrows */}
+      <button 
+        onClick={goToPrevious}
+        className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/90 transition-colors z-10 p-1.5 md:p-2 rounded-full bg-black/20 hover:bg-black/40"
+        aria-label="Previous image"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="md:w-6 md:h-6">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="1.5"/>
+        </svg>
+      </button>
+      
+      <button 
+        onClick={goToNext}
+        className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/90 transition-colors z-10 p-1.5 md:p-2 rounded-full bg-black/20 hover:bg-black/40"
+        aria-label="Next image"
+      >
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="md:w-6 md:h-6">
+          <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="1.5"/>
+        </svg>
+      </button>
+
+      {/* Image Indicators */}
+      <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1.5 md:space-x-2 z-10">
+        {carouselImages.map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentImageIndex(index)}
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentImageIndex ? 'bg-white scale-110' : 'bg-white/50 hover:bg-white/75'
+            }`}
+            aria-label={`Go to image ${index + 1}`}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
+
 // Section: Type Definitions
 // ============================================================================
 
@@ -227,9 +320,9 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
         <div className={`w-full h-full ${index === 3 ? 'p-0' : isLastCard ? 'p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20' : 'p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'} flex flex-col ${isLastCard ? 'justify-center' : 'justify-start'}`}>
           {/* Special handling for first card - VideoText with description */}
           {index === 0 ? (
-            <main className="flex-grow flex flex-col w-full h-full px-4">
-              {/* VideoText centered in available space */}
-              <div className="flex-grow flex items-center justify-center">
+            <main className="relative w-full h-full px-4">
+              {/* VideoText centered */}
+              <div className="flex items-center justify-center h-full">
                 <div className="w-full max-w-7xl h-80 sm:h-96 md:h-[28rem] lg:h-[32rem] xl:h-[36rem]">
                   <VideoText
                     src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
@@ -246,11 +339,13 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                   </VideoText>
                 </div>
               </div>
-              {/* Description at bottom */}
-              <div className="max-w-4xl text-center mx-auto pb-8">
-                <p className={`text-lg sm:text-xl md:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
-                  <strong>Hack the Ridge</strong> is where <strong>innovation meets community</strong>. We are an annual <strong>hackathon</strong> at Iroquois Ridge High School that hosts over <strong>150+ leaders in STEM</strong> every year to <strong>innovate and push the limit of technology</strong>.
-                </p>
+              {/* Description positioned absolutely at bottom */}
+              <div className="absolute bottom-4 md:bottom-2 lg:bottom-8 left-4 right-4">
+                <div className="max-w-4xl text-center mx-auto">
+                  <p className={`text-lg sm:text-xl md:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
+                    <strong>Hack the Ridge</strong> is where <strong>innovation meets community</strong>. We are an annual <strong>hackathon</strong> at Iroquois Ridge High School that hosts over <strong>150+ leaders in STEM</strong> every year to <strong>innovate and push the limit of technology</strong>.
+                  </p>
+                </div>
               </div>
             </main>
           ) : index === 1 ? (
@@ -363,6 +458,11 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
               {index === 3 ? (
                 <main className="flex-grow w-full h-full">
                   <RegisterCard textColor={textColor} />
+                </main>
+              ) : index === 2 ? (
+                /* Special handling for Last Year Card - Custom minimalist design */
+                <main className="flex-grow w-full h-full">
+                  {getHighlightElement(index, textColor)}
                 </main>
               ) : (
                 (title || content || imageUrl) && (
@@ -522,119 +622,150 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
           <div className="text-sm opacity-75">Growing community since 2019</div>
         </div>
       );
-    case 2: // Last Year - Healthcare Innovation Impact Visualization
+    case 2: // Last Year - Minimalist Healthcare Design
      return (
-       <div className="mt-8 space-y-8">
-         {/* Main Impact Stats - Enhanced with animations */}
-         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 mb-12">
-           {[
-             { value: '300+', label: 'Healthcare Innovators', icon: '👩‍⚕️', gradient: 'from-blue-400 to-cyan-400' },
-             { value: '40+', label: 'AI Projects Built', icon: '🤖', gradient: 'from-purple-400 to-pink-400' },
-             { value: '$6K+', label: 'Prize Pool', icon: '💰', gradient: 'from-yellow-400 to-orange-400' },
-             { value: '20+', label: 'Industry Partners', icon: '🏢', gradient: 'from-green-400 to-emerald-400' }
-           ].map((stat, idx) => (
-             <div key={idx}
-               className="group text-center p-5 bg-gradient-to-br from-white/10 via-white/5 to-transparent rounded-2xl backdrop-blur-md border border-white/20 transform transition-all duration-700 hover:scale-110 hover:bg-white/15 hover:border-white/40 hover:shadow-2xl hover:shadow-blue-500/20"
-               style={{
-                 animation: `slideInUp 0.8s ease-out forwards ${idx * 0.15}s`,
-                 opacity: 0,
-                 transform: 'translateY(30px)'
-               }}
-             >
-               <div className="text-3xl mb-3 transition-transform duration-300 group-hover:scale-125">{stat.icon}</div>
-               <div className={`text-3xl sm:text-4xl font-black mb-2 bg-gradient-to-r ${stat.gradient} bg-clip-text text-transparent transition-all duration-300 group-hover:scale-105`}>
-                 {stat.value}
-               </div>
-               <div className="text-sm sm:text-base font-medium opacity-90 transition-opacity duration-300 group-hover:opacity-100">
-                 {stat.label}
-               </div>
-             </div>
-           ))}
-         </div>
-
-         {/* Healthcare Innovation Showcase */}
-         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-           {[
-             {
-               title: 'AI Diagnosis System',
-               description: 'Revolutionary diagnostic tool using computer vision',
-               category: 'Medical Imaging',
-               icon: '🔬',
-               color: 'from-blue-500/20 to-cyan-500/20',
-               border: 'border-blue-400/30'
-             },
-             {
-               title: 'Patient Care Bot',
-               description: 'Smart chatbot for 24/7 patient monitoring',
-               category: 'Patient Care',
-               icon: '🏥',
-               color: 'from-green-500/20 to-emerald-500/20',
-               border: 'border-green-400/30'
-             },
-             {
-               title: 'Drug Discovery ML',
-               description: 'Machine learning for accelerated drug research',
-               category: 'Research',
-               icon: '💊',
-               color: 'from-purple-500/20 to-violet-500/20',
-               border: 'border-purple-400/30'
-             }
-           ].map((project, idx) => (
-             <div key={idx}
-               className={`group p-6 bg-gradient-to-br ${project.color} rounded-xl backdrop-blur-sm border ${project.border} transform transition-all duration-500 hover:scale-105 hover:bg-white/10 hover:border-white/40 hover:shadow-xl`}
-               style={{
-                 animation: `fadeInUp 0.6s ease-out forwards ${0.8 + idx * 0.1}s`,
-                 opacity: 0
-               }}
-             >
-               <div className="flex items-start justify-between mb-4">
-                 <div className="text-2xl transition-transform duration-300 group-hover:scale-110">{project.icon}</div>
-                 <span className="text-xs px-2 py-1 rounded-full bg-white/20 font-medium opacity-80">
-                   {project.category}
-                 </span>
-               </div>
-               <h4 className="font-bold text-lg mb-2 transition-colors duration-300 group-hover:text-white">
-                 {project.title}
-               </h4>
-               <p className="text-sm opacity-80 transition-opacity duration-300 group-hover:opacity-100">
-                 {project.description}
-               </p>
-             </div>
-           ))}
-         </div>
-
-         {/* Healthcare AI Achievement Banner */}
-         <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600/30 via-purple-600/30 to-pink-600/30 backdrop-blur-md border border-white/20 p-8 text-center">
-           {/* Animated background particles */}
-           <div className="absolute inset-0 opacity-20">
-             {Array.from({ length: 20 }, (_, i) => (
-               <div
-                 key={i}
-                 className="absolute w-2 h-2 bg-white rounded-full animate-pulse"
-                 style={{
-                   left: `${Math.random() * 100}%`,
-                   top: `${Math.random() * 100}%`,
-                   animationDelay: `${Math.random() * 3}s`,
-                   animationDuration: `${2 + Math.random() * 2}s`
-                 }}
-               />
-             ))}
-           </div>
+       <div className="mt-1 flex flex-col md:flex-row gap-2 md:gap-8 lg:gap-12 w-full h-full items-start justify-center pt-1 md:pt-8 lg:pt-12 px-2 md:px-6 lg:px-8">
+         {/* Left Side - Content */}
+         <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col justify-start space-y-2 md:space-y-8 lg:space-y-10 max-w-4xl -mt-48 md:mt-0">
            
-           <div className="relative z-10">
-             <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-blue-500/30 to-purple-500/30 border border-blue-400/30 mb-4">
-               <span className="text-2xl mr-2">🏆</span>
-               <span className="font-bold text-lg">Most Impactful Year</span>
+           {/* Header with Medical Icon */}
+           <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3 mb-1.5 md:mb-4 lg:mb-6">
+             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-white md:w-6 lg:w-7 md:h-6 lg:h-7">
+               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+               <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2"/>
+               <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="1"/>
+             </svg>
+             <span className="text-xs md:text-sm lg:text-base text-white/70 font-medium">htr_2024</span>
+           </div>
+
+           {/* Stats Grid - responsive columns with dividers */}
+           <div className="relative grid grid-cols-2 md:grid-cols-4 bg-white/5 rounded-lg p-1.5 md:p-3 lg:p-8 backdrop-blur-sm">
+             {/* Responsive dividers */}
+             {/* Mobile: only vertical center line for 2x2 grid */}
+             <div className="absolute left-1/2 top-2 bottom-2 w-px bg-white md:hidden transform -translate-x-1/2"></div>
+             <div className="absolute left-0 right-0 top-1/2 h-px bg-white md:hidden transform -translate-y-1/2"></div>
+             
+             {/* Desktop: vertical lines for 4 columns */}
+             <div className="hidden md:block absolute left-1/4 top-4 bottom-4 w-px bg-white"></div>
+             <div className="hidden md:block absolute left-2/4 top-4 bottom-4 w-px bg-white"></div>
+             <div className="hidden md:block absolute left-3/4 top-4 bottom-4 w-px bg-white"></div>
+             
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <rect x="3" y="4" width="18" height="15" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <path d="M8 10h8M8 14h6" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># projects</div>
              </div>
              
-             <h3 className="text-2xl sm:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-200 via-purple-200 to-pink-200 bg-clip-text text-transparent">
-               Revolutionizing Healthcare Through Innovation
-             </h3>
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.5"/>
+                   <circle cx="15" cy="11" r="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <circle cx="12" cy="14" r="3" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># registrants</div>
+             </div>
              
-             <p className="text-lg opacity-90 max-w-3xl mx-auto">
-               From AI-powered diagnostics to breakthrough patient care solutions, 2024 marked a pivotal moment where
-               <span className="font-semibold text-blue-300"> technology met compassion</span> to create lasting healthcare impact.
-             </p>
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <rect x="6" y="10" width="4" height="4" fill="currentColor"/>
+                   <rect x="14" y="10" width="4" height="4" fill="currentColor"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># industry partners</div>
+             </div>
+             
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <circle cx="12" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/>
+                   <path d="M12 14l3 6h-6l3-6z" fill="currentColor"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium">$# in prizes</div>
+             </div>
+           </div>
+
+           {/* Tech Stack Section - responsive 2x2 Grid */}
+           <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0.5 md:gap-3 lg:gap-8">
+             {/* Grid lines - responsive */}
+             <div className="hidden md:block absolute left-0 right-0 top-1/2 h-px bg-white/40 transform -translate-y-1/2"></div>
+             <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-white/40 transform -translate-x-1/2"></div>
+             {/* Python */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Python</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
+
+             {/* Code/Development */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Development</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
+
+             {/* Web/Frontend */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <path d="M9 9h6v6H9z" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Frontend</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
+
+             {/* AI/ML */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <rect x="3" y="6" width="18" height="12" rx="2"/>
+                   <text x="12" y="14" textAnchor="middle" className="text-xs" fill="black">AI</text>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">AI/ML</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
+           </div>
+         </div>
+
+         {/* Right Side - Functional Image Carousel */}
+         <div className="w-full md:w-2/5 lg:w-2/5 relative flex items-start justify-center pt-0 md:pt-4">
+           <div className="w-full max-w-lg">
+             <CarouselComponent />
            </div>
          </div>
        </div>
