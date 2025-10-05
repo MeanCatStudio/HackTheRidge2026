@@ -91,9 +91,8 @@ const TeamCard: React.FC<{
   const expandedPx = baseW * 2 + colGap;
   
   // Determine expansion direction based on column position
-  // For 3 columns (mobile/laptop): the rightmost column (index 2) opens to the LEFT (anchored to the right)
-  // For 4+ columns (desktop 2xl+): ALL columns open to the RIGHT (anchored to the left)
-  const isRightmostColumn = totalColumns === 3 ? columnIndex === 2 : false; // Mobile: only rightmost, Desktop: none
+  // Rightmost columns open to the LEFT (anchored to the right), others open to the RIGHT
+  const isRightmostColumn = columnIndex === (totalColumns || 3) - 1;
   const offsetX = isRightmostColumn ? 20 : -20; // Right columns slide from right, others from left
 
   return (
@@ -101,18 +100,17 @@ const TeamCard: React.FC<{
       ref={rootRef}
       className="relative cursor-pointer select-none"
       role="button"
-      tabIndex={0}
       aria-expanded={open}
       onClick={toggleOpen}
       onKeyDown={onKeyDown}
       style={{ zIndex: open ? 30 : 0, overflow: "visible" }}
     >
       {/* Intrinsic height for the grid cell */}
-      <div className="h-[160px] sm:h-[160px] md:h-[180px] lg:h-[200px] w-full" aria-hidden="true" />
+      <div className="h-[140px] sm:h-[140px] md:h-[150px] lg:h-[160px] w-full" aria-hidden="true" />
 
       {/* Expanding overlay with conditional positioning */}
       <div
-        className="absolute inset-0 rounded-2xl overflow-hidden bg-[#2b2b2b] border border-white/15 ring-1 ring-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.3)]"
+        className="absolute inset-0 rounded-2xl overflow-hidden bg-[#2b2b2b] border border-white/15 ring-1 ring-white/10 shadow-[0_8px_30px_RGBA(0,0,0,0.3)]"
         style={{
           width: open ? expandedPx : "100%",
           left: isRightmostColumn ? "auto" : 0,
@@ -123,8 +121,8 @@ const TeamCard: React.FC<{
           willChange: "width, transform, opacity",
         }}
       >
-        <div className="relative h-full flex">
-          {/* Left: headshot locked to base width */}
+        <div className={`relative h-full flex ${isRightmostColumn ? 'flex-row-reverse' : ''}`}>
+          {/* Headshot locked to base width */}
           <div
             className={`relative h-full shrink-0 overflow-hidden ${isRightmostColumn ? 'rounded-r-2xl' : 'rounded-l-2xl'}`}
             style={{
@@ -144,11 +142,11 @@ const TeamCard: React.FC<{
             />
           </div>
 
-          {/* Right: info panel uses the extra width */}
+          {/* Info panel uses the extra width */}
           <div
             className="flex-1 min-w-0 flex flex-col justify-end p-4 text-white"
             style={{
-              transform: animIn ? "translateX(0)" : open ? "translateX(-10px)" : "translateX(0)",
+              transform: animIn ? "translateX(0)" : open ? (isRightmostColumn ? "translateX(10px)" : "translateX(-10px)") : "translateX(0)",
               opacity: animIn ? 1 : open ? 0 : 1,
               transition: `transform 480ms ${EASE} 80ms, opacity 480ms ${EASE} 80ms`,
               width: open ? baseW - 32 : 'auto', // Fixed width during expansion (baseW minus padding)

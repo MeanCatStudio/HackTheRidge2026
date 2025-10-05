@@ -36,9 +36,9 @@ export const DraggableCardBody = ({
   const velocityY = useVelocity(mouseY);
 
   const springConfig = {
-    stiffness: 100,
-    damping: 20,
-    mass: 0.5,
+    stiffness: 300,
+    damping: 30,
+    mass: 0.8,
   };
 
   const rotateX = useSpring(
@@ -111,6 +111,8 @@ export const DraggableCardBody = ({
       ref={cardRef}
       drag
       dragConstraints={constraints}
+      dragElastic={0.05}
+      dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
       onDragStart={() => {
         document.body.style.cursor = "grabbing";
       }}

@@ -129,12 +129,25 @@ const treeData: TreeViewElement[] = [
 const InteractiveFAQ: React.FC = () => {
   const [selectedFAQ, setSelectedFAQ] = useState<FAQItem | null>(null);
   const [terminalKey, setTerminalKey] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+  const [expandedId, setExpandedId] = useState<string | null>(null);
+
+  // Detect mobile on mount
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const toggleAccordion = (id: string) => {
+    setExpandedId(expandedId === id ? null : id);
+  };
 
   // Get current timestamp for realistic terminal output
   const getCurrentTimestamp = () => {
     const now = new Date();
     return now.toLocaleString('en-US', {
-      month: 'short',
       day: '2-digit',
       hour: '2-digit',
       minute: '2-digit',
@@ -177,18 +190,70 @@ const InteractiveFAQ: React.FC = () => {
           FAQ
         </h2>
         <p className="text-teal-100 text-lg">
-          Click on any question in the file tree to see the answer appear in the terminal
+          {isMobile 
+            ? "Tap any question to see the answer" 
+            : "Click on any question in the file tree to see the answer appear in the terminal"}
         </p>
       </motion.div>
 
-      {/* Main FAQ Interface */}
-      <motion.div
-        className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-      >
+      {/* Mobile: Simple Accordion, Desktop: Terminal Interface */}
+      {isMobile ? (
+        <motion.div
+          className="space-y-3"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
+          {faqData.map((faq, index) => (
+            <motion.div
+              key={faq.id}
+              className="bg-teal-900/20 backdrop-blur-sm border border-teal-500/30 rounded-xl overflow-hidden"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
+            >
+              <button
+                onClick={() => toggleAccordion(faq.id)}
+                className="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-teal-800/20 transition-colors"
+              >
+                <span className="text-white font-semibold text-base sm:text-lg">{faq.question}</span>
+                <motion.svg
+                  className="w-5 h-5 text-teal-300 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  animate={{ rotate: expandedId === faq.id ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </motion.svg>
+              </button>
+              <motion.div
+                initial={false}
+                animate={{
+                  height: expandedId === faq.id ? 'auto' : 0,
+                  opacity: expandedId === faq.id ? 1 : 0
+                }}
+                transition={{ duration: 0.3, ease: 'easeInOut' }}
+                className="overflow-hidden"
+              >
+                <div className="p-5 pt-0 text-teal-100/90 whitespace-pre-wrap leading-relaxed">
+                  {faq.answer}
+                </div>
+              </motion.div>
+            </motion.div>
+          ))}
+        </motion.div>
+      ) : (
+        <motion.div
+          className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start"
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+        >
         {/* File Tree - Questions */}
         <div className="lg:col-span-1 p-6">
           <div className="h-[350px] w-full">
@@ -289,6 +354,7 @@ const InteractiveFAQ: React.FC = () => {
           </div>
         </div>
       </motion.div>
+      )}
 
       {/* Additional Info */}
       <motion.div

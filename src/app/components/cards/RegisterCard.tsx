@@ -42,9 +42,9 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               >
                 {/* Date Text Overlay - Centered */}
                 <span
-                  className="text-2xl sm:text-3xl font-bold text-white leading-none tracking-wider"
+                  className="text-xl sm:text-xl font-bold text-white leading-none tracking-wider"
                   style={{
-                    fontFamily: 'Sacco, Arial, sans-serif',
+                    fontFamily: 'Inter, sans-serif',
                     fontWeight: 800,
                     textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
                   }}
@@ -55,8 +55,6 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
             </div>
           </div>
         </div>
-
-        {/* Desktop Version - Complex Design (md and above) */}
         <div className="hidden md:block">
           {/* Central Gradient Blob Container */}
           <div className="relative flex items-center justify-center">
@@ -69,9 +67,9 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
             >
               {/* Date Text Overlay - Centered */}
               <span
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-none tracking-wider"
+                className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-white leading-none tracking-wider"
                 style={{
-                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontFamily: 'Inter, sans-serif',
                   fontWeight: 800,
                   textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
                 }}

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 // Section: Type Definitions
 // ============================================================================
@@ -19,9 +19,6 @@ interface SponsorCardProps {
   size: 'large' | 'medium' | 'small';
 }
 
-interface CarouselProps {
-  sponsors: Sponsor[];
-}
 
 // Section: Constants
 // ============================================================================
@@ -144,57 +141,69 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
 
   const isTopTier = sponsor.tier <= 2;
   
-  // Enhanced border styling for lower tiers
+  // Enhanced border styling with refined glow effects
   const getBorderStyle = () => {
     if (sponsor.tier <= 2) {
       return {
         borderColor: TIER_COLORS[sponsor.tier],
-        borderWidth: '4px',
-        boxShadow: `0 0 20px ${TIER_COLORS[sponsor.tier]}40`
+        borderWidth: '3px',
+        boxShadow: isHovered
+          ? `0 0 30px ${TIER_COLORS[sponsor.tier]}60, 0 0 50px ${TIER_COLORS[sponsor.tier]}30, inset 0 0 20px ${TIER_COLORS[sponsor.tier]}10`
+          : `0 0 20px ${TIER_COLORS[sponsor.tier]}40, inset 0 0 15px ${TIER_COLORS[sponsor.tier]}08`
       };
     } else {
       return {
         borderColor: TIER_COLORS[sponsor.tier],
-        borderWidth: '3px',
-        boxShadow: `0 0 15px ${TIER_COLORS[sponsor.tier]}30`
+        borderWidth: '2.5px',
+        boxShadow: isHovered
+          ? `0 0 25px ${TIER_COLORS[sponsor.tier]}50, 0 0 40px ${TIER_COLORS[sponsor.tier]}20`
+          : `0 0 15px ${TIER_COLORS[sponsor.tier]}30`
       };
     }
   };
 
   return (
     <div
-      className={`${sizeClasses[size]} w-full rounded-2xl bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-all duration-300 hover:scale-105 cursor-pointer flex items-center justify-center p-4 relative overflow-hidden flex-grow`}
+      className={`${sizeClasses[size]} w-full rounded-2xl bg-gradient-to-br from-white/12 via-white/8 to-white/5 backdrop-blur-md hover:from-white/18 hover:via-white/14 hover:to-white/10 transition-all duration-500 ease-out hover:scale-[1.03] cursor-pointer flex items-center justify-center p-4 relative overflow-hidden flex-grow group`}
       style={getBorderStyle()}
       onClick={() => sponsor.websiteUrl && window.open(sponsor.websiteUrl, '_blank')}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Default content - logo only for all tiers */}
-      <div className={`flex items-center justify-center w-full transition-opacity duration-300 ${isHovered ? 'opacity-0' : 'opacity-100'}`}>
+      {/* Animated gradient overlay on hover */}
+      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      {/* Default content - logo with refined fade */}
+      <div className={`flex items-center justify-center w-full transition-all duration-500 ease-out transform ${isHovered ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
         <img
           src={sponsor.logoUrl}
           alt={sponsor.name}
-          className={`max-h-full max-w-full object-contain`}
+          className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
+          loading="lazy"
         />
       </div>
       
-      {/* Hover overlay */}
-      <div className={`absolute inset-0 flex items-center justify-center text-center transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
-        <div>
-          <p className={`${textSizes[size]} font-bold text-white mb-1`}>
+      {/* Hover overlay with refined animations */}
+      <div className={`absolute inset-0 flex items-center justify-center text-center transition-all duration-500 ease-out transform ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+        <div className="px-4">
+          <p className={`${textSizes[size]} font-bold text-white mb-1.5 tracking-wide transition-all duration-300`} style={{ fontFamily: 'Sacco, Impact, Arial Black, sans-serif' }}>
             {sponsor.name}
           </p>
-          <p className={`${isTopTier ? 'text-sm' : 'text-xs'} text-white/80 font-semibold`}>
+          <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto mb-1.5" />
+          <p className={`${isTopTier ? 'text-sm' : 'text-xs'} font-semibold tracking-wider`} style={{ color: TIER_COLORS[sponsor.tier], textShadow: `0 0 10px ${TIER_COLORS[sponsor.tier]}60` }}>
             {TIER_NAMES[sponsor.tier]} SPONSOR
           </p>
         </div>
       </div>
       
-      {/* Tier indicator for lower tiers */}
+      {/* Refined tier indicator for lower tiers */}
       {!isTopTier && (
         <div 
-          className="absolute top-2 right-2 w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white"
-          style={{ backgroundColor: TIER_COLORS[sponsor.tier] }}
+          className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg transition-all duration-300 group-hover:scale-110"
+          style={{ 
+            backgroundColor: TIER_COLORS[sponsor.tier],
+            boxShadow: `0 0 15px ${TIER_COLORS[sponsor.tier]}60, inset 0 1px 2px rgba(255,255,255,0.2)`
+          }}
         >
           {sponsor.tier}
         </div>
@@ -203,160 +212,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
   );
 };
 
-const SponsorCarousel: React.FC<CarouselProps> = ({ sponsors }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
-    if (sponsors.length === 0) return;
-    
-    const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % sponsors.length);
-    }, 5000);
-
-    return () => clearInterval(interval);
-  }, [sponsors.length]);
-
-  if (sponsors.length === 0) return null;
-
-  const currentSponsor = sponsors[currentIndex];
-
-  return (
-    <div className="mb-12 overflow-hidden">
-      {/* Scrolling carousel container - improved height and spacing */}
-      <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-6 border border-white/20 relative min-h-[140px] flex flex-col">
-        {/* Sliding content container */}
-        <div className="relative w-full flex-1 overflow-hidden">
-          <div
-            className="flex transition-transform duration-700 ease-in-out h-full"
-            style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-          >
-            {sponsors.map((sponsor, index) => (
-              <div key={sponsor.id} className="w-full flex-shrink-0 flex flex-col md:flex-row items-center md:justify-between gap-6 py-2">
-                {/* Left side - Company info */}
-                <div className="flex-1">
-                  <h3 className="text-2xl font-bold text-white mb-2" style={{ fontFamily: 'Sacco, Impact, Arial Black, sans-serif' }}>
-                    {sponsor.name}
-                  </h3>
-                  <div className="w-16 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mb-3 shadow-sm"></div>
-                  <p className="text-base text-white/90 leading-relaxed max-w-2xl line-clamp-2">
-                    {sponsor.description}
-                  </p>
-                </div>
-                
-                {/* Right side - Company logo and tier badge */}
-                <div className="flex-shrink-0 text-center">
-                  <div className="flex items-center gap-6">
-                    {/* Company logo - now first with better styling */}
-                    <div className="bg-white/10 rounded-xl p-3 backdrop-blur-sm border border-white/20">
-                      <img
-                        src={sponsor.logoUrl}
-                        alt={sponsor.name}
-                        className="w-28 h-14 md:w-20 md:h-10 object-contain"
-                      />
-                    </div>
-                    
-                    {/* Tier badge - now second with clean styling */}
-                    <div
-                      className="w-24 h-24 rounded-2xl border-4 flex flex-col items-center justify-center p-3"
-                      style={{
-                        borderColor: TIER_COLORS[sponsor.tier],
-                        backgroundColor: `${TIER_COLORS[sponsor.tier]}20`
-                      }}
-                    >
-                      {/* Custom tier icon */}
-                      <div className="flex items-center justify-center mb-1">
-                        <img
-                          src={TIER_ICONS[sponsor.tier]}
-                          alt={`Tier ${sponsor.tier} icon`}
-                          className="w-10 h-10 object-contain filter brightness-0 invert"
-                          onError={(e) => {
-                            // Fallback to text if icon doesn't exist
-                            e.currentTarget.style.display = 'none';
-                            const fallback = e.currentTarget.nextElementSibling as HTMLElement;
-                            if (fallback) fallback.style.display = 'block';
-                          }}
-                        />
-                        {/* Fallback text (hidden by default) */}
-                        <div
-                          className="text-xl font-black text-white hidden"
-                          style={{ fontFamily: 'Sacco, Impact, Arial Black, sans-serif' }}
-                        >
-                          T{sponsor.tier}
-                        </div>
-                      </div>
-                      
-                      {/* Tier name below icon */}
-                      <div className="text-xs font-bold text-white text-center leading-tight">
-                        {TIER_NAMES[sponsor.tier]}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Carousel indicators - centered below content */}
-        <div className="flex justify-center mt-4 gap-3">
-          {sponsors.map((_, index) => (
-            <button
-              key={index}
-              className={`w-3 h-3 rounded-full transition-all duration-300 border-2 ${
-                index === currentIndex
-                  ? 'bg-gradient-to-r from-yellow-400 to-orange-500 border-yellow-400 scale-110 shadow-lg shadow-yellow-400/50'
-                  : 'bg-transparent border-white/50 hover:border-white/80 hover:scale-105'
-              }`}
-              onClick={() => setCurrentIndex(index)}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-};
-
-const TopTierGrid: React.FC<{ tier1Sponsors: Sponsor[]; tier2Sponsors: Sponsor[] }> = ({ tier1Sponsors, tier2Sponsors }) => {
-  if (tier1Sponsors.length === 0 && tier2Sponsors.length === 0) return null;
-
-  return (
-    <div className="mb-8">
-      {/* Custom grid where tier 1 cards are 1.5x wider than tier 2 */}
-      <div className="grid grid-cols-12 gap-4 auto-rows-fr">
-        {/* Tier 1 sponsors - take up more columns (1.5x width) */}
-        {tier1Sponsors.map((sponsor) => (
-          <div key={sponsor.id} className="col-span-12 sm:col-span-6 lg:col-span-4">
-            <SponsorCard sponsor={sponsor} size="large" />
-          </div>
-        ))}
-        
-        {/* Tier 2 sponsors - take up fewer columns */}
-        {tier2Sponsors.map((sponsor) => (
-          // On mobile make tier2 slightly narrower than tier1 (col-span-8)
-          <div key={sponsor.id} className="col-span-8 sm:col-span-6 lg:col-span-3">
-             <SponsorCard sponsor={sponsor} size="medium" />
-           </div>
-         ))}
-       </div>
-     </div>
-   );
-};
-
-const LowerTierGrid: React.FC<{ sponsors: Sponsor[] }> = ({ sponsors }) => {
-  if (sponsors.length === 0) return null;
-
-  return (
-    <div className="mb-16">
-      {/* Lower tiers: Same sized cards with color-coded borders */}
-  {/* Default to 2 columns on very small screens so these cards are ~half the width of TechCorp */}
-  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
-        {sponsors.map((sponsor) => (
-          <SponsorCard key={sponsor.id} sponsor={sponsor} size="small" />
-        ))}
-      </div>
-    </div>
-  );
-};
 
 // Section: Main Component
 // ============================================================================
@@ -371,12 +227,6 @@ const SponsorsGrid: React.FC = () => {
     return acc;
   }, {} as Record<number, Sponsor[]>);
 
-  // Get top tier sponsors with descriptions for carousel
-  const topTierSponsors = [
-    ...(sponsorsByTier[1] || []),
-    ...(sponsorsByTier[2] || [])
-  ].filter(sponsor => sponsor.description);
-
   // Separate tier 1 and tier 2 for different sizing
   const tier1Sponsors = sponsorsByTier[1] || [];
   const tier2Sponsors = sponsorsByTier[2] || [];
@@ -389,20 +239,29 @@ const SponsorsGrid: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
-      {/* Top Tier Grid - Tier 1 (1.5x width) and Tier 2 in same grid */}
-      <TopTierGrid tier1Sponsors={tier1Sponsors} tier2Sponsors={tier2Sponsors} />
-      
-      {/* Scrolling Carousel for top tier sponsors with descriptions */}
-      {topTierSponsors.length > 0 && (
-        <SponsorCarousel sponsors={topTierSponsors} />
-      )}
-      
-      {/* Lower Tier Grid - Tiers 3, 4, 5 with color-coded borders */}
-      {lowerTierSponsors.length > 0 && (
-        <div className="mt-8">
-          <LowerTierGrid sponsors={lowerTierSponsors} />
-        </div>
-      )}
+      {/* Combined Sponsor Grid - All tiers in one layout */}
+      <div className="grid grid-cols-12 gap-4 auto-rows-fr">
+        {/* Tier 1 sponsors - take up more columns (1.5x width) */}
+        {tier1Sponsors.map((sponsor) => (
+          <div key={sponsor.id} className="col-span-12 sm:col-span-6 lg:col-span-4">
+            <SponsorCard sponsor={sponsor} size="large" />
+          </div>
+        ))}
+        
+        {/* Tier 2 sponsors - take up fewer columns */}
+        {tier2Sponsors.map((sponsor) => (
+          <div key={sponsor.id} className="col-span-8 sm:col-span-6 lg:col-span-3">
+            <SponsorCard sponsor={sponsor} size="medium" />
+          </div>
+        ))}
+        
+        {/* Lower tier sponsors (3-5) - smaller cards */}
+        {lowerTierSponsors.map((sponsor) => (
+          <div key={sponsor.id} className="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
+            <SponsorCard sponsor={sponsor} size="small" />
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

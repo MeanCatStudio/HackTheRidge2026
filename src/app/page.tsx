@@ -171,11 +171,6 @@ export default function Home() {
         <SponsorsGrid />
       </div>
 
-      {/* Soft shadow transition between Sponsors and Team */}
-      <div aria-hidden className="relative w-full h-10 sm:h-14 overflow-visible">
-        <div className="absolute inset-x-0 top-0 h-full bg-gradient-to-b from-black/25 via-black/10 to-transparent blur-sm opacity-80" />
-      </div>
-
       {/* Team Section */}
       <div className="w-full">
         <TeamSection />
