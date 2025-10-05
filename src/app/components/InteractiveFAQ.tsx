@@ -17,7 +17,7 @@ const faqData: FAQItem[] = [
   {
     id: "what-is-htr",
     question: "What is Hack the Ridge?",
-    answer: `Hack the Ridge is a 24-hour hackathon bringing together 200+ students, developers, and creators in Maple Ridge, BC. It's an epic journey of building, learning, and connecting where participants transform their innovative ideas into reality.
+    answer: `Hack the Ridge is a 12-hour hackathon bringing together 200+ students, developers, and creators in Maple Ridge, BC. It's an epic journey of building, learning, and connecting where participants transform their innovative ideas into reality.
 
 Since 2019, we've grown from 50 to 200+ hackers annually, creating lasting impact in our community. Join us for workshops, mentorship, prizes, and the chance to build something amazing!`
   },
@@ -56,7 +56,7 @@ Our amazing sponsors make this possible, ensuring cost is never a barrier to inn
 
 • Laptop and chargers
 • Any hardware you want to use
-• Comfortable clothes for 24 hours
+• Comfortable clothes for 12 hours
 • Sleeping bag/pillow (if you plan to rest)
 • Personal hygiene items
 • Government-issued ID
@@ -340,10 +340,10 @@ const InteractiveFAQ: React.FC = () => {
         <p className="text-teal-200/80 text-sm mx-auto max-w-xl">
           Still have questions? Reach out to us at{' '}
           <a
-            href="mailto:hello@hacktheridge.ca"
+            href="mailto:hi@hacktheridge.ca"
             className="text-teal-300 hover:text-white transition-colors underline"
           >
-            hello@hacktheridge.ca
+            hi@hacktheridge.ca
           </a>
         </p>
       </motion.div>

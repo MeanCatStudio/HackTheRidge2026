@@ -96,7 +96,7 @@ const CarouselComponent: React.FC = () => {
   };
 
   return (
-    <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-48 sm:h-64 md:h-80 lg:h-96 backdrop-blur-md border border-white/20 shadow-2xl">
+    <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-40 sm:h-48 md:h-64 lg:h-80 backdrop-blur-md border border-white/20 shadow-2xl">
       {/* Image Display with Sliding Animation */}
       <div className="relative w-full h-full overflow-hidden">
         <div className="flex transition-transform duration-700 ease-in-out h-full" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
@@ -290,6 +290,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
   const [cardPositions, setCardPositions] = useState<CardPosition[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [hasHeightForWorkshops, setHasHeightForWorkshops] = useState(true);
 
   const scaleStartProgress = (index + 0.5) / numCards;
   const scaleProgress = (progress - scaleStartProgress) / (1 - scaleStartProgress);
@@ -306,10 +307,12 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
     setIsClient(true);
   }, []);
 
-  // Track mobile state
+  // Track mobile state and screen height for workshops
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
+      // Show workshops only if screen height is > 700px
+      setHasHeightForWorkshops(window.innerHeight > 700);
     };
     
     checkMobile();
@@ -403,56 +406,56 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
           {/* Special handling for first card - VideoText with description */}
           {index === 0 ? (
             <>
-              <header>
+              <header className="flex-shrink-0">
                 <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold uppercase ${textColor} tracking-wider leading-tight`}>
                   {headerTitle}
                 </h2>
               </header>
-              <main className="relative w-full h-full px-2 sm:px-4 md:px-6">
-                {/* VideoText centered */}
-                <div className="flex items-center justify-center h-full -mt-12 sm:mt-0">
-                <div className="w-full h-64 sm:h-72 md:h-[22rem] lg:h-[26rem] xl:h-[30rem] px-2 overflow-visible">
-                  {isMobile ? (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <h1
-                        className="text-white font-extrabold text-6xl leading-tight text-center px-2 underline decoration-4 underline-offset-8"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          letterSpacing: '0.02em'
-                        }}
+              <main className="flex flex-col justify-center items-center flex-grow w-full px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
+                {/* VideoText centered with flex */}
+                <div className="flex-shrink-0 flex items-center justify-center w-full">
+                  <div className="w-full h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96 px-2 overflow-visible">
+                    {isMobile ? (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <h1
+                          className="text-white font-extrabold text-4xl sm:text-5xl md:text-6xl leading-tight text-center px-2 underline decoration-4 underline-offset-8"
+                          style={{
+                            fontFamily: 'Inter, sans-serif',
+                            letterSpacing: '0.02em'
+                          }}
+                        >
+                          Build for Tomorrow,
+                          <br />
+                          Today.
+                        </h1>
+                      </div>
+                    ) : (
+                      <VideoText
+                        src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                        fontSize={'clamp(1.2rem, 5.5vw, 6.4rem)'}
+                        fontWeight="900"
+                        className="w-full h-full overflow-visible"
+                        autoPlay
+                        muted
+                        loop
+                        preload="auto"
+                        fontFamily="Arial, sans-serif"
+                        maskScale={1.05}
                       >
-                        Build for Tomorrow,
-                        <br />
-                        Today.
-                      </h1>
-                    </div>
-                  ) : (
-                    <VideoText
-                      src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                      fontSize={'clamp(1.2rem, 5.5vw, 6.4rem)'}
-                      fontWeight="900"
-                      className="w-full h-full overflow-visible"
-                      autoPlay
-                      muted
-                      loop
-                      preload="auto"
-                      fontFamily="Arial, sans-serif"
-                      maskScale={1.05}
-                    >
-                      {'Build for Tomorrow, Today.'}
-                    </VideoText>
-                  )}
+                        {'Build for Tomorrow, Today.'}
+                      </VideoText>
+                    )}
+                  </div>
                 </div>
-              </div>
-              {/* Description positioned absolutely at bottom */}
-              <div className="absolute bottom-40 sm:bottom-16 md:bottom-20 lg:bottom-24 left-4 right-4 pb-2">
-                <div className="max-w-4xl text-center mx-auto px-2">
-                  <p className={`text-base sm:text-lg md:text-xl lg:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
-                    <strong>Hack the Ridge</strong> is where <strong>innovation meets community</strong>. We are an annual <strong>hackathon</strong> at Iroquois Ridge High School that hosts over <strong>150+ leaders in STEM</strong> every year to <strong>innovate and push the limit of technology</strong>.
-                  </p>
+                {/* Description with proper spacing from slogan */}
+                <div className="flex-shrink-0 w-full mt-4 sm:mt-6 md:mt-8">
+                  <div className="max-w-4xl text-center mx-auto px-2 sm:px-4">
+                    <p className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
+                      <strong>Hack the Ridge</strong> is where <strong>innovation meets community</strong>. We are an annual <strong>hackathon</strong> at Iroquois Ridge High School that hosts over <strong>150+ leaders in STEM</strong> every year to <strong>innovate and push the limit of technology</strong>.
+                    </p>
+                  </div>
                 </div>
-              </div>
-            </main>
+              </main>
             </>
           ) : index === 1 ? (
             /* Special handling for history card - Stats layout with draggable year cards */
@@ -576,7 +579,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
               ) : index === 2 ? (
                 /* Special handling for Last Year Card - Custom minimalist design */
                 <main className="flex-grow w-full h-full">
-                  {getHighlightElement(index, textColor)}
+                  {getHighlightElement(index, textColor, hasHeightForWorkshops)}
                 </main>
               ) : (
                 (title || content || imageUrl) && (
@@ -588,7 +591,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                       <p className={`mt-4 sm:mt-6 ${isLastCard ? 'text-lg sm:text-xl md:text-2xl lg:text-3xl' : 'text-base sm:text-lg md:text-xl'} ${textColor} opacity-80 leading-relaxed`}>
                         {content}
                       </p>
-                      {getHighlightElement(index, textColor)}
+                      {getHighlightElement(index, textColor, hasHeightForWorkshops)}
                     </div>
                     
                     {imageUrl && (
@@ -673,7 +676,7 @@ const getAnimationClass = (index: number): string => {
   }
 };
 
-const getHighlightElement = (index: number, textColor: string): React.ReactElement | null => {
+const getHighlightElement = (index: number, textColor: string, hasHeightForWorkshops: boolean = true): React.ReactElement | null => {
   switch (index) {
     case 0: // About - hero feature grid
       return (
@@ -738,7 +741,7 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
       );
     case 2: // Last Year - Refined Stats & Highlights (Mobile Optimized)
      return (
-       <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 w-full h-full items-start justify-center px-3 sm:px-4 md:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-16 lg:pt-20 pb-4">
+       <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 w-full h-full items-start justify-start md:justify-center px-3 sm:px-4 md:px-6 lg:px-8 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-4">
          {/* Mobile: Carousel First, Desktop: Content First */}
          
          {/* Carousel - Shows first on mobile, second on desktop */}
@@ -789,8 +792,8 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
              </div>
            </div>
 
-           {/* Tech Stack Section */}
-           <div className="space-y-3 sm:space-y-4">
+           {/* Tech Stack Section - Hidden based on screen height */}
+           <div className={`space-y-3 sm:space-y-4 ${hasHeightForWorkshops ? 'block' : 'hidden'}`}>
              <h3 className="text-base sm:text-lg md:text-xl font-bold text-white/90 mb-3 sm:mb-4">Workshops</h3>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
                <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
