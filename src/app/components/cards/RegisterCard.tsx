@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import DynamicGradientBlob from '../ui/DynamicGradientBlob';
 
 interface RegisterCardProps {
@@ -8,6 +8,31 @@ interface RegisterCardProps {
 }
 
 const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const deadline = new Date('2025-11-21T23:59:59').getTime();
+      const now = new Date().getTime();
+      const difference = deadline - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
   return (
     <div className="w-full h-full flex items-center justify-center relative overflow-hidden register-card-container shadow-none" style={{ boxShadow: 'none', filter: 'none' }}>
       {/* Main Content Container - Centered Layout */}
@@ -151,6 +176,16 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           >
             INSTAGRAM
           </a>
+          <span className="text-gray-500 hidden sm:inline">|</span>
+          <div
+            className="text-white text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider flex items-center gap-2"
+            style={{
+              fontFamily: 'Impact, Arial Black, sans-serif'
+            }}
+          >
+            <span className="text-gray-400">REGISTRATION DEADLINE:</span>
+            <span>{timeLeft.days}D {timeLeft.hours}H {timeLeft.minutes}M {timeLeft.seconds}S</span>
+          </div>
         </div>
       </div>
     </div>

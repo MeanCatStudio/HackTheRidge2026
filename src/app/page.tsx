@@ -17,7 +17,7 @@ const CARDS_DATA: CardData[] = [
     id: 1,
     headerTitle: 'ABOUT HTR.',
     title: 'Where Innovation Meets Community',
-    content: 'Join 200+ students, developers, and creators for an epic 24-hour journey of building, learning, and connecting. Transform your ideas into reality.',
+    content: 'Hack the Ridge is where innovation meets community. We are an annual hackathon at Iroquois Ridge High School that hosts over 150+ leaders in STEM every year to innovate and push the limit of technology.',
     imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop',
     bgColor: 'bg-card-green',
     textColor: 'text-white',

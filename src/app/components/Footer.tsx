@@ -106,7 +106,7 @@ const Footer: React.FC = () => {
               </h3>
             </div>
             <p className="text-teal-100 text-lg leading-relaxed mb-6 max-w-md">
-              Join 200+ students, developers, and creators for an epic 24-hour journey of building, learning, and connecting.
+              Hack the Ridge is where innovation meets community. We are an annual hackathon at Iroquois Ridge High School that hosts over 150+ leaders in STEM every year to innovate and push the limit of technology.
             </p>
             <div className="flex items-center space-x-4">
               <div className="px-4 py-2 bg-gradient-to-r from-[#e0cc75] to-[#51746f] rounded-full shadow-lg">
@@ -140,9 +140,9 @@ const Footer: React.FC = () => {
               CONNECT
             </h4>
             <div className="space-y-4 mb-6">
-              <a href="mailto:hello@hacktheridge.ca" className="flex items-center text-teal-100 hover:text-cyan-200 transition-colors duration-300 cursor-pointer">
+              <a href="mailto:hi@hacktheridge.ca" className="flex items-center text-teal-100 hover:text-cyan-200 transition-colors duration-300 cursor-pointer">
                 <EmailIcon />
-                <p className="text-sm ml-3">hello@hacktheridge.ca</p>
+                <p className="text-sm ml-3">hi@hacktheridge.ca</p>
               </a>
               <a href="https://maps.google.com/?q=1123+Glenashton+Dr,+Oakville,+ON" target="_blank" rel="noopener noreferrer" className="flex items-center text-teal-100 hover:text-cyan-200 transition-colors duration-300 cursor-pointer">
                 <LocationIcon />

@@ -336,10 +336,10 @@ const InteractiveFAQ: React.FC = () => {
         <p className="text-teal-200/80 text-sm mx-auto max-w-xl">
           Still have questions? Reach out to us at{' '}
           <a
-            href="mailto:hello@hacktheridge.ca"
+            href="mailto:hi@hacktheridge.ca"
             className="text-teal-300 hover:text-white transition-colors underline"
           >
-            hello@hacktheridge.ca
+            hi@hacktheridge.ca
           </a>
         </p>
       </motion.div>
