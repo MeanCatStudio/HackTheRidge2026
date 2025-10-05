@@ -46,10 +46,8 @@ const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
 
   const socialLinks = [
-    { name: 'Instagram', href: '#', icon: <InstagramIcon /> },
-    { name: 'Twitter', href: '#', icon: <TwitterIcon /> },
-    { name: 'LinkedIn', href: '#', icon: <LinkedInIcon /> },
-    { name: 'Discord', href: '#', icon: <DiscordIcon /> },
+    { name: 'Instagram', href: 'https://www.instagram.com/hacktheridge/', icon: <InstagramIcon /> },
+    { name: 'Discord', href: 'https://discord.gg/RdEwzSeN', icon: <DiscordIcon /> },
   ];
 
   const quickLinks = [
@@ -142,14 +140,14 @@ const Footer: React.FC = () => {
               CONNECT
             </h4>
             <div className="space-y-4 mb-6">
-              <div className="flex items-center text-teal-100">
+              <a href="mailto:hello@hacktheridge.ca" className="flex items-center text-teal-100 hover:text-cyan-200 transition-colors duration-300 cursor-pointer">
                 <EmailIcon />
                 <p className="text-sm ml-3">hello@hacktheridge.ca</p>
-              </div>
-              <div className="flex items-center text-teal-100">
+              </a>
+              <a href="https://maps.google.com/?q=1123+Glenashton+Dr,+Oakville,+ON" target="_blank" rel="noopener noreferrer" className="flex items-center text-teal-100 hover:text-cyan-200 transition-colors duration-300 cursor-pointer">
                 <LocationIcon />
-                <p className="text-sm ml-3">Maple Ridge, BC</p>
-              </div>
+                <p className="text-sm ml-3">1123 Glenashton Dr, Oakville, ON</p>
+              </a>
             </div>
             
             {/* Social Links */}
@@ -219,15 +217,9 @@ const Footer: React.FC = () => {
             </div>
           </div>
           <div className="flex space-x-6 text-sm">
-            <Link href="#" className="text-teal-200/80 hover:text-cyan-200 transition-colors duration-300">
-              Privacy Policy
-            </Link>
-            <Link href="#" className="text-teal-200/80 hover:text-cyan-200 transition-colors duration-300">
-              Terms of Service
-            </Link>
-            <Link href="#" className="text-teal-200/80 hover:text-cyan-200 transition-colors duration-300">
-              Code of Conduct
-            </Link>
+            <span className="text-teal-200/80">
+              Code of Conduct (coming soon)
+            </span>
           </div>
         </motion.div>
       </motion.div>

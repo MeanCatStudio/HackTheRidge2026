@@ -390,6 +390,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
       style={{ top: `${topPosition}rem` }}
     >
       <div
+        id={index === 3 ? 'register' : undefined}
         className={`relative h-full w-full ${bgColor} ${isLastCard ? 'rounded-none shadow-none' : 'rounded-t-5xl shadow-2xl shadow-black/40'} ${index === 0 ? 'overflow-visible' : 'overflow-hidden'}`}
         style={{
           transform: `scale(${isLastCard ? 1 : dynamicScale})`,
@@ -797,9 +798,10 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="flex-shrink-0 sm:w-6 sm:h-6">
                      <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/>
                    </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Python</span>
+                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Intro to Python Workshop (led by IRHS CS)</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">Most used language</div>
+                 <div className="text-xs sm:text-sm text-white/60">Participants learned Python basics: functions, loops, and conditionals effectively.
+</div>
                </div>
                <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
@@ -807,9 +809,10 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
                      <polyline points="16 18 22 12 16 6" />
                      <polyline points="8 6 2 12 8 18" />
                    </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Development</span>
+                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Web Development Workshop</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">Modern dev tools</div>
+                 <div className="text-xs sm:text-sm text-white/60">Students built interactive websites using HTML, CSS, and JavaScript.
+</div>
                </div>
                <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
@@ -818,9 +821,10 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
                      <line x1="8" y1="21" x2="16" y2="21" />
                      <line x1="12" y1="17" x2="12" y2="21" />
                    </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Frontend</span>
+                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Frontend Workshop</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">React, Next.js, Vue</div>
+                 <div className="text-xs sm:text-sm text-white/60">Hackers created dynamic web applications using the React.js framework.
+</div>
                </div>
                <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
@@ -829,9 +833,10 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
                      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                      <line x1="12" y1="22.08" x2="12" y2="12" />
                    </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">AI/ML</span>
+                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">AI/ML Workshop</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">TensorFlow, PyTorch</div>
+                 <div className="text-xs sm:text-sm text-white/60">Developers integrated OpenAI and Gemini APIs into their projects.
+</div>
                </div>
              </div>
            </div>

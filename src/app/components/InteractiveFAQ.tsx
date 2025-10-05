@@ -78,38 +78,12 @@ Teams of 2-4 people tend to be most successful, allowing for diverse skills and 
   {
     id: "prizes-judging",
     question: "What are the prizes?",
-    answer: `We have amazing prizes across multiple categories:
-
-• Overall Winner: $2000 + trophies
-• Best Healthcare Innovation: $1500
-• Best Use of AI/ML: $1000
-• People's Choice Award: $750
-• Best First-Time Hack: $500
-• Best Design: $500
-
-Plus sponsor prizes, swag, and recognition! All participants receive certificates and memorable experiences.`
+    answer: `Coming soon! We're working on securing amazing prizes and will announce details closer to the event. Stay tuned for updates!`
   },
   {
     id: "schedule-timeline",
     question: "What's the schedule?",
-    answer: `24-hour hackathon timeline:
-
-Day 1:
-• 6:00 PM - Registration & Check-in
-• 7:00 PM - Opening Ceremony
-• 8:00 PM - Team Formation
-• 9:00 PM - Hacking Begins!
-• 10:00 PM - Dinner
-
-Day 2:
-• 12:00 AM - Midnight Snacks
-• 8:00 AM - Breakfast
-• 12:00 PM - Lunch
-• 6:00 PM - Submissions Due
-• 7:00 PM - Presentations
-• 9:00 PM - Awards & Closing
-
-Workshops and mentorship available throughout!`
+    answer: `Coming soon! We're finalizing the detailed schedule and will share it closer to the event. Stay tuned for updates!`
   }
 ];
 

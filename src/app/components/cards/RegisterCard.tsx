@@ -42,19 +42,21 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               >
                 {/* Date Text Overlay - Centered */}
                 <span
-                  className="text-xl sm:text-xl font-bold text-white leading-none tracking-wider"
+                  className="text-2xl sm:text-3xl font-bold text-white leading-none tracking-wider"
                   style={{
-                    fontFamily: 'Inter, sans-serif',
+                    fontFamily: 'Sacco, Arial, sans-serif',
                     fontWeight: 800,
                     textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
                   }}
                 >
-                  2025 XX XX
+                  2025 12 06
                 </span>
               </a>
             </div>
           </div>
         </div>
+
+        {/* Desktop Version - Complex Design (md and above) */}
         <div className="hidden md:block">
           {/* Central Gradient Blob Container */}
           <div className="relative flex items-center justify-center">
@@ -63,18 +65,18 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               width="800px"
               height="280px"
               className="relative z-20"
-              href="https://example.com"
+              href="https://dash.hacktheridge.ca/dashboard"
             >
               {/* Date Text Overlay - Centered */}
               <span
-                className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-4xl font-bold text-white leading-none tracking-wider"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-none tracking-wider"
                 style={{
-                  fontFamily: 'Inter, sans-serif',
+                  fontFamily: 'Sacco, Arial, sans-serif',
                   fontWeight: 800,
                   textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
                 }}
               >
-                2025 XX XX
+                2025 / 12 / 06
               </span>
             </DynamicGradientBlob>
 

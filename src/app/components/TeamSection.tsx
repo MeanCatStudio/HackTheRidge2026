@@ -8,7 +8,7 @@ import WeeksCounter from "./WeeksCounter";
 import InlineCurrencyCounter from "./InlineCurrencyCounter";
 
 const PLANNING_START_ISO = "2025-01-01";
-const MONEY_RAISED = 3000000;
+const MONEY_RAISED = 6000;
 
 const TeamSection: React.FC = () => {
   const [openCardId, setOpenCardId] = React.useState<number | null>(null);
