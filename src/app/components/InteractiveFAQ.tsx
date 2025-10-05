@@ -237,7 +237,7 @@ const InteractiveFAQ: React.FC = () => {
               initialExpandedItems={["faq-root"]}
               indicator={true}
             >
-              <Folder element="FAQ" value="faq-root" className="text-white text-lg font-semibold p-2" {...({} as any)}>
+              <Folder element="FAQ" value="faq-root" className="text-white text-lg font-semibold p-2">
                 {faqData.map((faq) => (
                   <File
                     key={faq.id}
@@ -306,13 +306,12 @@ const InteractiveFAQ: React.FC = () => {
             <Terminal className="bg-black/80 border-green-500/30 h-[350px] w-full max-w-none" sequence={true} startOnView={true}>
               {/* Welcome banner */}
               <TypingAnimation duration={25} className="text-green-400">
-                hacker@hacktheridge:~/faq$ figlet "FAQ"
+                hacker@hacktheridge:~/faq$ figlet &quot;FAQ&quot;
               </TypingAnimation>
 
               {/* Fixed ASCII Art */}
               <AnimatedSpan className="text-cyan-400 font-mono text-xs leading-tight">
                 <span>{`███████╗ █████╗    ██████╗
-██╔════╝██╔══██╗██╔═══██╗
 █████╗   ███████║██║     ██║
 ██╔══╝   ██╔══██║██║▄▄  ██║
 ██║        ██║   ██║╚██████╔╝

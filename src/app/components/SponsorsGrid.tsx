@@ -82,7 +82,7 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     id: 1,
     name: 'RBC',
     description: 'Leading technology solutions provider empowering the next generation of developers.',
-    logoUrl: 'https://via.placeholder.com/200x100/C0C0C0/000000?text=RBC',
+    logoUrl: 'https://www.rbc.com/dvl/v1.0/assets/images/logos/rbc-logo-shield.svg',
     websiteUrl: 'https://rbc.com',
     tier: 1,
   },
@@ -90,43 +90,42 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     id: 2,
     name: 'Dm Industries',
     description: 'Innovation hub fostering creativity and breakthrough solutions in tech.',
-    logoUrl: 'https://via.placeholder.com/200x100/C0C0C0/000000?text=DM Industries',
+    logoUrl: 'http://www.dm-ind.com/main/wp-content/uploads/2015/12/DM_logo_withlogo2.svg',
     websiteUrl: 'https://www.dm-ind.com/main/',
     tier: 1,
   },
   {
     id: 3,
     name: 'YRI Fellowship',
-    logoUrl: 'https://via.placeholder.com/150x75/CD7F32/FFFFFF?text=YRI Fellowship',
+    logoUrl: 'https://www.yriscience.com/logo.png',
     websiteUrl: 'https://www.yriscience.com/',
     tier: 2,
   },
   {
     id: 4,
     name: 'Major League Hacking',
-    logoUrl: 'https://via.placeholder.com/150x75/14b8a6/FFFFFF?text=Major League Hacking',
+    logoUrl: 'https://static.mlh.io/brand-assets/logo/official/mlh-logo-color.png',
     websiteUrl: 'https://mlh.io/',
     tier: 4,
   },
   {
     id: 5,
     name: 'Brock University',
-    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=Brock University',
+    logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/2560px-Brock_University_Logo_2022.svg.png',
     websiteUrl: 'https://brocku.ca/',
-
     tier: 5,
   },
   {
     id: 6,
     name: "Queen's University",
-    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=Queen\'s University',
+    logoUrl: 'https://www.queensu.ca/resources/assets/logos/Queens-logo-reversed.svg',
     websiteUrl: 'https://queensu.ca/',
     tier: 5,
   },
   {
     id: 7,
     name: 'University of Waterloo',
-    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=University of Waterloo',
+    logoUrl: 'https://uwaterloo.ca/profiles/uw_base_profile/modules/custom/uw_wcms_ohana/dist/images/uwaterloo-logo.svg',
     websiteUrl: 'https://uwaterloo.ca/',
     tier: 5,
   },
@@ -134,7 +133,7 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     id: 8,
     name: 'US CAN Visa',
     description: 'Cutting-edge software solutions driving innovation across industries.',
-    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=US CAN Visa',
+    logoUrl: 'https://static.wixstatic.com/media/3db17a_eb70ab64529f493793193ff4456fa7a1~mv2.jpg',
     websiteUrl: 'https://uscanvisa.com',
     tier: 5,
   }
@@ -198,7 +197,11 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
         <img
           src={sponsor.logoUrl}
           alt={sponsor.name}
-          className="max-h-full max-w-full object-contain transition-transform duration-500 group-hover:scale-105"
+          className={`object-contain transition-transform duration-500 group-hover:scale-105 ${
+            sponsor.name === 'RBC' ? 'w-[20%] h-[20%]' : 
+            sponsor.name === 'YRI Fellowship' ? 'w-[35%] h-[35%]' : 
+            'max-h-full max-w-full'
+          }`}
           loading="lazy"
         />
       </div>
@@ -206,7 +209,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
       {/* Hover overlay with refined animations */}
       <div className={`absolute inset-0 flex items-center justify-center text-center transition-all duration-500 ease-out transform ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
         <div className="px-4">
-          <p className={`${textSizes[size]} font-bold text-white mb-1.5 tracking-wide transition-all duration-300`} style={{ fontFamily: 'Sacco, Impact, Arial Black, sans-serif' }}>
+          <p className={`${textSizes[size]} font-bold text-white mb-1.5 tracking-wide transition-all duration-300`} style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
             {sponsor.name}
           </p>
           <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto mb-1.5" />

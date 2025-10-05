@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { motion } from "framer-motion";
 import InteractiveScrollingCards, { CardData } from "./components/InteractiveScrollingCards";
 import SponsorsTitle from "./components/SponsorsTitle";
 import SponsorsGrid from "./components/SponsorsGrid";
@@ -55,21 +58,72 @@ export default function Home() {
       <AnimatedNavbar />
       
       {/* First Page - Landing Section */}
-      <div className="min-h-screen flex flex-col w-full" style={{ backgroundColor: '#2e2e2e' }}>
+      <div id="home" className="min-h-screen flex flex-col w-full" style={{ backgroundColor: '#2e2e2e' }}>
         {/* Main Content */}
         <main className="flex-1 flex items-center justify-center relative overflow-hidden px-4 sm:px-6 md:px-8">
           <div className="text-center relative z-10">
             {/* Main Title */}
-            <h1
+            <motion.h1
               className="text-8xl sm:text-7xl md:text-9xl lg:text-[11rem] xl:text-[12rem] 2xl:text-[13rem] font-bold text-white leading-none px-2 sm:px-4"
               style={{
                 fontFamily: 'Sacco, Arial, sans-serif',
                 letterSpacing: '0.05em'
               }}
+              animate={{
+                textShadow: [
+                  "0 0 0px rgba(94,234,212,0)",
+                  "-4px 0 0px rgba(94,234,212,0.8), 4px 0 0px rgba(251,207,130,0.8)",
+                  "3px 0 0px rgba(94,234,212,0.8), -3px 0 0px rgba(251,207,130,0.8)",
+                  "-2px 0 0px rgba(94,234,212,0.6), 2px 0 0px rgba(251,207,130,0.6)",
+                  "2px 0 0px rgba(94,234,212,0.4), -2px 0 0px rgba(251,207,130,0.4)",
+                  "0 0 0px rgba(94,234,212,0)"
+                ]
+              }}
+              transition={{
+                duration: 0.8,
+                delay: 0.7,
+                times: [0, 0.15, 0.35, 0.6, 0.8, 1]
+              }}
             >
-              <span className="block sm:inline">HACK THE</span>
-              <span className="block sm:inline sm:ml-2 md:ml-4">RIDGE</span>
-            </h1>
+              <motion.span
+                className="inline-block"
+                initial={{ x: -150, opacity: 0, scale: 0.9 }}
+                animate={{ 
+                  x: 0, 
+                  opacity: 1, 
+                  scale: 1,
+                }}
+                transition={{ 
+                  duration: 0.5, 
+                  delay: 0.2,
+                  ease: [0.7, 0, 0.84, 0]
+                }}
+                style={{ display: 'inline-block' }}
+              >
+                HACK THE
+              </motion.span>
+              {' '}
+              <motion.span
+                className="inline-block"
+                initial={{ x: 150, opacity: 0, scale: 0.9 }}
+                animate={{ 
+                  x: 0,
+                  opacity: 1, 
+                  scale: 1,
+                }}
+                transition={{ 
+                  duration: 0.5,
+                  delay: 0.2,
+                  ease: [0.7, 0, 0.84, 0]
+                }}
+                style={{ 
+                  display: 'inline-block',
+                  marginLeft: '0.5rem'
+                }}
+              >
+                RIDGE
+              </motion.span>
+            </motion.h1>
           </div>
           
           {/* Wolf Logo positioned at bottom with 1/4 cut off - maintaining aspect ratio */}
@@ -91,8 +145,8 @@ export default function Home() {
             className="absolute top-16 sm:top-20 md:top-24 left-8 sm:left-20 md:left-36 z-30 hidden sm:block"
             style={{
               transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToTopLeft 2s ease-out forwards',
-              animationDelay: '0.5s'
+              animation: 'flyToTopLeft 1s ease-out forwards',
+              animationDelay: '0.7s'
             }}
           >
             <Image
@@ -109,8 +163,8 @@ export default function Home() {
             className="absolute top-20 sm:top-24 md:top-32 right-8 sm:right-20 md:right-36 z-30 hidden sm:block"
             style={{
               transform: 'translate(50vw, 100vh)',
-              animation: 'flyToTopRight 2.2s ease-out forwards',
-              animationDelay: '0.8s'
+              animation: 'flyToTopRight 1s ease-out forwards',
+              animationDelay: '0.75s'
             }}
           >
             <Image
@@ -127,8 +181,8 @@ export default function Home() {
             className="absolute bottom-20 sm:bottom-24 md:bottom-25 left-4 sm:left-16 md:left-32 z-30 hidden sm:block"
             style={{
               transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToBottomLeft 1.8s ease-out forwards',
-              animationDelay: '1.1s'
+              animation: 'flyToBottomLeft 1s ease-out forwards',
+              animationDelay: '0.8s'
             }}
           >
             <Image
@@ -145,8 +199,8 @@ export default function Home() {
             className="absolute bottom-16 sm:bottom-24 md:bottom-32 right-8 sm:right-20 md:right-36 z-30 hidden sm:block"
             style={{
               transform: 'translate(50vw, 100vh)',
-              animation: 'flyToBottomRight 2.1s ease-out forwards',
-              animationDelay: '1.4s'
+              animation: 'flyToBottomRight 1s ease-out forwards',
+              animationDelay: '0.85s'
             }}
           >
             <Image

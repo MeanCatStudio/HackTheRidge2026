@@ -85,7 +85,7 @@ const SponsorsTitle: React.FC = () => {
             THANK YOU
           </h2>
           <p className="text-base sm:text-lg md:text-xl leading-relaxed opacity-90 max-w-2xl mx-auto lg:mx-0">
-            Hack the Ridge wouldn't be possible without the incredible support of our sponsors.
+            Hack the Ridge wouldn&apos;t be possible without the incredible support of our sponsors.
             Your partnership empowers the next generation of innovators and creators.
           </p>
           <div className="mt-6 sm:mt-8 flex items-center justify-center lg:justify-start gap-4">

@@ -42,9 +42,9 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               >
                 {/* Date Text Overlay - Centered */}
                 <span
-                  className="text-2xl sm:text-3xl font-bold text-white leading-none tracking-wider"
+                  className="text-lg sm:text-2xl font-bold text-white leading-none tracking-wider"
                   style={{
-                    fontFamily: 'Sacco, Arial, sans-serif',
+                    fontFamily: 'Impact, Arial Black, sans-serif',
                     fontWeight: 800,
                     textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
                   }}
@@ -69,9 +69,9 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
             >
               {/* Date Text Overlay - Centered */}
               <span
-                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-white leading-none tracking-wider"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-none tracking-wider"
                 style={{
-                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontFamily: 'Impact, Arial Black, sans-serif',
                   fontWeight: 800,
                   textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
                 }}
