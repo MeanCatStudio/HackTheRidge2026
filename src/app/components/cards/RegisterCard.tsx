@@ -113,7 +113,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
       <div className="absolute bottom-20 sm:bottom-24 md:bottom-28 lg:bottom-32 left-1/2 transform -translate-x-1/2 z-20">
         <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-4 lg:gap-6 text-gray-400">
           <a
-            href="#"
+            href="https://hacktheridge.devpost.com/"
             className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
@@ -123,7 +123,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </a>
           <span className="text-gray-500 hidden sm:inline">|</span>
           <a
-            href="#"
+            href="https://www.google.com/maps/place/1123+Glenashton+Dr,+Oakville,+ON+L6H+5M1/@43.4890486,-79.7018848,17z/data=!3m1!4b1!4m6!3m5!1s0x882b42d9c20dd28f:0xde627c7b3aa0160d!8m2!3d43.4890486!4d-79.6993099!16s%2Fg%2F11cs7vlhvj?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D"
             className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
@@ -133,7 +133,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </a>
           <span className="text-gray-500 hidden sm:inline">|</span>
           <a
-            href="#"
+            href="https://discord.com/invite/hacktheridge"
             className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
@@ -143,7 +143,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </a>
           <span className="text-gray-500 hidden sm:inline">|</span>
           <a
-            href="#"
+            href="https://www.instagram.com/hacktheridge/"
             className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'

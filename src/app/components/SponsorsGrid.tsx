@@ -84,7 +84,7 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     description: 'Leading technology solutions provider empowering the next generation of developers.',
     logoUrl: 'https://www.rbc.com/dvl/v1.0/assets/images/logos/rbc-logo-shield.svg',
     websiteUrl: 'https://rbc.com',
-    tier: 1,
+    tier: 2,
   },
   {
     id: 2,
@@ -92,14 +92,14 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     description: 'Innovation hub fostering creativity and breakthrough solutions in tech.',
     logoUrl: 'http://www.dm-ind.com/main/wp-content/uploads/2015/12/DM_logo_withlogo2.svg',
     websiteUrl: 'https://www.dm-ind.com/main/',
-    tier: 1,
+    tier: 2,
   },
   {
     id: 3,
     name: 'YRI Fellowship',
     logoUrl: 'https://www.yriscience.com/logo.png',
     websiteUrl: 'https://www.yriscience.com/',
-    tier: 2,
+    tier: 3,
   },
   {
     id: 4,
