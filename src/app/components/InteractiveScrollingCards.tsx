@@ -10,11 +10,11 @@ const CarouselComponent: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const carouselImages = [
-    '/history photos/photo1.jpg',
-    '/history photos/photo2.jpg',
-    '/history photos/photo3.jpg',
-    '/history photos/photo4.jpg',
-    '/history photos/photo5.jpg'
+    '/last_year/history1.jpg',
+    '/last_year/history2.jpg',
+    '/last_year/history3.jpg',
+    '/last_year/history4.jpg',
+    '/last_year/history5.jpg',
   ];
 
   // Auto-rotate carousel
@@ -36,7 +36,7 @@ const CarouselComponent: React.FC = () => {
   };
 
   return (
-    <div className="relative bg-white/10 rounded-lg overflow-hidden h-24 md:h-48 lg:h-96 backdrop-blur-sm">
+    <div className="relative bg-white/10 rounded-lg overflow-hidden h-24 md:h-28 lg:h-96 backdrop-blur-sm">
       {/* Image Display */}
       <div className="relative w-full h-full">
         <img
@@ -326,16 +326,16 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                 <div className="w-full max-w-7xl h-80 sm:h-96 md:h-[28rem] lg:h-[32rem] xl:h-[36rem]">
                   <VideoText
                     src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                    fontSize="12vw"
+                    fontSize="6vw"
                     fontWeight="900"
-                    className="w-full h-full"
+                    className="w-full h-full text-center"
                     autoPlay
                     muted
                     loop
                     preload="auto"
                     fontFamily="Arial, sans-serif"
                   >
-                    SLOGAN HERE
+                    Build for{'\n'}Tomorrow Today
                   </VideoText>
                 </div>
               </div>
@@ -624,22 +624,21 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
       );
     case 2: // Last Year - Minimalist Healthcare Design
      return (
-       <div className="mt-1 flex flex-col md:flex-row gap-2 md:gap-8 lg:gap-12 w-full h-full items-start justify-center pt-1 md:pt-8 lg:pt-12 px-2 md:px-6 lg:px-8">
+       <div className="flex flex-col md:flex-row gap-2 md:gap-3 lg:gap-12 w-full h-full items-start justify-start pt-1 md:pt-2 lg:pt-12 px-2 md:px-3 lg:px-8">
          {/* Left Side - Content */}
-         <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col justify-start space-y-2 md:space-y-8 lg:space-y-10 max-w-4xl -mt-48 md:mt-0">
+         <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col justify-start space-y-1.5 md:space-y-2.5 lg:space-y-10 max-w-4xl overflow-hidden">
            
            {/* Header with Medical Icon */}
-           <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3 mb-1.5 md:mb-4 lg:mb-6">
-             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-white md:w-6 lg:w-7 md:h-6 lg:h-7">
-               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-               <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2"/>
-               <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="1"/>
+           <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3 mb-1 md:mb-1.5 lg:mb-6">
+             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" className="text-white md:w-5 lg:w-7 md:h-5 lg:h-7">
+               <path d="M12 22v-20M12 2l-3 1.5c-1.5.5-2.5 2-2.5 3.5v1c0 1 .5 2 1.5 2.5L12 12l4-1.5c1-.5 1.5-1.5 1.5-2.5v-1c0-1.5-1-3-2.5-3.5L12 2zM12 12l-4 1.5c-1 .5-1.5 1.5-1.5 2.5v1c0 1.5 1 3 2.5 3.5L12 22l3-1.5c1.5-.5 2.5-2 2.5-3.5v-1c0-1-.5-2-1.5-2.5L12 12z"/>
+               <path d="M2 2l5 3M22 2l-5 3M2 5c2 0 4-1 5-2M22 5c-2 0-4-1-5-2" fill="currentColor"/>
              </svg>
-             <span className="text-xs md:text-sm lg:text-base text-white/70 font-medium">htr_2024</span>
+             <span className="text-xs md:text-xs lg:text-base text-white/70 font-medium">htr_2024</span>
            </div>
 
            {/* Stats Grid - responsive columns with dividers */}
-           <div className="relative grid grid-cols-2 md:grid-cols-4 bg-white/5 rounded-lg p-1.5 md:p-3 lg:p-8 backdrop-blur-sm">
+           <div className="relative grid grid-cols-2 md:grid-cols-4 bg-white/5 rounded-lg p-1 md:p-2 lg:p-8 backdrop-blur-sm">
              {/* Responsive dividers */}
              {/* Mobile: only vertical center line for 2x2 grid */}
              <div className="absolute left-1/2 top-2 bottom-2 w-px bg-white md:hidden transform -translate-x-1/2"></div>
@@ -652,118 +651,145 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
              
              <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
                <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
-                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
-                   <rect x="3" y="4" width="18" height="15" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-                   <path d="M8 10h8M8 14h6" stroke="currentColor" strokeWidth="1.5"/>
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <path d="M2 6c0-1.1.9-2 2-2h5l2 2h9c1.1 0 2 .9 2 2v10c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6z"/>
                  </svg>
                </div>
-               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># projects</div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium">38 projects</div>
              </div>
              
              <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
                <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
-                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
-                   <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.5"/>
-                   <circle cx="15" cy="11" r="2" stroke="currentColor" strokeWidth="1.5"/>
-                   <circle cx="12" cy="14" r="3" stroke="currentColor" strokeWidth="1.5"/>
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <circle cx="6" cy="6" r="4"/>
+                   <circle cx="12" cy="6" r="4"/>
+                   <circle cx="18" cy="6" r="4"/>
+                   <path d="M2 20c0-3.3 1.8-6 4-6s4 2.7 4 6M8 20c0-3.3 1.8-6 4-6s4 2.7 4 6M14 20c0-3.3 1.8-6 4-6s4 2.7 4 6"/>
                  </svg>
                </div>
-               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># registrants</div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium">330 registrants</div>
              </div>
              
              <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
                <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
-                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
-                   <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-                   <rect x="6" y="10" width="4" height="4" fill="currentColor"/>
-                   <rect x="14" y="10" width="4" height="4" fill="currentColor"/>
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <rect x="2" y="2" width="4" height="18"/>
+                   <rect x="8" y="8" width="14" height="12"/>
+                   <path d="M8 8L14 2v6z"/>
+                   <path d="M16 2v6l6-6v6z"/>
+                   <rect x="10" y="12" width="2" height="2"/>
+                   <rect x="14" y="12" width="2" height="2"/>
+                   <rect x="18" y="12" width="2" height="2"/>
                  </svg>
                </div>
-               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># industry partners</div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium">25 industry partners</div>
              </div>
              
              <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
                <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
-                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
-                   <circle cx="12" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/>
-                   <path d="M12 14l3 6h-6l3-6z" fill="currentColor"/>
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <path d="M12 2l2.5 5.5L20 8.5l-4 4 1 6-5-2.5L7 18l1-6-4-4 5.5-1L12 2z"/>
+                   <circle cx="12" cy="9" r="3" fill="white"/>
+                   <path d="M8 15l-1 6 5-2.5L17 21l-1-6" fill="currentColor"/>
                  </svg>
                </div>
-               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium">$# in prizes</div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium">$6000 in prizes</div>
              </div>
            </div>
 
            {/* Tech Stack Section - responsive 2x2 Grid */}
-           <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0.5 md:gap-3 lg:gap-8">
+           <div className="relative grid grid-cols-1 md:grid-cols-2 gap-1 md:gap-2 lg:gap-8">
              {/* Grid lines - responsive */}
              <div className="hidden md:block absolute left-0 right-0 top-1/2 h-px bg-white/40 transform -translate-y-1/2"></div>
              <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-white/40 transform -translate-x-1/2"></div>
              {/* Python */}
-             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+             <div className="space-y-0.5 md:space-y-1 lg:space-y-4">
                <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
-                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
-                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                 <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <path d="M12 2C8.5 2 6 4.5 6 8v4h12V8c0-3.5-2.5-6-6-6z"/>
+                   <path d="M6 12v4c0 3.5 2.5 6 6 6s6-2.5 6-6v-4H6z"/>
+                   <circle cx="9" cy="6" r="1.5" fill="white"/>
+                   <circle cx="15" cy="18" r="1.5" fill="white"/>
+                   <path d="M8 10h8v4H8z" fill="white"/>
                  </svg>
-                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Python</span>
+                 <span className="text-white/80 text-xs md:text-xs lg:text-base font-medium">
+                   <span className="xl:hidden">Python Workshop</span>
+                   <span className="hidden xl:inline">Intro to Python Workshop (led by IRHS CS)</span>
+                 </span>
                </div>
-               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               <div className="mt-0.5 md:mt-0.5 lg:mt-3">
+                 <p className="text-white/70 text-xs md:text-xs lg:text-sm leading-tight lg:leading-relaxed">
+                   <span className="xl:hidden">Learn programming basics: functions, loops, and conditionals.</span>
+                   <span className="hidden xl:inline">Hackers wrote their first lines of code and learned essential programming concepts like functions, loops, conditionals, and comparisons in this Intro to Python Workshop led by IRHS CS.</span>
+                 </p>
                </div>
              </div>
 
              {/* Code/Development */}
-             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+             <div className="space-y-0.5 md:space-y-1 lg:space-y-4">
                <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
-                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
-                   <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.5"/>
+                 <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <path d="M8 6L2 12l6 6v-3l-3-3 3-3V6zM16 6v3l3 3-3 3v3l6-6-6-6zM13 4l-2 16h2l2-16h-2z"/>
                  </svg>
-                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Development</span>
+                 <span className="text-white/80 text-xs md:text-xs lg:text-base font-medium">
+                   <span className="xl:hidden">Web Development</span>
+                   <span className="hidden xl:inline">Web Development Workshop</span>
+                 </span>
                </div>
-               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               <div className="mt-0.5 md:mt-0.5 lg:mt-3">
+                 <p className="text-white/70 text-xs md:text-xs lg:text-sm leading-tight lg:leading-relaxed">
+                   <span className="xl:hidden">Build interactive websites with HTML, CSS, and JavaScript.</span>
+                   <span className="hidden xl:inline">Hackers learned to build and launch interactive websites using HTML, CSS, and JavaScript while engaging in discussions with peers, gaining hands-on skills to prepare for web development at Hack the Ridge.</span>
+                 </p>
                </div>
              </div>
 
              {/* Web/Frontend */}
-             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+             <div className="space-y-0.5 md:space-y-1 lg:space-y-4">
                <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
-                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
-                   <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5"/>
-                   <path d="M9 9h6v6H9z" stroke="currentColor" strokeWidth="1.5"/>
+                 <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <rect x="2" y="4" width="20" height="16" rx="2"/>
+                   <path d="M8 10l-2 2 2 2M16 10l2 2-2 2M13 8l-2 8" stroke="white" strokeWidth="1.5" fill="none"/>
                  </svg>
-                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Frontend</span>
+                 <span className="text-white/80 text-xs md:text-xs lg:text-base font-medium">
+                   <span className="xl:hidden">React Workshop</span>
+                   <span className="hidden xl:inline">Frontend Workshop</span>
+                 </span>
                </div>
-               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               <div className="mt-0.5 md:mt-0.5 lg:mt-3">
+                 <p className="text-white/70 text-xs md:text-xs lg:text-sm leading-tight lg:leading-relaxed">
+                   <span className="xl:hidden">Build dynamic web apps using React.js framework.</span>
+                   <span className="hidden xl:inline">Participants explored how to build dynamic, visually appealing web applications using React.js, an industry-standard framework, and finished by brainstorming and creating parts of their own app ideas.</span>
+                 </p>
                </div>
              </div>
 
              {/* AI/ML */}
-             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+             <div className="space-y-0.5 md:space-y-1 lg:space-y-4">
                <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
-                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
-                   <rect x="3" y="6" width="18" height="12" rx="2"/>
-                   <text x="12" y="14" textAnchor="middle" className="text-xs" fill="black">AI</text>
+                 <svg width="8" height="8" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <rect x="4" y="4" width="16" height="16" rx="3"/>
+                   <path d="M8 2v4M16 2v4M8 18v4M16 18v4M2 8h4M18 8h4M2 16h4M18 16h4" fill="currentColor"/>
+                   <text x="12" y="14" textAnchor="middle" fontSize="6" fill="white">AI</text>
+                   <path d="M20 4l2-2M20 6l2 2M18 2l2 2M22 2l-2 2" stroke="currentColor" strokeWidth="1"/>
                  </svg>
-                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">AI/ML</span>
+                 <span className="text-white/80 text-xs md:text-xs lg:text-base font-medium">
+                   <span className="xl:hidden">AI/ML Workshop</span>
+                   <span className="hidden xl:inline">ML Workshop</span>
+                 </span>
                </div>
-               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
-                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               <div className="mt-0.5 md:mt-0.5 lg:mt-3">
+                 <p className="text-white/70 text-xs md:text-xs lg:text-sm leading-tight lg:leading-relaxed">
+                   <span className="xl:hidden">Use OpenAI and Gemini APIs for AI-powered projects.</span>
+                   <span className="hidden xl:inline">Hackers eager to build with Generative AI learned how to use tools like the OpenAI and Gemini APIs in their projects while gaining insight into how Large Language Models (LLMs) work behind the scenes.</span>
+                 </p>
                </div>
              </div>
            </div>
          </div>
 
          {/* Right Side - Functional Image Carousel */}
-         <div className="w-full md:w-2/5 lg:w-2/5 relative flex items-start justify-center pt-0 md:pt-4">
+         <div className="w-full md:w-2/5 lg:w-2/5 relative flex items-start justify-center pt-1 md:pt-0 lg:pt-4">
            <div className="w-full max-w-lg">
              <CarouselComponent />
            </div>
@@ -823,8 +849,19 @@ const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ c
     return null;
   }
 
+  // Calculate responsive height - more scroll space on mobile only
+  const getScrollHeight = () => {
+    if (typeof window !== 'undefined') {
+      // Mobile: 130vh per card, Laptop/Desktop: 100vh per card
+      if (window.innerWidth < 768) {
+        return `${numCards * 130}vh`;
+      }
+    }
+    return `${numCards * 100}vh`;
+  };
+
   return (
-    <section ref={ref} className="relative z-10" style={{ height: `${numCards * 100}vh` }}>
+    <section ref={ref} className="relative z-10" style={{ height: getScrollHeight() }}>
       {cards.map((card, index) => (
         <InternalStickyCard key={card.id} index={index} progress={progress} cardData={card} numCards={numCards} />
       ))}

@@ -20,11 +20,11 @@ const LastYearCard: React.FC<LastYearCardProps> = ({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const carouselImages = [
-    '/history photos/photo1.jpg',
-    '/history photos/photo2.jpg',
-    '/history photos/photo3.jpg',
-    '/history photos/photo4.jpg',
-    '/history photos/photo5.jpg'
+    '/last_year/history1.jpg',
+    '/last_year/history2.jpg',
+    '/last_year/history3.jpg',
+    '/last_year/history4.jpg',
+    '/last_year/history5.jpg',
   ];
 
   useEffect(() => {
