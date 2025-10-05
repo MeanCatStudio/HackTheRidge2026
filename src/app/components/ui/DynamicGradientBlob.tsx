@@ -27,13 +27,16 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
   height = '280px',
   className = '',
   children,
-  href
+  href,
 }) => {
   const [isHovered, setIsHovered] = useState(false);
   const [blobs, setBlobs] = useState<Blob[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   const animationRef = useRef<number | undefined>(undefined);
   const lastTimeRef = useRef<number>(0);
+  const speedMultRef = useRef<number>(1);
+  const targetSpeedMultRef = useRef<number>(1);
+  const prefersReducedMotionRef = useRef<boolean>(false);
 
   // Parse dimensions
   const containerWidth = parseInt(width);
@@ -53,8 +56,8 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
     ];
 
     const newBlobs: Blob[] = [];
-    
-    for (let i = 0; i < 8; i++) {
+    const blobCount = containerWidth < 640 ? 5 : 8;
+    for (let i = 0; i < blobCount; i++) {
       const size = Math.random() * 160 + 120; // 120-280px (2x larger)
       const x = Math.random() * (containerWidth - size);
       const y = Math.random() * (containerHeight - size);
@@ -67,8 +70,8 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
         targetY: y,
         size,
         color: colors[i % colors.length],
-        speed: Math.random() * 0.5 + 0.3, // 0.3-0.8
-        angle: Math.random() * Math.PI * 2
+        speed: Math.random() * 0.5 + 0.3, // 0.3 - 0.8
+        angle: Math.random() * Math.PI * 2,
       });
     }
     
@@ -81,6 +84,14 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
     const deltaTime = currentTime - lastTimeRef.current;
     lastTimeRef.current = currentTime;
 
+    // Clamp dt to avoid big jumps on tab switch or frame drops
+    const dt = Math.min(32, Math.max(0, deltaTime));
+
+    // Smoothly approach target speed multiplier
+    const target = (isHovered && !prefersReducedMotionRef.current) ? 3 : 1;
+    targetSpeedMultRef.current = target;
+    speedMultRef.current += (targetSpeedMultRef.current - speedMultRef.current) * 0.08;
+
     setBlobs(prevBlobs => {
       return prevBlobs.map(blob => {
         let newX = blob.x;
@@ -89,32 +100,22 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
         let newTargetY = blob.targetY;
         let newAngle = blob.angle;
 
-        if (isHovered) {
-          // Stream mode: move left to right
-          newX += blob.speed * deltaTime * 0.3; // Move left to right
-          
-          // Reset position when blob goes off screen (teleport back)
-          if (newX > containerWidth + blob.size) {
-            newX = -blob.size;
-            newY = Math.random() * (containerHeight - blob.size);
-          }
-        } else {
-          // Random floating mode
-          const dx = newTargetX - newX;
-          const dy = newTargetY - newY;
-          const distance = Math.sqrt(dx * dx + dy * dy);
+        // Unified random floating behavior that accelerates on hover
+        const dx = newTargetX - newX;
+        const dy = newTargetY - newY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
 
-          if (distance < 5) {
-            // Generate new target
-            newTargetX = Math.random() * (containerWidth - blob.size);
-            newTargetY = Math.random() * (containerHeight - blob.size);
-            newAngle = Math.random() * Math.PI * 2;
-          } else {
-            // Move towards target
-            const moveSpeed = blob.speed * deltaTime * 0.1;
-            newX += (dx / distance) * moveSpeed;
-            newY += (dy / distance) * moveSpeed;
-          }
+        if (distance < 5) {
+          // Generate a new target within bounds
+          newTargetX = Math.random() * (containerWidth - blob.size);
+          newTargetY = Math.random() * (containerHeight - blob.size);
+          newAngle = Math.random() * Math.PI * 2;
+        } else {
+          // Move towards target; hover increases speed smoothly
+          const moveSpeed = blob.speed * dt * 0.1 * speedMultRef.current;
+          const safeDist = Math.max(distance, 0.0001);
+          newX += (dx / safeDist) * moveSpeed;
+          newY += (dy / safeDist) * moveSpeed;
         }
 
         return {
@@ -149,6 +150,19 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
       }
     };
   }, [animate, blobs.length]);
+
+  // Respect prefers-reduced-motion and update on changes
+  useEffect(() => {
+    if (typeof window !== 'undefined' && 'matchMedia' in window) {
+      const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+      prefersReducedMotionRef.current = media.matches;
+      const onChange = (e: MediaQueryListEvent) => {
+        prefersReducedMotionRef.current = e.matches;
+      };
+      media.addEventListener?.('change', onChange);
+      return () => media.removeEventListener?.('change', onChange);
+    }
+  }, []);
 
   // Handle hover state changes
   const handleMouseEnter = () => {

@@ -5,76 +5,16 @@ import RegisterCard from './cards/RegisterCard';
 import { VideoText } from '../../components/magicui/video-text';
 import { DraggableCardBody, DraggableCardContainer } from '../../components/ui/draggable-card';
 
-// Simple reusable CountUp component with IntersectionObserver trigger
-const CountUp: React.FC<{
-  end: number;
-  duration?: number; // ms
-  prefix?: string;
-  suffix?: string;
-  className?: string;
-  enable?: boolean; // allow conditional start
-  decimals?: number;
-}> = ({ end, duration = 1500, prefix = "", suffix = "", className = "", enable = true, decimals = 0 }) => {
-  const [value, setValue] = useState(0);
-  const [started, setStarted] = useState(false);
-  const ref = useRef<HTMLSpanElement | null>(null);
-
-  useEffect(() => {
-    if (!ref.current) return;
-    const el = ref.current;
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && enable && !started) {
-          setStarted(true);
-        }
-      });
-    }, { threshold: 0.3 });
-    obs.observe(el);
-    return () => obs.disconnect();
-  }, [enable, started]);
-
-  useEffect(() => {
-    if (!started) return;
-    const start = performance.now();
-    const startVal = 0;
-    const change = end - startVal;
-    let rafId = 0;
-    const animate = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      // easeOutCubic
-      const eased = 1 - Math.pow(1 - t, 3);
-      const current = startVal + change * eased;
-      setValue(current);
-      if (t < 1) rafId = requestAnimationFrame(animate);
-    };
-    rafId = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(rafId);
-  }, [started, duration, end]);
-
-  const formatted = useMemo(() => {
-    const n = Number.isFinite(value) ? value : 0;
-    const rounded = decimals > 0 ? Number(n.toFixed(decimals)) : Math.round(n);
-    const fmt = new Intl.NumberFormat(undefined, { maximumFractionDigits: decimals });
-    return `${prefix}${fmt.format(rounded)}${suffix}`;
-  }, [value, prefix, suffix, decimals]);
-
-  return (
-    <span ref={ref} className={className} aria-label={`${prefix}${end}${suffix}`}>
-      {formatted}
-    </span>
-  );
-};
-
 // Carousel Component for Last Year Card
 const CarouselComponent: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   const carouselImages = [
-    '/last_year/history1.jpg',
-    '/last_year/history2.jpg',
-    '/last_year/history3.jpg',
-    '/last_year/history4.jpg',
-    '/last_year/history5.jpg',
+    '/history photos/photo1.jpg',
+    '/history photos/photo2.jpg',
+    '/history photos/photo3.jpg',
+    '/history photos/photo4.jpg',
+    '/history photos/photo5.jpg'
   ];
 
   // Auto-rotate carousel
@@ -96,52 +36,59 @@ const CarouselComponent: React.FC = () => {
   };
 
   return (
-    <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-48 sm:h-64 md:h-80 lg:h-96 backdrop-blur-md border border-white/20 shadow-2xl">
-      {/* Image Display with Sliding Animation */}
-      <div className="relative w-full h-full overflow-hidden">
-        <div className="flex transition-transform duration-700 ease-in-out h-full" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
-          {carouselImages.map((imgSrc, idx) => (
-            <div key={idx} className="w-full h-full flex-shrink-0">
-              <img
-                src={imgSrc}
-                alt={`Hackathon photo ${idx + 1}`}
-                className="w-full h-full object-cover"
-                draggable={false}
-              />
+    <div className="relative bg-white/10 rounded-lg overflow-hidden h-24 md:h-48 lg:h-96 backdrop-blur-sm">
+      {/* Image Display */}
+      <div className="relative w-full h-full">
+        <img
+          src={carouselImages[currentImageIndex]}
+          alt={`Healthcare hackathon photo ${currentImageIndex + 1}`}
+          className="w-full h-full object-cover transition-opacity duration-500"
+          draggable={false}
+        />
+        
+        {/* Fallback mountain landscape for missing images */}
+        <div className="absolute inset-0 flex items-center justify-center bg-white/10">
+          <div className="relative w-full h-full flex items-center justify-center opacity-30">
+            <div className="absolute inset-0 flex items-end justify-center">
+              <div className="w-32 h-24 bg-white/20 rounded-t-full"></div>
             </div>
-          ))}
+            <div className="absolute inset-0 flex items-end justify-center">
+              <div className="w-20 h-16 bg-white/30 rounded-t-full mb-6"></div>
+            </div>
+            <div className="absolute top-8 right-12 w-6 h-6 rounded-full bg-white/30"></div>
+          </div>
         </div>
       </div>
       
-      {/* Navigation Arrows - Minimalist */}
+      {/* Navigation Arrows */}
       <button 
         onClick={goToPrevious}
-        className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-all duration-200 z-10 p-1.5 md:p-2 rounded-md bg-black/20 hover:bg-black/40 backdrop-blur-sm opacity-0 hover:opacity-100 group-hover:opacity-100"
+        className="absolute left-2 md:left-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/90 transition-colors z-10 p-1.5 md:p-2 rounded-full bg-black/20 hover:bg-black/40"
         aria-label="Previous image"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="md:w-5 md:h-5">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="md:w-6 md:h-6">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="1.5"/>
         </svg>
       </button>
       
       <button 
         onClick={goToNext}
-        className="absolute right-2 md:right-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-all duration-200 z-10 p-1.5 md:p-2 rounded-md bg-black/20 hover:bg-black/40 backdrop-blur-sm opacity-0 hover:opacity-100 group-hover:opacity-100"
+        className="absolute right-2 md:right-4 top-1/2 transform -translate-y-1/2 text-white/60 hover:text-white/90 transition-colors z-10 p-1.5 md:p-2 rounded-full bg-black/20 hover:bg-black/40"
         aria-label="Next image"
       >
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" className="md:w-5 md:h-5">
-          <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" className="md:w-6 md:h-6">
+          <path d="M9 18l6-6-6-6" stroke="currentColor" strokeWidth="1.5"/>
         </svg>
       </button>
 
-      {/* Image Indicators - Cleaner */}
-      <div className="absolute bottom-3 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-10">
+      {/* Image Indicators */}
+      <div className="absolute bottom-2 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1.5 md:space-x-2 z-10">
         {carouselImages.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentImageIndex(index)}
-            className={`h-1 rounded-full transition-all duration-300 ${
-              index === currentImageIndex ? 'bg-white w-8' : 'bg-white/50 hover:bg-white/75 w-1'
+            className={`w-2 h-2 rounded-full transition-all duration-300 ${
+              index === currentImageIndex ? 'bg-white scale-110' : 'bg-white/50 hover:bg-white/75'
             }`}
             aria-label={`Go to image ${index + 1}`}
           />
@@ -191,60 +138,48 @@ const generateStaticPositions = (count: number): CardPosition[] => {
   const aspectRatio = viewportWidth / viewportHeight;
   const isMobile = viewportWidth < 768;
   const isTablet = viewportWidth < 1024;
-  // History: show fewer photos on mobile for less cramped layout
-  const HISTORY_CARD_COUNT = isMobile ? 5 : 8;
   
   // Dynamic scaling factors based on screen size
   let widthMultiplier, heightMultiplier, minClearance;
   
   if (isMobile) {
-    // Mobile: spread frames out from center for better visibility
-    widthMultiplier = 0.42;
-    heightMultiplier = 0.38;
-    minClearance = 0.14;
+    // Mobile: tighter positioning, more vertical space, smaller cards
+    widthMultiplier = 0.35;
+    heightMultiplier = 0.3;
+    minClearance = 0.2;
   } else if (isTablet) {
-    // Tablet: reduce spread slightly
-    widthMultiplier = 0.48;
-    heightMultiplier = 0.35;
-    minClearance = 0.24;
+    // Tablet: moderate positioning
+    widthMultiplier = 0.55;
+    heightMultiplier = 0.4;
+    minClearance = 0.3;
   } else if (aspectRatio > 1.8) {
-    // Wide screens (ultrawide): reduce horizontal spread to avoid large gaps
-    widthMultiplier = 0.65;
-    heightMultiplier = 0.30;
-    minClearance = 0.22;
+    // Wide screens (ultrawide): more horizontal spread
+    widthMultiplier = 0.8;
+    heightMultiplier = 0.35;
+    minClearance = 0.25;
   } else {
-    // Standard desktop: slightly tighter than before
-    widthMultiplier = 0.52;
-    heightMultiplier = 0.36;
-    minClearance = 0.22;
+    // Standard desktop: original-like positioning but improved
+    widthMultiplier = 0.65;
+    heightMultiplier = 0.42;
+    minClearance = 0.28;
   }
   
-  // Responsive positions: use a balanced 5-point layout on mobile, otherwise 8-point layout
-  const staticPositions = count === 5
-    ? [
-        // Five evenly distributed points around an oval for a complete ring
-        { x: 0.0,  y: -0.50, tilt: 0 },     // top center
-        { x: -0.42, y: -0.10, tilt: -12 },  // upper-left
-        { x: 0.42,  y: -0.10, tilt: 12 },   // upper-right
-        { x: -0.28, y: 0.42,  tilt: 10 },   // lower-left
-        { x: 0.28,  y: 0.42,  tilt: -10 },  // lower-right
-      ]
-    : [
-        // Eight-point layout (original, tuned)
-        // Top arc - adjusted for better clearance
-        { x: -0.38, y: -0.42, tilt: -15 },  // 2017 - top left
-        { x: -0.15, y: -0.50, tilt: 8 },    // 2018 - top left-center (moved further out)
-        { x: 0.15, y: -0.50, tilt: 18 },    // 2019 - top right-center (moved further out)
-        { x: 0.38, y: -0.42, tilt: -6 },    // 2020 - top right
-        
-        // Middle sides - increased clearance from center stats
-        { x: -0.55, y: -0.05, tilt: 12 },   // 2021 - middle left (moved further out and slightly up)
-        { x: 0.55, y: -0.05, tilt: -20 },   // 2022 - middle right (moved further out and slightly up)
-        
-        // Bottom arc - better clearance
-        { x: -0.38, y: 0.38, tilt: -12 },   // 2023 - bottom left
-        { x: 0.38, y: 0.38, tilt: 22 },     // 2024 - bottom right
-      ];
+  // Responsive positions with better clearance around center stats
+  const staticPositions = [
+    // Top arc - adjusted for better clearance
+    { x: -0.38, y: -0.42, tilt: -15 },  // 2017 - top left
+    { x: -0.15, y: -0.50, tilt: 8 },    // 2018 - top left-center (moved further out)
+    { x: 0.15, y: -0.50, tilt: 18 },    // 2019 - top right-center (moved further out)
+    { x: 0.38, y: -0.42, tilt: -6 },    // 2020 - top right
+    
+    // Middle sides - increased clearance from center stats
+    { x: -0.55, y: -0.05, tilt: 12 },   // 2021 - middle left (moved further out and slightly up)
+    { x: 0.55, y: -0.05, tilt: -20 },   // 2022 - middle right (moved further out and slightly up)
+    
+    // Bottom arc - better clearance
+    { x: -0.38, y: 0.38, tilt: -12 },   // 2023 - bottom left
+    { x: 0.38, y: 0.38, tilt: 22 },     // 2024 - bottom right
+  ];
   
   // Apply responsive positioning with proper constraints
   const positions: CardPosition[] = staticPositions.slice(0, count).map(pos => {
@@ -324,9 +259,9 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
   const updatePositions = useCallback(() => {
     // Ensure we have proper viewport dimensions before calculating positions
     if (typeof window !== 'undefined') {
-      setCardPositions(generateStaticPositions(isMobile ? 5 : 8));
+      setCardPositions(generateStaticPositions(8));
     }
-  }, [isMobile]);
+  }, []);
 
   useEffect(() => {
     // Force immediate position calculation on mount with proper viewport dimensions
@@ -334,7 +269,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
       if (typeof window !== 'undefined' && isClient) {
         // Use multiple strategies to ensure viewport dimensions are accurate
         const calculatePositions = () => {
-          setCardPositions(generateStaticPositions(isMobile ? 5 : 8));
+          setCardPositions(generateStaticPositions(8));
         };
 
         // Immediate calculation
@@ -376,21 +311,21 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
   const fallbackPositions = useMemo(() => {
     // Only generate fallback positions on client-side with actual viewport dimensions
     if (typeof window !== 'undefined' && isClient) {
-      return generateStaticPositions(isMobile ? 5 : 8);
+      return generateStaticPositions(8);
     }
     // Return empty array during SSR to prevent hydration mismatches
     return [];
-  }, [isClient, isMobile]);
+  }, [isClient]);
   
   const activePositions = cardPositions.length > 0 ? cardPositions : fallbackPositions;
 
   return (
     <div
-      className="h-screen sticky overflow-x-hidden"
+      className="h-screen sticky"
       style={{ top: `${topPosition}rem` }}
     >
       <div
-        className={`relative h-full w-full ${bgColor} ${isLastCard ? 'rounded-none shadow-none' : 'rounded-t-5xl shadow-2xl shadow-black/40'} ${index === 0 ? 'overflow-visible' : 'overflow-hidden'}`}
+        className={`relative h-full w-full ${bgColor} ${isLastCard ? 'rounded-none shadow-none' : 'rounded-t-5xl shadow-2xl shadow-black/40'} overflow-hidden`}
         style={{
           transform: `scale(${isLastCard ? 1 : dynamicScale})`,
           transition: 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
@@ -401,58 +336,34 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
         <div className={`w-full h-full ${index === 3 ? 'p-0' : isLastCard ? 'p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20' : 'p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'} flex flex-col ${isLastCard ? 'justify-center' : 'justify-start'}`}>
           {/* Special handling for first card - VideoText with description */}
           {index === 0 ? (
-            <>
-              <header>
-                <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold uppercase ${textColor} tracking-wider leading-tight`}>
-                  {headerTitle}
-                </h2>
-              </header>
-              <main className="relative w-full h-full px-2 sm:px-4 md:px-6">
-                {/* VideoText centered */}
-                <div className="flex items-center justify-center h-full -mt-12 sm:mt-0">
-                <div className="w-full h-64 sm:h-72 md:h-[22rem] lg:h-[26rem] xl:h-[30rem] px-2 overflow-visible">
-                  {isMobile ? (
-                    <div className="w-full h-full flex items-center justify-center">
-                      <h1
-                        className="text-white font-extrabold text-6xl leading-tight text-center px-2 underline decoration-4 underline-offset-8"
-                        style={{
-                          fontFamily: 'Inter, sans-serif',
-                          letterSpacing: '0.02em'
-                        }}
-                      >
-                        Build for Tomorrow,
-                        <br />
-                        Today.
-                      </h1>
-                    </div>
-                  ) : (
-                    <VideoText
-                      src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                      fontSize={'clamp(1.2rem, 5.5vw, 6.4rem)'}
-                      fontWeight="900"
-                      className="w-full h-full overflow-visible"
-                      autoPlay
-                      muted
-                      loop
-                      preload="auto"
-                      fontFamily="Arial, sans-serif"
-                      maskScale={1.05}
-                    >
-                      {'Build for Tomorrow, Today.'}
-                    </VideoText>
-                  )}
+            <main className="relative w-full h-full px-2 sm:px-4 md:px-6">
+              {/* VideoText centered */}
+              <div className="flex items-center justify-center h-full">
+                <div className="w-full max-w-7xl h-80 sm:h-96 md:h-[28rem] lg:h-[32rem] xl:h-[36rem] px-2">
+                  <VideoText
+                    src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+                    fontSize="clamp(1.2rem, 5vw, 8rem)"
+                    fontWeight="900"
+                    className="w-full h-full"
+                    autoPlay
+                    muted
+                    loop
+                    preload="auto"
+                    fontFamily="Arial, sans-serif"
+                  >
+{isMobile ? `Build for\nTomorrow,\nToday.` : 'Build for Tomorrow, Today.'}
+                  </VideoText>
                 </div>
               </div>
               {/* Description positioned absolutely at bottom */}
-              <div className="absolute bottom-40 sm:bottom-16 md:bottom-20 lg:bottom-24 left-4 right-4 pb-2">
-                <div className="max-w-4xl text-center mx-auto px-2">
-                  <p className={`text-base sm:text-lg md:text-xl lg:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
+              <div className="absolute bottom-4 md:bottom-2 lg:bottom-8 left-4 right-4">
+                <div className="max-w-4xl text-center mx-auto">
+                  <p className={`text-lg sm:text-xl md:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
                     <strong>Hack the Ridge</strong> is where <strong>innovation meets community</strong>. We are an annual <strong>hackathon</strong> at Iroquois Ridge High School that hosts over <strong>150+ leaders in STEM</strong> every year to <strong>innovate and push the limit of technology</strong>.
                   </p>
                 </div>
               </div>
             </main>
-            </>
           ) : index === 1 ? (
             /* Special handling for history card - Stats layout with draggable year cards */
             <main className="flex-grow flex items-center justify-center w-full h-full px-4 relative overflow-hidden">
@@ -466,7 +377,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
               {/* Draggable Cards Container */}
               <DraggableCardContainer className="absolute inset-0 z-10">
                 {/* All 8 cards (years 2017-2024) with collision detection positioning */}
-                {Array.from({ length: isMobile ? 5 : 8 }, (_, i) => {
+                {Array.from({ length: 8 }, (_, i) => {
                   const year = 2017 + i;
                   const position = activePositions[i];
                   
@@ -482,19 +393,16 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                   return (
                     <div
                       key={year}
-                      className="absolute"
+                      className="absolute transition-all duration-500 ease-out"
                       style={{
                         left: `calc(50% + ${position.x * (typeof window !== 'undefined' ? window.innerWidth : 1200)}px)`,
                         top: `calc(50% + ${position.y * (typeof window !== 'undefined' ? window.innerHeight : 800)}px)`,
-                        transform: `translate(-50%, -50%)`,
+                        transform: `translate(-50%, -50%) rotate(${position.tilt}deg)`,
                       }}
                     >
                       <DraggableCardBody
-                        className="w-24 h-28 sm:w-28 sm:h-32 md:w-32 md:h-36 lg:w-36 lg:h-40 xl:w-40 xl:h-44 min-h-0 backdrop-blur-sm border border-white/30 p-1 sm:p-1.5 md:p-1.5 lg:p-2 text-center flex flex-col overflow-hidden"
-                        style={{ 
-                          backgroundColor: cardColor + '20',
-                          rotate: `${position.tilt}deg`,
-                        }}
+                        className="w-24 h-28 sm:w-28 sm:h-32 md:w-32 md:h-36 lg:w-36 lg:h-40 xl:w-40 xl:h-44 min-h-0 backdrop-blur-sm border border-white/30 p-1 sm:p-1.5 md:p-1.5 lg:p-2 text-center flex flex-col overflow-hidden transition-all duration-300"
+                        style={{ backgroundColor: cardColor + '20' }}
                       >
                         {/* Local history photo */}
                         <div
@@ -508,7 +416,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                             draggable={false}
                           />
                         </div>
-                      </DraggableCardBody>
+                        </DraggableCardBody>
                     </div>
                   );
                 })}
@@ -518,11 +426,9 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 w-full max-w-6xl relative z-20">
                 {/* Years of Innovation */}
                 <div className="text-center">
-                  <CountUp
-                    end={10}
-                    duration={1400}
-                    className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textColor} leading-none mb-4 inline-block`}
-                  />
+                  <div className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textColor} leading-none mb-4`}>
+                    10
+                  </div>
                   <div className={`text-lg sm:text-xl md:text-2xl ${textColor} font-medium`}>
                     Years of Innovation
                   </div>
@@ -530,12 +436,9 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
 
                 {/* Innovators */}
                 <div className="text-center">
-                  <CountUp
-                    end={2000}
-                    suffix="+"
-                    duration={1600}
-                    className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textColor} leading-none mb-4 inline-block`}
-                  />
+                  <div className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textColor} leading-none mb-4`}>
+                    2000+
+                  </div>
                   <div className={`text-lg sm:text-xl md:text-2xl ${textColor} font-medium`}>
                     Innovators
                   </div>
@@ -543,17 +446,17 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
 
                 {/* Prizes */}
                 <div className="text-center">
-                  <CountUp
-                    end={70000}
-                    prefix="$"
-                    suffix="+"
-                    duration={1800}
-                    className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textColor} leading-none mb-4 inline-block`}
-                  />
+                  <div className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold ${textColor} leading-none mb-4`}>
+                    $70,000+
+                  </div>
                   <div className={`text-lg sm:text-xl md:text-2xl ${textColor} font-medium`}>
                     Prizes
                   </div>
                 </div>
+
+                {/* Vertical dividers positioned between columns */}
+                <div className={`hidden md:block absolute left-1/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-0.5 h-24 bg-white opacity-40`}></div>
+                <div className={`hidden md:block absolute left-2/3 top-1/2 transform -translate-x-1/2 -translate-y-1/2 w-0.5 h-24 bg-white opacity-40`}></div>
               </div>
             </main>
           ) : (
@@ -735,105 +638,150 @@ const getHighlightElement = (index: number, textColor: string): React.ReactEleme
           <div className="text-sm opacity-75">Growing community since 2019</div>
         </div>
       );
-    case 2: // Last Year - Refined Stats & Highlights (Mobile Optimized)
+    case 2: // Last Year - Minimalist Healthcare Design
      return (
-       <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 w-full h-full items-start justify-center px-3 sm:px-4 md:px-6 lg:px-8 pt-8 sm:pt-10 md:pt-16 lg:pt-20 pb-4">
-         {/* Mobile: Carousel First, Desktop: Content First */}
-         
-         {/* Carousel - Shows first on mobile, second on desktop */}
-         <div className="w-full md:w-2/5 lg:w-2/5 relative flex items-start justify-center order-1 md:order-2">
-           <div className="w-full max-w-lg">
-             <CarouselComponent />
+       <div className="mt-1 flex flex-col md:flex-row gap-2 md:gap-8 lg:gap-12 w-full h-full items-start justify-center pt-1 md:pt-8 lg:pt-12 px-2 md:px-6 lg:px-8">
+         {/* Left Side - Content */}
+         <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col justify-start space-y-2 md:space-y-8 lg:space-y-10 max-w-4xl -mt-48 md:mt-0">
+           
+           {/* Header with Medical Icon */}
+           <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3 mb-1.5 md:mb-4 lg:mb-6">
+             <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" className="text-white md:w-6 lg:w-7 md:h-6 lg:h-7">
+               <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+               <circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" strokeWidth="2"/>
+               <path d="M12 8v8M8 12h8" stroke="currentColor" strokeWidth="1"/>
+             </svg>
+             <span className="text-xs md:text-sm lg:text-base text-white/70 font-medium">htr_2024</span>
+           </div>
+
+           {/* Stats Grid - responsive columns with dividers */}
+           <div className="relative grid grid-cols-2 md:grid-cols-4 bg-white/5 rounded-lg p-1.5 md:p-3 lg:p-8 backdrop-blur-sm">
+             {/* Responsive dividers */}
+             {/* Mobile: only vertical center line for 2x2 grid */}
+             <div className="absolute left-1/2 top-2 bottom-2 w-px bg-white md:hidden transform -translate-x-1/2"></div>
+             <div className="absolute left-0 right-0 top-1/2 h-px bg-white md:hidden transform -translate-y-1/2"></div>
+             
+             {/* Desktop: vertical lines for 4 columns */}
+             <div className="hidden md:block absolute left-1/4 top-4 bottom-4 w-px bg-white"></div>
+             <div className="hidden md:block absolute left-2/4 top-4 bottom-4 w-px bg-white"></div>
+             <div className="hidden md:block absolute left-3/4 top-4 bottom-4 w-px bg-white"></div>
+             
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <rect x="3" y="4" width="18" height="15" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <path d="M8 10h8M8 14h6" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># projects</div>
+             </div>
+             
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <circle cx="9" cy="7" r="4" stroke="currentColor" strokeWidth="1.5"/>
+                   <circle cx="15" cy="11" r="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <circle cx="12" cy="14" r="3" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># registrants</div>
+             </div>
+             
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <rect x="2" y="6" width="20" height="12" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <rect x="6" y="10" width="4" height="4" fill="currentColor"/>
+                   <rect x="14" y="10" width="4" height="4" fill="currentColor"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium"># industry partners</div>
+             </div>
+             
+             <div className="text-center px-0.5 md:px-2 lg:px-6 py-0.5 md:py-0">
+               <div className="text-white/60 mb-0.5 md:mb-2 lg:mb-4">
+                 <svg width="9" height="9" viewBox="0 0 24 24" fill="none" className="mx-auto md:w-4 lg:w-8 md:h-4 lg:h-8">
+                   <circle cx="12" cy="8" r="6" stroke="currentColor" strokeWidth="1.5"/>
+                   <path d="M12 14l3 6h-6l3-6z" fill="currentColor"/>
+                 </svg>
+               </div>
+               <div className="text-white/80 text-xs md:text-xs lg:text-base font-medium">$# in prizes</div>
+             </div>
+           </div>
+
+           {/* Tech Stack Section - responsive 2x2 Grid */}
+           <div className="relative grid grid-cols-1 md:grid-cols-2 gap-0.5 md:gap-3 lg:gap-8">
+             {/* Grid lines - responsive */}
+             <div className="hidden md:block absolute left-0 right-0 top-1/2 h-px bg-white/40 transform -translate-y-1/2"></div>
+             <div className="hidden md:block absolute top-0 bottom-0 left-1/2 w-px bg-white/40 transform -translate-x-1/2"></div>
+             {/* Python */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Python</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
+
+             {/* Code/Development */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <path d="M16 18l6-6-6-6M8 6l-6 6 6 6" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Development</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
+
+             {/* Web/Frontend */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="none" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="1.5"/>
+                   <path d="M9 9h6v6H9z" stroke="currentColor" strokeWidth="1.5"/>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">Frontend</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
+
+             {/* AI/ML */}
+             <div className="space-y-0.5 md:space-y-2 lg:space-y-4">
+               <div className="flex items-center space-x-1.5 md:space-x-2 lg:space-x-3">
+                 <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" className="text-white/70 md:w-4 lg:w-5 md:h-4 lg:h-5">
+                   <rect x="3" y="6" width="18" height="12" rx="2"/>
+                   <text x="12" y="14" textAnchor="middle" className="text-xs" fill="black">AI</text>
+                 </svg>
+                 <span className="text-white/80 text-xs md:text-sm lg:text-base font-medium">AI/ML</span>
+               </div>
+               <div className="space-y-0.5 md:space-y-1 lg:space-y-1.5">
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/60 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/40 rounded"></div>
+                 <div className="h-0.5 md:h-1 lg:h-1.5 bg-white/20 rounded"></div>
+               </div>
+             </div>
            </div>
          </div>
 
-         {/* Content - Shows second on mobile, first on desktop */}
-         <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col justify-start space-y-6 sm:space-y-6 md:space-y-8 lg:space-y-10 max-w-4xl order-2 md:order-1">
-           
-           {/* Stats Grid with CountUp - 2x2 on mobile, 1x4 on desktop */}
-           <div className="grid grid-cols-2 md:grid-cols-4 place-items-center auto-rows-fr gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8 md:gap-x-6 md:gap-y-6 lg:gap-x-8 lg:gap-y-8">
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
-               <CountUp
-                 end={45}
-                 duration={1600}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
-               />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Projects</div>
-             </div>
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
-               <CountUp
-                 end={300}
-                 suffix="+"
-                 duration={1700}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
-               />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Participants</div>
-             </div>
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
-               <CountUp
-                 end={12}
-                 duration={1500}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
-               />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Partners</div>
-             </div>
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
-               <CountUp
-                 end={6000}
-                 prefix="$"
-                 duration={1800}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
-               />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Prizes</div>
-             </div>
-           </div>
-
-           {/* Tech Stack Section */}
-           <div className="space-y-3 sm:space-y-4">
-             <h3 className="text-base sm:text-lg md:text-xl font-bold text-white/90 mb-3 sm:mb-4">Workshops</h3>
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
-                 <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
-                   <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="flex-shrink-0 sm:w-6 sm:h-6">
-                     <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/>
-                   </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Python</span>
-                 </div>
-                 <div className="text-xs sm:text-sm text-white/60">Most used language</div>
-               </div>
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
-                 <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
-                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
-                     <polyline points="16 18 22 12 16 6" />
-                     <polyline points="8 6 2 12 8 18" />
-                   </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Development</span>
-                 </div>
-                 <div className="text-xs sm:text-sm text-white/60">Modern dev tools</div>
-               </div>
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
-                 <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
-                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
-                     <rect x="2" y="3" width="20" height="14" rx="2" />
-                     <line x1="8" y1="21" x2="16" y2="21" />
-                     <line x1="12" y1="17" x2="12" y2="21" />
-                   </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Frontend</span>
-                 </div>
-                 <div className="text-xs sm:text-sm text-white/60">React, Next.js, Vue</div>
-               </div>
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
-                 <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
-                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
-                     <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-                     <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-                     <line x1="12" y1="22.08" x2="12" y2="12" />
-                   </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">AI/ML</span>
-                 </div>
-                 <div className="text-xs sm:text-sm text-white/60">TensorFlow, PyTorch</div>
-               </div>
-             </div>
+         {/* Right Side - Functional Image Carousel */}
+         <div className="w-full md:w-2/5 lg:w-2/5 relative flex items-start justify-center pt-0 md:pt-4">
+           <div className="w-full max-w-lg">
+             <CarouselComponent />
            </div>
          </div>
        </div>
@@ -900,19 +848,8 @@ const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ c
     return null;
   }
 
-  // Calculate responsive height - more scroll space on mobile only
-  const getScrollHeight = () => {
-    if (typeof window !== 'undefined') {
-      // Mobile: 130vh per card, Laptop/Desktop: 100vh per card
-      if (window.innerWidth < 768) {
-        return `${numCards * 130}vh`;
-      }
-    }
-    return `${numCards * 100}vh`;
-  };
-
   return (
-    <section ref={ref} className="relative z-10" style={{ height: getScrollHeight() }}>
+    <section ref={ref} className="relative z-10" style={{ height: `${numCards * 100}vh` }}>
       {cards.map((card, index) => (
         <InternalStickyCard key={card.id} index={index} progress={progress} cardData={card} numCards={numCards} />
       ))}
