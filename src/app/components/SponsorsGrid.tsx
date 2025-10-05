@@ -32,11 +32,11 @@ const TIER_COLORS = {
 };
 
 const TIER_NAMES = {
-  1: 'PLATINUM',
-  2: 'GOLD',
-  3: 'SILVER',
-  4: 'BRONZE',
-  5: 'COMMUNITY',
+  1: 'TRAILBLAZER',
+  2: 'VISIONARY',
+  3: 'PIONEER',
+  4: 'CATALYST',
+  5: 'TORCHBEARER',
 };
 
 const TIER_ICONS = {
@@ -80,44 +80,64 @@ const TIER_ICONS = {
 const SAMPLE_SPONSORS: Sponsor[] = [
   {
     id: 1,
-    name: 'TechCorp',
+    name: 'RBC',
     description: 'Leading technology solutions provider empowering the next generation of developers.',
-    logoUrl: 'https://via.placeholder.com/200x100/FFD700/000000?text=TechCorp',
-    websiteUrl: 'https://techcorp.com',
+    logoUrl: 'https://via.placeholder.com/200x100/C0C0C0/000000?text=RBC',
+    websiteUrl: 'https://rbc.com',
     tier: 1,
   },
   {
     id: 2,
-    name: 'InnovateLab',
+    name: 'Dm Industries',
     description: 'Innovation hub fostering creativity and breakthrough solutions in tech.',
-    logoUrl: 'https://via.placeholder.com/200x100/C0C0C0/000000?text=InnovateLab',
-    websiteUrl: 'https://innovatelab.com',
-    tier: 2,
+    logoUrl: 'https://via.placeholder.com/200x100/C0C0C0/000000?text=DM Industries',
+    websiteUrl: 'https://www.dm-ind.com/main/',
+    tier: 1,
   },
   {
     id: 3,
-    name: 'DevTools Inc',
-    logoUrl: 'https://via.placeholder.com/150x75/CD7F32/FFFFFF?text=DevTools',
-    tier: 3,
+    name: 'YRI Fellowship',
+    logoUrl: 'https://via.placeholder.com/150x75/CD7F32/FFFFFF?text=YRI Fellowship',
+    websiteUrl: 'https://www.yriscience.com/',
+    tier: 2,
   },
   {
     id: 4,
-    name: 'CodeBase',
-    logoUrl: 'https://via.placeholder.com/150x75/14b8a6/FFFFFF?text=CodeBase',
+    name: 'Major League Hacking',
+    logoUrl: 'https://via.placeholder.com/150x75/14b8a6/FFFFFF?text=Major League Hacking',
+    websiteUrl: 'https://mlh.io/',
     tier: 4,
   },
   {
     id: 5,
-    name: 'StartupHub',
-    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=StartupHub',
+    name: 'Brock University',
+    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=Brock University',
+    websiteUrl: 'https://brocku.ca/',
+
     tier: 5,
   },
   {
     id: 6,
-    name: 'CloudTech',
-    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=CloudTech',
+    name: "Queen's University",
+    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=Queen\'s University',
+    websiteUrl: 'https://queensu.ca/',
     tier: 5,
   },
+  {
+    id: 7,
+    name: 'University of Waterloo',
+    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=University of Waterloo',
+    websiteUrl: 'https://uwaterloo.ca/',
+    tier: 5,
+  },
+  {
+    id: 8,
+    name: 'US CAN Visa',
+    description: 'Cutting-edge software solutions driving innovation across industries.',
+    logoUrl: 'https://via.placeholder.com/120x60/ea580c/FFFFFF?text=US CAN Visa',
+    websiteUrl: 'https://uscanvisa.com',
+    tier: 5,
+  }
 ];
 
 // Section: Components
@@ -196,18 +216,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
         </div>
       </div>
       
-      {/* Refined tier indicator for lower tiers */}
-      {!isTopTier && (
-        <div 
-          className="absolute top-2 right-2 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-lg transition-all duration-300 group-hover:scale-110"
-          style={{ 
-            backgroundColor: TIER_COLORS[sponsor.tier],
-            boxShadow: `0 0 15px ${TIER_COLORS[sponsor.tier]}60, inset 0 1px 2px rgba(255,255,255,0.2)`
-          }}
-        >
-          {sponsor.tier}
-        </div>
-      )}
+
     </div>
   );
 };
