@@ -1,9 +1,12 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
+
+// Import Easter Egg
+import HallOfTorturedSouls from './HallOfTorturedSouls';
 
 // Social Media Icons (SVG components)
 const InstagramIcon = () => (
@@ -44,6 +47,16 @@ const LocationIcon = () => (
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const [showEasterEgg, setShowEasterEgg] = useState(false);
+  const [clickCount, setClickCount] = useState(0);
+
+  const handleSecretClick = () => {
+    setClickCount(prev => prev + 1);
+    if (clickCount + 1 >= 3) {
+      setShowEasterEgg(true);
+      setClickCount(0);
+    }
+  };
 
   const socialLinks = [
     { name: 'Instagram', href: 'https://www.instagram.com/hacktheridge/', icon: <InstagramIcon /> },
@@ -228,6 +241,22 @@ const Footer: React.FC = () => {
       <div className="absolute top-0 left-0 w-32 h-32 bg-gradient-to-br from-cyan-400/15 to-transparent rounded-full blur-xl" />
       <div className="absolute bottom-0 right-0 w-40 h-40 bg-gradient-to-tl from-teal-300/15 to-transparent rounded-full blur-xl" />
       <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-gradient-to-br from-emerald-400/10 to-transparent rounded-full blur-2xl" />
+      
+      {/* Hidden Easter Egg Trigger - Click the copyright symbol 3 times */}
+      <div 
+        className="absolute bottom-4 left-4 cursor-pointer select-none"
+        onClick={handleSecretClick}
+        title="🤔"
+      >
+        <span className="text-teal-500/30 hover:text-teal-400/50 transition-colors text-xs">
+          ©
+        </span>
+      </div>
+
+      {/* Easter Egg Modal */}
+      {showEasterEgg && (
+        <HallOfTorturedSouls onClose={() => setShowEasterEgg(false)} />
+      )}
     </footer>
   );
 };
