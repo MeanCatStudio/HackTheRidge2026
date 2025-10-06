@@ -105,10 +105,10 @@ export function VideoText({
           const dy = index === 0 ? '0' : `${lineHeight}em`;
           return `<tspan x='50%' dy='${dy}'>${line}</tspan>`;
         }).join('');
-        textElement = `<text x='50%' y='50%' font-size='${responsiveFontSize}' font-weight='${fontWeight}' text-anchor='${textAnchor}' dominant-baseline='${dominantBaseline}' font-family='${fontFamily}'>${tspans}</text>`;
+        textElement = `<text x='50%' y='50%' font-size='${responsiveFontSize}' font-weight='${fontWeight}' text-anchor='${textAnchor}' dominant-baseline='${dominantBaseline}' font-family="${fontFamily}">${tspans}</text>`;
       } else {
         // Single line text
-        textElement = `<text x='50%' y='50%' font-size='${responsiveFontSize}' font-weight='${fontWeight}' text-anchor='${textAnchor}' dominant-baseline='${dominantBaseline}' font-family='${fontFamily}'>${content}</text>`;
+        textElement = `<text x='50%' y='50%' font-size='${responsiveFontSize}' font-weight='${fontWeight}' text-anchor='${textAnchor}' dominant-baseline='${dominantBaseline}' font-family="${fontFamily}">${content}</text>`;
       }
       
       const newSvgMask = `<svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%'>${textElement}</svg>`;

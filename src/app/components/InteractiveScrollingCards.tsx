@@ -96,7 +96,7 @@ const CarouselComponent: React.FC = () => {
   };
 
   return (
-    <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-40 sm:h-48 md:h-64 lg:h-80 backdrop-blur-md border border-white/20 shadow-2xl">
+    <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-40 sm:h-48 md:h-64 lg:h-80 xl:h-96 2xl:h-[28rem] backdrop-blur-md border border-white/20 shadow-2xl">
       {/* Image Display with Sliding Animation */}
       <div className="relative w-full h-full overflow-hidden">
         <div className="flex transition-transform duration-700 ease-in-out h-full" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
@@ -402,7 +402,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
           ...(isLastCard ? { boxShadow: 'none', filter: 'none' } : {})
         }}
       >
-        <div className={`w-full h-full ${index === 3 ? 'p-0' : isLastCard ? 'p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20' : 'p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'} flex flex-col ${isLastCard ? 'justify-center' : 'justify-start'}`}>
+        <div className={`w-full h-full ${index === 3 ? 'p-0' : index === 2 ? 'pt-4 pb-4 px-4 sm:pt-6 sm:pb-6 sm:px-6 md:pt-8 md:pb-8 md:px-8 lg:pt-10 lg:pb-10 lg:px-10 xl:pt-12 xl:pb-12 xl:px-12' : index === 1 ? 'pt-4 pb-4 px-4 sm:pt-6 sm:pb-6 sm:px-6 md:pt-8 md:pb-8 md:px-8 lg:pt-10 lg:pb-10 lg:px-10 xl:pt-12 xl:pb-12 xl:px-12' : isLastCard ? 'p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20' : 'p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'} flex flex-col ${isLastCard ? 'justify-center' : 'justify-start'}`}>
           {/* Special handling for first card - VideoText with description */}
           {index === 0 ? (
             <>
@@ -439,7 +439,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                         muted
                         loop
                         preload="auto"
-                        fontFamily="Arial, sans-serif"
+                        fontFamily="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif"
                         maskScale={1.05}
                       >
                         {'Build for Tomorrow, Today.'}
@@ -459,16 +459,15 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
             </>
           ) : index === 1 ? (
             /* Special handling for history card - Stats layout with draggable year cards */
-            <main className="flex-grow flex items-center justify-center w-full h-full px-4 relative overflow-hidden">
-              {/* Header positioned absolutely at top */}
-              <div className="absolute top-8 left-4 right-4 z-20">
+            <>
+              <header className="flex-shrink-0">
                 <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold uppercase ${textColor} tracking-wider leading-tight`}>
                   {headerTitle}
                 </h2>
-              </div>
-              
-              {/* Draggable Cards Container */}
-              <DraggableCardContainer className="absolute inset-0 z-10">
+              </header>
+              <main className="flex-grow flex items-center justify-center w-full h-full px-4 relative overflow-hidden">
+                {/* Draggable Cards Container */}
+                <DraggableCardContainer className="absolute inset-0 z-10">
                 {/* All 8 cards (years 2017-2024) with collision detection positioning */}
                 {Array.from({ length: isMobile ? 5 : 8 }, (_, i) => {
                   const year = 2017 + i;
@@ -560,6 +559,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                 </div>
               </div>
             </main>
+            </>
           ) : (
             <>
               {/* Hide header for register card (index 3) */}
@@ -741,83 +741,92 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
       );
     case 2: // Last Year - Refined Stats & Highlights (Mobile Optimized)
      return (
-       <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 w-full h-full items-start justify-start md:justify-center px-3 sm:px-4 md:px-6 lg:px-8 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-4">
+       <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 xl:gap-16 w-full h-full items-start justify-start px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 mt-6 sm:mt-8 md:pt-10 lg:pt-14 pb-4 max-w-[1920px] mx-auto">
          {/* Mobile: Carousel First, Desktop: Content First */}
          
          {/* Carousel - Shows first on mobile, second on desktop */}
-         <div className="w-full md:w-2/5 lg:w-2/5 relative flex items-start justify-center order-1 md:order-2">
-           <div className="w-full max-w-lg">
+         <div className="w-full md:w-2/5 lg:w-[40%] xl:w-[38%] 2xl:w-[36%] relative flex items-start justify-center order-1 md:order-2 flex-shrink-0">
+           <div className="w-full max-w-lg xl:max-w-xl 2xl:max-w-2xl">
              <CarouselComponent />
            </div>
          </div>
 
          {/* Content - Shows second on mobile, first on desktop */}
-         <div className="w-full md:w-3/5 lg:w-3/5 flex flex-col justify-start space-y-6 sm:space-y-6 md:space-y-8 lg:space-y-10 max-w-4xl order-2 md:order-1">
+         <div className="w-full md:w-3/5 lg:w-[60%] xl:w-[62%] 2xl:w-[64%] flex flex-col justify-start space-y-6 sm:space-y-7 md:space-y-8 lg:space-y-10 xl:space-y-12 order-2 md:order-1">
            
-           {/* Stats Grid with CountUp - 2x2 on mobile, 1x4 on desktop */}
-           <div className="grid grid-cols-2 md:grid-cols-4 place-items-center auto-rows-fr gap-x-3 gap-y-6 sm:gap-x-4 sm:gap-y-8 md:gap-x-6 md:gap-y-6 lg:gap-x-8 lg:gap-y-8">
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
+           {/* Stats Grid with CountUp - Single row on all screen sizes */}
+           <div className="grid grid-cols-4 place-items-center auto-rows-fr gap-x-2 gap-y-4 sm:gap-x-4 sm:gap-y-6 md:gap-x-6 md:gap-y-6 lg:gap-x-8 lg:gap-y-8">
+             <div className="flex h-full flex-col items-center justify-center gap-1 sm:gap-1.5 md:gap-2">
                <CountUp
                  end={45}
                  duration={1600}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
+                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
                />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Projects</div>
+               <div className="text-white/70 text-[0.65rem] sm:text-xs md:text-sm font-medium uppercase tracking-wide text-center">Projects</div>
              </div>
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
+             <div className="flex h-full flex-col items-center justify-center gap-1 sm:gap-1.5 md:gap-2">
                <CountUp
                  end={300}
                  suffix="+"
                  duration={1700}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
+                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
                />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Participants</div>
+               <div className="text-white/70 text-[0.65rem] sm:text-xs md:text-sm font-medium uppercase tracking-wide text-center">Participants</div>
              </div>
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
+             <div className="flex h-full flex-col items-center justify-center gap-1 sm:gap-1.5 md:gap-2">
                <CountUp
                  end={12}
                  duration={1500}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
+                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
                />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Partners</div>
+               <div className="text-white/70 text-[0.65rem] sm:text-xs md:text-sm font-medium uppercase tracking-wide text-center">Partners</div>
              </div>
-             <div className="flex h-full flex-col items-center justify-center gap-1.5 sm:gap-2">
+             <div className="flex h-full flex-col items-center justify-center gap-1 sm:gap-1.5 md:gap-2">
                <CountUp
                  end={6000}
                  prefix="$"
                  duration={1800}
-                 className="text-3xl sm:text-4xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
+                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white leading-none"
                />
-               <div className="text-white/70 text-xs sm:text-sm md:text-sm font-medium uppercase tracking-wide text-center">Prizes</div>
+               <div className="text-white/70 text-[0.65rem] sm:text-xs md:text-sm font-medium uppercase tracking-wide text-center">Prizes</div>
              </div>
            </div>
 
            {/* Tech Stack Section - Hidden based on screen height */}
-           <div className={`space-y-3 sm:space-y-4 ${hasHeightForWorkshops ? 'block' : 'hidden'}`}>
-             <h3 className="text-base sm:text-lg md:text-xl font-bold text-white/90 mb-3 sm:mb-4">Workshops</h3>
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 md:gap-6">
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
+           <div className={`space-y-4 sm:space-y-5 ${hasHeightForWorkshops ? 'block' : 'hidden'}`}>
+             <h3 className="text-base sm:text-lg md:text-xl font-bold text-white/90 mb-4 sm:mb-5">Workshops</h3>
+             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4 md:gap-6">
+               {/* Python Workshop */}
+               <div className="bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="flex-shrink-0 sm:w-6 sm:h-6">
                      <path d="M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z"/>
                    </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Intro to Python Workshop (led by IRHS CS)</span>
+                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Intro to Python (IRHS CS)</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">Participants learned Python basics: functions, loops, and conditionals effectively.
-</div>
+                 <div className="text-xs sm:text-sm text-white/60">Python basics: functions, loops, and conditionals.</div>
                </div>
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
+               
+               {/* Web + Frontend Combined (Mobile) / Web Only (Desktop) */}
+               <div className="bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
                      <polyline points="16 18 22 12 16 6" />
                      <polyline points="8 6 2 12 8 18" />
                    </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Web Development Workshop</span>
+                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">
+                     <span className="sm:hidden">Web Dev & React</span>
+                     <span className="hidden sm:inline">Web Development</span>
+                   </span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">Students built interactive websites using HTML, CSS, and JavaScript.
-</div>
+                 <div className="text-xs sm:text-sm text-white/60">
+                   <span className="sm:hidden">Interactive websites with HTML, CSS, JavaScript, and React framework.</span>
+                   <span className="hidden sm:inline">Built interactive websites using HTML, CSS, and JavaScript.</span>
+                 </div>
                </div>
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
+               
+               {/* Frontend Workshop (Desktop Only) */}
+               <div className="hidden sm:block bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
                      <rect x="2" y="3" width="20" height="14" rx="2" />
@@ -826,10 +835,11 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
                    </svg>
                    <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Frontend Workshop</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">Hackers created dynamic web applications using the React.js framework.
-</div>
+                 <div className="text-xs sm:text-sm text-white/60">Created dynamic web apps using React.js framework.</div>
                </div>
-               <div className="bg-white/5 rounded-lg p-4 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
+               
+               {/* AI/ML Workshop */}
+               <div className="bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
                      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
@@ -838,8 +848,7 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
                    </svg>
                    <span className="text-white font-semibold text-sm sm:text-base md:text-lg">AI/ML Workshop</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">Developers integrated OpenAI and Gemini APIs into their projects.
-</div>
+                 <div className="text-xs sm:text-sm text-white/60">Integrated OpenAI and Gemini APIs into projects.</div>
                </div>
              </div>
            </div>

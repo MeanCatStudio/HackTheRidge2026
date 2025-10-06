@@ -210,7 +210,7 @@ const Footer: React.FC = () => {
                 </Link>
                 <span className="text-teal-200/80">,</span>
                 <Link
-                  href=""
+                  href="https://github.com/Entropify"
                   className="text-cyan-300 font-medium hover:text-cyan-200 transition-colors duration-300"
                   target="_blank"
                   rel="noopener noreferrer"
