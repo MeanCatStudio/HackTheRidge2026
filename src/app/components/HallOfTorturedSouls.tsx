@@ -113,7 +113,7 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
                     &gt; HALL_OF_TORTURED_SOULS
                   </h1>
                   <p className="text-gray-500 text-xs font-mono">
-                    // debugging nightmares
+                    {/* debugging nightmares */}
                   </p>
                 </div>
               </motion.div>
@@ -153,7 +153,7 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
                       </p>
                       {currentQuote.context && (
                         <p className="text-gray-600">
-                          // {currentQuote.context}
+                          {/* {currentQuote.context} */}
                         </p>
                       )}
                     </div>
@@ -179,7 +179,7 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
               {/* Footer */}
               <div className="text-center text-gray-600 text-xs mt-6 font-mono">
                 <span className="text-gray-700">$</span> exit
-                <span className="text-gray-700 ml-3">// esc to close</span>
+                <span className="text-gray-700 ml-3">{/* esc to close */}</span>
               </div>
             </motion.div>
     </motion.div>
