@@ -12,7 +12,7 @@ const MONEY_RAISED = 6000;
 
 const TeamSection: React.FC = () => {
   const [openCardId, setOpenCardId] = React.useState<number | null>(null);
-  const [isDesktop, setIsDesktop] = React.useState(false);
+  const [gridColumns, setGridColumns] = React.useState(3);
 
   const handleCardOpen = (cardId: number) => {
     setOpenCardId(cardId);
@@ -25,14 +25,22 @@ const TeamSection: React.FC = () => {
   // Handle responsive grid columns
   React.useEffect(() => {
     const checkScreenSize = () => {
-      // Consider xl and above as "desktop" for 5 columns
-      setIsDesktop(window.innerWidth >= 1280); // xl breakpoint
+      const width = window.innerWidth;
+      if (width >= 1280) {
+        // xl breakpoint - 5 columns
+        setGridColumns(5);
+      } else if (width >= 768) {
+        // md breakpoint - 4 columns
+        setGridColumns(4);
+      } else {
+        // mobile - 3 columns
+        setGridColumns(3);
+      }
     };
     
     checkScreenSize();
     window.addEventListener('resize', checkScreenSize);
     
-    return () => window.removeEventListener('resize', checkScreenSize);
   }, []);
 
   return (
@@ -76,7 +84,7 @@ const TeamSection: React.FC = () => {
               {teamMembers.map((m, index) => {
                 // Calculate column index based on responsive grid
         // Mobile: 3 columns, Tablet: 4 columns, Desktop: 5 columns
-                const totalColumns = isDesktop ? 5 : 3;
+                const totalColumns = gridColumns;
                 const columnIndex = index % totalColumns;
                 
                 return (

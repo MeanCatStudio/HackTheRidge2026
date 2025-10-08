@@ -102,13 +102,6 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     tier: 3,
   },
   {
-    id: 4,
-    name: 'Major League Hacking',
-    logoUrl: 'https://static.mlh.io/brand-assets/logo/official/mlh-logo-color.png',
-    websiteUrl: 'https://mlh.io/',
-    tier: 4,
-  },
-  {
     id: 5,
     name: 'Brock University',
     logoUrl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/2560px-Brock_University_Logo_2022.svg.png',
@@ -119,7 +112,6 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     id: 6,
     name: "Queen's University",
     logoUrl: 'https://www.queensu.ca/resources/assets/logos/Queens-logo-reversed.svg',
-    websiteUrl: 'https://queensu.ca/',
     tier: 5,
   },
   {

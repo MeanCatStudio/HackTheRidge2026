@@ -96,7 +96,7 @@ const CarouselComponent: React.FC = () => {
   };
 
   return (
-    <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-40 sm:h-48 md:h-64 lg:h-80 xl:h-96 2xl:h-[28rem] backdrop-blur-md border border-white/20 shadow-2xl">
+    <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-40 sm:h-48 md:h-64 lg:h-80 xl:h-96 2xl:h-[28rem] max-h-[50vh] backdrop-blur-md border border-white/20 shadow-2xl">
       {/* Image Display with Sliding Animation */}
       <div className="relative w-full h-full overflow-hidden">
         <div className="flex transition-transform duration-700 ease-in-out h-full" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
@@ -290,7 +290,8 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
   const [cardPositions, setCardPositions] = useState<CardPosition[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  const [hasHeightForWorkshops, setHasHeightForWorkshops] = useState(true);
+  // Default to false to prevent flash of content on small screens
+  const [hasHeightForWorkshops, setHasHeightForWorkshops] = useState(false);
 
   const scaleStartProgress = (index + 0.5) / numCards;
   const scaleProgress = (progress - scaleStartProgress) / (1 - scaleStartProgress);
@@ -310,16 +311,36 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
   // Track mobile state and screen height for workshops
   useEffect(() => {
     const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-      // Show workshops only if screen height is > 700px
-      setHasHeightForWorkshops(window.innerHeight > 700);
+      const width = window.innerWidth;
+      const isMobileDevice = width < 768;
+      setIsMobile(isMobileDevice);
+      
+      // Use visualViewport for more accurate height detection (handles iPhone browser chrome)
+      // Falls back to innerHeight if visualViewport is not available
+      const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
+      
+      // More conservative thresholds:
+      // - Mobile devices: require 750px to accommodate browser chrome fluctuations
+      // - Desktop: require 680px (less browser chrome interference)
+      const heightThreshold = isMobileDevice ? 750 : 680;
+      
+      setHasHeightForWorkshops(viewportHeight > heightThreshold);
     };
     
+    // Run check immediately (synchronously)
     checkMobile();
+    
+    // Small delay to re-check after layout settles (handles initial render quirks)
+    const timeoutId = setTimeout(checkMobile, 100);
+    
+    // Listen to both resize and visualViewport resize (for iPhone browser chrome changes)
     window.addEventListener('resize', checkMobile);
+    window.visualViewport?.addEventListener('resize', checkMobile);
     
     return () => {
+      clearTimeout(timeoutId);
       window.removeEventListener('resize', checkMobile);
+      window.visualViewport?.removeEventListener('resize', checkMobile);
     };
   }, []);
 
@@ -741,7 +762,7 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
       );
     case 2: // Last Year - Refined Stats & Highlights (Mobile Optimized)
      return (
-       <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 xl:gap-16 w-full h-full items-start justify-start px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 mt-6 sm:mt-8 md:pt-10 lg:pt-14 pb-4 max-w-[1920px] mx-auto">
+       <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 xl:gap-16 w-full min-h-full items-start justify-start px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 mt-6 sm:mt-8 md:pt-10 lg:pt-14 pb-4 pb-safe max-w-[1920px] mx-auto">
          {/* Mobile: Carousel First, Desktop: Content First */}
          
          {/* Carousel - Shows first on mobile, second on desktop */}
@@ -792,8 +813,14 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
              </div>
            </div>
 
-           {/* Tech Stack Section - Hidden based on screen height */}
-           <div className={`space-y-4 sm:space-y-5 ${hasHeightForWorkshops ? 'block' : 'hidden'}`}>
+           {/* Tech Stack Section - Hidden based on screen height with smooth transition */}
+           <div 
+             className={`space-y-4 sm:space-y-5 transition-all duration-500 ease-in-out ${
+               hasHeightForWorkshops 
+                 ? 'opacity-100 max-h-[2000px]' 
+                 : 'opacity-0 max-h-0 overflow-hidden pointer-events-none'
+             }`}
+           >
              <h3 className="text-base sm:text-lg md:text-xl font-bold text-white/90 mb-4 sm:mb-5">Workshops</h3>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4 md:gap-6">
                {/* Python Workshop */}

@@ -135,7 +135,7 @@ export default function Home() {
               {/* Date - Left aligned with HACK THE on desktop, centered on mobile */}
               <div className="text-center sm:text-left flex-shrink-0">
                 <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold font-impact" style={{ letterSpacing: '0.05em' }}>
-                  2025/12/16
+                  2025/12/06
                 </p>
               </div>
               
