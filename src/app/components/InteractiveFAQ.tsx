@@ -19,7 +19,7 @@ const faqData: FAQItem[] = [
     question: "What is Hack the Ridge?",
     answer: `Hack The Ridge is a 12-hour innovation challenge at Iroquois Ridge High School where students tackle real-world problems through technology. Join us on December 06th, 2025, for hands-on workshops, inspiring speakers, and collaborative problem-solving. Work solo or in teams of up to four to build creative solutions aligned with our theme.
 
-Since 2019, we've grown from 50 to 200+ hackers annually, creating lasting impact in our community. Join us for workshops, mentorship, prizes, and the chance to build something amazing!`
+Since 2015, we've grown from 50 to 200+ hackers annually, creating lasting impact in our community. Join us for workshops, mentorship, prizes, and the chance to build something amazing!`
   },
   {
     id: "who-can-participate",
