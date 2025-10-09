@@ -58,7 +58,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
             <div className="relative flex items-center justify-center">
               {/* Static Gradient Button */}
               <a
-                href="https://example.com"
+                href="https://dash.hacktheridge.ca/dashboard"
                 className="relative z-20 w-80 h-32 sm:w-96 sm:h-36 shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
                 style={{
                   background: 'linear-gradient(135deg, #a8e6a3 0%, #88d8a3 25%, #ffd89b 50%, #ffb347 75%, #ff8c69 100%)',
@@ -158,7 +158,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </a>
           <span className="text-gray-500 hidden sm:inline">|</span>
           <a
-            href="https://discord.com/invite/hacktheridge"
+            href="https://discord.gg/RdEwzSeN"
             className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
