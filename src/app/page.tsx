@@ -162,11 +162,12 @@ export default function Home() {
 
           {/* Animated Corner Images - Flying from bottom center to fixed corner positions */}
           
-          {/* Top Left - Moved closer to center vertically */}
+          {/* Top Left - Scaled with viewport height */}
           <div
-            className="absolute top-16 sm:top-20 md:top-24 lg:top-28 xl:top-32 2xl:top-36 z-30 hidden sm:block"
+            className="absolute z-30 hidden sm:block"
             style={{
               left: 'clamp(2rem, 8vw, 12rem)',
+              top: 'clamp(2rem, 8vh, 9rem)',
               transform: 'translate(-50vw, 100vh)',
               animation: 'flyToTopLeft 1s ease-out forwards',
               animationDelay: '0.7s'
@@ -177,15 +178,22 @@ export default function Home() {
               alt="Top left decoration"
               width={100}
               height={100}
-              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px] xl:w-[170px] xl:h-[170px] 2xl:w-[190px] 2xl:h-[190px] bg-transparent"
+              className="bg-transparent"
+              style={{
+                width: 'clamp(60px, 8vw, 150px)',
+                height: 'clamp(60px, 8vw, 150px)',
+                maxWidth: 'min(12vh, 150px)',
+                maxHeight: 'min(12vh, 150px)'
+              }}
             />
           </div>
 
-          {/* Top Right - Moved closer to center vertically */}
+          {/* Top Right - Scaled with viewport height */}
           <div
-            className="absolute top-20 sm:top-24 md:top-32 lg:top-36 xl:top-40 2xl:top-44 z-30 hidden sm:block"
+            className="absolute z-30 hidden sm:block"
             style={{
               right: 'clamp(2rem, 8vw, 12rem)',
+              top: 'clamp(3rem, 10vh, 11rem)',
               transform: 'translate(50vw, 100vh)',
               animation: 'flyToTopRight 1s ease-out forwards',
               animationDelay: '0.75s'
@@ -196,15 +204,22 @@ export default function Home() {
               alt="Top right decoration"
               width={90}
               height={90}
-              className="w-[70px] h-[70px] sm:w-[80px] sm:h-[80px] md:w-[110px] md:h-[110px] lg:w-[130px] lg:h-[130px] xl:w-[150px] xl:h-[150px] 2xl:w-[170px] 2xl:h-[170px] bg-transparent"
+              className="bg-transparent"
+              style={{
+                width: 'clamp(55px, 7vw, 130px)',
+                height: 'clamp(55px, 7vw, 130px)',
+                maxWidth: 'min(11vh, 130px)',
+                maxHeight: 'min(11vh, 130px)'
+              }}
             />
           </div>
 
-          {/* Bottom Left - Moved slightly closer to the bottom-left corner */}
+          {/* Bottom Left - Scaled with viewport height */}
           <div
-            className="absolute bottom-20 sm:bottom-24 md:bottom-25 lg:bottom-28 xl:bottom-32 2xl:bottom-36 z-30 hidden sm:block"
+            className="absolute z-30 hidden sm:block"
             style={{
               left: 'clamp(1rem, 6vw, 10rem)',
+              bottom: 'clamp(3rem, 10vh, 11rem)',
               transform: 'translate(-50vw, 100vh)',
               animation: 'flyToBottomLeft 1s ease-out forwards',
               animationDelay: '0.8s'
@@ -215,15 +230,22 @@ export default function Home() {
               alt="Bottom left decoration"
               width={140}
               height={140}
-              className="w-[100px] h-[100px] sm:w-[110px] sm:h-[110px] md:w-[150px] md:h-[150px] lg:w-[180px] lg:h-[180px] xl:w-[200px] xl:h-[200px] 2xl:w-[220px] 2xl:h-[220px] bg-transparent -rotate-45"
+              className="bg-transparent -rotate-45"
+              style={{
+                width: 'clamp(70px, 9vw, 180px)',
+                height: 'clamp(70px, 9vw, 180px)',
+                maxWidth: 'min(14vh, 180px)',
+                maxHeight: 'min(14vh, 180px)'
+              }}
             />
           </div>
 
-          {/* Bottom Right - Moved closer to center vertically */}
+          {/* Bottom Right - Scaled with viewport height */}
           <div
-            className="absolute bottom-16 sm:bottom-24 md:bottom-32 lg:bottom-36 xl:bottom-40 2xl:bottom-44 z-30 hidden sm:block"
+            className="absolute z-30 hidden sm:block"
             style={{
               right: 'clamp(2rem, 8vw, 12rem)',
+              bottom: 'clamp(2rem, 8vh, 9rem)',
               transform: 'translate(50vw, 100vh)',
               animation: 'flyToBottomRight 1s ease-out forwards',
               animationDelay: '0.85s'
@@ -234,7 +256,13 @@ export default function Home() {
               alt="Bottom right decoration"
               width={100}
               height={100}
-              className="w-[80px] h-[80px] sm:w-[90px] sm:h-[90px] md:w-[120px] md:h-[120px] lg:w-[150px] lg:h-[150px] xl:w-[170px] xl:h-[170px] 2xl:w-[190px] 2xl:h-[190px] bg-transparent rotate-20"
+              className="bg-transparent rotate-20"
+              style={{
+                width: 'clamp(60px, 8vw, 150px)',
+                height: 'clamp(60px, 8vw, 150px)',
+                maxWidth: 'min(12vh, 150px)',
+                maxHeight: 'min(12vh, 150px)'
+              }}
             />
           </div>
         </main>

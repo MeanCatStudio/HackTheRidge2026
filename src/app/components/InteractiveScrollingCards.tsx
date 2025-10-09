@@ -71,7 +71,7 @@ const CarouselComponent: React.FC = () => {
   
   const carouselImages = [
     '/last_year/history1.jpg',
-    '/last_year/history2.jpg',
+    '/last_year/history2.jpeg',
     '/last_year/history3.jpg',
     '/last_year/history4.jpg',
     '/last_year/history5.jpg',
@@ -106,6 +106,7 @@ const CarouselComponent: React.FC = () => {
                 src={imgSrc}
                 alt={`Hackathon photo ${idx + 1}`}
                 className="w-full h-full object-cover"
+                style={idx === 1 ? { objectPosition: '60% center' } : undefined}
                 draggable={false}
               />
             </div>
@@ -526,9 +527,10 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                           style={{ backgroundColor: cardColor }}
                         >
                           <img
-                            src={`/history photos/photo${i + 1}.jpg`}
+                            src={`/history photos/photo${i + 1}.${i === 1 || i === 4 ? 'jpeg' : 'jpg'}`}
                             alt={`${year} Hack the Ridge`}
                             className="w-full h-full object-cover rounded-2xl opacity-90"
+                            style={i === 1 ? { objectPosition: '60% center' } : undefined}
                             draggable={false}
                           />
                         </div>
