@@ -125,7 +125,7 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     id: 8,
     name: 'US CAN Visa',
     description: 'Cutting-edge software solutions driving innovation across industries.',
-    logoUrl: 'https://static.wixstatic.com/media/3db17a_eb70ab64529f493793193ff4456fa7a1~mv2.jpg',
+    logoUrl: '/ucv.png',
     websiteUrl: 'https://uscanvisa.com',
     tier: 5,
   }
@@ -185,7 +185,9 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       
       {/* Default content - logo with refined fade */}
-      <div className={`flex items-center justify-center w-full transition-all duration-500 ease-out transform ${isHovered ? 'opacity-0 scale-95' : 'opacity-100 scale-100'}`}>
+      <div className={`flex items-center justify-center w-full transition-all duration-500 ease-out transform ${isHovered ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${
+        sponsor.name === 'US CAN Visa' ? 'p-1' : ''
+      }`}>
         <img
           src={sponsor.logoUrl}
           alt={sponsor.name}
