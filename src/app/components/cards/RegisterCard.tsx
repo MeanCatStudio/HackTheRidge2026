@@ -135,8 +135,8 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
       </div>
 
       {/* Social Links - Positioned at bottom for both mobile and desktop */}
-      <div className="absolute bottom-20 sm:bottom-24 md:bottom-28 lg:bottom-32 left-1/2 transform -translate-x-1/2 z-20">
-        <div className="flex items-center justify-center flex-wrap gap-2 sm:gap-4 lg:gap-6 text-gray-400">
+      <div className="absolute bottom-1 sm:bottom-2 md:bottom-4 lg:bottom-8 xl:bottom-12 2xl:bottom-16 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="flex items-center justify-center flex-wrap gap-3 sm:gap-6 lg:gap-8 text-gray-400">
           <a
             href="https://hacktheridge.devpost.com/"
             className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
@@ -178,7 +178,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </a>
           <span className="text-gray-500 hidden sm:inline">|</span>
           <div
-            className="text-white text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider flex items-center gap-2"
+            className="w-full text-center mt-2 sm:mt-3 md:mt-4 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider flex items-center justify-center gap-2"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'
             }}

@@ -433,9 +433,9 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                   {headerTitle}
                 </h2>
               </header>
-              <main className="flex flex-col justify-center items-center flex-grow w-full px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8">
+              <main className="flex flex-col justify-center items-center flex-grow w-full px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 gap-6 md:gap-0">
                 {/* VideoText centered with flex */}
-                <div className="flex-shrink-0 flex items-center justify-center w-full">
+                <div className="flex-shrink-0 md:flex-grow flex items-center justify-center w-full md:min-h-0">
                   <div className="w-full h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96 px-2 overflow-visible">
                     {isMobile ? (
                       <div className="w-full h-full flex items-center justify-center">
@@ -469,8 +469,8 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                     )}
                   </div>
                 </div>
-                {/* Description with proper spacing from slogan */}
-                <div className="flex-shrink-0 w-full mt-4 sm:mt-6 md:mt-8">
+                {/* Description with dynamic spacing from slogan on desktop */}
+                <div className="flex-shrink-0 md:flex-grow w-full flex items-center justify-center md:min-h-0">
                   <div className="max-w-4xl text-center mx-auto px-2 sm:px-4">
                     <p className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
                       <strong>Hack the Ridge</strong> is where <strong>innovation meets community</strong>. We are an annual <strong>hackathon</strong> at Iroquois Ridge High School that hosts over <strong>150+ leaders in STEM</strong> every year to <strong>innovate and push the limit of technology</strong>.

@@ -194,6 +194,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
           className={`object-contain transition-transform duration-500 group-hover:scale-105 ${
             sponsor.name === 'RBC' ? 'w-[20%] h-[20%]' : 
             sponsor.name === 'YRI Fellowship' ? 'w-[35%] h-[35%]' : 
+            sponsor.name === 'US CAN Visa' ? 'w-[65%] h-[65%] sm:w-[75%] sm:h-[75%] md:max-w-full md:max-h-full' :
             'max-h-full max-w-full'
           }`}
           loading="lazy"
