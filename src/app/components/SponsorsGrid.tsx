@@ -78,14 +78,7 @@ const TIER_ICONS = {
 // - Place icon files in /public/icons/ directory
 //
 const SAMPLE_SPONSORS: Sponsor[] = [
-  {
-    id: 1,
-    name: 'RBC',
-    description: 'Leading technology solutions provider empowering the next generation of developers.',
-    logoUrl: 'https://www.rbc.com/dvl/v1.0/assets/images/logos/rbc-logo-shield.svg',
-    websiteUrl: 'https://rbc.com',
-    tier: 2,
-  },
+
   {
     id: 2,
     name: 'Dm Industries',
@@ -128,6 +121,56 @@ const SAMPLE_SPONSORS: Sponsor[] = [
     logoUrl: '/ucv.png',
     websiteUrl: 'https://uscanvisa.com',
     tier: 5,
+  },
+  {
+    id: 9,
+    name: 'Hatch Engineering',
+    logoUrl: '/hatch.png',
+    websiteUrl: 'https://www.hatch.com/',
+    tier: 5,
+  },
+  {
+    id: 10,
+    name: 'Toronto Metropolitan University',
+    logoUrl: '/tmu.png.png',
+    websiteUrl: 'https://www.torontomu.ca/',
+    tier: 5,
+  },
+  {
+    id: 11,
+    name: 'CoLab Software',
+    logoUrl: '/colab.png',
+    tier: 4,
+  },
+  {
+    id: 12,
+    name: 'Western CPA',
+    logoUrl: '/westcpa.png',
+    tier: 4,
+  },
+  {
+    id: 13,
+    name: 'Deloitte',
+    logoUrl: '/deloitte.png',
+    tier: 4,
+  },
+  {
+    id: 14,
+    name: 'Zebra Robotics',
+    logoUrl: '/zebra.png',
+    tier: 5,
+  },
+  {
+    id: 15,
+    name: 'Geotab',
+    logoUrl: '/geotab.png',
+    tier: 5,
+  },
+  {
+    id: 16,
+    name: 'Town of Oakville - CAG',
+    logoUrl: '/oakville.png.png',
+    tier: 2,
   }
 ];
 
@@ -136,12 +179,12 @@ const SAMPLE_SPONSORS: Sponsor[] = [
 
 const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const sizeClasses = {
-  // Unified heights across all sponsor card sizes (mobile and up)
-  large: 'h-28 sm:h-36',
-  medium: 'h-28 sm:h-36',
-  small: 'h-28 sm:h-36',
+    // Unified heights across all sponsor card sizes (mobile and up)
+    large: 'h-28 sm:h-36',
+    medium: 'h-28 sm:h-36',
+    small: 'h-28 sm:h-36',
   };
 
   const textSizes = {
@@ -151,7 +194,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
   };
 
   const isTopTier = sponsor.tier <= 2;
-  
+
   // Enhanced border styling with refined glow effects
   const getBorderStyle = () => {
     if (sponsor.tier <= 2) {
@@ -183,24 +226,21 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
     >
       {/* Animated gradient overlay on hover */}
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      
+
       {/* Default content - logo with refined fade */}
-      <div className={`flex items-center justify-center w-full transition-all duration-500 ease-out transform ${isHovered ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${
-        sponsor.name === 'US CAN Visa' ? 'p-1' : ''
-      }`}>
+      <div className={`flex items-center justify-center w-full transition-all duration-500 ease-out transform ${isHovered ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${sponsor.name === 'US CAN Visa' ? 'p-1' : ''
+        }`}>
         <img
           src={sponsor.logoUrl}
           alt={sponsor.name}
-          className={`object-contain transition-transform duration-500 group-hover:scale-105 ${
-            sponsor.name === 'RBC' ? 'w-[20%] h-[20%]' : 
-            sponsor.name === 'YRI Fellowship' ? 'w-[35%] h-[35%]' : 
+          className={`object-contain transition-transform duration-500 group-hover:scale-105 ${sponsor.name === 'YRI Fellowship' ? 'w-[35%] h-[35%]' :
             sponsor.name === 'US CAN Visa' ? 'w-[65%] h-[65%] sm:w-[75%] sm:h-[75%] md:max-w-full md:max-h-full' :
-            'max-h-full max-w-full'
-          }`}
+              'max-h-full max-w-full'
+            }`}
           loading="lazy"
         />
       </div>
-      
+
       {/* Hover overlay with refined animations */}
       <div className={`absolute inset-0 flex items-center justify-center text-center transition-all duration-500 ease-out transform ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
         <div className="px-4">
@@ -213,7 +253,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
           </p>
         </div>
       </div>
-      
+
 
     </div>
   );
@@ -237,7 +277,7 @@ const SponsorsGrid: React.FC = () => {
   // Separate tier 1 and tier 2 for different sizing
   const tier1Sponsors = sponsorsByTier[1] || [];
   const tier2Sponsors = sponsorsByTier[2] || [];
-  
+
   const lowerTierSponsors = [
     ...(sponsorsByTier[3] || []),
     ...(sponsorsByTier[4] || []),
@@ -254,14 +294,14 @@ const SponsorsGrid: React.FC = () => {
             <SponsorCard sponsor={sponsor} size="large" />
           </div>
         ))}
-        
+
         {/* Tier 2 sponsors - take up fewer columns */}
         {tier2Sponsors.map((sponsor) => (
           <div key={sponsor.id} className="col-span-8 sm:col-span-6 lg:col-span-3">
             <SponsorCard sponsor={sponsor} size="medium" />
           </div>
         ))}
-        
+
         {/* Lower tier sponsors (3-5) - smaller cards */}
         {lowerTierSponsors.map((sponsor) => (
           <div key={sponsor.id} className="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
