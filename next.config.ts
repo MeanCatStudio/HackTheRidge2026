@@ -1,7 +1,7 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  output: 'export',
+  output: 'standalone', // originaly export, switched in Waylon Ma's hotfix to push this code to cloudflare
   images: {
     unoptimized: true,
     remotePatterns: [
