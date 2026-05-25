@@ -93,7 +93,7 @@ export default function Home() {
           >
             <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[#D9BE6A]/40 bg-[#D9BE6A]/5 backdrop-blur-md">
               <div className="w-2 h-2 rounded-full bg-[#D9BE6A] animate-pulse" />
-              <span className="text-sm uppercase tracking-widest text-[#D9BE6A]/80 font-medium">Project Status: In Development</span>
+              <span className="text-xs uppercase tracking-widest text-[#D9BE6A]/80 font-medium">Project Status: In Development</span>
             </div>
           </motion.div>
 
@@ -104,10 +104,12 @@ export default function Home() {
             transition={{ duration: 0.9, delay: 0.1 }}
             className="mb-6"
           >
-            <h1 className="text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-bold text-[#A7C0B7] leading-tight tracking-tight" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Website Under
+            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold text-[#A7C0B7] leading-tight tracking-tight" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
+              <span className="bg-gradient-to-r from-[#A7C1BA]/40 via-[#A7C1BA]/80 to-[#A7C1BA] bg-clip-text text-transparent">
+                Website Under
+              </span>
               <br />
-              <span className="bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A] to-[#D9BE6A] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A]/80 to-[#D9BE6A]/40 bg-clip-text text-transparent">
                 Construction
               </span>
             </h1>
@@ -120,7 +122,7 @@ export default function Home() {
             transition={{ duration: 0.8, delay: 0.2 }}
             className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10"
           >
-            {['2026-27', 'Season', 'Coming Soon'].map((badge, i) => (
+            {['2026-27 Season', 'Coming Soon'].map((badge, i) => (
               <motion.div
                 key={badge}
                 animate={{ y: [0, -5, 0] }}
@@ -169,8 +171,8 @@ export default function Home() {
               />
 
               {/* Content */}
-              <div className="relative z-10 flex items-center justify-center gap-3">
-                <span className="text-white">View Previous Year's Site</span>
+              <div className="relative z-10 flex items-center justify-center gap-3 px-5">
+                <span className="text-[#A7C1BA] md:text-2xl text-lg">View Previous Year's Site</span>
               </div>
 
               {/* Border glow */}
