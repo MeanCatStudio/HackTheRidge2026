@@ -57,27 +57,107 @@ export default function Home() {
 
   if (!showOldHomepage) {
     return (
-      <div className="bg-app-bg w-full min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: '#2e2e2e' }}>
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
+      <div className="w-full min-h-screen flex flex-col items-center justify-center overflow-hidden" style={{ 
+        background: 'linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 25%, #3a3a3a 50%, #2d2d2d 75%, #1a1a1a 100%)',
+        position: 'relative'
+      }}>
+        {/* Animated background elements */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-gradient-to-br from-blue-500/10 to-purple-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-gradient-to-tl from-cyan-500/10 to-blue-500/10 rounded-full blur-3xl translate-x-1/2 translate-y-1/2 animate-pulse" style={{ animationDelay: '1s' }} />
+        
+        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 z-10">
+          {/* Decorative top accent */}
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
+            animate={{ y: [0, -10, 0] }}
+            transition={{ duration: 3, repeat: Infinity }}
+            className="mb-8"
           >
-            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Website under<br />Construction
-            </h1>
-            <p className="text-2xl md:text-3xl text-white mb-8 opacity-90">
-              2026-27
-            </p>
-            <motion.button
-              onClick={() => setShowOldHomepage(true)}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-8 py-3 bg-white text-black font-bold rounded-lg text-lg hover:bg-gray-200 transition-colors"
+            <div className="w-1 h-12 bg-gradient-to-b from-cyan-400 to-blue-500 rounded-full" />
+          </motion.div>
+
+          {/* Main content */}
+          <motion.div
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+          >
+            {/* Subtitle */}
+            <motion.p 
+              className="text-sm md:text-base uppercase tracking-widest text-cyan-400 font-semibold mb-4"
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 2, repeat: Infinity }}
             >
-              View Previous Homepage
-            </motion.button>
+              Coming Soon
+            </motion.p>
+
+            {/* Main title */}
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4 leading-tight" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
+              Website under
+              <br />
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+                Construction
+              </span>
+            </h1>
+
+            {/* Year badge */}
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-6 mb-8 inline-block"
+            >
+              <div className="px-6 py-3 rounded-full border-2 border-cyan-400/50 bg-cyan-400/5 backdrop-blur-md">
+                <p className="text-xl md:text-2xl font-bold text-cyan-400">2026-27 Season</p>
+              </div>
+            </motion.div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              className="text-lg md:text-xl text-gray-300 mb-12 max-w-2xl mx-auto leading-relaxed"
+            >
+              We're crafting something extraordinary for the 2026-27 Hack the Ridge season. Stay tuned for updates and announcements.
+            </motion.p>
+
+            {/* Action buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+            >
+              <motion.a
+                href="mailto:contact@hacktheridge.com"
+                whileHover={{ scale: 1.05, boxShadow: '0 20px 40px rgba(34, 211, 238, 0.3)' }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 bg-gradient-to-r from-cyan-400 to-blue-500 text-black font-bold rounded-lg text-lg hover:shadow-lg transition-all duration-300"
+              >
+                Get Notified
+              </motion.a>
+              <motion.button
+                onClick={() => setShowOldHomepage(true)}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="px-8 py-3 border-2 border-cyan-400 text-cyan-400 font-bold rounded-lg text-lg hover:bg-cyan-400/10 transition-all duration-300"
+              >
+                View Previous Site
+              </motion.button>
+            </motion.div>
+          </motion.div>
+
+          {/* Decorative bottom accent */}
+          <motion.div
+            className="absolute bottom-10 left-1/2 -translate-x-1/2"
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 3, repeat: Infinity, delay: 1.5 }}
+          >
+            <div className="text-cyan-400/30">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+              </svg>
+            </div>
           </motion.div>
         </div>
       </div>
