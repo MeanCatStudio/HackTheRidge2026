@@ -104,14 +104,12 @@ export default function Home() {
             transition={{ duration: 0.9, delay: 0.1 }}
             className="mb-6"
           >
-            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold text-[#A7C0B7] leading-tight tracking-tight" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              <span className="bg-gradient-to-r from-[#A7C1BA]/40 via-[#A7C1BA]/80 to-[#A7C1BA] bg-clip-text text-transparent">
-                Website Under
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A]/80 to-[#D9BE6A]/40 bg-clip-text text-transparent">
-                Construction
-              </span>
+            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A]/20 via-[#A7C0B7]/80 to-[#A7C0B7] bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
+              Website Under
+            </h1>
+
+            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A] to-[#A7C0B7]/20 bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
+              Construction
             </h1>
           </motion.div>
 
