@@ -123,7 +123,7 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex items-center space-x-4">
               <div className="px-4 py-2 bg-gradient-to-r from-[#e0cc75] to-[#51746f] rounded-full shadow-lg">
-                <span className="text-white font-semibold text-sm">2025 Coming Soon</span>
+                <span className="text-white font-semibold text-sm">2026 Coming Soon</span>
               </div>
             </div>
           </motion.div>

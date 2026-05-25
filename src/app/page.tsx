@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -52,6 +53,37 @@ const CARDS_DATA: CardData[] = [
 ];
 
 export default function Home() {
+  const [showOldHomepage, setShowOldHomepage] = useState(false);
+
+  if (!showOldHomepage) {
+    return (
+      <div className="bg-app-bg w-full min-h-screen flex flex-col items-center justify-center" style={{ backgroundColor: '#2e2e2e' }}>
+        <div className="flex-1 flex flex-col items-center justify-center text-center px-4">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
+              Website under<br />Construction
+            </h1>
+            <p className="text-2xl md:text-3xl text-white mb-8 opacity-90">
+              2026-27
+            </p>
+            <motion.button
+              onClick={() => setShowOldHomepage(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="px-8 py-3 bg-white text-black font-bold rounded-lg text-lg hover:bg-gray-200 transition-colors"
+            >
+              View Previous Homepage
+            </motion.button>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="bg-app-bg w-full min-w-full">
       {/* Animated Navbar - Fixed Position */}
