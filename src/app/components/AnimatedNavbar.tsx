@@ -11,11 +11,12 @@ interface NavItem {
 }
 
 const navItems: NavItem[] = [
-  { href: '#about', label: 'ABOUT' },
-  { href: '#sponsors', label: 'SPONSORS' },
-  { href: '#register', label: 'REGISTER' },
-  { href: '#team', label: 'TEAM' },
-  { href: '#faq', label: 'FAQ' },
+  //{ href: '#about', label: 'ABOUT' },
+  //{ href: '#sponsors', label: 'SPONSORS' },
+  //{ href: '#register', label: 'REGISTER' }, // nav items are temporaly desabled to reuse as WIP label
+  //{ href: '#team', label: 'TEAM' },
+  //{ href: '#faq', label: 'FAQ' },
+  { href: "", label: "2026-2027 WIP, currently viewing old site"}
 ];
 
 const AnimatedNavbar: React.FC = () => {
@@ -191,7 +192,7 @@ const AnimatedNavbar: React.FC = () => {
 
             {/* Desktop Navigation Items */}
             {navItems.map((item, index) => (
-              <motion.div
+              <motion.div id='WIP' // temporay WIP id, pls remove to restore original nav bar
                 key={item.href}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -255,7 +256,7 @@ const AnimatedNavbar: React.FC = () => {
               <nav className="flex flex-col items-center w-full mt-4">
                 {navItems.map((item, index) => (
                   <>
-                    <motion.div
+                    <motion.div id='WIP' // temporay WIP id, pls remove to restore original nav bar
                       key={item.href}
                       initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
