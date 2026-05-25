@@ -57,13 +57,13 @@ export default function Home() {
 
   if (!showOldHomepage) {
     return (
-      <div className="w-full min-h-screen flex flex-col items-center justify-center overflow-hidden relative" style={{ backgroundColor: '#0a0a0a' }}>
+      <div className="w-full min-h-screen flex flex-col items-center justify-center overflow-hidden relative" style={{ backgroundColor: '#2E2E2E' }}>
         {/* Animated grid background */}
         <div className="absolute inset-0 opacity-5">
           <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#d4af37" strokeWidth="0.5"/>
+                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#D9BE6A" strokeWidth="0.5"/>
               </pattern>
             </defs>
             <rect width="100%" height="100%" fill="url(#grid)" />
@@ -71,16 +71,16 @@ export default function Home() {
         </div>
 
         {/* Glow orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-yellow-400/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-amber-600/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#D9BE6A]/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
+        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#D9BE6A]/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
+        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-[#D9BE6A]/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
         
-        <div className="flex-1 flex flex-col items-center justify-center text-center px-4 z-10 relative">
+        <div className="flex-1 flex flex-col items-center md:items-center justify-center text-center px-4 md:px-0 z-10 relative">
           {/* Top accent line */}
           <motion.div
             animate={{ scaleX: [0.5, 1, 0.5] }}
             transition={{ duration: 3, repeat: Infinity }}
-            className="mb-12 h-1 bg-gradient-to-r from-transparent via-yellow-500 to-transparent"
+            className="hidden md:block mb-12 h-1 bg-gradient-to-r from-transparent via-[#D9BE6A] to-transparent"
             style={{ width: '120px' }}
           />
 
@@ -91,9 +91,9 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="mb-8"
           >
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-yellow-500/40 bg-yellow-500/5 backdrop-blur-md">
-              <div className="w-2 h-2 rounded-full bg-yellow-400 animate-pulse" />
-              <span className="text-sm uppercase tracking-widest text-yellow-500/80 font-medium">Project Status: In Development</span>
+            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[#D9BE6A]/40 bg-[#D9BE6A]/5 backdrop-blur-md">
+              <div className="w-2 h-2 rounded-full bg-[#D9BE6A] animate-pulse" />
+              <span className="text-sm uppercase tracking-widest text-[#D9BE6A]/80 font-medium">Project Status: In Development</span>
             </div>
           </motion.div>
 
@@ -104,10 +104,10 @@ export default function Home() {
             transition={{ duration: 0.9, delay: 0.1 }}
             className="mb-6"
           >
-            <h1 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold text-white leading-tight tracking-tight" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
+            <h1 className="text-7xl sm:text-8xl md:text-8xl lg:text-9xl font-bold text-[#A7C0B7] leading-tight tracking-tight" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
               Website Under
               <br />
-              <span className="bg-gradient-to-r from-yellow-400 via-yellow-500 to-amber-600 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A] to-[#D9BE6A] bg-clip-text text-transparent">
                 Construction
               </span>
             </h1>
@@ -118,14 +118,14 @@ export default function Home() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-3 mb-10"
+            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10"
           >
             {['2026-27', 'Season', 'Coming Soon'].map((badge, i) => (
               <motion.div
                 key={badge}
                 animate={{ y: [0, -5, 0] }}
                 transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                className="px-3 py-1 text-xs uppercase tracking-wider font-bold rounded-full border border-yellow-500/30 bg-black/40 text-yellow-400/90"
+                className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs uppercase tracking-wider font-bold rounded-full border border-[#D9BE6A]/30 bg-black/40 text-[#D9BE6A]/90"
               >
                 {badge}
               </motion.div>
@@ -133,18 +133,7 @@ export default function Home() {
           </motion.div>
 
           {/* Divider */}
-          <div className="w-20 h-px bg-gradient-to-r from-transparent via-yellow-500/50 to-transparent mb-8" />
-
-          {/* Description */}
-          <motion.p
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 0.3 }}
-            className="text-base md:text-lg text-gray-400 mb-12 max-w-2xl mx-auto leading-relaxed font-light"
-          >
-            We're architecting the next evolution of <span className="text-yellow-400">Hack the Ridge</span>. 
-            Cutting-edge design and innovation coming your way.
-          </motion.p>
+          <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#D9BE6A]/50 to-transparent mb-8" />          
 
           {/* CTA Buttons */}
           <motion.div
@@ -153,62 +142,45 @@ export default function Home() {
             transition={{ duration: 0.9, delay: 0.4 }}
             className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
           >
-            <motion.a
-              href="mailto:contact@hacktheridge.com"
-              whileHover={{ 
-                scale: 1.05, 
-                boxShadow: '0 0 30px rgba(212, 175, 55, 0.4)',
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative px-8 py-4 font-bold text-lg uppercase tracking-wide text-black rounded-lg overflow-hidden transition-all duration-300"
-              style={{
-                background: 'linear-gradient(135deg, #d4af37 0%, #f4d03f 100%)',
-              }}
-            >
-              <span className="relative z-10 flex items-center gap-2">
-                Get Notified
-                <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            </motion.a>
 
             <motion.button
               onClick={() => setShowOldHomepage(true)}
               whileHover={{ 
-                scale: 1.05,
-                borderColor: '#d4af37',
-                boxShadow: '0 0 20px rgba(212, 175, 55, 0.2)',
+                scale: 1.08,
+                boxShadow: '0 0 40px rgba(217, 190, 106, 0.5), inset 0 0 20px rgba(217, 190, 106, 0.1)',
               }}
               whileTap={{ scale: 0.95 }}
-              className="px-8 py-4 font-bold text-lg uppercase tracking-wide text-yellow-400 rounded-lg border-2 border-yellow-500/40 bg-black/50 hover:bg-black/70 transition-all duration-300 backdrop-blur-sm"
+              className="group relative px-4 py-3 sm:px-8 sm:py-4 font-bold text-sm sm:text-base md:text-lg uppercase transition-all duration-300 rounded-lg sm:rounded-xl overflow-hidden"
+              style={{
+                fontFamily: 'Sacco, Impact, Arial, sans-serif',
+                letterSpacing: '0.08em',
+                fontWeight: 700
+              }}
             >
-              View Previous
+              {/* Gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/30 to-[#D9BE6A]/10" />
+              
+              {/* Animated glow effect on hover */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/20 via-transparent to-[#D9BE6A]/20"
+                animate={{ x: ['100%', '-100%'] }}
+                transition={{ duration: 2, repeat: 2, ease: "linear" }}
+                initial={{ x: '100%' }}
+              />
+
+              {/* Content */}
+              <div className="relative z-10 flex items-center justify-center gap-3">
+                <span className="text-white">View Previous Year's Site</span>
+              </div>
+
+              {/* Border glow */}
+              <div className="absolute inset-0 rounded-xl border-2 border-[#D9BE6A]/0 group-hover:border-[#D9BE6A]/100 transition-all duration-300" />
             </motion.button>
           </motion.div>
 
           {/* Tech specs footer */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.9, delay: 0.5 }}
-            className="text-xs uppercase tracking-widest text-gray-600 space-y-1"
-          >
-            <div>Next Gen Platform v2.0</div>
-            <div>Estimated Launch: Q1 2026-27</div>
-          </motion.div>
+          
         </div>
-
-        {/* Bottom accent */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        >
-          <svg className="w-6 h-6 text-yellow-500/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </motion.div>
       </div>
     );
   }
