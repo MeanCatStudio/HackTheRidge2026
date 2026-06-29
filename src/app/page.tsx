@@ -1,8 +1,6 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import InteractiveScrollingCards, { CardData } from "./components/InteractiveScrollingCards";
 import SponsorsTitle from "./components/SponsorsTitle";
@@ -12,7 +10,6 @@ import TeamSection from "./components/TeamSection";
 import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
 
-// Card data for the second page
 const CARDS_DATA: CardData[] = [
   {
     id: 1,
@@ -43,7 +40,7 @@ const CARDS_DATA: CardData[] = [
   },
   {
     id: 4,
-    headerTitle: '2025',
+    headerTitle: '2026',
     title: 'Ready to Build?',
     content: 'Join us for our biggest event yet. Registration opens soon.',
     imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop',
@@ -52,381 +49,170 @@ const CARDS_DATA: CardData[] = [
   },
 ];
 
-export default function Home() {
-  const [showOldHomepage, setShowOldHomepage] = useState(false);
-
-  if (!showOldHomepage) {
-    return (
-      <div className="w-full min-h-screen flex flex-col items-center justify-center overflow-hidden relative" style={{ backgroundColor: '#2E2E2E' }}>
-        {/* Animated grid background */}
-        <div className="absolute inset-0 opacity-5">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#D9BE6A" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
-
-        {/* Glow orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#D9BE6A]/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#D9BE6A]/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-[#D9BE6A]/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
-        
-        <div className="flex-1 flex flex-col items-center md:items-center justify-center text-center px-4 md:px-0 z-10 relative">
-          {/* Top accent line */}
-          <motion.div
-            animate={{ scaleX: [0.5, 1, 0.5] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="hidden md:block mb-12 h-1 bg-gradient-to-r from-transparent via-[#D9BE6A] to-transparent"
-            style={{ width: '120px' }}
-          />
-
-          {/* Status label */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[#D9BE6A]/40 bg-[#D9BE6A]/5 backdrop-blur-md">
-              <div className="w-2 h-2 rounded-full bg-[#D9BE6A] animate-pulse" />
-              <span className="text-xs uppercase tracking-widest text-[#D9BE6A]/80 font-medium">Project Status: In Development</span>
-            </div>
-          </motion.div>
-
-          {/* Main heading */}
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1 }}
-            className="mb-6"
-          >
-            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A]/20 via-[#A7C0B7]/80 to-[#A7C0B7] bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Website Under
-            </h1>
-
-            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A] to-[#A7C0B7]/20 bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Construction
-            </h1>
-          </motion.div>
-
-          {/* Tech badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10"
-          >
-            {['2026-27 Season', 'Coming Soon'].map((badge, i) => (
-              <motion.div
-                key={badge}
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs uppercase tracking-wider font-bold rounded-full border border-[#D9BE6A]/30 bg-black/40 text-[#D9BE6A]/90"
-              >
-                {badge}
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Divider */}
-          <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#D9BE6A]/50 to-transparent mb-8" />          
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-          >
-
-            <motion.button
-              onClick={() => setShowOldHomepage(true)}
-              whileHover={{ 
-                scale: 1.08,
-                boxShadow: '0 0 40px rgba(217, 190, 106, 0.5), inset 0 0 20px rgba(217, 190, 106, 0.1)',
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative px-4 py-3 sm:px-8 sm:py-4 font-bold text-sm sm:text-base md:text-lg uppercase transition-all duration-300 rounded-lg sm:rounded-xl overflow-hidden"
-              style={{
-                fontFamily: 'Sacco, Impact, Arial, sans-serif',
-                letterSpacing: '0.08em',
-                fontWeight: 700
-              }}
-            >
-              {/* Gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/30 to-[#D9BE6A]/10" />
-              
-              {/* Animated glow effect on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/20 via-transparent to-[#D9BE6A]/20"
-                animate={{ x: ['100%', '-100%'] }}
-                transition={{ duration: 2, repeat: 2, ease: "linear" }}
-                initial={{ x: '100%' }}
-              />
-
-              {/* Content */}
-              <div className="relative z-10 flex items-center justify-center gap-3 px-5">
-                <span className="text-[#A7C1BA] md:text-2xl text-lg">View Previous Year's Site</span>
-              </div>
-
-              {/* Border glow */}
-              <div className="absolute inset-0 rounded-xl border-2 border-[#D9BE6A]/0 group-hover:border-[#D9BE6A]/100 transition-all duration-300" />
-            </motion.button>
-          </motion.div>
-
-          {/* Tech specs footer */}
-          
-        </div>
-      </div>
-    );
-  }
-
+const HeroIllustration = () => {
   return (
-    <div className="bg-app-bg w-full min-w-full">
-      {/* Animated Navbar - Fixed Position */}
+    <div className="relative hidden h-[420px] w-[320px] items-center justify-center lg:flex">
+      <div className="absolute inset-0 rounded-[2.5rem] border border-[#7DB6AD]/25 bg-white/60 backdrop-blur-sm shadow-[0_30px_90px_rgba(30,49,89,0.16)]" />
+      <div className="absolute left-6 top-6 h-24 w-24 rounded-full border border-[#7DB6AD]/30 bg-[#AFD5BC]/30" />
+      <div className="absolute right-8 top-10 h-20 w-20 rounded-full border border-[#1E3159]/10 bg-[#1E3159]/8" />
+      <div className="absolute bottom-8 left-8 h-24 w-24 rounded-[1.5rem] border border-[#1E3159]/10 bg-[#1E3159]/6" />
+      <div className="absolute right-6 bottom-10 h-28 w-28 rounded-full border border-[#7DB6AD]/20 bg-[#7DB6AD]/10" />
+
+      <motion.div
+        className="relative z-10 flex h-44 w-44 items-center justify-center rounded-full border-[3px] border-[#7DB6AD] bg-[#D9D9DA] shadow-[0_24px_70px_rgba(125,182,173,0.3)]"
+        initial={{ scale: 0.95, opacity: 0.9 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ duration: 0.6, ease: 'easeOut' }}
+      >
+        <Image
+          src="/logo.png"
+          alt="Hack the Ridge logo"
+          width={120}
+          height={120}
+          className="h-28 w-28 object-contain"
+          priority
+        />
+      </motion.div>
+
+      <motion.div
+        className="absolute left-6 top-24 z-20 rounded-2xl border border-[#1E3159]/10 bg-white/90 p-3 shadow-lg shadow-[#1E3159]/10"
+        initial={{ y: 12, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.1, duration: 0.5, ease: 'easeOut' }}
+      >
+        <svg viewBox="0 0 64 64" className="h-12 w-12">
+          <path d="M18 10h8l6 14 6-14h8l-10 24h-8z" fill="#1E3159" />
+          <path d="M24 38h16v6H24z" fill="#7DB6AD" />
+        </svg>
+      </motion.div>
+
+      <motion.div
+        className="absolute right-2 top-28 z-20 rounded-2xl border border-[#7DB6AD]/20 bg-[#AFD5BC]/70 p-3 shadow-lg shadow-[#7DB6AD]/20"
+        initial={{ y: 16, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2, duration: 0.5, ease: 'easeOut' }}
+      >
+        <svg viewBox="0 0 64 64" className="h-12 w-12">
+          <rect x="14" y="16" width="36" height="28" rx="4" fill="#1E3159" />
+          <rect x="20" y="22" width="24" height="10" rx="2" fill="#AFD5BC" />
+          <rect x="24" y="34" width="16" height="4" rx="2" fill="#7DB6AD" />
+        </svg>
+      </motion.div>
+
+      <motion.div
+        className="absolute bottom-20 right-8 z-20 rounded-2xl border border-[#1E3159]/10 bg-white/90 p-3 shadow-lg shadow-[#1E3159]/10"
+        initial={{ y: 18, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.3, duration: 0.5, ease: 'easeOut' }}
+      >
+        <svg viewBox="0 0 64 64" className="h-14 w-14">
+          <rect x="24" y="12" width="16" height="34" rx="2" fill="#1E3159" />
+          <rect x="20" y="18" width="24" height="4" rx="2" fill="#7DB6AD" />
+          <rect x="20" y="28" width="24" height="4" rx="2" fill="#7DB6AD" />
+          <rect x="28" y="8" width="8" height="8" rx="2" fill="#AFD5BC" />
+          <rect x="26" y="42" width="12" height="6" rx="2" fill="#1E3159" />
+        </svg>
+      </motion.div>
+
+      <motion.div
+        className="absolute left-10 bottom-12 z-20 rounded-full border border-[#7DB6AD]/30 bg-[#D9D9DA] p-3 shadow-lg shadow-[#7DB6AD]/20"
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        transition={{ delay: 0.25, duration: 0.5, ease: 'easeOut' }}
+      >
+        <svg viewBox="0 0 64 64" className="h-10 w-10">
+          <path d="M22 18c8-6 18-6 26 0-5 4-8 7-8 14 0 4-3 7-7 7s-7-3-7-7c0-7-3-10-4-14z" fill="#7DB6AD" />
+          <circle cx="36" cy="28" r="4" fill="#1E3159" />
+        </svg>
+      </motion.div>
+    </div>
+  );
+};
+
+export default function Home() {
+  return (
+    <div className="min-h-screen w-full bg-[#dfd7d7] text-[#1E3159] overflow-x-hidden">
       <AnimatedNavbar />
-      
-      {/* First Page - Landing Section */}
-      <div id="home" className="min-h-screen flex flex-col w-full" style={{ backgroundColor: '#2e2e2e' }}>
-        {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center relative overflow-hidden px-4 sm:px-6 md:px-8">
-          <div className="text-center relative z-10">
-            {/* Main Title */}
-            <motion.h1
-              className="text-8xl sm:text-7xl md:text-9xl lg:text-[11rem] xl:text-[12rem] 2xl:text-[13rem] font-bold text-white leading-none px-2 sm:px-4"
-              style={{
-                fontFamily: 'Sacco, Arial, sans-serif',
-                letterSpacing: '0.05em'
-              }}
-              animate={{
-                textShadow: [
-                  "0 0 0px rgba(94,234,212,0)",
-                  "-4px 0 0px rgba(94,234,212,0.8), 4px 0 0px rgba(251,207,130,0.8)",
-                  "3px 0 0px rgba(94,234,212,0.8), -3px 0 0px rgba(251,207,130,0.8)",
-                  "-2px 0 0px rgba(94,234,212,0.6), 2px 0 0px rgba(251,207,130,0.6)",
-                  "2px 0 0px rgba(94,234,212,0.4), -2px 0 0px rgba(251,207,130,0.4)",
-                  "0 0 0px rgba(94,234,212,0)"
-                ]
-              }}
-              transition={{
-                duration: 0.8,
-                delay: 0.7,
-                times: [0, 0.15, 0.35, 0.6, 0.8, 1]
-              }}
-            >
-              <motion.span
-                className="inline-block"
-                initial={{ x: -150, opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  x: 0, 
-                  opacity: 1, 
-                  scale: 1,
-                }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.2,
-                  ease: [0.7, 0, 0.84, 0]
-                }}
-                style={{ display: 'inline-block' }}
-              >
-                HACK THE
-              </motion.span>
-              {' '}
-              <motion.span
-                className="inline-block"
-                initial={{ x: 150, opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  x: 0,
-                  opacity: 1, 
-                  scale: 1,
-                }}
-                transition={{ 
-                  duration: 0.5,
-                  delay: 0.2,
-                  ease: [0.7, 0, 0.84, 0]
-                }}
-                style={{ 
-                  display: 'inline-block',
-                  marginLeft: '0.5rem'
-                }}
-              >
-                RIDGE
-              </motion.span>
-            </motion.h1>
-            
-            {/* Date and Location - Below title */}
-            <motion.div
-              className="flex flex-col sm:flex-row justify-center sm:justify-between items-center sm:items-start w-full mt-2 sm:mt-1 md:mt-2 px-2 sm:px-4 gap-1 sm:gap-0"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-            >
-              {/* Date - Left aligned with HACK THE on desktop, centered on mobile */}
-              <div className="text-center sm:text-left flex-shrink-0">
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold font-impact" style={{ letterSpacing: '0.05em' }}>
-                  2025/12/06
-                </p>
+
+      <section id="home" className="relative min-h-screen w-full overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(175,213,188,0.35),transparent_30%),radial-gradient(circle_at_bottom_right,_rgba(125,182,173,0.22),transparent_30%)] pointer-events-none" />
+        <div className="absolute z-100 right-0 top-24 hidden xl:block space-y-6 pr-10 pointer-events-none">
+          <span className="block w-4 h-32 rounded-full bg-[#1E3159] shadow-[0_0_30px_rgba(30,49,89,0.35)]" />
+          <span className="block w-4 h-24 rounded-full bg-[#1E3159]/80 shadow-[0_0_24px_rgba(30,49,89,0.24)]" />
+          <span className="block w-4 h-16 rounded-full bg-[#1E3159]/60 shadow-[0_0_18px_rgba(30,49,89,0.16)]" />
+        </div>
+
+        <div className="relative z-10 mx-auto min-h-screen px-6 py-8 lg:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-screen">
+            <div className="lg:col-span-6 flex flex-col justify-center space-y-8 pl-4 lg:pl-6">
+
+                <div className="relative flex w-fit flex-col items-start justify-center gap-0">
+                  <h1 className="text-[4.8rem] leading-[0.8] font-black uppercase tracking-[-0.05em] sm:text-[5.8rem] md:text-[7rem] lg:text-[9rem] xl:text-[10rem] drop-shadow-[0_6px_2px_#7DB6AD]">
+                  HACK
+                </h1>
+                <span
+                  className="absolute left-0 right-0 top-1/2 -translate-y-1/2 text-center text-[2.2rem] font-black uppercase leading-none tracking-[0.12em] text-[#AFD5BC] drop-shadow-[0_4px_1px_#000000] sm:text-[3rem] md:text-[4rem] lg:text-[5rem] xl:text-[5.5rem]"
+                >
+                  THE
+                </span>
+                  <h1 className="text-[4.8rem] leading-[0.8] font-black uppercase tracking-[-0.05em] sm:text-[5.8rem] md:text-[7rem] lg:text-[9rem] xl:text-[10rem]">
+                  RIDGE
+                </h1>
               </div>
-              
-              {/* Location - Right aligned with RIDGE on desktop, centered on mobile */}
-              <div className="text-center sm:text-right flex-shrink-0 sm:pr-2 md:pr-4 lg:pr-6 xl:pr-8">
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold font-impact" style={{ letterSpacing: '0.05em' }}>
-                  Iroquois Ridge High School
-                </p>
+
+              <div className="mt-8 flex flex-wrap gap-4 lg:mt-12">       
+                <div className="flex min-w-[200px] flex-col gap-2 rounded-3xl border border-[#7DB6AD]/30 bg-white/80 p-5 shadow-lg shadow-[#1E3159]/8">
+                  <span className="text-xs uppercase tracking-[0.35em] text-[#1E3159]/70">Location</span>
+                  <p className="text-xl font-semibold text-[#1E3159]">Iroquois Ridge High School</p>
+                </div>
+                <div className="flex min-w-[200px] flex-col gap-2 rounded-3xl border border-[#7DB6AD]/30 bg-white/80 p-5 shadow-lg shadow-[#1E3159]/8">
+                  <span className="text-xs uppercase tracking-[0.35em] text-[#1E3159]/70">Date</span>
+                  <p className="text-xl font-semibold text-[#1E3159]">XX/12/2026</p>
+                </div>
+                <div className="flex min-w-[200px] flex-col gap-2 rounded-3xl border border-[#7DB6AD]/30 bg-white/80 p-5 shadow-lg shadow-[#1E3159]/8">
+                  <span className="text-xs uppercase tracking-[0.35em] text-[#1E3159]/70">Participants</span>
+                  <p className="text-xl font-semibold text-[#1E3159]">150+ hackers</p>
+                </div>
               </div>
-            </motion.div>
-          </div>
-          
-          {/* Wolf Logo positioned at bottom with 1/4 cut off - maintaining aspect ratio */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[35%] sm:translate-y-1/4 z-20">
-            <Image
-              src="/logo.png"
-              alt="Wolf Logo"
-              width={400}
-              height={400}
-              className="w-[500px] h-[500px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] xl:w-[550px] xl:h-[550px] 2xl:w-[600px] 2xl:h-[600px] opacity-100 object-contain"
-              priority
-            />
-          </div>
 
-          {/* Animated Corner Images - Flying from bottom center to fixed corner positions */}
-          
-          {/* Top Left - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              left: 'clamp(2rem, 8vw, 12rem)',
-              top: 'clamp(2rem, 8vh, 9rem)',
-              transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToTopLeft 1s ease-out forwards',
-              animationDelay: '0.7s'
-            }}
-          >
-            <Image
-              src="/homepage/bubble.svg"
-              alt="Top left decoration"
-              width={100}
-              height={100}
-              className="bg-transparent"
-              style={{
-                width: 'clamp(60px, 8vw, 150px)',
-                height: 'clamp(60px, 8vw, 150px)',
-                maxWidth: 'min(12vh, 150px)',
-                maxHeight: 'min(12vh, 150px)'
-              }}
-            />
-          </div>
+            </div>
 
-          {/* Top Right - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              right: 'clamp(2rem, 8vw, 12rem)',
-              top: 'clamp(3rem, 10vh, 11rem)',
-              transform: 'translate(50vw, 100vh)',
-              animation: 'flyToTopRight 1s ease-out forwards',
-              animationDelay: '0.75s'
-            }}
-          >
-            <Image
-              src="/homepage/cloud.svg"
-              alt="Top right decoration"
-              width={90}
-              height={90}
-              className="bg-transparent"
-              style={{
-                width: 'clamp(55px, 7vw, 130px)',
-                height: 'clamp(55px, 7vw, 130px)',
-                maxWidth: 'min(11vh, 130px)',
-                maxHeight: 'min(11vh, 130px)'
-              }}
-            />
+            <div className="lg:col-span-5 hidden lg:flex items-center justify-center">
+              <motion.div
+                className="relative w-full overflow-hidden rounded-[2rem] border border-[#1E3159]/10 bg-[#1E3159] shadow-[0_32px_80px_rgba(15,24,45,0.32)] aspect-[16/9] max-h-[600px]"
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, ease: 'easeOut' }}
+              >
+                
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#1E3159]/80 via-transparent to-[#7DB6AD]/20" />
+                <div className="absolute bottom-8 left-8 rounded-full border border-white/20 bg-white/10 px-4 py-3 text-sm font-semibold uppercase tracking-[0.25em] text-white backdrop-blur-sm">
+                  Random Image Desc. Carousel?
+                </div>
+              </motion.div>
+            </div>
           </div>
+        </div>
+      </section>
 
-          {/* Bottom Left - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              left: 'clamp(1rem, 6vw, 10rem)',
-              bottom: 'clamp(3rem, 10vh, 11rem)',
-              transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToBottomLeft 1s ease-out forwards',
-              animationDelay: '0.8s'
-            }}
-          >
-            <Image
-              src="/homepage/headphones.svg"
-              alt="Bottom left decoration"
-              width={140}
-              height={140}
-              className="bg-transparent -rotate-45"
-              style={{
-                width: 'clamp(70px, 9vw, 180px)',
-                height: 'clamp(70px, 9vw, 180px)',
-                maxWidth: 'min(14vh, 180px)',
-                maxHeight: 'min(14vh, 180px)'
-              }}
-            />
-          </div>
-
-          {/* Bottom Right - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              right: 'clamp(2rem, 8vw, 12rem)',
-              bottom: 'clamp(2rem, 8vh, 9rem)',
-              transform: 'translate(50vw, 100vh)',
-              animation: 'flyToBottomRight 1s ease-out forwards',
-              animationDelay: '0.85s'
-            }}
-          >
-            <Image
-              src="/homepage/usb.svg"
-              alt="Bottom right decoration"
-              width={100}
-              height={100}
-              className="bg-transparent rotate-20"
-              style={{
-                width: 'clamp(60px, 8vw, 150px)',
-                height: 'clamp(60px, 8vw, 150px)',
-                maxWidth: 'min(12vh, 150px)',
-                maxHeight: 'min(12vh, 150px)'
-              }}
-            />
-          </div>
-        </main>
-      </div>
-
-      {/* Second Page - Interactive Scrolling Cards */}
-      <div id="about" className="w-full">
+      <section id="about" className="w-full bg-[#1E3159] pt-16 pb-24 text-white">
         <InteractiveScrollingCards cards={CARDS_DATA} />
-      </div>
+      </section>
 
-      {/* Third Page - Sponsors Section */}
-      <div id="sponsors" className="min-h-screen w-full" style={{ backgroundColor: '#2e2e2e' }}>
+      <section id="sponsors" className="min-h-screen w-full bg-[#D9D9DA] py-20">
         <SponsorsTitle />
         <SponsorsGrid />
-      </div>
+      </section>
 
-      {/* Team Section */}
-      <div className="w-full">
+      <section id="team" className="w-full bg-[#1E3159] py-20 text-white">
         <TeamSection />
-      </div>
+      </section>
 
-      {/* Gradient Section */}
-      <div id="faq" className="w-full">
+      <section id="faq" className="w-full bg-[#D9D9DA] py-20 text-[#1E3159]">
         <GradientSection />
-      </div>
-      
+      </section>
 
-      {/* Footer */}
-      <div className="w-full">
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

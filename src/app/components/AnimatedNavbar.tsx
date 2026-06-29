@@ -69,15 +69,15 @@ const AnimatedNavbar: React.FC = () => {
       >
         {/* Mobile Layout */}
         <motion.div
-          className="flex lg:hidden items-center justify-between w-full max-w-[600px] mx-auto gap-4"
+          className="flex lg:hidden items-center justify-between w-full max-w-[600px] mx-auto gap-4 border border-[#7DB6AD]/40"
           animate={{
-            backgroundColor: isScrolled ? 'rgba(46, 46, 46, 0.95)' : 'transparent',
+            backgroundColor: isScrolled ? 'rgba(30, 49, 89, 0.96)' : 'rgba(30, 49, 89, 0.9)',
             backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
-            borderRadius: isScrolled ? '2rem' : '0rem',
-            padding: isScrolled ? '0.75rem 1.25rem' : '1rem 1.25rem',
+            borderRadius: '9999px',
+            padding: isScrolled ? '0.45rem 0.8rem' : '0.6rem 0.8rem',
             boxShadow: isScrolled 
-              ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
-              : '0 0px 0px rgba(0, 0, 0, 0)',
+              ? '0 14px 34px rgba(15, 24, 45, 0.28)' 
+              : '0 10px 28px rgba(15, 24, 45, 0.2)',
           }}
           transition={{ 
             duration: 0.5, 
@@ -114,7 +114,7 @@ const AnimatedNavbar: React.FC = () => {
             tabIndex={0}
           >
             <motion.span
-              className="w-6 h-0.5 sm:w-7 bg-white origin-center"
+              className="w-6 h-0.5 sm:w-7 bg-[#1E3159] origin-center"
               animate={{
                 rotate: isMobileMenuOpen ? 45 : 0,
                 y: isMobileMenuOpen ? 6 : 0,
@@ -122,14 +122,14 @@ const AnimatedNavbar: React.FC = () => {
               transition={{ duration: 0.3, ease: 'easeOut' }}
             />
             <motion.span
-              className="w-6 h-0.5 sm:w-7 bg-white"
+              className="w-6 h-0.5 sm:w-7 bg-[#1E3159]"
               animate={{
                 opacity: isMobileMenuOpen ? 0 : 1,
               }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
             />
             <motion.span
-              className="w-6 h-0.5 sm:w-7 bg-white origin-center"
+              className="w-6 h-0.5 sm:w-7 bg-[#1E3159] origin-center"
               animate={{
                 rotate: isMobileMenuOpen ? -45 : 0,
                 y: isMobileMenuOpen ? -6 : 0,
@@ -141,15 +141,15 @@ const AnimatedNavbar: React.FC = () => {
 
         {/* Desktop Layout - Centered */}
         <motion.div
-          className="hidden lg:flex items-center justify-center"
+          className="hidden lg:flex items-center justify-center border border-[#7DB6AD]/40"
           animate={{
-            backgroundColor: isScrolled ? 'rgba(46, 46, 46, 0.95)' : 'transparent',
+            backgroundColor: isScrolled ? 'rgba(30, 49, 89, 0.96)' : 'rgba(30, 49, 89, 0.9)',
             backdropFilter: isScrolled ? 'blur(10px)' : 'blur(0px)',
-            borderRadius: isScrolled ? '2rem' : '0rem',
-            padding: isScrolled ? '0.75rem 2rem' : '0rem',
+            borderRadius: '9999px',
+            padding: isScrolled ? '0.45rem 0.8rem' : '0.45rem 0.8rem',
             boxShadow: isScrolled 
-              ? '0 10px 25px rgba(0, 0, 0, 0.3)' 
-              : '0 0px 0px rgba(0, 0, 0, 0)',
+              ? '0 14px 34px rgba(15, 24, 45, 0.28)' 
+              : '0 10px 28px rgba(15, 24, 45, 0.2)',
           }}
           transition={{ 
             duration: 0.5, 
@@ -178,10 +178,10 @@ const AnimatedNavbar: React.FC = () => {
                 >
                   <Link href="#home" className="flex items-center">
                     <Image
-                      src="/logo.png"
+                      src="/2026Logo.png"
                       alt="Hack the Ridge Logo"
-                      width={32}
-                      height={32}
+                      width={64}
+                      height={64}
                       className="hover:scale-110 transition-transform duration-300"
                     />
                   </Link>
@@ -206,11 +206,18 @@ const AnimatedNavbar: React.FC = () => {
                   className="relative group"
                 >
                   <motion.span
-                    className="text-white font-bold tracking-wider transition-colors duration-300 hover:text-gray-300 navbar-link"
+                    className="block rounded-full px-4 py-2 font-bold tracking-wider navbar-link"
+                    initial={{ backgroundColor: 'rgba(255,255,255,0)', color: '#F7F7F7' }}
                     animate={{
                       fontSize: isScrolled ? '1.25rem' : '1.5rem',
                     }}
-                    transition={{ duration: 0.5, ease: 'easeOut' }}
+                    whileHover={{
+                      backgroundColor: 'rgba(175, 213, 188, 0.95)',
+                      color: '#1E3159',
+                      scale: 1.03,
+                      boxShadow: '0 8px 24px rgba(125, 182, 173, 0.18)',
+                    }}
+                    transition={{ duration: 0.25, ease: 'easeOut' }}
                     style={{
                       fontFamily: 'Impact, Arial Black, sans-serif',
                     }}
@@ -220,11 +227,11 @@ const AnimatedNavbar: React.FC = () => {
                   
                   {/* Animated underline */}
                   <motion.div
-                    className="absolute bottom-0 left-0 h-0.5 bg-white origin-left"
-                    initial={{ scaleX: 0 }}
-                    whileHover={{ scaleX: 1 }}
+                    className="absolute bottom-1 left-1/2 h-0.5 bg-[#7DB6AD] origin-center"
+                    initial={{ scaleX: 0, x: '-50%' }}
+                    whileHover={{ scaleX: 1, x: '-50%' }}
                     transition={{ duration: 0.3, ease: 'easeOut' }}
-                    style={{ width: '100%' }}
+                    style={{ width: '70%' }}
                   />
                 </Link>
               </motion.div>
@@ -259,16 +266,21 @@ const AnimatedNavbar: React.FC = () => {
                       key={item.href}
                       initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
+                      whileHover={{
+                        backgroundColor: 'rgba(175, 213, 188, 0.95)',
+                        scale: 1.01,
+                        boxShadow: '0 10px 24px rgba(125, 182, 173, 0.18)',
+                      }}
                       transition={{
                         delay: index * 0.08,
                         duration: 0.35,
                         ease: 'easeOut'
                       }}
-                      className="w-full"
+                      className="w-full rounded-full"
                     >
                       <Link
                         href={item.href}
-                        className="block w-full text-center py-3 px-4 text-white text-lg font-semibold tracking-wide rounded-xl hover:bg-white/10 active:bg-white/20 transition-all duration-200 mobile-nav-item touch-target"
+                        className="block w-full text-center py-3 px-4 text-[#1E3159] text-lg font-semibold tracking-wide rounded-full hover:bg-[#AFD5BC] hover:text-[#1E3159] active:bg-[#7DB6AD] transition-all duration-200 mobile-nav-item touch-target"
                         style={{
                           fontFamily: 'Sacco, Impact, Arial Black, sans-serif',
                           letterSpacing: '0.04em',
