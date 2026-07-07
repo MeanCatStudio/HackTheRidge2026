@@ -1473,3 +1473,41 @@ html.htr-dark .boombox-shell {
     transform: translateX(-130%);
   }
 }
+
+.terminal-lines {
+  display: grid;
+  gap: 0.5rem;
+  white-space: pre-wrap;
+}
+
+.terminal-ascii-block {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 42rem;
+  padding: 0.35rem 0 0.75rem;
+  font-weight: 800;
+  line-height: 1.08;
+}
+
+.terminal-ascii-row {
+  display: grid;
+  grid-template-columns: minmax(24rem, 1.25fr) minmax(18rem, 0.8fr);
+  gap: 2rem;
+  white-space: pre;
+}
+
+.terminal-ascii-faq {
+  color: #AFD5BC;
+  text-shadow: 0 0 12px rgba(175, 213, 188, 0.45), 0 0 28px rgba(125, 182, 173, 0.28);
+}
+
+.terminal-ascii-tux {
+  color: #dfd7d7;
+  text-shadow: 0 0 10px rgba(223, 215, 215, 0.28);
+}
+
+.terminal-ascii-row:nth-child(2n) .terminal-ascii-tux,
+.terminal-ascii-row:nth-child(7) .terminal-ascii-faq,
+.terminal-ascii-row:nth-child(8) .terminal-ascii-faq {
+  color: #7DB6AD;
+}

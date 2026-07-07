@@ -11,7 +11,7 @@ interface FAQItem {
 }
 
 type TerminalLine = {
-  type: "input" | "output" | "error" | "train";
+  type: "input" | "output" | "error" | "train" | "boot";
   text: string;
 };
 
@@ -129,27 +129,18 @@ const trainArt = String.raw`      ====        ________                __________
   |______|__|_________________|________|_|___|_|____|______________________|
    (O)     (O)           (O)     (O)        (O)              (O)       (O)`;
 
-const bootArt = String.raw` ______    ___      ___
-|  ____|  / _ \    / _ \
-| |__    | | | |  | | | |
-|  __|   | |_| |  | |_| |
-|_|       \__\_\   \__\_\
-
-FAQ GNU/LINUX
-
-        .--.
-       |o_o |
-       |:_/ |
-      //   \ \
-     (|     | )
-    /'\_   _/'\
-    \___)=(___/
-
-Type help, list, bug, sl, or cls.`;
-
-const bootLines: TerminalLine[] = [
-  { type: "output", text: bootArt },
+const bootRows = [
+  ["███████╗ █████╗  ██████╗", "              .--."],
+  ["██╔════╝██╔══██╗██╔═══██╗", "             |o_o |"],
+  ["█████╗  ███████║██║   ██║", "             |:_/ |"],
+  ["██╔══╝  ██╔══██║██║▄▄ ██║", "            //   \\ \\"],
+  ["██║     ██║  ██║╚██████╔╝", "           (|     | )"],
+  ["╚═╝     ╚═╝  ╚═╝ ╚══▀▀═╝", "          /'\\_   _/'\\"],
+  ["   GNU/LINUX QUESTION NODE", "          \\___)=(___/"],
+  ["   help  list  bug  sl  cls", "        tux is watching the logs"],
 ];
+
+const bootLines: TerminalLine[] = [{ type: "boot", text: "FAQ GNU/Linux" }];
 
 const formatFAQ = (faq: FAQItem) => [`${faq.question}`, faq.answer];
 
@@ -158,7 +149,7 @@ const InteractiveFAQ: React.FC = () => {
   const [command, setCommand] = useState("");
   const [lines, setLines] = useState<TerminalLine[]>(bootLines);
   const inputRef = useRef<HTMLInputElement>(null);
-  const terminalEndRef = useRef<HTMLDivElement>(null);
+  const terminalScrollRef = useRef<HTMLDivElement>(null);
 
   const questionMap = useMemo(() => {
     return faqData.reduce<Record<string, FAQItem>>((acc, faq) => {
@@ -168,7 +159,9 @@ const InteractiveFAQ: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    terminalEndRef.current?.scrollIntoView({ block: "end" });
+    const terminal = terminalScrollRef.current;
+    if (!terminal) return;
+    terminal.scrollTop = terminal.scrollHeight;
   }, [lines]);
 
   const runCommand = (rawCommand: string) => {
@@ -249,6 +242,38 @@ const InteractiveFAQ: React.FC = () => {
     ]);
   };
 
+  const renderLine = (line: TerminalLine, index: number) => {
+    if (line.type === "boot") {
+      return (
+        <span key={`${line.type}-${index}`} className="terminal-ascii-block" aria-label="FAQ GNU Linux and Tux penguin ASCII art">
+          {bootRows.map(([left, right], rowIndex) => (
+            <span key={rowIndex} className="terminal-ascii-row">
+              <span className="terminal-ascii-faq">{left}</span>
+              <span className="terminal-ascii-tux">{right}</span>
+            </span>
+          ))}
+        </span>
+      );
+    }
+
+    return (
+      <span
+        key={`${line.type}-${index}`}
+        className={`${
+          line.type === "input"
+            ? "text-[#AFD5BC]"
+            : line.type === "error"
+              ? "text-[#dfd7d7]"
+              : line.type === "train"
+                ? "sl-train text-[#AFD5BC]"
+                : "text-[#dfd7d7]/90"
+        }`}
+      >
+        {line.text}
+      </span>
+    );
+  };
+
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-16">
       <motion.div
@@ -320,28 +345,10 @@ const InteractiveFAQ: React.FC = () => {
               </div>
             </div>
 
-            <div className="terminal-scrollbar flex-1 overflow-y-auto overflow-x-hidden p-4 font-mono text-sm leading-relaxed text-[#dfd7d7]">
-              <pre className="min-h-full whitespace-pre-wrap break-words">
-                <code className="grid gap-y-2">
-                  {lines.map((line, index) => (
-                    <span
-                      key={`${line.type}-${index}`}
-                      className={`${
-                        line.type === "input"
-                          ? "text-[#AFD5BC]"
-                          : line.type === "error"
-                            ? "text-[#dfd7d7]"
-                            : line.type === "train"
-                              ? "sl-train text-[#AFD5BC]"
-                              : "text-[#dfd7d7]/90"
-                      }`}
-                    >
-                      {line.text}
-                    </span>
-                  ))}
-                  <span ref={terminalEndRef} aria-hidden="true" />
-                </code>
-              </pre>
+            <div ref={terminalScrollRef} className="terminal-scrollbar flex-1 overflow-y-auto overflow-x-auto p-4 font-mono text-sm leading-relaxed text-[#dfd7d7]">
+              <code className="terminal-lines min-w-[760px]">
+                {lines.map(renderLine)}
+              </code>
             </div>
 
             <form onSubmit={submitCommand} className="faq-terminal-input-row">
