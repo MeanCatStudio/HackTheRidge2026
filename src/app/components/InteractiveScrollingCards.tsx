@@ -5,14 +5,14 @@ import RegisterCard from './cards/RegisterCard';
 import { VideoText } from '../../components/magicui/video-text';
 import { DraggableCardBody, DraggableCardContainer } from '../../components/ui/draggable-card';
 
-// Simple reusable CountUp component with IntersectionObserver trigger
+
 const CountUp: React.FC<{
   end: number;
-  duration?: number; // ms
+  duration?: number; 
   prefix?: string;
   suffix?: string;
   className?: string;
-  enable?: boolean; // allow conditional start
+  enable?: boolean; 
   decimals?: number;
 }> = ({ end, duration = 1500, prefix = "", suffix = "", className = "", enable = true, decimals = 0 }) => {
   const [value, setValue] = useState(0);
@@ -41,7 +41,7 @@ const CountUp: React.FC<{
     let rafId = 0;
     const animate = (now: number) => {
       const t = Math.min(1, (now - start) / duration);
-      // easeOutCubic
+      
       const eased = 1 - Math.pow(1 - t, 3);
       const current = startVal + change * eased;
       setValue(current);
@@ -65,7 +65,7 @@ const CountUp: React.FC<{
   );
 };
 
-// Carousel Component for Last Year Card
+
 const CarouselComponent: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
@@ -77,11 +77,11 @@ const CarouselComponent: React.FC = () => {
     '/last_year/history5.jpg',
   ];
 
-  // Auto-rotate carousel
+  
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % carouselImages.length);
-    }, 6000); // 6 second intervals
+    }, 6000); 
     return () => clearInterval(interval);
   }, [carouselImages.length]);
 
@@ -97,7 +97,6 @@ const CarouselComponent: React.FC = () => {
 
   return (
     <div className="group relative bg-gradient-to-br from-white/10 to-white/5 rounded-xl overflow-hidden h-40 sm:h-48 md:h-64 lg:h-80 xl:h-96 2xl:h-[28rem] max-h-[50vh] backdrop-blur-md border border-white/20 shadow-2xl">
-      {/* Image Display with Sliding Animation */}
       <div className="relative w-full h-full overflow-hidden">
         <div className="flex transition-transform duration-700 ease-in-out h-full" style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}>
           {carouselImages.map((imgSrc, idx) => (
@@ -114,7 +113,6 @@ const CarouselComponent: React.FC = () => {
         </div>
       </div>
       
-      {/* Navigation Arrows - Minimalist */}
       <button 
         onClick={goToPrevious}
         className="absolute left-2 md:left-3 top-1/2 transform -translate-y-1/2 text-white/70 hover:text-white transition-all duration-200 z-10 p-1.5 md:p-2 rounded-md bg-black/20 hover:bg-black/40 backdrop-blur-sm opacity-0 hover:opacity-100 group-hover:opacity-100"
@@ -135,7 +133,6 @@ const CarouselComponent: React.FC = () => {
         </svg>
       </button>
 
-      {/* Image Indicators - Cleaner */}
       <div className="absolute bottom-3 md:bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-10">
         {carouselImages.map((_, index) => (
           <button
@@ -153,13 +150,13 @@ const CarouselComponent: React.FC = () => {
 };
 
 
-// Section: Type Definitions
-// ============================================================================
 
-/**
- * Defines the shape of the data for a single card.
- * Exported to allow consumers of this component to use the type.
- */
+
+
+
+
+
+
 export interface CardData {
   id: number;
   headerTitle: string;
@@ -171,12 +168,12 @@ export interface CardData {
 }
 
 
-// Section: Constants
-// ============================================================================
+
+
 
 const HEADER_HEIGHT_REM = 4;
 
-// Collision detection and position generation utilities
+
 interface CardPosition {
   x: number;
   y: number;
@@ -184,76 +181,76 @@ interface CardPosition {
 }
 
 const generateStaticPositions = (count: number): CardPosition[] => {
-  // Get viewport dimensions (with fallbacks for SSR)
+  
   const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : 1200;
   const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : 800;
   
-  // Responsive scaling based on viewport size and aspect ratio
+  
   const aspectRatio = viewportWidth / viewportHeight;
   const isMobile = viewportWidth < 768;
   const isTablet = viewportWidth < 1024;
-  // History: show fewer photos on mobile for less cramped layout
+  
   const HISTORY_CARD_COUNT = isMobile ? 5 : 8;
   
-  // Dynamic scaling factors based on screen size
+  
   let widthMultiplier, heightMultiplier, minClearance;
   
   if (isMobile) {
-    // Mobile: spread frames out from center for better visibility
+    
     widthMultiplier = 0.42;
     heightMultiplier = 0.38;
     minClearance = 0.14;
   } else if (isTablet) {
-    // Tablet: reduce spread slightly
+    
     widthMultiplier = 0.48;
     heightMultiplier = 0.35;
     minClearance = 0.24;
   } else if (aspectRatio > 1.8) {
-    // Wide screens (ultrawide): reduce horizontal spread to avoid large gaps
+    
     widthMultiplier = 0.65;
     heightMultiplier = 0.30;
     minClearance = 0.22;
   } else {
-    // Standard desktop: slightly tighter than before
+    
     widthMultiplier = 0.52;
     heightMultiplier = 0.36;
     minClearance = 0.22;
   }
   
-  // Responsive positions: use a balanced 5-point layout on mobile, otherwise 8-point layout
+  
   const staticPositions = count === 5
     ? [
-        // Five evenly distributed points around an oval for a complete ring
-        { x: 0.0,  y: -0.50, tilt: 0 },     // top center
-        { x: -0.42, y: -0.10, tilt: -12 },  // upper-left
-        { x: 0.42,  y: -0.10, tilt: 12 },   // upper-right
-        { x: -0.28, y: 0.42,  tilt: 10 },   // lower-left
-        { x: 0.28,  y: 0.42,  tilt: -10 },  // lower-right
+        
+        { x: 0.0,  y: -0.50, tilt: 0 },     
+        { x: -0.42, y: -0.10, tilt: -12 },  
+        { x: 0.42,  y: -0.10, tilt: 12 },   
+        { x: -0.28, y: 0.42,  tilt: 10 },   
+        { x: 0.28,  y: 0.42,  tilt: -10 },  
       ]
     : [
-        // Eight-point layout (original, tuned)
-        // Top arc - adjusted for better clearance
-        { x: -0.38, y: -0.42, tilt: -15 },  // 2017 - top left
-        { x: -0.15, y: -0.50, tilt: 8 },    // 2018 - top left-center (moved further out)
-        { x: 0.15, y: -0.50, tilt: 18 },    // 2019 - top right-center (moved further out)
-        { x: 0.38, y: -0.42, tilt: -6 },    // 2020 - top right
         
-        // Middle sides - increased clearance from center stats
-        { x: -0.55, y: -0.05, tilt: 12 },   // 2021 - middle left (moved further out and slightly up)
-        { x: 0.55, y: -0.05, tilt: -20 },   // 2022 - middle right (moved further out and slightly up)
         
-        // Bottom arc - better clearance
-        { x: -0.38, y: 0.38, tilt: -12 },   // 2023 - bottom left
-        { x: 0.38, y: 0.38, tilt: 22 },     // 2024 - bottom right
+        { x: -0.38, y: -0.42, tilt: -15 },  
+        { x: -0.15, y: -0.50, tilt: 8 },    
+        { x: 0.15, y: -0.50, tilt: 18 },    
+        { x: 0.38, y: -0.42, tilt: -6 },    
+        
+        
+        { x: -0.55, y: -0.05, tilt: 12 },   
+        { x: 0.55, y: -0.05, tilt: -20 },   
+        
+        
+        { x: -0.38, y: 0.38, tilt: -12 },   
+        { x: 0.38, y: 0.38, tilt: 22 },     
       ];
   
-  // Apply responsive positioning with proper constraints
+  
   const positions: CardPosition[] = staticPositions.slice(0, count).map(pos => {
-    // Calculate base positions with responsive scaling
+    
     let baseX = pos.x * widthMultiplier;
     let baseY = pos.y * heightMultiplier;
     
-    // Ensure minimum clearance from center (where stats are)
+    
     const distanceFromCenter = Math.sqrt(baseX * baseX + baseY * baseY);
     if (distanceFromCenter < minClearance) {
       const scale = minClearance / distanceFromCenter;
@@ -272,8 +269,8 @@ const generateStaticPositions = (count: number): CardPosition[] => {
 };
 
 
-// Section: Internal StickyCard Component
-// ============================================================================
+
+
 
 interface InternalStickyCardProps {
   index: number;
@@ -282,16 +279,16 @@ interface InternalStickyCardProps {
   numCards: number;
 }
 
-/**
- * Renders a single card that is sticky and animates based on scroll progress.
- * This is an internal component and not meant to be used directly.
- */
+
+
+
+
 const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress, cardData, numCards }) => {
   const { headerTitle, title, content, imageUrl, bgColor, textColor } = cardData;
   const [cardPositions, setCardPositions] = useState<CardPosition[]>([]);
   const [isClient, setIsClient] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  // Default to false to prevent flash of content on small screens
+  
   const [hasHeightForWorkshops, setHasHeightForWorkshops] = useState(false);
 
   const scaleStartProgress = (index + 0.5) / numCards;
@@ -300,41 +297,41 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
   const baseScale = 1 - (numCards - 1 - index) * 0.03;
   const dynamicScale = Math.max(baseScale, 1 - Math.max(0, scaleProgress) * 0.05);
 
-  // For the last card, make it stick to the top (full screen)
+  
   const isLastCard = index === numCards - 1;
   const topPosition = isLastCard ? 0 : index * HEADER_HEIGHT_REM;
 
-  // Track client-side hydration to ensure proper viewport detection
+  
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  // Track mobile state and screen height for workshops
+  
   useEffect(() => {
     const checkMobile = () => {
       const width = window.innerWidth;
       const isMobileDevice = width < 768;
       setIsMobile(isMobileDevice);
       
-      // Use visualViewport for more accurate height detection (handles iPhone browser chrome)
-      // Falls back to innerHeight if visualViewport is not available
+      
+      
       const viewportHeight = window.visualViewport?.height ?? window.innerHeight;
       
-      // More conservative thresholds:
-      // - Mobile devices: require 750px to accommodate browser chrome fluctuations
-      // - Desktop: require 680px (less browser chrome interference)
+      
+      
+      
       const heightThreshold = isMobileDevice ? 750 : 680;
       
       setHasHeightForWorkshops(viewportHeight > heightThreshold);
     };
     
-    // Run check immediately (synchronously)
+    
     checkMobile();
     
-    // Small delay to re-check after layout settles (handles initial render quirks)
+    
     const timeoutId = setTimeout(checkMobile, 100);
     
-    // Listen to both resize and visualViewport resize (for iPhone browser chrome changes)
+    
     window.addEventListener('resize', checkMobile);
     window.visualViewport?.addEventListener('resize', checkMobile);
     
@@ -345,30 +342,30 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
     };
   }, []);
 
-  // Generate responsive positions that update on resize
+  
   const updatePositions = useCallback(() => {
-    // Ensure we have proper viewport dimensions before calculating positions
+    
     if (typeof window !== 'undefined') {
       setCardPositions(generateStaticPositions(isMobile ? 5 : 8));
     }
   }, [isMobile]);
 
   useEffect(() => {
-    // Force immediate position calculation on mount with proper viewport dimensions
+    
     const initializePositions = () => {
       if (typeof window !== 'undefined' && isClient) {
-        // Use multiple strategies to ensure viewport dimensions are accurate
+        
         const calculatePositions = () => {
           setCardPositions(generateStaticPositions(isMobile ? 5 : 8));
         };
 
-        // Immediate calculation
+        
         calculatePositions();
         
-        // Backup calculation after a short delay to handle any layout shifts
+        
         const timeoutId = setTimeout(calculatePositions, 100);
         
-        // Additional calculation using requestAnimationFrame for DOM readiness
+        
         requestAnimationFrame(() => {
           requestAnimationFrame(calculatePositions);
         });
@@ -377,15 +374,15 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
       }
     };
 
-    // Only initialize after client-side hydration is complete
+    
     if (isClient) {
       const cleanup = initializePositions();
       
-      // Add resize listener with throttling
+      
       let resizeTimeout: NodeJS.Timeout;
       const handleResize = () => {
         clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(updatePositions, 150); // Throttle for performance
+        resizeTimeout = setTimeout(updatePositions, 150); 
       };
 
       window.addEventListener('resize', handleResize, { passive: true });
@@ -397,13 +394,13 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
     }
   }, [updatePositions, isClient]);
 
-  // Initialize positions with current viewport dimensions (not SSR fallbacks)
+  
   const fallbackPositions = useMemo(() => {
-    // Only generate fallback positions on client-side with actual viewport dimensions
+    
     if (typeof window !== 'undefined' && isClient) {
       return generateStaticPositions(isMobile ? 5 : 8);
     }
-    // Return empty array during SSR to prevent hydration mismatches
+    
     return [];
   }, [isClient, isMobile]);
   
@@ -425,7 +422,6 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
         }}
       >
         <div className={`w-full h-full ${index === 3 ? 'p-0' : index === 2 ? 'pt-4 pb-4 px-4 sm:pt-6 sm:pb-6 sm:px-6 md:pt-8 md:pb-8 md:px-8 lg:pt-10 lg:pb-10 lg:px-10 xl:pt-12 xl:pb-12 xl:px-12' : index === 1 ? 'pt-4 pb-4 px-4 sm:pt-6 sm:pb-6 sm:px-6 md:pt-8 md:pb-8 md:px-8 lg:pt-10 lg:pb-10 lg:px-10 xl:pt-12 xl:pb-12 xl:px-12' : isLastCard ? 'p-6 sm:p-8 md:p-12 lg:p-16 xl:p-20' : 'p-4 sm:p-6 md:p-8 lg:p-10 xl:p-12'} flex flex-col ${isLastCard ? 'justify-center' : 'justify-start'}`}>
-          {/* Special handling for first card - VideoText with description */}
           {index === 0 ? (
             <>
               <header className="flex-shrink-0">
@@ -434,7 +430,6 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                 </h2>
               </header>
               <main className="flex flex-col justify-center items-center flex-grow w-full px-2 sm:px-4 md:px-6 py-4 sm:py-6 md:py-8 gap-6 md:gap-0">
-                {/* VideoText centered with flex */}
                 <div className="flex-shrink-0 md:flex-grow flex items-center justify-center w-full md:min-h-0">
                   <div className="w-full h-48 sm:h-56 md:h-64 lg:h-80 xl:h-96 px-2 overflow-visible">
                     {isMobile ? (
@@ -469,18 +464,17 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                     )}
                   </div>
                 </div>
-                {/* Description with dynamic spacing from slogan on desktop */}
                 <div className="flex-shrink-0 md:flex-grow w-full flex items-center justify-center md:min-h-0">
                   <div className="max-w-4xl text-center mx-auto px-2 sm:px-4">
                     <p className={`text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl ${textColor} opacity-90 leading-relaxed font-medium`}>
-                      <strong>Hack the Ridge</strong> is where <strong>innovation meets community</strong>. We are an annual <strong>hackathon</strong> at Iroquois Ridge High School that hosts over <strong>150+ leaders in STEM</strong> every year to <strong>innovate and push the limit of technology</strong>.
+                      <strong>Hack the Ridge</strong> is a student hackathon at Iroquois Ridge High School. Each year, students build projects, test ideas, and show what they made.
                     </p>
                   </div>
                 </div>
               </main>
             </>
           ) : index === 1 ? (
-            /* Special handling for history card - Stats layout with draggable year cards */
+            
             <>
               <header className="flex-shrink-0">
                 <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold uppercase ${textColor} tracking-wider leading-tight`}>
@@ -488,19 +482,17 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                 </h2>
               </header>
               <main className="flex-grow flex items-center justify-center w-full h-full px-4 relative overflow-hidden">
-                {/* Draggable Cards Container */}
                 <DraggableCardContainer className="absolute inset-0 z-10">
-                {/* All 8 cards (years 2017-2024) with collision detection positioning */}
                 {Array.from({ length: isMobile ? 5 : 8 }, (_, i) => {
                   const year = 2017 + i;
                   const position = activePositions[i];
                   
-                  // Enhanced safety check - don't render if position is undefined or invalid
+                  
                   if (!position || typeof position.x !== 'number' || typeof position.y !== 'number') {
                     return null;
                   }
                   
-                  // Theme colors for each card
+                  
                   const themeColors = ['#e0cc75', '#7bb1a0', '#b7634c', '#b4d686', '#b7634c', '#b4d686', '#e0cc75', '#7bb1a0'];
                   const cardColor = themeColors[i];
                   
@@ -521,7 +513,6 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                           rotate: `${position.tilt}deg`,
                         }}
                       >
-                        {/* Local history photo */}
                         <div
                           className="w-full flex-1 rounded-2xl flex items-center justify-center overflow-hidden"
                           style={{ backgroundColor: cardColor }}
@@ -540,9 +531,7 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                 })}
               </DraggableCardContainer>
               
-              {/* Stats perfectly centered in full height */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-16 w-full max-w-6xl relative z-20">
-                {/* Years of Innovation */}
                 <div className="text-center">
                   <CountUp
                     end={10}
@@ -554,7 +543,6 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                   </div>
                 </div>
 
-                {/* Innovators */}
                 <div className="text-center">
                   <CountUp
                     end={2000}
@@ -567,7 +555,6 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                   </div>
                 </div>
 
-                {/* Prizes */}
                 <div className="text-center">
                   <CountUp
                     end={70000}
@@ -585,7 +572,6 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
             </>
           ) : (
             <>
-              {/* Hide header for register card (index 3) */}
               {index !== 3 && (
                 <header>
                   <h2 className={`${isLastCard ? 'text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl' : 'text-2xl sm:text-3xl md:text-4xl lg:text-5xl'} font-extrabold uppercase ${textColor} tracking-wider leading-tight`}>
@@ -594,13 +580,12 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
                 </header>
               )}
 
-              {/* Special handling for 2025 Register Card */}
               {index === 3 ? (
                 <main className="flex-grow w-full h-full">
                   <RegisterCard textColor={textColor} />
                 </main>
               ) : index === 2 ? (
-                /* Special handling for Last Year Card - Custom minimalist design */
+                
                 <main className="flex-grow w-full h-full">
                   {getHighlightElement(index, textColor, hasHeightForWorkshops)}
                 </main>
@@ -637,15 +622,15 @@ const InternalStickyCard: React.FC<InternalStickyCardProps> = ({ index, progress
   );
 };
 
-// Section: Layout Helper Functions
-// ============================================================================
+
+
 
 const getLayoutClass = (index: number): string => {
   switch (index) {
-    case 0: return 'flex-col'; // About - full width stacked layout
-    case 1: return 'flex-col sm:flex-row sm:justify-start'; // History - content first, stack on mobile
-    case 2: return 'flex-col sm:flex-row sm:justify-end sm:flex-row-reverse'; // Last Year - image first, stack on mobile
-    case 3: return 'flex-col sm:flex-row sm:justify-between'; // 2025 - balanced, stack on mobile
+    case 0: return 'flex-col'; 
+    case 1: return 'flex-col sm:flex-row sm:justify-start'; 
+    case 2: return 'flex-col sm:flex-row sm:justify-end sm:flex-row-reverse'; 
+    case 3: return 'flex-col sm:flex-row sm:justify-between'; 
     default: return 'flex-col sm:flex-row sm:justify-between';
   }
 };
@@ -654,9 +639,9 @@ const getContentClass = (index: number, isLastCard: boolean): string => {
   if (isLastCard) return 'w-full sm:w-3/5';
   
   switch (index) {
-    case 0: return 'w-full text-center'; // About - full width centered
-    case 1: return 'w-full sm:w-2/3'; // History - more content space, full width on mobile
-    case 2: return 'w-full sm:w-1/2'; // Last Year - equal split, full width on mobile
+    case 0: return 'w-full text-center'; 
+    case 1: return 'w-full sm:w-2/3'; 
+    case 2: return 'w-full sm:w-1/2'; 
     default: return 'w-full sm:w-1/2';
   }
 };
@@ -665,46 +650,45 @@ const getImageClass = (index: number, isLastCard: boolean): string => {
   if (isLastCard) return 'w-full sm:w-2/5 flex-shrink-0 mt-6 sm:mt-0';
   
   switch (index) {
-    case 0: return 'w-full mt-6 sm:mt-8'; // About - full width image below content
-    case 1: return 'w-full sm:w-1/4 flex-shrink-0 mt-6 sm:mt-0'; // History - smaller image for stats focus
-    case 2: return 'w-full sm:w-1/2 flex-shrink-0 mt-6 sm:mt-0'; // Last Year - larger image showcase
+    case 0: return 'w-full mt-6 sm:mt-8'; 
+    case 1: return 'w-full sm:w-1/4 flex-shrink-0 mt-6 sm:mt-0'; 
+    case 2: return 'w-full sm:w-1/2 flex-shrink-0 mt-6 sm:mt-0'; 
     default: return 'w-full sm:w-1/3 flex-shrink-0 mt-6 sm:mt-0';
   }
 };
 
 const getTitleClass = (index: number): string => {
   switch (index) {
-    case 0: return 'text-3xl sm:text-4xl md:text-5xl'; // About - standard
-    case 1: return 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'; // History - emphasize numbers
-    case 2: return 'text-3xl sm:text-4xl md:text-5xl'; // Last Year - standard
+    case 0: return 'text-3xl sm:text-4xl md:text-5xl'; 
+    case 1: return 'text-4xl sm:text-5xl md:text-6xl lg:text-7xl'; 
+    case 2: return 'text-3xl sm:text-4xl md:text-5xl'; 
     default: return 'text-3xl sm:text-4xl md:text-5xl';
   }
 };
 
 const getImageStyling = (index: number): string => {
   switch (index) {
-    case 0: return 'rounded-2xl shadow-2xl mx-auto max-w-4xl h-48 sm:h-56 md:h-64 object-cover'; // About - wide hero image
-    case 1: return 'rounded-full shadow-2xl'; // History - circular for community feel
-    case 2: return 'rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300'; // Last Year - interactive showcase
-    case 3: return 'rounded-xl'; // 2025 - no shadow
+    case 0: return 'rounded-2xl shadow-2xl mx-auto max-w-4xl h-48 sm:h-56 md:h-64 object-cover'; 
+    case 1: return 'rounded-full shadow-2xl'; 
+    case 2: return 'rounded-2xl shadow-xl transform hover:scale-105 transition-transform duration-300'; 
+    case 3: return 'rounded-xl'; 
     default: return 'rounded-xl shadow-lg';
   }
 };
 
 const getAnimationClass = (index: number): string => {
   switch (index) {
-    case 1: return 'animate-pulse'; // History - pulsing numbers
-    case 2: return 'hover:text-orange-300 transition-colors duration-300'; // Last Year - interactive
+    case 1: return 'animate-pulse'; 
+    case 2: return 'hover:text-orange-300 transition-colors duration-300'; 
     default: return '';
   }
 };
 
 const getHighlightElement = (index: number, textColor: string, hasHeightForWorkshops: boolean = true): React.ReactElement | null => {
   switch (index) {
-    case 0: // About - hero feature grid
+    case 0: 
       return (
         <div className="mt-8 space-y-6">
-          {/* Key stats row */}
           <div className="flex justify-center gap-8 mb-8">
             <div className="text-center">
               <div className="text-4xl font-bold mb-1">24</div>
@@ -720,64 +704,59 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
             </div>
           </div>
           
-          {/* Feature grid */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto">
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
-              <div className="text-2xl mb-2">🚀</div>
+              <div className="text-2xl mb-2 font-black">01</div>
               <div className="font-semibold text-sm">Build & Ship</div>
               <div className="text-xs opacity-75 mt-1">Create real projects</div>
             </div>
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
-              <div className="text-2xl mb-2">🤝</div>
+              <div className="text-2xl mb-2 font-black">02</div>
               <div className="font-semibold text-sm">Network</div>
               <div className="text-xs opacity-75 mt-1">Meet like-minded devs</div>
             </div>
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
-              <div className="text-2xl mb-2">🏆</div>
+              <div className="text-2xl mb-2 font-black">03</div>
               <div className="font-semibold text-sm">Win Big</div>
               <div className="text-xs opacity-75 mt-1">Compete for prizes</div>
             </div>
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
-              <div className="text-2xl mb-2">🎓</div>
+              <div className="text-2xl mb-2 font-black">04</div>
               <div className="font-semibold text-sm">Learn</div>
               <div className="text-xs opacity-75 mt-1">Workshops & mentoring</div>
             </div>
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
-              <div className="text-2xl mb-2">🍕</div>
+              <div className="text-2xl mb-2 font-black">05</div>
               <div className="font-semibold text-sm">Free Food</div>
               <div className="text-xs opacity-75 mt-1">Meals & snacks included</div>
             </div>
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
-              <div className="text-2xl mb-2">⚡</div>
+              <div className="text-2xl mb-2 font-black">06</div>
               <div className="font-semibold text-sm">Fast-Paced</div>
               <div className="text-xs opacity-75 mt-1">Intense but fun</div>
             </div>
           </div>
         </div>
       );
-    case 1: // History - animated counter
+    case 1: 
       return (
         <div className="mt-8 p-6 bg-white/10 rounded-lg backdrop-blur-sm">
           <div className="text-4xl font-bold mb-2">5 Years Strong</div>
           <div className="text-sm opacity-75">Growing community since 2019</div>
         </div>
       );
-    case 2: // Last Year - Refined Stats & Highlights (Mobile Optimized)
+    case 2: 
      return (
        <div className="flex flex-col gap-6 sm:gap-8 md:flex-row md:gap-8 lg:gap-12 xl:gap-16 w-full min-h-full items-start justify-start px-3 sm:px-4 md:px-6 lg:px-8 xl:px-12 2xl:px-16 mt-6 sm:mt-8 md:pt-10 lg:pt-14 pb-4 pb-safe max-w-[1920px] mx-auto">
-         {/* Mobile: Carousel First, Desktop: Content First */}
          
-         {/* Carousel - Shows first on mobile, second on desktop */}
          <div className="w-full md:w-2/5 lg:w-[40%] xl:w-[38%] 2xl:w-[36%] relative flex items-start justify-center order-1 md:order-2 flex-shrink-0">
            <div className="w-full max-w-lg xl:max-w-xl 2xl:max-w-2xl">
              <CarouselComponent />
            </div>
          </div>
 
-         {/* Content - Shows second on mobile, first on desktop */}
          <div className="w-full md:w-3/5 lg:w-[60%] xl:w-[62%] 2xl:w-[64%] flex flex-col justify-start space-y-6 sm:space-y-7 md:space-y-8 lg:space-y-10 xl:space-y-12 order-2 md:order-1">
            
-           {/* Stats Grid with CountUp - Single row on all screen sizes */}
            <div className="grid grid-cols-4 place-items-center auto-rows-fr gap-x-2 gap-y-4 sm:gap-x-4 sm:gap-y-6 md:gap-x-6 md:gap-y-6 lg:gap-x-8 lg:gap-y-8">
              <div className="flex h-full flex-col items-center justify-center gap-1 sm:gap-1.5 md:gap-2">
                <CountUp
@@ -815,7 +794,6 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
              </div>
            </div>
 
-           {/* Tech Stack Section - Hidden based on screen height with smooth transition */}
            <div 
              className={`space-y-4 sm:space-y-5 transition-all duration-500 ease-in-out ${
                hasHeightForWorkshops 
@@ -825,7 +803,6 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
            >
              <h3 className="text-base sm:text-lg md:text-xl font-bold text-white/90 mb-4 sm:mb-5">Workshops</h3>
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4 md:gap-6">
-               {/* Python Workshop */}
                <div className="bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="flex-shrink-0 sm:w-6 sm:h-6">
@@ -836,7 +813,6 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
                  <div className="text-xs sm:text-sm text-white/60">Python basics: functions, loops, and conditionals.</div>
                </div>
                
-               {/* Web + Frontend Combined (Mobile) / Web Only (Desktop) */}
                <div className="bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
@@ -854,7 +830,6 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
                  </div>
                </div>
                
-               {/* Frontend Workshop (Desktop Only) */}
                <div className="hidden sm:block bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
@@ -867,7 +842,6 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
                  <div className="text-xs sm:text-sm text-white/60">Created dynamic web apps using React.js framework.</div>
                </div>
                
-               {/* AI/ML Workshop */}
                <div className="bg-white/5 rounded-lg p-3.5 sm:p-5 border border-white/10 hover:bg-white/8 transition-colors duration-300">
                  <div className="flex items-center space-x-2.5 sm:space-x-3 mb-2 sm:mb-3">
                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" className="flex-shrink-0 sm:w-6 sm:h-6">
@@ -875,16 +849,16 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
                      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
                      <line x1="12" y1="22.08" x2="12" y2="12" />
                    </svg>
-                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">AI/ML Workshop</span>
+                   <span className="text-white font-semibold text-sm sm:text-base md:text-lg">Automation Workshop</span>
                  </div>
-                 <div className="text-xs sm:text-sm text-white/60">Integrated OpenAI and Gemini APIs into projects.</div>
+                 <div className="text-xs sm:text-sm text-white/60">Connected APIs and automation tools into projects.</div>
                </div>
              </div>
            </div>
          </div>
        </div>
      );
-    case 3: // 2025 - call to action
+    case 3: 
       return (
         <div className="mt-8">
           <button className="px-8 py-4 bg-white text-orange-600 font-bold rounded-lg hover:bg-gray-100 transition-colors duration-300 text-xl">
@@ -898,17 +872,17 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
 };
 
 
-// Section: Main Exported Component
-// ============================================================================
+
+
 
 interface InteractiveScrollingCardsProps {
   cards: CardData[];
 }
 
-/**
- * A self-contained component that renders a stack of cards
- * with a scroll-driven animation effect.
- */
+
+
+
+
 const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ cards }) => {
   const [progress, setProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -934,7 +908,7 @@ const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ c
     checkMobile();
     window.addEventListener('resize', checkMobile);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    handleScroll(); 
     
     return () => {
       window.removeEventListener('resize', checkMobile);
@@ -946,10 +920,10 @@ const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ c
     return null;
   }
 
-  // Calculate responsive height - more scroll space on mobile only
+  
   const getScrollHeight = () => {
     if (typeof window !== 'undefined') {
-      // Mobile: 130vh per card, Laptop/Desktop: 100vh per card
+      
       if (window.innerWidth < 768) {
         return `${numCards * 130}vh`;
       }

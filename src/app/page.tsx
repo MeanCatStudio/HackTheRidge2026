@@ -22,20 +22,21 @@ import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
 import InteractiveBackground from "./components/InteractiveBackground";
 import CyberWordmark from "./components/CyberWordmark";
+import SoundDock from "./components/SoundDock";
 
 const stats = [
   { value: "150+", label: "students built last year", icon: Users },
   { value: "$6K+", label: "was raised for prizes", icon: Trophy },
-  { value: "9", label: "past builders were honoured", icon: Sparkles },
-  { value: "1", label: "day became a launchpad", icon: Zap },
+  { value: "10", label: "past execs were featured", icon: Sparkles },
+  { value: "1", label: "day turned into demo time", icon: Zap },
 ];
 
 const tracks = [
   {
-    title: "AI + Automation",
-    eyebrow: "Think smarter",
+    title: "Automation + Tools",
+    eyebrow: "Work smarter",
     icon: Cpu,
-    body: "Build tools that save time, personalize experiences, or help people make better decisions.",
+    body: "Build useful tools that save time, solve small problems, or make everyday tasks easier.",
   },
   {
     title: "Climate + Community",
@@ -58,6 +59,13 @@ const featureCards = [
   "Create something you can show in a portfolio, presentation, or future application.",
   "Move through the day with checkpoints, feedback, mini-wins, and team energy.",
   "Celebrate every project — polished, weird, ambitious, simple, or still evolving.",
+];
+
+
+const winnerCards = [
+  { title: "Grand Prize", body: "The 2025 top project can live here with the team name, build name, and final photo." },
+  { title: "Best Beginner Build", body: "A space for the 2025 first-time hackers who shipped something real." },
+  { title: "Community Choice", body: "A 2025 crowd-favourite spot for the project people kept talking about after demos ended." },
 ];
 
 const gallery = [
@@ -85,11 +93,12 @@ export default function Home() {
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-htr-blue text-htr-white">
       <AnimatedNavbar />
+      <SoundDock />
 
       <section id="home" className="relative isolate min-h-screen overflow-hidden px-5 pt-28 sm:px-8 lg:px-12">
         <InteractiveBackground />
 
-        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(430px,620px)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_620px] 2xl:grid-cols-[minmax(0,1fr)_660px]">
+        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,500px)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_520px] 2xl:grid-cols-[minmax(0,1fr)_540px]">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -102,16 +111,14 @@ export default function Home() {
             </h1>
 
             <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-htr-white/82 sm:text-lg lg:mx-0 lg:text-xl">
-              Step into a creative tech playground where students team up, try bold ideas, learn by building, and turn sparks of imagination into real projects.
+              Bring an idea, find a team, learn as you go, and leave with something you actually built.
             </p>
 
             <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
               <Link href="#register" className="button-shine group inline-flex w-full items-center justify-center overflow-hidden rounded-full bg-htr-green px-7 py-4 text-sm font-black uppercase tracking-[0.22em] text-htr-blue shadow-2xl shadow-htr-green/20 transition hover:-translate-y-1 hover:bg-htr-white sm:w-auto">
                 Register Interest
                 <ArrowRight className="ml-3 h-4 w-4 transition group-hover:translate-x-1" />
-              </Link>
-
-            </div>
+              </Link></div>
 
             <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:max-w-2xl">
               {stats.map((stat, index) => {
@@ -137,11 +144,11 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.92, rotate: 1.5 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="relative mx-auto w-full min-w-0 max-w-[660px] lg:mx-0 lg:justify-self-end"
+            className="relative mx-auto w-full min-w-0 max-w-[540px] lg:mx-0 lg:justify-self-end"
           >
             <div className="absolute -inset-8 rounded-[3.5rem] bg-htr-green/20 blur-3xl" />
-            <div className="glass-card relative overflow-hidden rounded-[2.35rem] border border-htr-green/35 p-4 shadow-2xl shadow-black/30 sm:p-6 lg:p-7">
-              <div className="rounded-[1.8rem] border border-htr-white/15 bg-htr-blue/72 p-5 sm:p-7 lg:p-8">
+            <div className="glass-card relative overflow-hidden rounded-[2.35rem] border border-htr-green/35 p-4 shadow-2xl shadow-black/30 sm:p-5 lg:p-6">
+              <div className="rounded-[1.8rem] border border-htr-white/15 bg-htr-blue/72 p-5 sm:p-6 lg:p-7">
                 <div className="mb-5 border-b border-htr-green/20 pb-5">
                   <div>
                     <p className="text-xs font-black uppercase tracking-[0.3em] text-htr-green">Mission Control</p>
@@ -156,7 +163,7 @@ export default function Home() {
                       <CalendarDays className="h-4 w-4" />
                       Event date
                     </div>
-                    <p className="mt-3 text-3xl font-black sm:text-4xl">To Be Announced</p>
+                    <p className="mt-3 text-2xl font-black sm:text-3xl">To Be Announced</p>
                     <div className="mt-4 h-2 overflow-hidden rounded-full bg-htr-blue/18">
                       <motion.div
                         className="h-full rounded-full bg-htr-blue"
@@ -181,8 +188,8 @@ export default function Home() {
                         <Wifi className="h-4 w-4" />
                         Site mode
                       </div>
-                      <p className="mt-3 text-lg font-black leading-snug">Interactive design was upgraded</p>
-                      <p className="mt-1 text-sm text-htr-white/60">Full-screen layout was polished</p>
+                      <p className="mt-3 text-lg font-black leading-snug">Interactive design upgraded</p>
+                      <p className="mt-1 text-sm text-htr-white/60">Layout polished</p>
                     </div>
                   </div>
                 </div>
@@ -207,7 +214,7 @@ export default function Home() {
             <div>
               <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-shaded">About HTR</p>
               <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] sm:text-7xl lg:text-8xl">
-                Bring your spark. Build your story.
+                Bring an idea. Build it here.
               </h2>
             </div>
             <p className="text-lg leading-8 text-htr-blue/78 lg:text-xl">
@@ -238,6 +245,59 @@ export default function Home() {
                 </motion.article>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      <section id="winners" className="relative overflow-hidden bg-[#162746] px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
+        <div className="absolute -left-28 top-12 h-72 w-72 rounded-full bg-htr-green/20 blur-3xl" />
+        <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-htr-shaded/18 blur-3xl" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(223,215,215,.06)_1px,transparent_1px),linear-gradient(rgba(223,215,215,.06)_1px,transparent_1px)] bg-[size:34px_34px] opacity-35" />
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+            transition={{ duration: 0.7 }}
+            className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-end"
+          >
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Previous Winners</p>
+              <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] sm:text-7xl lg:text-8xl">
+                Last year's winner wall.
+              </h2>
+            </div>
+            <div className="space-y-6">
+              <p className="text-lg leading-8 text-htr-white/76 lg:text-xl">
+                A place for previous winners, 2025 prize categories, project photos, and the story behind each build.
+              </p>
+              <Link href="/2025" className="inline-flex rounded-full border border-htr-green/35 bg-htr-green px-6 py-3 text-xs font-black uppercase tracking-[0.22em] text-htr-blue shadow-xl shadow-htr-green/15 transition hover:-translate-y-1 hover:bg-htr-white">
+                Open 2025 Website
+              </Link>
+            </div>
+          </motion.div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {winnerCards.map((card, index) => (
+              <motion.article
+                key={card.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.55, delay: index * 0.08 }}
+                whileHover={{ y: -10, rotate: index === 1 ? 0 : index === 0 ? -1 : 1 }}
+                className="group relative overflow-hidden rounded-[2rem] border border-htr-green/22 bg-htr-white/10 p-7 shadow-2xl shadow-black/18 backdrop-blur-xl"
+              >
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-htr-green via-htr-white to-htr-shaded" />
+                <div className="mb-8 flex h-16 w-16 items-center justify-center rounded-3xl bg-htr-green text-htr-blue shadow-xl shadow-htr-green/15 transition group-hover:scale-110 group-hover:rotate-6">
+                  <Trophy className="h-8 w-8" />
+                </div>
+                <p className="text-xs font-black uppercase tracking-[0.25em] text-htr-green">winner slot</p>
+                <h3 className="mt-3 text-3xl font-black text-htr-white">{card.title}</h3>
+                <p className="mt-4 leading-7 text-htr-white/72">{card.body}</p>
+              </motion.article>
+            ))}
           </div>
         </div>
       </section>
@@ -325,7 +385,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section id="sponsors" className="relative overflow-hidden bg-htr-blue px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
+      <section id="sponsors" className="relative z-0 overflow-hidden bg-htr-blue px-5 pb-32 pt-20 text-htr-white sm:px-8 lg:px-12 lg:pb-40 lg:pt-28">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(175,213,188,.16),transparent_30%),radial-gradient(circle_at_90%_30%,rgba(125,182,173,.16),transparent_30%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(223,215,215,.08)_1px,transparent_1px),linear-gradient(rgba(223,215,215,.08)_1px,transparent_1px)] bg-[size:42px_42px] opacity-35" />
         <motion.div
@@ -340,7 +400,7 @@ export default function Home() {
             Sponsor space opening soon.
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-htr-white/76">
-            We are keeping this area ready for future partners who want to support student builders, creative technology, and the next wave of local innovation.
+            This space is ready for partners who want to support student builders, workshops, prizes, and local tech projects.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             {['Partner logos', 'Prize support', 'Workshop support'].map((item) => (

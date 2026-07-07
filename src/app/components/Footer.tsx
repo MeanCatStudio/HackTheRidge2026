@@ -6,6 +6,7 @@ import CyberWordmark from "./CyberWordmark";
 
 const quickLinks = [
   { name: "About", href: "#about" },
+  { name: "Previous Winners", href: "#winners" },
   { name: "Sponsors", href: "#sponsors" },
   { name: "Register", href: "#register" },
   { name: "Team", href: "#team" },
@@ -19,7 +20,7 @@ const socials = [
 ];
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
+  const currentYear = "2026";
 
   return (
     <footer id="contact" className="border-t border-[#AFD5BC]/18 bg-[#1E3159] px-5 py-12 text-[#dfd7d7] sm:px-8 lg:px-12">
@@ -62,7 +63,6 @@ const Footer: React.FC = () => {
 
       <div className="mx-auto mt-10 flex max-w-7xl flex-col gap-3 border-t border-[#AFD5BC]/15 pt-6 text-xs font-semibold uppercase tracking-[0.18em] text-[#dfd7d7]/50 sm:flex-row sm:items-center sm:justify-between">
         <span>© {currentYear} Hack The Ridge. All rights reserved.</span>
-        <span>Built with the HTR palette.</span>
       </div>
     </footer>
   );

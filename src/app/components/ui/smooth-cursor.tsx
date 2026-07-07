@@ -42,7 +42,7 @@ const defaultSpringConfig: SpringConfig = {
   restDelta: 0.001,
 };
 
-// Separate config for rotation - smoother and more responsive
+
 const rotationSpringConfig: SpringConfig = {
   damping: 30,
   stiffness: 200,
@@ -70,7 +70,7 @@ export function SmoothCursor({
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       
-      // Initialize position on first move
+      
       if (!isInitialized) {
         lastX = clientX;
         lastY = clientY;
@@ -80,13 +80,13 @@ export function SmoothCursor({
         return;
       }
       
-      // Use RAF for smoother updates
+      
       if (rafId) {
         cancelAnimationFrame(rafId);
       }
       
       rafId = requestAnimationFrame(() => {
-        // Always update position for smooth movement
+        
         mouseX.set(clientX);
         mouseY.set(clientY);
         
