@@ -1,0 +1,182 @@
+"use client";
+
+import React, { useState, useEffect } from 'react';
+import DynamicGradientBlob from '../ui/DynamicGradientBlob';
+
+interface RegisterCardProps {
+  textColor: string;
+}
+
+const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const deadline = new Date('2025-11-21T23:59:59').getTime();
+      const now = new Date().getTime();
+      const difference = deadline - now;
+
+      if (difference > 0) {
+        setTimeLeft({
+          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((difference % (1000 * 60)) / 1000)
+        });
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+      }
+    };
+
+    calculateTimeLeft();
+    const timer = setInterval(calculateTimeLeft, 1000);
+
+    return () => clearInterval(timer);
+  }, []);
+  return (
+    <div className="w-full h-full flex items-center justify-center relative overflow-hidden register-card-container shadow-none" style={{ boxShadow: 'none', filter: 'none' }}>
+      <div className="relative z-10 w-full h-full flex items-center justify-center">
+        
+        <div className="block md:hidden">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="text-center">
+              <h1
+                className="text-4xl sm:text-5xl font-bold text-white leading-none tracking-wider"
+                style={{
+                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontWeight: 800
+                }}
+              >
+                REGISTER NOW
+              </h1>
+            </div>
+
+            <div className="relative flex items-center justify-center">
+              <a
+                href="https://dash.hacktheridge.ca/dashboard"
+                className="relative z-20 w-80 h-32 sm:w-96 sm:h-36 shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
+                style={{
+                  background: 'linear-gradient(135deg, #a8e6a3 0%, #88d8a3 25%, #ffd89b 50%, #ffb347 75%, #ff8c69 100%)',
+                  borderRadius: '60px'
+                }}
+              >
+                <span
+                  className="text-lg sm:text-2xl font-bold text-white leading-none tracking-wider"
+                  style={{
+                    fontFamily: 'Impact, Arial Black, sans-serif',
+                    fontWeight: 800,
+                    textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                  }}
+                >
+                  2025 12 06
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div className="hidden md:block">
+          <div className="relative flex items-center justify-center">
+            <DynamicGradientBlob
+              width="800px"
+              height="280px"
+              className="relative z-20"
+              href="https://dash.hacktheridge.ca/dashboard"
+            >
+              <span
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-none tracking-wider"
+                style={{
+                  fontFamily: 'Impact, Arial Black, sans-serif',
+                  fontWeight: 800,
+                  textShadow: '2px 2px 4px rgba(0,0,0,0.3)'
+                }}
+              >
+                2025 / 12 / 06
+              </span>
+            </DynamicGradientBlob>
+
+            <div className="absolute -top-8 -left-24 lg:-top-12 lg:-left-32 xl:-top-16 xl:-left-40 z-30">
+              <h1
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] font-bold text-white leading-none tracking-wider"
+                style={{
+                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontWeight: 800
+                }}
+              >
+                REGISTER
+              </h1>
+            </div>
+
+            <div className="absolute -bottom-8 -right-16 lg:-bottom-12 lg:-right-20 xl:-bottom-16 xl:-right-24 z-30">
+              <h1
+                className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] font-bold text-white leading-none tracking-wider"
+                style={{
+                  fontFamily: 'Sacco, Arial, sans-serif',
+                  fontWeight: 800
+                }}
+              >
+                NOW
+              </h1>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute bottom-1 sm:bottom-2 md:bottom-4 lg:bottom-8 xl:bottom-12 2xl:bottom-16 left-1/2 transform -translate-x-1/2 z-20">
+        <div className="flex items-center justify-center flex-wrap gap-3 sm:gap-6 lg:gap-8 text-gray-400">
+          <a
+            href="https://hacktheridge.devpost.com/"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
+            style={{
+              fontFamily: 'Impact, Arial Black, sans-serif'
+            }}
+          >
+            DEV POST
+          </a>
+          <span className="text-gray-500 hidden sm:inline">|</span>
+          <a
+            href="https://www.google.com/maps/place/1123+Glenashton+Dr,+Oakville,+ON+L6H+5M1/@43.4890486,-79.7018848,17z/data=!3m1!4b1!4m6!3m5!1s0x882b42d9c20dd28f:0xde627c7b3aa0160d!8m2!3d43.4890486!4d-79.6993099!16s%2Fg%2F11cs7vlhvj?entry=ttu&g_ep=EgoyMDI1MTAwMS4wIKXMDSoASAFQAw%3D%3D"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
+            style={{
+              fontFamily: 'Impact, Arial Black, sans-serif'
+            }}
+          >
+            ADDRESS
+          </a>
+          <span className="text-gray-500 hidden sm:inline">|</span>
+          <a
+            href="https://discord.gg/RdEwzSeN"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
+            style={{
+              fontFamily: 'Impact, Arial Black, sans-serif'
+            }}
+          >
+            DISCORD
+          </a>
+          <span className="text-gray-500 hidden sm:inline">|</span>
+          <a
+            href="https://www.instagram.com/hacktheridge/"
+            className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
+            style={{
+              fontFamily: 'Impact, Arial Black, sans-serif'
+            }}
+          >
+            INSTAGRAM
+          </a>
+          <span className="text-gray-500 hidden sm:inline">|</span>
+          <div
+            className="w-full text-center mt-2 sm:mt-3 md:mt-4 text-white text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider flex items-center justify-center gap-2"
+            style={{
+              fontFamily: 'Impact, Arial Black, sans-serif'
+            }}
+          >
+            <span className="text-gray-400">REGISTRATION DEADLINE:</span>
+            <span>{timeLeft.days}D {timeLeft.hours}H {timeLeft.minutes}M {timeLeft.seconds}S</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default RegisterCard;
