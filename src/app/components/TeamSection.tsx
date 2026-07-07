@@ -9,8 +9,8 @@ const pastBuilders = [
   {
     name: "Aiden Pinto",
     image: "/team/aiden.JPG",
-    title: "Co-President",
-    hoverText: "Co-President: kept the room moving when the room had no idea where it was going.",
+    title: "Executive Lead",
+    hoverText: "Executive Lead: kept the room moving when the room had no idea where it was going.",
     tag: "calm in chaos",
     objectPosition: "center 34%",
   },
@@ -33,8 +33,8 @@ const pastBuilders = [
   {
     name: "Sumedh Panaskar",
     image: "/team/sumedh.JPG",
-    title: "Sponsorships Director",
-    hoverText: "Sponsorships Director: turned polite emails into prizes, support, and very relieved organizers.",
+    title: "Sponsorships Executive",
+    hoverText: "Sponsorships Executive: turned polite emails into prizes, support, and very relieved organizers.",
     tag: "email boss fight",
     objectPosition: "center 34%",
   },
@@ -57,8 +57,8 @@ const pastBuilders = [
   {
     name: "Peter Shao",
     image: "/team/peter.JPG",
-    title: "Web Development Director",
-    hoverText: "Web Development Director: fixed bugs, shipped pages, and somehow found new bugs with confidence.",
+    title: "Web Development Executive",
+    hoverText: "Web Development Executive: fixed bugs, shipped pages, and somehow found new bugs with confidence.",
     tag: "bug negotiator",
     objectPosition: "center 34%",
   },
@@ -73,8 +73,8 @@ const pastBuilders = [
   {
     name: "Michelle Wang",
     image: "/team/michelle.JPG",
-    title: "Promotions Director",
-    hoverText: "Promotions Director: made the event look calm while the group chat definitely was not.",
+    title: "Promotions Executive",
+    hoverText: "Promotions Executive: made the event look calm while the group chat definitely was not.",
     tag: "vibe compiler",
     objectPosition: "center 22%",
   },

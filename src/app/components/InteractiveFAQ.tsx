@@ -1,6 +1,6 @@
 "use client";
 
-import React, { FormEvent, useMemo, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Tree, Folder, File, type TreeViewElement } from "@/components/magicui/file-tree";
 
@@ -11,7 +11,7 @@ interface FAQItem {
 }
 
 type TerminalLine = {
-  type: "input" | "output" | "error";
+  type: "input" | "output" | "error" | "train";
   text: string;
 };
 
@@ -98,6 +98,8 @@ const commandList = [
   "open schedule-timeline",
   "open found-a-bug",
   "bug",
+  "sl",
+  "cls",
   "clear",
 ];
 
@@ -115,18 +117,48 @@ const aliases: Record<string, string> = {
   timeline: "schedule-timeline",
   bug: "found-a-bug",
   bugs: "found-a-bug",
+  report: "found-a-bug",
+  "report-a-bug": "found-a-bug",
 };
+
+const trainArt = String.raw`      ====        ________                ___________
+  _D _|  |_______/        \__I_I_____===__|_________|
+   |(_)---  |   HTR EXPRESS   |        =|___ ___|      ________________
+   /     |  |                 |        ||_| |_||     _|                \_____
+  |      |  |                 |        | |___| |    |   Build Break Launch  |
+  |______|__|_________________|________|_|___|_|____|______________________|
+   (O)     (O)           (O)     (O)        (O)              (O)       (O)`;
+
+const bootArt = String.raw` ______    ___      ___
+|  ____|  / _ \    / _ \
+| |__    | | | |  | | | |
+|  __|   | |_| |  | |_| |
+|_|       \__\_\   \__\_\
+
+FAQ GNU/LINUX
+
+        .--.
+       |o_o |
+       |:_/ |
+      //   \ \
+     (|     | )
+    /'\_   _/'\
+    \___)=(___/
+
+Type help, list, bug, sl, or cls.`;
+
+const bootLines: TerminalLine[] = [
+  { type: "output", text: bootArt },
+];
 
 const formatFAQ = (faq: FAQItem) => [`${faq.question}`, faq.answer];
 
 const InteractiveFAQ: React.FC = () => {
-  const [selectedFAQ, setSelectedFAQ] = useState<FAQItem | null>(faqData[0]);
-  const [expandedId, setExpandedId] = useState<string | null>(faqData[0].id);
+  const [selectedFAQ, setSelectedFAQ] = useState<FAQItem | null>(null);
   const [command, setCommand] = useState("");
-  const [lines, setLines] = useState<TerminalLine[]>([
-    { type: "output", text: "HTR FAQ shell ready." },
-  ]);
+  const [lines, setLines] = useState<TerminalLine[]>(bootLines);
   const inputRef = useRef<HTMLInputElement>(null);
+  const terminalEndRef = useRef<HTMLDivElement>(null);
 
   const questionMap = useMemo(() => {
     return faqData.reduce<Record<string, FAQItem>>((acc, faq) => {
@@ -135,9 +167,9 @@ const InteractiveFAQ: React.FC = () => {
     }, {});
   }, []);
 
-  const pushLines = (nextLines: TerminalLine[]) => {
-    setLines((current) => [...current, ...nextLines]);
-  };
+  useEffect(() => {
+    terminalEndRef.current?.scrollIntoView({ block: "end" });
+  }, [lines]);
 
   const runCommand = (rawCommand: string) => {
     const trimmed = rawCommand.trim();
@@ -147,7 +179,7 @@ const InteractiveFAQ: React.FC = () => {
     const inputLine: TerminalLine = { type: "input", text: `htr-terminal> ${trimmed}` };
 
     if (lower === "clear" || lower === "cls") {
-      setLines([{ type: "output", text: "Cleared." }]);
+      setLines(bootLines);
       return;
     }
 
@@ -169,13 +201,22 @@ const InteractiveFAQ: React.FC = () => {
       return;
     }
 
+    if (lower === "sl") {
+      setLines((current) => [
+        ...current,
+        inputLine,
+        { type: "output", text: "HTR Express is passing through the terminal." },
+        { type: "train", text: trainArt },
+      ]);
+      return;
+    }
+
     const requestedId = lower.startsWith("open ") ? lower.replace(/^open\s+/, "").trim() : lower;
     const resolvedId = aliases[requestedId] ?? requestedId;
     const faq = questionMap[resolvedId];
 
     if (faq) {
       setSelectedFAQ(faq);
-      setExpandedId(faq.id);
       setLines((current) => [
         ...current,
         inputLine,
@@ -201,8 +242,8 @@ const InteractiveFAQ: React.FC = () => {
     const faq = questionMap[id];
     if (!faq) return;
     setSelectedFAQ(faq);
-    setExpandedId(faq.id);
-    pushLines([
+    setLines((current) => [
+      ...current,
       { type: "input", text: `htr-terminal> open ${faq.id}` },
       ...formatFAQ(faq).map<TerminalLine>((text) => ({ type: "output", text })),
     ]);
@@ -232,7 +273,7 @@ const InteractiveFAQ: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.2 }}
       >
-        <div className="lg:col-span-1 rounded-3xl border border-[#AFD5BC]/20 bg-[#081326]/50 p-5 shadow-[0_30px_80px_rgba(0,0,0,0.25)] backdrop-blur-xl">
+        <div className="lg:col-span-1 rounded-3xl border border-[#AFD5BC]/12 bg-transparent p-2 lg:p-6">
           <div className="hidden h-[390px] w-full lg:block">
             <Tree className="h-full w-full text-[#dfd7d7]" elements={treeData} initialExpandedItems={["faq-root"]} indicator={true}>
               <Folder element="FAQ" value="faq-root" className="text-[#dfd7d7] text-lg font-semibold p-2">
@@ -269,32 +310,42 @@ const InteractiveFAQ: React.FC = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-2 rounded-3xl border border-[#AFD5BC]/25 bg-[#081326]/88 shadow-[0_30px_90px_rgba(0,0,0,0.35)] backdrop-blur-xl overflow-hidden">
-          <div className="flex items-center justify-between border-b border-[#AFD5BC]/15 px-5 py-3">
-            <div className="flex items-center gap-2">
-              <span className="h-3 w-3 rounded-full bg-[#AFD5BC]" />
-              <span className="h-3 w-3 rounded-full bg-[#7DB6AD]" />
-              <span className="h-3 w-3 rounded-full bg-[#dfd7d7]" />
-            </div>
-          </div>
-
-          <div
-            className="h-[390px] overflow-y-auto px-5 py-5 font-mono text-sm leading-relaxed text-[#dfd7d7]"
-            onClick={() => inputRef.current?.focus()}
-          >
-            {lines.map((line, index) => (
-              <div
-                key={`${line.type}-${index}`}
-                className={`mb-3 whitespace-pre-wrap break-words ${
-                  line.type === "input" ? "text-[#AFD5BC]" : line.type === "error" ? "text-[#dfd7d7]" : "text-[#dfd7d7]/90"
-                }`}
-              >
-                {line.text}
+        <div className="lg:col-span-2 h-[430px] w-full">
+          <div className="faq-terminal-window h-full w-full" onClick={() => inputRef.current?.focus()}>
+            <div className="faq-terminal-header">
+              <div className="flex flex-row gap-x-2">
+                <div className="h-2 w-2 rounded-full bg-red-500" />
+                <div className="h-2 w-2 rounded-full bg-yellow-500" />
+                <div className="h-2 w-2 rounded-full bg-green-500" />
               </div>
-            ))}
+            </div>
 
-            <form onSubmit={submitCommand} className="mt-4 flex items-center gap-2 border-t border-[#AFD5BC]/12 pt-4">
-              <label htmlFor="faq-terminal-input" className="shrink-0 text-[#AFD5BC]">
+            <div className="terminal-scrollbar flex-1 overflow-y-auto overflow-x-hidden p-4 font-mono text-sm leading-relaxed text-[#dfd7d7]">
+              <pre className="min-h-full whitespace-pre-wrap break-words">
+                <code className="grid gap-y-2">
+                  {lines.map((line, index) => (
+                    <span
+                      key={`${line.type}-${index}`}
+                      className={`${
+                        line.type === "input"
+                          ? "text-[#AFD5BC]"
+                          : line.type === "error"
+                            ? "text-[#dfd7d7]"
+                            : line.type === "train"
+                              ? "sl-train text-[#AFD5BC]"
+                              : "text-[#dfd7d7]/90"
+                      }`}
+                    >
+                      {line.text}
+                    </span>
+                  ))}
+                  <span ref={terminalEndRef} aria-hidden="true" />
+                </code>
+              </pre>
+            </div>
+
+            <form onSubmit={submitCommand} className="faq-terminal-input-row">
+              <label htmlFor="faq-terminal-input" className="shrink-0 text-[#AFD5BC] font-mono text-sm">
                 htr-terminal&gt;
               </label>
               <input
@@ -304,56 +355,18 @@ const InteractiveFAQ: React.FC = () => {
                 onChange={(event) => setCommand(event.target.value)}
                 autoComplete="off"
                 spellCheck={false}
-                className="min-w-0 flex-1 bg-transparent text-[#dfd7d7] outline-none placeholder:text-[#dfd7d7]/35"
+                className="min-w-0 flex-1 bg-transparent font-mono text-sm text-[#dfd7d7] outline-none placeholder:text-[#dfd7d7]/35"
                 placeholder=""
               />
               <button
                 type="submit"
-                className="rounded-full border border-[#AFD5BC]/35 px-4 py-2 text-xs font-black uppercase tracking-[0.18em] text-[#AFD5BC] transition hover:bg-[#AFD5BC] hover:text-[#1E3159]"
+                className="rounded-md border border-[#AFD5BC]/35 px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-[0.18em] text-[#AFD5BC] transition hover:bg-[#AFD5BC] hover:text-[#1E3159]"
               >
                 Run
               </button>
             </form>
           </div>
         </div>
-      </motion.div>
-
-      {selectedFAQ && (
-        <motion.div
-          className="mt-6 rounded-3xl border border-[#AFD5BC]/16 bg-[#1E3159]/25 p-6 text-[#dfd7d7]"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <button
-            onClick={() => setExpandedId(expandedId === selectedFAQ.id ? null : selectedFAQ.id)}
-            className="flex w-full items-center justify-between gap-4 text-left"
-          >
-            <span className="text-xl font-black">{selectedFAQ.question}</span>
-            <span className="text-[#AFD5BC]">{expandedId === selectedFAQ.id ? "close" : "open"}</span>
-          </button>
-          {expandedId === selectedFAQ.id && (
-            <p className="mt-4 whitespace-pre-wrap text-[#dfd7d7]/82 leading-relaxed">{selectedFAQ.answer}</p>
-          )}
-        </motion.div>
-      )}
-
-      <motion.div
-        className="text-center mt-12"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
-        <p className="text-[#dfd7d7]/80 text-sm mx-auto max-w-xl">
-          Serious questions? Email{" "}
-          <a
-            href="mailto:mahajanatharv2009@gmail.com"
-            className="text-[#AFD5BC] hover:text-[#dfd7d7] transition-colors underline"
-          >
-            mahajanatharv2009@gmail.com
-          </a>
-        </p>
       </motion.div>
     </div>
   );

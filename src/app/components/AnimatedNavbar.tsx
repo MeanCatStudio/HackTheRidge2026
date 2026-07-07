@@ -22,12 +22,24 @@ const navItems: NavItem[] = [
 const AnimatedNavbar: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
+    const storedTheme = window.localStorage.getItem("htr-theme");
+    const shouldUseDark = storedTheme === "dark";
+    document.documentElement.classList.toggle("htr-dark", shouldUseDark);
+    setIsDarkMode(shouldUseDark);
     setMounted(true);
   }, []);
 
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  const toggleDarkMode = () => {
+    const nextMode = !isDarkMode;
+    setIsDarkMode(nextMode);
+    document.documentElement.classList.toggle("htr-dark", nextMode);
+    window.localStorage.setItem("htr-theme", nextMode ? "dark" : "classic");
+  };
 
   if (!mounted) {
     return <header className="fixed left-0 right-0 top-0 z-50 px-4 pt-4 sm:px-6" aria-label="Site navigation" />;
@@ -47,12 +59,17 @@ const AnimatedNavbar: React.FC = () => {
           <CyberWordmark variant="nav" />
         </Link>
 
-        <div className="nav-links-shell hidden items-center gap-1 lg:flex" aria-label="Section navigation">
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className="nav-chip">
-              {item.label}
-            </Link>
-          ))}
+        <div className="hidden items-center gap-2 lg:flex">
+          <div className="nav-links-shell flex items-center gap-1" aria-label="Section navigation">
+            {navItems.map((item) => (
+              <Link key={item.href} href={item.href} className="nav-chip">
+                {item.label}
+              </Link>
+            ))}
+          </div>
+          <button type="button" className="nav-theme-switch" onClick={toggleDarkMode} aria-pressed={isDarkMode}>
+            {isDarkMode ? "Classic" : "Dark"}
+          </button>
         </div>
 
         <button
@@ -83,6 +100,9 @@ const AnimatedNavbar: React.FC = () => {
                 {item.label}
               </Link>
             ))}
+            <button type="button" className="nav-theme-switch mx-auto w-full" onClick={toggleDarkMode} aria-pressed={isDarkMode}>
+              {isDarkMode ? "Classic" : "Dark"}
+            </button>
           </div>
         </div>
       )}
