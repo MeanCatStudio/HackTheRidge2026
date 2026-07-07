@@ -1,432 +1,360 @@
 "use client";
 
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import InteractiveScrollingCards, { CardData } from "./components/InteractiveScrollingCards";
-import SponsorsTitle from "./components/SponsorsTitle";
-import SponsorsGrid from "./components/SponsorsGrid";
+import {
+  ArrowRight,
+  CalendarDays,
+  Code2,
+  Cpu,
+  MapPin,
+  Rocket,
+  Sparkles,
+  Trophy,
+  Users,
+  Wifi,
+  Zap,
+} from "lucide-react";
 import GradientSection from "./components/GradientSection";
 import TeamSection from "./components/TeamSection";
 import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
+import InteractiveBackground from "./components/InteractiveBackground";
+import CyberWordmark from "./components/CyberWordmark";
 
-// Card data for the second page
-const CARDS_DATA: CardData[] = [
+const stats = [
+  { value: "150+", label: "students built last year", icon: Users },
+  { value: "$6K+", label: "was raised for prizes", icon: Trophy },
+  { value: "9", label: "past builders were honoured", icon: Sparkles },
+  { value: "1", label: "day became a launchpad", icon: Zap },
+];
+
+const tracks = [
   {
-    id: 1,
-    headerTitle: 'ABOUT HTR.',
-    title: 'Where Innovation Meets Community',
-    content: 'Hack the Ridge is where innovation meets community. We are an annual hackathon at Iroquois Ridge High School that hosts over 150+ leaders in STEM every year to innovate and push the limit of technology.',
-    imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-card-green',
-    textColor: 'text-white',
+    title: "AI + Automation",
+    eyebrow: "Think smarter",
+    icon: Cpu,
+    body: "Build tools that save time, personalize experiences, or help people make better decisions.",
   },
   {
-    id: 2,
-    headerTitle: 'HISTORY',
-    title: '500+ Past Participants',
-    content: 'Since 2019, we\'ve grown from 50 to 200+ hackers annually, creating lasting impact.',
-    imageUrl: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-card-brown',
-    textColor: 'text-white',
+    title: "Climate + Community",
+    eyebrow: "Build for impact",
+    icon: Rocket,
+    body: "Create apps that support schools, local communities, sustainability, accessibility, or wellbeing.",
   },
   {
-    id: 3,
-    headerTitle: 'Last year...',
-    title: 'Healthcare Revolution',
-    content: '2024 marked our most impactful year as 300+ innovators pushed healthcare boundaries with cutting-edge AI solutions.',
-    imageUrl: '',
-    bgColor: 'bg-[#c39c74]',
-    textColor: 'text-white',
-  },
-  {
-    id: 4,
-    headerTitle: '2025',
-    title: 'Ready to Build?',
-    content: 'Join us for our biggest event yet. Registration opens soon.',
-    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-app-bg',
-    textColor: 'text-white',
+    title: "Web + Games",
+    eyebrow: "Make it playable",
+    icon: Code2,
+    body: "Design polished websites, games, visual tools, dashboards, and interactive experiences.",
   },
 ];
 
+const featureCards = [
+  "Start with an idea. Leave with a prototype people can actually try.",
+  "Meet builders, designers, and first-time hackers in a space made for learning.",
+  "Turn blank screens into games, apps, tools, and demos with friendly support nearby.",
+  "Create something you can show in a portfolio, presentation, or future application.",
+  "Move through the day with checkpoints, feedback, mini-wins, and team energy.",
+  "Celebrate every project — polished, weird, ambitious, simple, or still evolving.",
+];
+
+const gallery = [
+  "/last_year/history1.jpg",
+  "/last_year/history2.jpeg",
+  "/last_year/history3.jpg",
+  "/last_year/history4.jpg",
+  "/last_year/history5.jpg",
+  "/history%20photos/photo1.jpg",
+  "/history%20photos/photo2.jpeg",
+  "/history%20photos/photo3.jpg",
+  "/history%20photos/photo4.jpg",
+  "/history%20photos/photo5.jpeg",
+  "/history%20photos/photo6.jpg",
+  "/history%20photos/photo7.jpg",
+  "/history%20photos/photo8.jpg",
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 26 },
+  visible: { opacity: 1, y: 0 },
+};
+
 export default function Home() {
-  const [showOldHomepage, setShowOldHomepage] = useState(false);
+  return (
+    <main className="min-h-screen w-full overflow-x-hidden bg-htr-blue text-htr-white">
+      <AnimatedNavbar />
 
-  if (!showOldHomepage) {
-    return (
-      <div className="w-full min-h-screen flex flex-col items-center justify-center overflow-hidden relative" style={{ backgroundColor: '#2E2E2E' }}>
-        {/* Animated grid background */}
-        <div className="absolute inset-0 opacity-5">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#D9BE6A" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-        </div>
+      <section id="home" className="relative isolate min-h-screen overflow-hidden px-5 pt-28 sm:px-8 lg:px-12">
+        <InteractiveBackground />
 
-        {/* Glow orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#D9BE6A]/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#D9BE6A]/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-[#D9BE6A]/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
-        
-        <div className="flex-1 flex flex-col items-center md:items-center justify-center text-center px-4 md:px-0 z-10 relative">
-          {/* Top accent line */}
+        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(430px,620px)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_620px] 2xl:grid-cols-[minmax(0,1fr)_660px]">
           <motion.div
-            animate={{ scaleX: [0.5, 1, 0.5] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="hidden md:block mb-12 h-1 bg-gradient-to-r from-transparent via-[#D9BE6A] to-transparent"
-            style={{ width: '120px' }}
-          />
-
-          {/* Status label */}
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
+            initial="hidden"
+            animate="visible"
+            variants={fadeUp}
+            transition={{ duration: 0.7 }}
+            className="min-w-0 text-center lg:text-left"
           >
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[#D9BE6A]/40 bg-[#D9BE6A]/5 backdrop-blur-md">
-              <div className="w-2 h-2 rounded-full bg-[#D9BE6A] animate-pulse" />
-              <span className="text-xs uppercase tracking-widest text-[#D9BE6A]/80 font-medium">Project Status: In Development</span>
+            <h1>
+              <CyberWordmark variant="hero" />
+            </h1>
+
+            <p className="mx-auto mt-7 max-w-2xl text-base leading-8 text-htr-white/82 sm:text-lg lg:mx-0 lg:text-xl">
+              Step into a creative tech playground where students team up, try bold ideas, learn by building, and turn sparks of imagination into real projects.
+            </p>
+
+            <div className="mt-8 flex flex-col items-center gap-4 sm:flex-row lg:justify-start">
+              <Link href="#register" className="button-shine group inline-flex w-full items-center justify-center overflow-hidden rounded-full bg-htr-green px-7 py-4 text-sm font-black uppercase tracking-[0.22em] text-htr-blue shadow-2xl shadow-htr-green/20 transition hover:-translate-y-1 hover:bg-htr-white sm:w-auto">
+                Register Interest
+                <ArrowRight className="ml-3 h-4 w-4 transition group-hover:translate-x-1" />
+              </Link>
+
+            </div>
+
+            <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:max-w-2xl">
+              {stats.map((stat, index) => {
+                const Icon = stat.icon;
+                return (
+                  <motion.div
+                    key={stat.label}
+                    initial={{ opacity: 0, y: 22 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.55, delay: 0.25 + index * 0.08 }}
+                    className="tilt-card rounded-[1.4rem] border border-htr-green/20 bg-htr-white/10 p-4 text-left shadow-xl shadow-black/10 backdrop-blur-xl"
+                  >
+                    <Icon className="mb-4 h-5 w-5 text-htr-green" />
+                    <div className="font-sacco text-4xl font-black leading-none text-htr-green sm:text-5xl">{stat.value}</div>
+                    <div className="mt-2 text-[0.65rem] font-black uppercase tracking-[0.16em] text-htr-white/65">{stat.label}</div>
+                  </motion.div>
+                );
+              })}
             </div>
           </motion.div>
 
-          {/* Main heading */}
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1 }}
-            className="mb-6"
-          >
-            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A]/20 via-[#A7C0B7]/80 to-[#A7C0B7] bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Website Under
-            </h1>
-
-            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A] to-[#A7C0B7]/20 bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Construction
-            </h1>
-          </motion.div>
-
-          {/* Tech badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+          <motion.aside
+            initial={{ opacity: 0, scale: 0.92, rotate: 1.5 }}
+            animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10"
+            className="relative mx-auto w-full min-w-0 max-w-[660px] lg:mx-0 lg:justify-self-end"
           >
-            {['2026-27 Season', 'Coming Soon'].map((badge, i) => (
-              <motion.div
-                key={badge}
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs uppercase tracking-wider font-bold rounded-full border border-[#D9BE6A]/30 bg-black/40 text-[#D9BE6A]/90"
-              >
-                {badge}
-              </motion.div>
-            ))}
-          </motion.div>
+            <div className="absolute -inset-8 rounded-[3.5rem] bg-htr-green/20 blur-3xl" />
+            <div className="glass-card relative overflow-hidden rounded-[2.35rem] border border-htr-green/35 p-4 shadow-2xl shadow-black/30 sm:p-6 lg:p-7">
+              <div className="rounded-[1.8rem] border border-htr-white/15 bg-htr-blue/72 p-5 sm:p-7 lg:p-8">
+                <div className="mb-5 border-b border-htr-green/20 pb-5">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.3em] text-htr-green">Mission Control</p>
+                    <h2 className="mt-2 text-2xl font-black text-htr-white sm:text-3xl">Hackathon dashboard</h2>
+                  </div>
 
-          {/* Divider */}
-          <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#D9BE6A]/50 to-transparent mb-8" />          
+                </div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-          >
+                <div className="grid gap-3">
+                  <div className="rounded-3xl bg-htr-green p-5 text-htr-blue shadow-xl shadow-htr-green/10">
+                    <div className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.22em] opacity-75">
+                      <CalendarDays className="h-4 w-4" />
+                      Event date
+                    </div>
+                    <p className="mt-3 text-3xl font-black sm:text-4xl">To Be Announced</p>
+                    <div className="mt-4 h-2 overflow-hidden rounded-full bg-htr-blue/18">
+                      <motion.div
+                        className="h-full rounded-full bg-htr-blue"
+                        initial={{ width: "0%" }}
+                        animate={{ width: "68%" }}
+                        transition={{ duration: 1.2, delay: 0.5 }}
+                      />
+                    </div>
+                  </div>
 
-            <motion.button
-              onClick={() => setShowOldHomepage(true)}
-              whileHover={{ 
-                scale: 1.08,
-                boxShadow: '0 0 40px rgba(217, 190, 106, 0.5), inset 0 0 20px rgba(217, 190, 106, 0.1)',
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative px-4 py-3 sm:px-8 sm:py-4 font-bold text-sm sm:text-base md:text-lg uppercase transition-all duration-300 rounded-lg sm:rounded-xl overflow-hidden"
-              style={{
-                fontFamily: 'Sacco, Impact, Arial, sans-serif',
-                letterSpacing: '0.08em',
-                fontWeight: 700
-              }}
-            >
-              {/* Gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/30 to-[#D9BE6A]/10" />
-              
-              {/* Animated glow effect on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/20 via-transparent to-[#D9BE6A]/20"
-                animate={{ x: ['100%', '-100%'] }}
-                transition={{ duration: 2, repeat: 2, ease: "linear" }}
-                initial={{ x: '100%' }}
-              />
-
-              {/* Content */}
-              <div className="relative z-10 flex items-center justify-center gap-3 px-5">
-                <span className="text-[#A7C1BA] md:text-2xl text-lg">View Previous Year's Site</span>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <div className="rounded-3xl border border-htr-green/20 bg-htr-white/10 p-5">
+                      <div className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.18em] text-htr-green">
+                        <MapPin className="h-4 w-4" />
+                        Location
+                      </div>
+                      <p className="mt-3 text-lg font-black leading-snug">Iroquois Ridge High School</p>
+                      <p className="mt-1 text-sm text-htr-white/60">Oakville, Ontario</p>
+                    </div>
+                    <div className="rounded-3xl border border-htr-green/20 bg-htr-white/10 p-5">
+                      <div className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.18em] text-htr-green">
+                        <Wifi className="h-4 w-4" />
+                        Site mode
+                      </div>
+                      <p className="mt-3 text-lg font-black leading-snug">Interactive design was upgraded</p>
+                      <p className="mt-1 text-sm text-htr-white/60">Full-screen layout was polished</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-
-              {/* Border glow */}
-              <div className="absolute inset-0 rounded-xl border-2 border-[#D9BE6A]/0 group-hover:border-[#D9BE6A]/100 transition-all duration-300" />
-            </motion.button>
-          </motion.div>
-
-          {/* Tech specs footer */}
-          
+            </div>
+          </motion.aside>
         </div>
-      </div>
-    );
-  }
+      </section>
 
-  return (
-    <div className="bg-app-bg w-full min-w-full">
-      {/* Animated Navbar - Fixed Position */}
-      <AnimatedNavbar />
-      
-      {/* First Page - Landing Section */}
-      <div id="home" className="min-h-screen flex flex-col w-full" style={{ backgroundColor: '#2e2e2e' }}>
-        {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center relative overflow-hidden px-4 sm:px-6 md:px-8">
-          <div className="text-center relative z-10">
-            {/* Main Title */}
-            <motion.h1
-              className="text-8xl sm:text-7xl md:text-9xl lg:text-[11rem] xl:text-[12rem] 2xl:text-[13rem] font-bold text-white leading-none px-2 sm:px-4"
-              style={{
-                fontFamily: 'Sacco, Arial, sans-serif',
-                letterSpacing: '0.05em'
-              }}
-              animate={{
-                textShadow: [
-                  "0 0 0px rgba(94,234,212,0)",
-                  "-4px 0 0px rgba(94,234,212,0.8), 4px 0 0px rgba(251,207,130,0.8)",
-                  "3px 0 0px rgba(94,234,212,0.8), -3px 0 0px rgba(251,207,130,0.8)",
-                  "-2px 0 0px rgba(94,234,212,0.6), 2px 0 0px rgba(251,207,130,0.6)",
-                  "2px 0 0px rgba(94,234,212,0.4), -2px 0 0px rgba(251,207,130,0.4)",
-                  "0 0 0px rgba(94,234,212,0)"
-                ]
-              }}
-              transition={{
-                duration: 0.8,
-                delay: 0.7,
-                times: [0, 0.15, 0.35, 0.6, 0.8, 1]
-              }}
-            >
-              <motion.span
-                className="inline-block"
-                initial={{ x: -150, opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  x: 0, 
-                  opacity: 1, 
-                  scale: 1,
-                }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.2,
-                  ease: [0.7, 0, 0.84, 0]
-                }}
-                style={{ display: 'inline-block' }}
-              >
-                HACK THE
-              </motion.span>
-              {' '}
-              <motion.span
-                className="inline-block"
-                initial={{ x: 150, opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  x: 0,
-                  opacity: 1, 
-                  scale: 1,
-                }}
-                transition={{ 
-                  duration: 0.5,
-                  delay: 0.2,
-                  ease: [0.7, 0, 0.84, 0]
-                }}
-                style={{ 
-                  display: 'inline-block',
-                  marginLeft: '0.5rem'
-                }}
-              >
-                RIDGE
-              </motion.span>
-            </motion.h1>
-            
-            {/* Date and Location - Below title */}
+      <section id="about" className="relative overflow-hidden bg-htr-white px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
+        <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-htr-green/60 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-htr-shaded/35 blur-3xl" />
+        <div className="relative mx-auto max-w-7xl">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeUp}
+            transition={{ duration: 0.7 }}
+            className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end"
+          >
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-shaded">About HTR</p>
+              <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] sm:text-7xl lg:text-8xl">
+                Bring your spark. Build your story.
+              </h2>
+            </div>
+            <p className="text-lg leading-8 text-htr-blue/78 lg:text-xl">
+              Hack The Ridge is built for curious students, first-time hackers, experienced coders, designers, and friends who want to make something exciting together. No perfect idea required — just energy, teamwork, and the courage to start.
+            </p>
+          </motion.div>
+
+          <div className="mt-12 grid gap-5 md:grid-cols-3">
+            {tracks.map((track, index) => {
+              const Icon = track.icon;
+              return (
+                <motion.article
+                  key={track.title}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.55, delay: index * 0.08 }}
+                  whileHover={{ y: -10, rotate: index === 1 ? 0 : index === 0 ? -1 : 1 }}
+                  className="group relative overflow-hidden rounded-[2rem] border border-htr-blue/10 bg-white p-7 shadow-xl shadow-htr-blue/8"
+                >
+                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-htr-blue via-htr-shaded to-htr-green" />
+                  <div className="flex h-16 w-16 items-center justify-center rounded-3xl bg-htr-blue text-htr-green shadow-xl shadow-htr-blue/15 transition group-hover:scale-110 group-hover:rotate-6">
+                    <Icon className="h-8 w-8" />
+                  </div>
+                  <p className="mt-8 text-xs font-black uppercase tracking-[0.25em] text-htr-shaded">{track.eyebrow}</p>
+                  <h3 className="mt-3 text-3xl font-black text-htr-blue">{track.title}</h3>
+                  <p className="mt-4 leading-7 text-htr-blue/72">{track.body}</p>
+                </motion.article>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-htr-blue px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
+        <InteractiveBackground />
+        <div className="relative z-10 mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <motion.div
-              className="flex flex-col sm:flex-row justify-center sm:justify-between items-center sm:items-start w-full mt-2 sm:mt-1 md:mt-2 px-2 sm:px-4 gap-1 sm:gap-0"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7 }}
             >
-              {/* Date - Left aligned with HACK THE on desktop, centered on mobile */}
-              <div className="text-center sm:text-left flex-shrink-0">
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold font-impact" style={{ letterSpacing: '0.05em' }}>
-                  2025/12/06
-                </p>
-              </div>
-              
-              {/* Location - Right aligned with RIDGE on desktop, centered on mobile */}
-              <div className="text-center sm:text-right flex-shrink-0 sm:pr-2 md:pr-4 lg:pr-6 xl:pr-8">
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold font-impact" style={{ letterSpacing: '0.05em' }}>
-                  Iroquois Ridge High School
-                </p>
-              </div>
+              <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Build experience</p>
+              <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] sm:text-7xl lg:text-8xl">
+                Your idea gets a pulse.
+              </h2>
+              <p className="mt-6 max-w-xl text-lg leading-8 text-htr-white/76">
+                This is where curiosity turns into code, sketches become interfaces, and teams discover that the best projects often start as one wild conversation.
+              </p>
             </motion.div>
-          </div>
-          
-          {/* Wolf Logo positioned at bottom with 1/4 cut off - maintaining aspect ratio */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[35%] sm:translate-y-1/4 z-20">
-            <Image
-              src="/logo.png"
-              alt="Wolf Logo"
-              width={400}
-              height={400}
-              className="w-[500px] h-[500px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] xl:w-[550px] xl:h-[550px] 2xl:w-[600px] 2xl:h-[600px] opacity-100 object-contain"
-              priority
-            />
-          </div>
 
-          {/* Animated Corner Images - Flying from bottom center to fixed corner positions */}
-          
-          {/* Top Left - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              left: 'clamp(2rem, 8vw, 12rem)',
-              top: 'clamp(2rem, 8vh, 9rem)',
-              transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToTopLeft 1s ease-out forwards',
-              animationDelay: '0.7s'
-            }}
-          >
-            <Image
-              src="/homepage/bubble.svg"
-              alt="Top left decoration"
-              width={100}
-              height={100}
-              className="bg-transparent"
-              style={{
-                width: 'clamp(60px, 8vw, 150px)',
-                height: 'clamp(60px, 8vw, 150px)',
-                maxWidth: 'min(12vh, 150px)',
-                maxHeight: 'min(12vh, 150px)'
-              }}
-            />
+            <div className="grid gap-4 sm:grid-cols-2">
+              {featureCards.map((feature, index) => (
+                <motion.div
+                  key={feature}
+                  initial={{ opacity: 0, y: 24 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.05 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="tilt-card rounded-[1.6rem] border border-htr-green/20 bg-htr-white/10 p-5 shadow-xl shadow-black/10 backdrop-blur-xl"
+                >
+                  <div className="mb-6 flex h-11 w-11 items-center justify-center rounded-2xl bg-htr-green text-htr-blue">
+                    <Sparkles className="h-5 w-5" />
+                  </div>
+                  <p className="text-base font-bold leading-7 text-htr-white/90">{feature}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
 
-          {/* Top Right - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              right: 'clamp(2rem, 8vw, 12rem)',
-              top: 'clamp(3rem, 10vh, 11rem)',
-              transform: 'translate(50vw, 100vh)',
-              animation: 'flyToTopRight 1s ease-out forwards',
-              animationDelay: '0.75s'
-            }}
-          >
-            <Image
-              src="/homepage/cloud.svg"
-              alt="Top right decoration"
-              width={90}
-              height={90}
-              className="bg-transparent"
-              style={{
-                width: 'clamp(55px, 7vw, 130px)',
-                height: 'clamp(55px, 7vw, 130px)',
-                maxWidth: 'min(11vh, 130px)',
-                maxHeight: 'min(11vh, 130px)'
-              }}
-            />
+          <div className="mt-14 overflow-hidden rounded-[2.2rem] border border-htr-green/20 bg-htr-white/10 p-3 shadow-2xl shadow-black/20 backdrop-blur-xl">
+            <div className="marquee-track flex gap-3">
+              {[...gallery, ...gallery].map((src, index) => (
+                <div key={`${src}-${index}`} className="relative h-48 w-72 shrink-0 overflow-hidden rounded-[1.5rem] sm:h-56 sm:w-96">
+                  <Image src={src} alt="Hack the Ridge previous event" fill sizes="(max-width: 768px) 18rem, 24rem" className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-htr-blue/55 to-transparent" />
+                </div>
+              ))}
+            </div>
           </div>
+        </div>
+      </section>
 
-          {/* Bottom Left - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              left: 'clamp(1rem, 6vw, 10rem)',
-              bottom: 'clamp(3rem, 10vh, 11rem)',
-              transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToBottomLeft 1s ease-out forwards',
-              animationDelay: '0.8s'
-            }}
-          >
-            <Image
-              src="/homepage/headphones.svg"
-              alt="Bottom left decoration"
-              width={140}
-              height={140}
-              className="bg-transparent -rotate-45"
-              style={{
-                width: 'clamp(70px, 9vw, 180px)',
-                height: 'clamp(70px, 9vw, 180px)',
-                maxWidth: 'min(14vh, 180px)',
-                maxHeight: 'min(14vh, 180px)'
-              }}
-            />
+      <section id="register" className="relative overflow-hidden bg-htr-shaded px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
+        <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-htr-white/25 blur-3xl" />
+        <div className="absolute -bottom-28 left-10 h-80 w-80 rounded-full bg-htr-green/35 blur-3xl" />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative mx-auto max-w-5xl overflow-hidden rounded-[2.5rem] border border-htr-blue/15 bg-htr-white/92 p-8 text-center shadow-2xl shadow-htr-blue/16 backdrop-blur-xl sm:p-12"
+        >
+          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-htr-blue text-htr-green shadow-xl shadow-htr-blue/15">
+            <Rocket className="h-8 w-8" />
           </div>
-
-          {/* Bottom Right - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              right: 'clamp(2rem, 8vw, 12rem)',
-              bottom: 'clamp(2rem, 8vh, 9rem)',
-              transform: 'translate(50vw, 100vh)',
-              animation: 'flyToBottomRight 1s ease-out forwards',
-              animationDelay: '0.85s'
-            }}
-          >
-            <Image
-              src="/homepage/usb.svg"
-              alt="Bottom right decoration"
-              width={100}
-              height={100}
-              className="bg-transparent rotate-20"
-              style={{
-                width: 'clamp(60px, 8vw, 150px)',
-                height: 'clamp(60px, 8vw, 150px)',
-                maxWidth: 'min(12vh, 150px)',
-                maxHeight: 'min(12vh, 150px)'
-              }}
-            />
+          <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-shaded">Registration</p>
+          <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] text-htr-blue sm:text-7xl lg:text-8xl">
+            Ready to join the build?
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-htr-blue/74">
+            Registration details can be connected when the official form is ready. Until then, visitors can follow updates or contact the team.
+          </p>
+          <div className="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+            <Link href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="button-shine rounded-full bg-htr-blue px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-htr-green transition hover:-translate-y-1 hover:bg-htr-blue/90">
+              Instagram Updates
+            </Link>
+            <Link href="#contact" className="rounded-full border border-htr-blue/20 bg-white px-7 py-4 text-sm font-black uppercase tracking-[0.2em] text-htr-blue transition hover:-translate-y-1 hover:border-htr-blue hover:bg-htr-green/35">
+              Contact Team
+            </Link>
           </div>
-        </main>
-      </div>
+        </motion.div>
+      </section>
 
-      {/* Second Page - Interactive Scrolling Cards */}
-      <div id="about" className="w-full">
-        <InteractiveScrollingCards cards={CARDS_DATA} />
-      </div>
+      <section id="sponsors" className="relative overflow-hidden bg-htr-blue px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(175,213,188,.16),transparent_30%),radial-gradient(circle_at_90%_30%,rgba(125,182,173,.16),transparent_30%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(223,215,215,.08)_1px,transparent_1px),linear-gradient(rgba(223,215,215,.08)_1px,transparent_1px)] bg-[size:42px_42px] opacity-35" />
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+          className="relative z-10 mx-auto max-w-5xl rounded-[2.5rem] border border-htr-green/25 bg-htr-white/10 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-12"
+        >
+          <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Sponsors</p>
+          <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] text-htr-white sm:text-7xl lg:text-8xl">
+            Sponsor space opening soon.
+          </h2>
+          <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-htr-white/76">
+            We are keeping this area ready for future partners who want to support student builders, creative technology, and the next wave of local innovation.
+          </p>
+          <div className="mt-8 grid gap-4 sm:grid-cols-3">
+            {['Partner logos', 'Prize support', 'Workshop support'].map((item) => (
+              <div key={item} className="rounded-3xl border border-htr-green/20 bg-htr-white/10 p-5 text-sm font-black uppercase tracking-[0.18em] text-htr-green">
+                {item}
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      </section>
 
-      {/* Third Page - Sponsors Section */}
-      <div id="sponsors" className="min-h-screen w-full" style={{ backgroundColor: '#2e2e2e' }}>
-        <SponsorsTitle />
-        <SponsorsGrid />
-      </div>
-
-      {/* Team Section */}
-      <div className="w-full">
-        <TeamSection />
-      </div>
-
-      {/* Gradient Section */}
-      <div id="faq" className="w-full">
-        <GradientSection />
-      </div>
-      
-
-      {/* Footer */}
-      <div className="w-full">
-        <Footer />
-      </div>
-    </div>
+      <TeamSection />
+      <GradientSection />
+      <Footer />
+    </main>
   );
 }

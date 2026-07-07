@@ -17,9 +17,9 @@ const faqData: FAQItem[] = [
   {
     id: "what-is-htr",
     question: "What is Hack the Ridge?",
-    answer: `Hack The Ridge is a 12-hour innovation challenge at Iroquois Ridge High School where students tackle real-world problems through technology. Join us on December 06th, 2025, for hands-on workshops, inspiring speakers, and collaborative problem-solving. Work solo or in teams of up to four to build creative solutions aligned with our theme.
+    answer: `Hack The Ridge is a student-led innovation challenge at Iroquois Ridge High School where students tackle real-world problems through technology. Join us for hands-on workshops, inspiring speakers, mentorship, and collaborative problem-solving. Work solo or in teams of up to four to build creative solutions aligned with the event theme.
 
-Since 2015, we've grown from 50 to 200+ hackers annually, creating lasting impact in our community. Join us for workshops, mentorship, prizes, and the chance to build something amazing!`
+Since launch, the event has grown into a community celebration of student creativity, technical learning, and practical project building.`
   },
   {
     id: "who-can-participate",
@@ -154,12 +154,12 @@ const InteractiveFAQ: React.FC = () => {
         transition={{ duration: 0.8 }}
       >
         <h2
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-wider"
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#dfd7d7] mb-4 tracking-wider"
           style={{ fontFamily: 'Sacco, Arial, sans-serif' }}
         >
           FAQ
         </h2>
-        <p className="text-teal-100 text-lg">
+        <p className="text-[#AFD5BC] text-lg">
           {isMobile 
             ? "Tap any question to see the answer" 
             : "Click on any question in the file tree to see the answer appear in the terminal"}
@@ -178,7 +178,7 @@ const InteractiveFAQ: React.FC = () => {
           {faqData.map((faq, index) => (
             <motion.div
               key={faq.id}
-              className="bg-teal-900/20 backdrop-blur-sm border border-teal-500/30 rounded-xl overflow-hidden"
+              className="bg-[#1E3159]/35 backdrop-blur-sm border border-[#AFD5BC]/30 rounded-xl overflow-hidden"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -186,11 +186,11 @@ const InteractiveFAQ: React.FC = () => {
             >
               <button
                 onClick={() => toggleAccordion(faq.id)}
-                className="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-teal-800/20 transition-colors"
+                className="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-[#AFD5BC]/10 transition-colors"
               >
-                <span className="text-white font-semibold text-base sm:text-lg">{faq.question}</span>
+                <span className="text-[#dfd7d7] font-semibold text-base sm:text-lg">{faq.question}</span>
                 <motion.svg
-                  className="w-5 h-5 text-teal-300 flex-shrink-0"
+                  className="w-5 h-5 text-[#AFD5BC] flex-shrink-0"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -209,7 +209,7 @@ const InteractiveFAQ: React.FC = () => {
                 transition={{ duration: 0.3, ease: 'easeInOut' }}
                 className="overflow-hidden"
               >
-                <div className="p-5 pt-0 text-teal-100/90 whitespace-pre-wrap leading-relaxed">
+                <div className="p-5 pt-0 text-[#dfd7d7]/90 whitespace-pre-wrap leading-relaxed">
                   {faq.answer}
                 </div>
               </motion.div>
@@ -228,20 +228,20 @@ const InteractiveFAQ: React.FC = () => {
         <div className="lg:col-span-1 p-6">
           <div className="h-[350px] w-full">
             <Tree
-              className="h-full w-full text-white"
+              className="h-full w-full text-[#dfd7d7]"
               elements={treeData}
               initialExpandedItems={["faq-root"]}
               indicator={true}
             >
-              <Folder element="FAQ" value="faq-root" className="text-white text-lg font-semibold p-2">
+              <Folder element="FAQ" value="faq-root" className="text-[#dfd7d7] text-lg font-semibold p-2">
                 {faqData.map((faq) => (
                   <File
                     key={faq.id}
                     value={faq.id}
                     className={`p-2 rounded-md transition-colors duration-200 ${
                       selectedFAQ?.id === faq.id
-                        ? 'bg-teal-500/20 text-white'
-                        : 'text-white hover:bg-teal-500/10'
+                        ? 'bg-[#AFD5BC]/20 text-[#dfd7d7]'
+                        : 'text-[#dfd7d7] hover:bg-[#AFD5BC]/10'
                     }`}
                     onClick={() => handleTreeSelect(faq.id)}
                   >
@@ -259,12 +259,12 @@ const InteractiveFAQ: React.FC = () => {
             {selectedFAQ ? (
               <Terminal
                 key={terminalKey}
-                className="bg-black/80 border-green-500/30 h-full w-full max-w-none"
+                className="bg-[#081326]/90 border-[#AFD5BC]/30 h-full w-full max-w-none"
                 sequence={true}
                 startOnView={true}
               >
               {/* Command execution */}
-              <TypingAnimation duration={18} className="text-green-400">
+              <TypingAnimation duration={18} className="text-[#AFD5BC]">
                 {`hacker@hacktheridge:~/faq$ cat ${selectedFAQ.id}.md`}
               </TypingAnimation>
 
@@ -277,36 +277,36 @@ const InteractiveFAQ: React.FC = () => {
               </AnimatedSpan>
 
               {/* Empty line for spacing */}
-              <AnimatedSpan className="text-white">
+              <AnimatedSpan className="text-[#dfd7d7]">
                 <span></span>
               </AnimatedSpan>
 
               {/* Answer Content - Split into logical chunks with better formatting */}
               {selectedFAQ.answer.split('\n\n').map((paragraph, index) => (
-                <AnimatedSpan key={index} className="text-white whitespace-pre-wrap break-words">
+                <AnimatedSpan key={index} className="text-[#dfd7d7] whitespace-pre-wrap break-words">
                   <span>{paragraph}</span>
                 </AnimatedSpan>
               ))}
 
               {/* Empty line for spacing */}
-              <AnimatedSpan className="text-white">
+              <AnimatedSpan className="text-[#dfd7d7]">
                 <span></span>
               </AnimatedSpan>
 
               {/* Ready Prompt with blinking cursor */}
-              <AnimatedSpan className="text-green-400">
+              <AnimatedSpan className="text-[#AFD5BC]">
                 <span>hacker@hacktheridge:~/faq$ <span className="animate-pulse">█</span></span>
               </AnimatedSpan>
             </Terminal>
           ) : (
-            <Terminal className="bg-black/80 border-green-500/30 h-[350px] w-full max-w-none" sequence={true} startOnView={true}>
+            <Terminal className="bg-[#081326]/90 border-[#AFD5BC]/30 h-[350px] w-full max-w-none" sequence={true} startOnView={true}>
               {/* Welcome banner */}
-              <TypingAnimation duration={25} className="text-green-400">
+              <TypingAnimation duration={25} className="text-[#AFD5BC]">
                 hacker@hacktheridge:~/faq$ figlet &quot;FAQ&quot;
               </TypingAnimation>
 
               {/* Fixed ASCII Art */}
-              <AnimatedSpan className="text-cyan-400 font-mono text-xs leading-tight">
+              <AnimatedSpan className="text-[#7DB6AD] font-mono text-xs leading-tight">
                 <span>{`███████╗ █████╗    ██████╗
 █████╗   ███████║██║     ██║
 ██╔══╝   ██╔══██║██║▄▄  ██║
@@ -315,7 +315,7 @@ const InteractiveFAQ: React.FC = () => {
               </AnimatedSpan>
 
               {/* Ready Prompt with blinking cursor */}
-              <AnimatedSpan className="text-green-400">
+              <AnimatedSpan className="text-[#AFD5BC]">
                 <span>hacker@hacktheridge:~/faq$ <span className="animate-pulse">█</span></span>
               </AnimatedSpan>
             </Terminal>
@@ -333,11 +333,11 @@ const InteractiveFAQ: React.FC = () => {
         viewport={{ once: true }}
         transition={{ duration: 0.8, delay: 0.4 }}
       >
-        <p className="text-teal-200/80 text-sm mx-auto max-w-xl">
+        <p className="text-[#dfd7d7]/80 text-sm mx-auto max-w-xl">
           Still have questions? Reach out to us at{' '}
           <a
             href="mailto:hi@hacktheridge.ca"
-            className="text-teal-300 hover:text-white transition-colors underline"
+            className="text-[#AFD5BC] hover:text-[#dfd7d7] transition-colors underline"
           >
             hi@hacktheridge.ca
           </a>

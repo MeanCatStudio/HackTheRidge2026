@@ -110,7 +110,7 @@ const TeamCard: React.FC<{
 
       {/* Expanding overlay with conditional positioning */}
       <div
-        className="absolute inset-0 rounded-2xl overflow-hidden bg-[#2b2b2b] border border-white/15 ring-1 ring-white/10 shadow-[0_8px_30px_RGBA(0,0,0,0.3)]"
+        className="absolute inset-0 rounded-2xl overflow-hidden bg-[#1E3159] border border-[#AFD5BC]/25 ring-1 ring-[#AFD5BC]/10 shadow-[0_8px_30px_RGBA(0,0,0,0.3)]"
         style={{
           width: open ? expandedPx : "100%",
           left: isRightmostColumn ? "auto" : 0,
@@ -144,7 +144,7 @@ const TeamCard: React.FC<{
 
           {/* Info panel uses the extra width */}
           <div
-            className="flex-1 min-w-0 flex flex-col justify-end p-4 text-white"
+            className="flex-1 min-w-0 flex flex-col justify-end p-4 text-[#dfd7d7]"
             style={{
               transform: animIn ? "translateX(0)" : open ? (isRightmostColumn ? "translateX(10px)" : "translateX(-10px)") : "translateX(0)",
               opacity: animIn ? 1 : open ? 0 : 1,
@@ -154,7 +154,7 @@ const TeamCard: React.FC<{
           >
             <div style={{ minHeight: '3rem' }} className="flex flex-col justify-end">
               <h3 className="text-lg font-semibold leading-tight whitespace-normal break-words hyphens-auto overflow-visible">{member.name}</h3>
-              <p className="text-sm text-white/80 whitespace-normal break-words hyphens-auto overflow-visible leading-snug">{member.role}</p>
+              <p className="text-sm text-[#dfd7d7]/80 whitespace-normal break-words hyphens-auto overflow-visible leading-snug">{member.role}</p>
             </div>
           </div>
         </div>

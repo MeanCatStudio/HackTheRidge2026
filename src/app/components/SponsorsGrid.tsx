@@ -24,11 +24,11 @@ interface SponsorCardProps {
 // ============================================================================
 
 const TIER_COLORS = {
-  1: '#FFD700', // Gold
-  2: '#C0C0C0', // Silver
-  3: '#CD7F32', // Bronze
-  4: '#14b8a6', // Teal
-  5: '#ea580c', // Orange
+  1: '#AFD5BC', // Green
+  2: '#dfd7d7', // White
+  3: '#7DB6AD', // Shaded green
+  4: '#AFD5BC', // Green
+  5: '#7DB6AD', // Shaded green
 };
 
 const TIER_NAMES = {
@@ -244,7 +244,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
       {/* Hover overlay with refined animations */}
       <div className={`absolute inset-0 flex items-center justify-center text-center transition-all duration-500 ease-out transform ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
         <div className="px-4">
-          <p className={`${textSizes[size]} font-bold text-white mb-1.5 tracking-wide transition-all duration-300`} style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
+          <p className={`${textSizes[size]} font-bold text-[#dfd7d7] mb-1.5 tracking-wide transition-all duration-300`} style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
             {sponsor.name}
           </p>
           <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto mb-1.5" />

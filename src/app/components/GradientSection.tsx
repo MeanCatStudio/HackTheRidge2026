@@ -18,10 +18,10 @@ const GradientSection: React.FC = () => {
         className="absolute inset-0 w-full h-full"
         style={{
           background: `linear-gradient(180deg,
-            #2e2e2e 0%,
-            #3a4a47 25%,
-            #51746f 75%,
-            #51746f 100%
+            #1E3159 0%,
+            #1E3159 25%,
+            #7DB6AD 78%,
+            #AFD5BC 100%
           )`
         }}
       />
