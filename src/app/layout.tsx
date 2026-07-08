@@ -1,26 +1,22 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Cedarville_Cursive, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
-import ClientSmoothCursor from "./components/ClientSmoothCursor";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const cedarvilleCursive = Cedarville_Cursive({
   subsets: ["latin"],
-  display: "swap",
-  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+  weight: "400",
+  variable: "--font-cedarville-cursive",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const shareTechMono = Share_Tech_Mono({
   subsets: ["latin"],
-  display: "swap",
-  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+  weight: "400",
+  variable: "--font-share-tech-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Hack The Ridge 2025",
-  description: "Hack the Ridge is where innovation meets community. We are an annual hackathon at Iroquois Ridge High School that hosts over 150+ leaders in STEM every year to innovate and push the limit of technology.",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+  title: "Hack The Ridge 2026–2027",
+  description: "Hack The Ridge 2026–2027 is a student-led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
   icons: {
     icon: [
       { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
@@ -37,20 +33,20 @@ export const metadata: Metadata = {
   }
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="w-full">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-w-full`}
-      >
-        <ClientSmoothCursor />
+    <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} w-full`}>
+      <body className="antialiased w-full min-w-full">
         {children}
       </body>
     </html>

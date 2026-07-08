@@ -94,7 +94,6 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
               className="relative max-w-4xl w-full mx-4 p-8 md:p-12"
               onClick={(e) => e.stopPropagation()}
             >
-              {/* Terminal Title */}
               <motion.div
                 initial={{ y: -50, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
@@ -113,12 +112,10 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
                     &gt; HALL_OF_TORTURED_SOULS
                   </h1>
                   <p className="text-gray-500 text-xs font-mono">
-                    {/* debugging nightmares */}
                   </p>
                 </div>
               </motion.div>
 
-              {/* Quote Display - Minimal Terminal */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentQuoteIndex}
@@ -128,7 +125,6 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
                   transition={{ duration: 0.3 }}
                   className="bg-black/50 border border-green-500/20 p-6 md:p-8 font-mono relative"
                 >
-                  {/* Subtle scanline */}
                   <div className="absolute inset-0 pointer-events-none opacity-5"
                     style={{
                       background: 'repeating-linear-gradient(0deg, rgba(0, 255, 0, 0.1) 0px, transparent 2px)'
@@ -136,24 +132,20 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
                   />
                   
                   <div className="relative z-10 space-y-4">
-                    {/* Error header */}
                     <div className="text-xs text-gray-500">
                       [ERROR #{currentQuoteIndex + 1}]
                     </div>
                     
-                    {/* Quote */}
                     <p className="text-lg md:text-2xl text-red-400 leading-relaxed">
                       &gt; {currentQuote.text}
                     </p>
 
-                    {/* Metadata */}
                     <div className="pt-3 border-t border-green-500/10 space-y-1 text-xs">
                       <p className="text-green-500">
                         --author: <span className="text-gray-400">{currentQuote.author}</span>
                       </p>
                       {currentQuote.context && (
                         <p className="text-gray-600">
-                          {/* {currentQuote.context} */}
                         </p>
                       )}
                     </div>
@@ -161,7 +153,6 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
                 </motion.div>
               </AnimatePresence>
 
-              {/* Navigation */}
               <div className="flex justify-center gap-2 mt-6 font-mono text-xs">
                 {torturedQuotes.map((_, index) => (
                   <button
@@ -176,10 +167,9 @@ export default function HallOfTorturedSouls({ onClose }: HallOfTorturedSoulsProp
                 ))}
               </div>
 
-              {/* Footer */}
               <div className="text-center text-gray-600 text-xs mt-6 font-mono">
                 <span className="text-gray-700">$</span> exit
-                <span className="text-gray-700 ml-3">{/* esc to close */}</span>
+                <span className="text-gray-700 ml-3" />
               </div>
             </motion.div>
     </motion.div>

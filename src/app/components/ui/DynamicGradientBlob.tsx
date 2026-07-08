@@ -38,11 +38,11 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
   const targetSpeedMultRef = useRef<number>(1);
   const prefersReducedMotionRef = useRef<boolean>(false);
 
-  // Parse dimensions
+  
   const containerWidth = parseInt(width);
   const containerHeight = parseInt(height);
 
-  // Initialize blobs
+  
   const initializeBlobs = useCallback(() => {
     const colors = [
       'radial-gradient(circle, #a8e6a3 0%, #88d8a3 40%, rgba(168, 230, 163, 0.8) 100%)',
@@ -58,7 +58,7 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
     const newBlobs: Blob[] = [];
     const blobCount = containerWidth < 640 ? 5 : 8;
     for (let i = 0; i < blobCount; i++) {
-      const size = Math.random() * 160 + 120; // 120-280px (2x larger)
+      const size = Math.random() * 160 + 120; 
       const x = Math.random() * (containerWidth - size);
       const y = Math.random() * (containerHeight - size);
       
@@ -70,7 +70,7 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
         targetY: y,
         size,
         color: colors[i % colors.length],
-        speed: Math.random() * 0.5 + 0.3, // 0.3 - 0.8
+        speed: Math.random() * 0.5 + 0.3, 
         angle: Math.random() * Math.PI * 2,
       });
     }
@@ -78,16 +78,16 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
     setBlobs(newBlobs);
   }, [containerWidth, containerHeight]);
 
-  // Animation loop
+  
   const animate = useCallback((currentTime: number) => {
     if (!lastTimeRef.current) lastTimeRef.current = currentTime;
     const deltaTime = currentTime - lastTimeRef.current;
     lastTimeRef.current = currentTime;
 
-    // Clamp dt to avoid big jumps on tab switch or frame drops
+    
     const dt = Math.min(32, Math.max(0, deltaTime));
 
-    // Smoothly approach target speed multiplier
+    
     const target = (isHovered && !prefersReducedMotionRef.current) ? 3 : 1;
     targetSpeedMultRef.current = target;
     speedMultRef.current += (targetSpeedMultRef.current - speedMultRef.current) * 0.08;
@@ -100,18 +100,18 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
         let newTargetY = blob.targetY;
         let newAngle = blob.angle;
 
-        // Unified random floating behavior that accelerates on hover
+        
         const dx = newTargetX - newX;
         const dy = newTargetY - newY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
         if (distance < 5) {
-          // Generate a new target within bounds
+          
           newTargetX = Math.random() * (containerWidth - blob.size);
           newTargetY = Math.random() * (containerHeight - blob.size);
           newAngle = Math.random() * Math.PI * 2;
         } else {
-          // Move towards target; hover increases speed smoothly
+          
           const moveSpeed = blob.speed * dt * 0.1 * speedMultRef.current;
           const safeDist = Math.max(distance, 0.0001);
           newX += (dx / safeDist) * moveSpeed;
@@ -132,12 +132,12 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
     animationRef.current = requestAnimationFrame(animate);
   }, [isHovered, containerWidth, containerHeight]);
 
-  // Initialize blobs on mount
+  
   useEffect(() => {
     initializeBlobs();
   }, [initializeBlobs]);
 
-  // Start/stop animation
+  
   useEffect(() => {
     if (blobs.length > 0) {
       lastTimeRef.current = 0;
@@ -151,7 +151,7 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
     };
   }, [animate, blobs.length]);
 
-  // Respect prefers-reduced-motion and update on changes
+  
   useEffect(() => {
     if (typeof window !== 'undefined' && 'matchMedia' in window) {
       const media = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -164,7 +164,7 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
     }
   }, []);
 
-  // Handle hover state changes
+  
   const handleMouseEnter = () => {
     setIsHovered(true);
   };
@@ -185,7 +185,6 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
-        {/* Base gradient background */}
         <div
           className="absolute inset-0"
           style={{
@@ -195,7 +194,6 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
           }}
         />
 
-        {/* Animated blobs */}
         <div className="absolute inset-0" style={{ borderRadius: '120px' }}>
           {blobs.map((blob) => (
             <div
@@ -216,7 +214,6 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
           ))}
         </div>
 
-        {/* Overlay gradient for better text contrast */}
         <div
           className="absolute inset-0"
           style={{
@@ -228,7 +225,6 @@ const DynamicGradientBlob: React.FC<DynamicGradientBlobProps> = ({
           }}
         />
         
-        {/* Content overlay */}
         {children && (
           <div className="absolute inset-0 flex items-center justify-center z-10">
             {children}

@@ -1,151 +1,281 @@
 "use client";
 
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Terminal, TypingAnimation, AnimatedSpan } from '@/components/magicui/terminal';
-import { Tree, Folder, File, type TreeViewElement } from '@/components/magicui/file-tree';
+import React, { FormEvent, useEffect, useMemo, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { Tree, Folder, File, type TreeViewElement } from "@/components/magicui/file-tree";
 
-
-// FAQ Data Structure
 interface FAQItem {
   id: string;
   question: string;
   answer: string;
 }
 
+type TerminalLine = {
+  type: "input" | "output" | "error" | "train" | "boot";
+  text: string;
+};
+
 const faqData: FAQItem[] = [
   {
     id: "what-is-htr",
     question: "What is Hack the Ridge?",
-    answer: `Hack The Ridge is a 12-hour innovation challenge at Iroquois Ridge High School where students tackle real-world problems through technology. Join us on December 06th, 2025, for hands-on workshops, inspiring speakers, and collaborative problem-solving. Work solo or in teams of up to four to build creative solutions aligned with our theme.
+    answer: `Hack The Ridge is a student-led hackathon at Iroquois Ridge High School where students build projects, learn new skills, and turn ideas into working demos.
 
-Since 2015, we've grown from 50 to 200+ hackers annually, creating lasting impact in our community. Join us for workshops, mentorship, prizes, and the chance to build something amazing!`
+It is made for beginners, experienced builders, designers, problem-solvers, and anyone who wants to make something with a team.`,
   },
   {
     id: "who-can-participate",
     question: "Who can participate?",
-    answer: `Anyone with a passion for technology and innovation! We welcome:
+    answer: `Students with an interest in technology, design, creativity, or problem-solving can participate.
 
-• Students (high and elementary school)
-• Designers and creators
-• First-time hackers
-• Experienced builders
-
-No prior hackathon experience required. We provide mentorship and workshops to help everyone succeed, regardless of skill level.`
+You do not need to be an expert. First-time hackers are welcome, and the event includes support to help people get started.`,
   },
   {
     id: "registration-cost",
     question: "How much does it cost?",
-    answer: `Hack the Ridge is completely FREE to participate!
+    answer: `Hack The Ridge is free to attend.
 
-We provide:
-• Free meals throughout the event
-• Swag and merchandise
-• Workspace and WiFi
-• Mentorship and workshops
-• Prizes for winners
-• Networking opportunities
-
-Our amazing sponsors make this possible, ensuring cost is never a barrier to innovation.`
+Food, workspace, mentorship, workshops, and event activities are planned so students can focus on building without worrying about a registration fee.`,
   },
   {
     id: "what-to-bring",
     question: "What should I bring?",
-    answer: `Essential items for the hackathon:
+    answer: `Bring a laptop, charger, water bottle, and any hardware or materials you want to use for your project.
 
-• Laptop and chargers
-• Any hardware you want to use
-• Water bottle and snacks
-• Positive attitude and creativity!
-
-We'll provide food, drinks, workspace, and WiFi. Just bring yourself and your ideas!`
+Bring an idea if you have one, but it is also fine to show up and find one with a team.`,
   },
   {
     id: "team-formation",
     question: "Do I need a team?",
-    answer: `Teams are optional but recommended! You can:
+    answer: `No. You can come with a team, join a team at the event, or work solo.
 
-• Come with a pre-formed team (max 4 people)
-• Join our team formation session at the start
-• Work solo if you prefer
-
-Teams of 2-4 people tend to be most successful, allowing for diverse skills and shared workload. Don't worry if you don't have a team - we'll help you find amazing teammates!`
+Teams are usually strongest with a mix of coding, design, presentation, and idea-building skills.`,
   },
   {
     id: "prizes-judging",
     question: "What are the prizes?",
-    answer: `Coming soon! We're working on securing amazing prizes and will announce details closer to the event. Stay tuned for updates!`
+    answer: `Prize details will be shared closer to the event.
+
+The main goal is still to build something real, learn fast, and have a demo you are proud to show.`,
   },
   {
     id: "schedule-timeline",
     question: "What's the schedule?",
-    answer: `Coming soon! We're finalizing the detailed schedule and will share it closer to the event. Stay tuned for updates!`
-  }
+    answer: `Do not ask me. The schedule is still loading somewhere between planning mode and organized chaos.
+
+A proper schedule will be posted when the event timeline is ready.`,
+  },
+  {
+    id: "found-a-bug",
+    question: "Found a bug?",
+    answer: `Do not tell me. The website is perfect and definitely has no bugs.
+
+Jokes aside, if something is actually broken or serious, email Atharv at mahajanatharv2009@gmail.com.`,
+  },
 ];
 
-// Convert FAQ data to Tree structure
 const treeData: TreeViewElement[] = [
   {
     id: "faq-root",
     name: "FAQ",
-    children: faqData.map(faq => ({
+    children: faqData.map((faq) => ({
       id: faq.id,
       name: faq.question,
-      isSelectable: true
-    }))
-  }
+      isSelectable: true,
+    })),
+  },
 ];
+
+const commandList = [
+  "help",
+  "list",
+  "open what-is-htr",
+  "open who-can-participate",
+  "open registration-cost",
+  "open what-to-bring",
+  "open team-formation",
+  "open prizes-judging",
+  "open schedule-timeline",
+  "open found-a-bug",
+  "bug",
+  "sl",
+  "cls",
+  "clear",
+];
+
+const aliases: Record<string, string> = {
+  htr: "what-is-htr",
+  about: "what-is-htr",
+  participate: "who-can-participate",
+  cost: "registration-cost",
+  price: "registration-cost",
+  bring: "what-to-bring",
+  team: "team-formation",
+  prizes: "prizes-judging",
+  prize: "prizes-judging",
+  schedule: "schedule-timeline",
+  timeline: "schedule-timeline",
+  bug: "found-a-bug",
+  bugs: "found-a-bug",
+  report: "found-a-bug",
+  "report-a-bug": "found-a-bug",
+};
+
+const trainArt = String.raw`      ====        ________                ___________
+  _D _|  |_______/        \__I_I_____===__|_________|
+   |(_)---  |   HTR EXPRESS   |        =|___ ___|      ________________
+   /     |  |                 |        ||_| |_||     _|                \_____
+  |      |  |                 |        | |___| |    |   Build Break Launch  |
+  |______|__|_________________|________|_|___|_|____|______________________|
+   (O)     (O)           (O)     (O)        (O)              (O)       (O)`;
+
+const bootRows = [
+  ["███████╗ █████╗  ██████╗", "              .--."],
+  ["██╔════╝██╔══██╗██╔═══██╗", "             |o_o |"],
+  ["█████╗  ███████║██║   ██║", "             |:_/ |"],
+  ["██╔══╝  ██╔══██║██║▄▄ ██║", "            //   \\ \\"],
+  ["██║     ██║  ██║╚██████╔╝", "           (|     | )"],
+  ["╚═╝     ╚═╝  ╚═╝ ╚══▀▀═╝", "          /'\\_   _/'\\"],
+  ["   GNU/LINUX QUESTION NODE", "          \\___)=(___/"],
+  ["   help  list  bug  sl  cls", "        tux is watching the logs"],
+];
+
+const bootLines: TerminalLine[] = [{ type: "boot", text: "FAQ GNU/Linux" }];
+
+const formatFAQ = (faq: FAQItem) => [`${faq.question}`, faq.answer];
 
 const InteractiveFAQ: React.FC = () => {
   const [selectedFAQ, setSelectedFAQ] = useState<FAQItem | null>(null);
-  const [terminalKey, setTerminalKey] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-  const [expandedId, setExpandedId] = useState<string | null>(null);
+  const [command, setCommand] = useState("");
+  const [lines, setLines] = useState<TerminalLine[]>(bootLines);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const terminalScrollRef = useRef<HTMLDivElement>(null);
 
-  // Detect mobile on mount
-  React.useEffect(() => {
-    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+  const questionMap = useMemo(() => {
+    return faqData.reduce<Record<string, FAQItem>>((acc, faq) => {
+      acc[faq.id] = faq;
+      return acc;
+    }, {});
   }, []);
 
-  const toggleAccordion = (id: string) => {
-    setExpandedId(expandedId === id ? null : id);
-  };
+  useEffect(() => {
+    const terminal = terminalScrollRef.current;
+    if (!terminal) return;
+    terminal.scrollTop = terminal.scrollHeight;
+  }, [lines]);
 
-  // Get current timestamp for realistic terminal output
-  const getCurrentTimestamp = () => {
-    const now = new Date();
-    return now.toLocaleString('en-US', {
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      hour12: false
-    });
-  };
+  const runCommand = (rawCommand: string) => {
+    const trimmed = rawCommand.trim();
+    if (!trimmed) return;
 
-  // Generate realistic file size
-  const getFileSize = (content: string) => {
-    const bytes = new Blob([content]).size;
-    if (bytes < 1024) return `${bytes}B`;
-    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)}K`;
-    return `${(bytes / (1024 * 1024)).toFixed(1)}M`;
-  };
+    const lower = trimmed.toLowerCase();
+    const inputLine: TerminalLine = { type: "input", text: `htr-terminal> ${trimmed}` };
 
-  const handleTreeSelect = (selectedId: string) => {
-    // Find the FAQ item by ID
-    const faq = faqData.find(item => item.id === selectedId);
+    if (lower === "clear" || lower === "cls") {
+      setLines(bootLines);
+      return;
+    }
+
+    if (lower === "help") {
+      setLines((current) => [
+        ...current,
+        inputLine,
+        { type: "output", text: `Commands:\n${commandList.join("\n")}` },
+      ]);
+      return;
+    }
+
+    if (lower === "list" || lower === "questions" || lower === "list questions") {
+      setLines((current) => [
+        ...current,
+        inputLine,
+        { type: "output", text: faqData.map((faq) => `${faq.id}  -  ${faq.question}`).join("\n") },
+      ]);
+      return;
+    }
+
+    if (lower === "sl") {
+      setLines((current) => [
+        ...current,
+        inputLine,
+        { type: "output", text: "HTR Express is passing through the terminal." },
+        { type: "train", text: trainArt },
+      ]);
+      return;
+    }
+
+    const requestedId = lower.startsWith("open ") ? lower.replace(/^open\s+/, "").trim() : lower;
+    const resolvedId = aliases[requestedId] ?? requestedId;
+    const faq = questionMap[resolvedId];
+
     if (faq) {
       setSelectedFAQ(faq);
-      // Force terminal to re-render with new content
-      setTerminalKey(prev => prev + 1);
+      setLines((current) => [
+        ...current,
+        inputLine,
+        ...formatFAQ(faq).map<TerminalLine>((text) => ({ type: "output", text })),
+      ]);
+      return;
     }
+
+    setLines((current) => [
+      ...current,
+      inputLine,
+      { type: "error", text: "Command not found. Type help for the command list." },
+    ]);
+  };
+
+  const submitCommand = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    runCommand(command);
+    setCommand("");
+  };
+
+  const openFAQ = (id: string) => {
+    const faq = questionMap[id];
+    if (!faq) return;
+    setSelectedFAQ(faq);
+    setLines((current) => [
+      ...current,
+      { type: "input", text: `htr-terminal> open ${faq.id}` },
+      ...formatFAQ(faq).map<TerminalLine>((text) => ({ type: "output", text })),
+    ]);
+  };
+
+  const renderLine = (line: TerminalLine, index: number) => {
+    if (line.type === "boot") {
+      return (
+        <span key={`${line.type}-${index}`} className="terminal-ascii-block" aria-label="FAQ GNU Linux and Tux penguin ASCII art">
+          {bootRows.map(([left, right], rowIndex) => (
+            <span key={rowIndex} className="terminal-ascii-row">
+              <span className="terminal-ascii-faq">{left}</span>
+              <span className="terminal-ascii-tux">{right}</span>
+            </span>
+          ))}
+        </span>
+      );
+    }
+
+    return (
+      <span
+        key={`${line.type}-${index}`}
+        className={`${
+          line.type === "input"
+            ? "text-[#AFD5BC]"
+            : line.type === "error"
+              ? "text-[#dfd7d7]"
+              : line.type === "train"
+                ? "sl-train text-[#AFD5BC]"
+                : "text-[#dfd7d7]/90"
+        }`}
+      >
+        {line.text}
+      </span>
+    );
   };
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 py-16">
-      {/* Section Title */}
       <motion.div
         className="text-left mb-12"
         initial={{ opacity: 0, y: 30 }}
@@ -154,96 +284,32 @@ const InteractiveFAQ: React.FC = () => {
         transition={{ duration: 0.8 }}
       >
         <h2
-          className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 tracking-wider"
-          style={{ fontFamily: 'Sacco, Arial, sans-serif' }}
+          className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#dfd7d7] mb-4 tracking-wider"
+          style={{ fontFamily: "Sacco, Arial, sans-serif" }}
         >
-          FAQ
+          FAQ Terminal
         </h2>
-        <p className="text-teal-100 text-lg">
-          {isMobile 
-            ? "Tap any question to see the answer" 
-            : "Click on any question in the file tree to see the answer appear in the terminal"}
-        </p>
       </motion.div>
 
-      {/* Mobile: Simple Accordion, Desktop: Terminal Interface */}
-      {isMobile ? (
-        <motion.div
-          className="space-y-3"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-          {faqData.map((faq, index) => (
-            <motion.div
-              key={faq.id}
-              className="bg-teal-900/20 backdrop-blur-sm border border-teal-500/30 rounded-xl overflow-hidden"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <button
-                onClick={() => toggleAccordion(faq.id)}
-                className="w-full p-5 text-left flex justify-between items-center gap-4 hover:bg-teal-800/20 transition-colors"
-              >
-                <span className="text-white font-semibold text-base sm:text-lg">{faq.question}</span>
-                <motion.svg
-                  className="w-5 h-5 text-teal-300 flex-shrink-0"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  animate={{ rotate: expandedId === faq.id ? 180 : 0 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </motion.svg>
-              </button>
-              <motion.div
-                initial={false}
-                animate={{
-                  height: expandedId === faq.id ? 'auto' : 0,
-                  opacity: expandedId === faq.id ? 1 : 0
-                }}
-                transition={{ duration: 0.3, ease: 'easeInOut' }}
-                className="overflow-hidden"
-              >
-                <div className="p-5 pt-0 text-teal-100/90 whitespace-pre-wrap leading-relaxed">
-                  {faq.answer}
-                </div>
-              </motion.div>
-            </motion.div>
-          ))}
-        </motion.div>
-      ) : (
-        <motion.div
-          className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-        >
-        {/* File Tree - Questions */}
-        <div className="lg:col-span-1 p-6">
-          <div className="h-[350px] w-full">
-            <Tree
-              className="h-full w-full text-white"
-              elements={treeData}
-              initialExpandedItems={["faq-root"]}
-              indicator={true}
-            >
-              <Folder element="FAQ" value="faq-root" className="text-white text-lg font-semibold p-2">
+      <motion.div
+        className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start"
+        initial={{ opacity: 0, y: 40 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.2 }}
+      >
+        <div className="lg:col-span-1 rounded-3xl border border-[#AFD5BC]/12 bg-transparent p-2 lg:p-6">
+          <div className="hidden h-[390px] w-full lg:block">
+            <Tree className="h-full w-full text-[#dfd7d7]" elements={treeData} initialExpandedItems={["faq-root"]} indicator={true}>
+              <Folder element="FAQ" value="faq-root" className="text-[#dfd7d7] text-lg font-semibold p-2">
                 {faqData.map((faq) => (
                   <File
                     key={faq.id}
                     value={faq.id}
                     className={`p-2 rounded-md transition-colors duration-200 ${
-                      selectedFAQ?.id === faq.id
-                        ? 'bg-teal-500/20 text-white'
-                        : 'text-white hover:bg-teal-500/10'
+                      selectedFAQ?.id === faq.id ? "bg-[#AFD5BC]/20 text-[#dfd7d7]" : "text-[#dfd7d7] hover:bg-[#AFD5BC]/10"
                     }`}
-                    onClick={() => handleTreeSelect(faq.id)}
+                    onClick={() => openFAQ(faq.id)}
                   >
                     <span className="text-sm">{faq.question}</span>
                   </File>
@@ -251,97 +317,63 @@ const InteractiveFAQ: React.FC = () => {
               </Folder>
             </Tree>
           </div>
-        </div>
 
-        {/* Terminal - Answers */}
-        <div className="lg:col-span-2 p-6">
-          <div className="h-[350px] w-full">
-            {selectedFAQ ? (
-              <Terminal
-                key={terminalKey}
-                className="bg-black/80 border-green-500/30 h-full w-full max-w-none"
-                sequence={true}
-                startOnView={true}
+          <div className="grid gap-2 lg:hidden">
+            {faqData.map((faq) => (
+              <button
+                key={faq.id}
+                onClick={() => openFAQ(faq.id)}
+                className={`rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${
+                  selectedFAQ?.id === faq.id
+                    ? "border-[#AFD5BC]/60 bg-[#AFD5BC]/15 text-[#dfd7d7]"
+                    : "border-[#AFD5BC]/20 bg-[#1E3159]/30 text-[#dfd7d7]/80 hover:border-[#AFD5BC]/50"
+                }`}
               >
-              {/* Command execution */}
-              <TypingAnimation duration={18} className="text-green-400">
-                {`hacker@hacktheridge:~/faq$ cat ${selectedFAQ.id}.md`}
-              </TypingAnimation>
-
-              <AnimatedSpan className="text-gray-400">
-                <span>{`# Generated: ${getCurrentTimestamp()}`}</span>
-              </AnimatedSpan>
-
-              <AnimatedSpan className="text-gray-400">
-                <span>{`# Size: ${getFileSize(selectedFAQ.answer)} | Lines: ${selectedFAQ.answer.split('\n').length}`}</span>
-              </AnimatedSpan>
-
-              {/* Empty line for spacing */}
-              <AnimatedSpan className="text-white">
-                <span></span>
-              </AnimatedSpan>
-
-              {/* Answer Content - Split into logical chunks with better formatting */}
-              {selectedFAQ.answer.split('\n\n').map((paragraph, index) => (
-                <AnimatedSpan key={index} className="text-white whitespace-pre-wrap break-words">
-                  <span>{paragraph}</span>
-                </AnimatedSpan>
-              ))}
-
-              {/* Empty line for spacing */}
-              <AnimatedSpan className="text-white">
-                <span></span>
-              </AnimatedSpan>
-
-              {/* Ready Prompt with blinking cursor */}
-              <AnimatedSpan className="text-green-400">
-                <span>hacker@hacktheridge:~/faq$ <span className="animate-pulse">█</span></span>
-              </AnimatedSpan>
-            </Terminal>
-          ) : (
-            <Terminal className="bg-black/80 border-green-500/30 h-[350px] w-full max-w-none" sequence={true} startOnView={true}>
-              {/* Welcome banner */}
-              <TypingAnimation duration={25} className="text-green-400">
-                hacker@hacktheridge:~/faq$ figlet &quot;FAQ&quot;
-              </TypingAnimation>
-
-              {/* Fixed ASCII Art */}
-              <AnimatedSpan className="text-cyan-400 font-mono text-xs leading-tight">
-                <span>{`███████╗ █████╗    ██████╗
-█████╗   ███████║██║     ██║
-██╔══╝   ██╔══██║██║▄▄  ██║
-██║        ██║   ██║╚██████╔╝
-╚═╝        ╚═╝   ╚═╝ ╚══▀▀═╝`}</span>
-              </AnimatedSpan>
-
-              {/* Ready Prompt with blinking cursor */}
-              <AnimatedSpan className="text-green-400">
-                <span>hacker@hacktheridge:~/faq$ <span className="animate-pulse">█</span></span>
-              </AnimatedSpan>
-            </Terminal>
-            )}
+                {faq.question}
+              </button>
+            ))}
           </div>
         </div>
-      </motion.div>
-      )}
 
-      {/* Additional Info */}
-      <motion.div
-        className="text-center mt-12"
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-      >
-        <p className="text-teal-200/80 text-sm mx-auto max-w-xl">
-          Still have questions? Reach out to us at{' '}
-          <a
-            href="mailto:hi@hacktheridge.ca"
-            className="text-teal-300 hover:text-white transition-colors underline"
-          >
-            hi@hacktheridge.ca
-          </a>
-        </p>
+        <div className="lg:col-span-2 h-[430px] w-full">
+          <div className="faq-terminal-window h-full w-full" onClick={() => inputRef.current?.focus()}>
+            <div className="faq-terminal-header">
+              <div className="flex flex-row gap-x-2">
+                <div className="h-2 w-2 rounded-full bg-red-500" />
+                <div className="h-2 w-2 rounded-full bg-yellow-500" />
+                <div className="h-2 w-2 rounded-full bg-green-500" />
+              </div>
+            </div>
+
+            <div ref={terminalScrollRef} className="terminal-scrollbar flex-1 overflow-y-auto overflow-x-auto p-4 font-mono text-sm leading-relaxed text-[#dfd7d7]">
+              <code className="terminal-lines min-w-[760px]">
+                {lines.map(renderLine)}
+              </code>
+            </div>
+
+            <form onSubmit={submitCommand} className="faq-terminal-input-row">
+              <label htmlFor="faq-terminal-input" className="shrink-0 text-[#AFD5BC] font-mono text-sm">
+                htr-terminal&gt;
+              </label>
+              <input
+                id="faq-terminal-input"
+                ref={inputRef}
+                value={command}
+                onChange={(event) => setCommand(event.target.value)}
+                autoComplete="off"
+                spellCheck={false}
+                className="min-w-0 flex-1 bg-transparent font-mono text-sm text-[#dfd7d7] outline-none placeholder:text-[#dfd7d7]/35"
+                placeholder=""
+              />
+              <button
+                type="submit"
+                className="rounded-md border border-[#AFD5BC]/35 px-3 py-1.5 text-[0.65rem] font-black uppercase tracking-[0.18em] text-[#AFD5BC] transition hover:bg-[#AFD5BC] hover:text-[#1E3159]"
+              >
+                Run
+              </button>
+            </form>
+          </div>
+        </div>
       </motion.div>
     </div>
   );

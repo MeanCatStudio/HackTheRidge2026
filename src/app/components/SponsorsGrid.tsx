@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 
-// Section: Type Definitions
-// ============================================================================
+
+
 
 export interface Sponsor {
   id: number;
@@ -20,15 +20,15 @@ interface SponsorCardProps {
 }
 
 
-// Section: Constants
-// ============================================================================
+
+
 
 const TIER_COLORS = {
-  1: '#FFD700', // Gold
-  2: '#C0C0C0', // Silver
-  3: '#CD7F32', // Bronze
-  4: '#14b8a6', // Teal
-  5: '#ea580c', // Orange
+  1: '#AFD5BC', 
+  2: '#dfd7d7', 
+  3: '#7DB6AD', 
+  4: '#AFD5BC', 
+  5: '#7DB6AD', 
 };
 
 const TIER_NAMES = {
@@ -40,43 +40,43 @@ const TIER_NAMES = {
 };
 
 const TIER_ICONS = {
-  1: '/icons/tier-1-platinum.svg', // Replace with your custom icon paths
+  1: '/icons/tier-1-platinum.svg', 
   2: '/icons/tier-2-gold.svg',
   3: '/icons/tier-3-silver.svg',
   4: '/icons/tier-4-bronze.svg',
   5: '/icons/tier-5-community.svg',
 };
 
-// ============================================================================
-// SPONSOR DATA CONFIGURATION
-// ============================================================================
-//
-// TO ADD NEW SPONSORS:
-// 1. Add sponsor objects to the SAMPLE_SPONSORS array below
-// 2. Each sponsor must include: id, name, logoUrl, tier
-// 3. Optional fields: description, websiteUrl
-//
-// TIER SYSTEM:
-// - Tier 1 (PLATINUM): Premium sponsors with 1.5x width cards and carousel descriptions
-// - Tier 2 (GOLD): High-tier sponsors with standard width cards and carousel descriptions
-// - Tier 3 (SILVER): Mid-tier sponsors in lower grid with bronze borders
-// - Tier 4 (BRONZE): Standard sponsors in lower grid with teal borders
-// - Tier 5 (COMMUNITY): Community sponsors in lower grid with orange borders
-//
-// CAROUSEL REQUIREMENTS:
-// - Only Tier 1 & 2 sponsors with 'description' field will appear in carousel
-// - Description should be 1-2 sentences describing the sponsor's contribution
-//
-// LOGO REQUIREMENTS:
-// - Recommended size: 200x100px for Tier 1-2, 150x75px for Tier 3-5
-// - Format: SVG, PNG, or JPG with transparent background preferred
-// - Place logo files in /public/sponsors/ directory
-//
-// CUSTOM TIER ICONS:
-// - Update TIER_ICONS paths below to use your custom tier badge icons
-// - Icons should be SVG format, white/transparent for proper styling
-// - Place icon files in /public/icons/ directory
-//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 const SAMPLE_SPONSORS: Sponsor[] = [
 
   {
@@ -174,14 +174,14 @@ const SAMPLE_SPONSORS: Sponsor[] = [
   }
 ];
 
-// Section: Components
-// ============================================================================
+
+
 
 const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const sizeClasses = {
-    // Unified heights across all sponsor card sizes (mobile and up)
+    
     large: 'h-28 sm:h-36',
     medium: 'h-28 sm:h-36',
     small: 'h-28 sm:h-36',
@@ -195,7 +195,7 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
 
   const isTopTier = sponsor.tier <= 2;
 
-  // Enhanced border styling with refined glow effects
+  
   const getBorderStyle = () => {
     if (sponsor.tier <= 2) {
       return {
@@ -224,10 +224,8 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Animated gradient overlay on hover */}
       <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-      {/* Default content - logo with refined fade */}
       <div className={`flex items-center justify-center w-full transition-all duration-500 ease-out transform ${isHovered ? 'opacity-0 scale-95' : 'opacity-100 scale-100'} ${sponsor.name === 'US CAN Visa' ? 'p-1' : ''
         }`}>
         <img
@@ -241,10 +239,9 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
         />
       </div>
 
-      {/* Hover overlay with refined animations */}
       <div className={`absolute inset-0 flex items-center justify-center text-center transition-all duration-500 ease-out transform ${isHovered ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
         <div className="px-4">
-          <p className={`${textSizes[size]} font-bold text-white mb-1.5 tracking-wide transition-all duration-300`} style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
+          <p className={`${textSizes[size]} font-bold text-[#dfd7d7] mb-1.5 tracking-wide transition-all duration-300`} style={{ fontFamily: 'Impact, Arial Black, sans-serif' }}>
             {sponsor.name}
           </p>
           <div className="w-12 h-0.5 bg-gradient-to-r from-transparent via-white/60 to-transparent mx-auto mb-1.5" />
@@ -261,11 +258,11 @@ const SponsorCard: React.FC<SponsorCardProps> = ({ sponsor, size }) => {
 
 
 
-// Section: Main Component
-// ============================================================================
+
+
 
 const SponsorsGrid: React.FC = () => {
-  // Group sponsors by tier
+  
   const sponsorsByTier = SAMPLE_SPONSORS.reduce((acc, sponsor) => {
     if (!acc[sponsor.tier]) {
       acc[sponsor.tier] = [];
@@ -274,7 +271,7 @@ const SponsorsGrid: React.FC = () => {
     return acc;
   }, {} as Record<number, Sponsor[]>);
 
-  // Separate tier 1 and tier 2 for different sizing
+  
   const tier1Sponsors = sponsorsByTier[1] || [];
   const tier2Sponsors = sponsorsByTier[2] || [];
 
@@ -286,23 +283,19 @@ const SponsorsGrid: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-8 py-12 sm:py-16">
-      {/* Combined Sponsor Grid - All tiers in one layout */}
       <div className="grid grid-cols-12 gap-4 auto-rows-fr">
-        {/* Tier 1 sponsors - take up more columns (1.5x width) */}
         {tier1Sponsors.map((sponsor) => (
           <div key={sponsor.id} className="col-span-12 sm:col-span-6 lg:col-span-4">
             <SponsorCard sponsor={sponsor} size="large" />
           </div>
         ))}
 
-        {/* Tier 2 sponsors - take up fewer columns */}
         {tier2Sponsors.map((sponsor) => (
           <div key={sponsor.id} className="col-span-8 sm:col-span-6 lg:col-span-3">
             <SponsorCard sponsor={sponsor} size="medium" />
           </div>
         ))}
 
-        {/* Lower tier sponsors (3-5) - smaller cards */}
         {lowerTierSponsors.map((sponsor) => (
           <div key={sponsor.id} className="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
             <SponsorCard sponsor={sponsor} size="small" />
