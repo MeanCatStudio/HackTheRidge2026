@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 type InteractiveBackgroundProps = {
   mode?: "full" | "lite";
@@ -55,20 +55,8 @@ const orbitTags = [
   { text: "ship", delay: "-9s", size: "16rem", left: "70%", top: "67%" },
 ];
 
-interface Ripple {
-  id: number;
-  x: number;
-  y: number;
-}
-
 export default function InteractiveBackground({ mode = "full" }: InteractiveBackgroundProps) {
-  const rootRef = useRef<HTMLDivElement | null>(null);
-  const rippleId = useRef(0);
-  const frameId = useRef<number | null>(null);
-  const lastUpdateTime = useRef(0);
-  const THROTTLE_TIME = 100; // milliseconds
   const [liteMode, setLiteMode] = useState(true);
-  const [ripples, setRipples] = useState<Ripple[]>([]);
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -93,65 +81,8 @@ export default function InteractiveBackground({ mode = "full" }: InteractiveBack
     };
   }, [mode]);
 
-  useEffect(() => {
-    if (liteMode) {
-      setRipples([]);
-      return;
-    }
-
-    const updatePosition = (event: PointerEvent) => {
-      if (frameId.current !== null) {
-        cancelAnimationFrame(frameId.current);
-      }
-
-      frameId.current = requestAnimationFrame(() => {
-        const now = performance.now();
-        if (now - lastUpdateTime.current < THROTTLE_TIME) {
-          return;
-        }
-        lastUpdateTime.current = now;
-
-        const root = rootRef.current;
-        if (!root) return;
-
-        const x = event.clientX / window.innerWidth;
-        const y = event.clientY / window.innerHeight;
-        root.style.setProperty("--bg-shift-x", `${(x - 0.5) * 28}px`);
-        root.style.setProperty("--bg-shift-y", `${(y - 0.5) * 28}px`);
-        root.style.setProperty("--bg-tilt", `${(x - 0.5) * 4}deg`);
-        root.style.setProperty("--bg-pulse-x", `${x * 100}%`);
-        root.style.setProperty("--bg-pulse-y", `${y * 100}%`);
-      });
-    };
-
-    const addRipple = (event: PointerEvent) => {
-      rippleId.current += 1;
-      const nextRipple = {
-        id: rippleId.current,
-        x: (event.clientX / window.innerWidth) * 100,
-        y: (event.clientY / window.innerHeight) * 100,
-      };
-
-      setRipples((current) => [...current.slice(-2), nextRipple]);
-      window.setTimeout(() => {
-        setRipples((current) => current.filter((ripple) => ripple.id !== nextRipple.id));
-      }, 2000);
-    };
-
-    window.addEventListener("pointermove", updatePosition, { passive: true });
-    window.addEventListener("pointerdown", addRipple, { passive: true });
-
-    return () => {
-      window.removeEventListener("pointermove", updatePosition);
-      window.removeEventListener("pointerdown", addRipple);
-      if (frameId.current !== null) {
-        cancelAnimationFrame(frameId.current);
-      }
-    };
-  }, [liteMode]);
-
   return (
-    <div ref={rootRef} className="interactive-bg" aria-hidden="true">
+    <div className="interactive-bg" aria-hidden="true">
       <div className="aurora aurora-one" />
       <div className="aurora aurora-two" />
       {!liteMode && <div className="aurora aurora-three" />}
@@ -211,14 +142,6 @@ export default function InteractiveBackground({ mode = "full" }: InteractiveBack
       )}
       {!liteMode && <div className="scan-lines" />}
       {!liteMode && <div className="noise-layer" />}
-      {!liteMode &&
-        ripples.map((ripple) => (
-          <span
-            key={ripple.id}
-            className="bg-ripple"
-            style={{ left: `${ripple.x}%`, top: `${ripple.y}%` }}
-          />
-        ))}
       {!liteMode &&
         codeBits.map((bit, index) => (
           <span

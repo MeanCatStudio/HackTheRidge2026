@@ -75,23 +75,23 @@ const AnimatedNavbar: React.FC = () => {
         }}
         transition={{ duration: 0.4, ease: "easeOut" }}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-[#AFD5BC]/30 bg-[#1E3159]/90 px-3 py-2 shadow-[0_12px_40px_rgba(15,24,45,0.26)] backdrop-blur-xl sm:px-4 lg:px-5">
-          <Link href="#home" className="flex items-center gap-2 sm:gap-3" onClick={closeMobileMenu}>
-            <div className="flex h-10 w-10 items-center justify-center rounded-full bg-transparent p-0 sm:h-12 sm:w-12">
+        <div className="mx-auto flex max-w-6xl items-center justify-between rounded-full border border-[#AFD5BC]/30 bg-[#1E3159]/90 px-2.5 py-1.5 shadow-[0_12px_40px_rgba(15,24,45,0.26)] backdrop-blur-xl sm:px-4 sm:py-2 lg:px-5">
+          <Link href="#home" className="flex min-w-0 items-center gap-1.5 sm:gap-3" onClick={closeMobileMenu}>
+            <div className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent p-0 sm:h-12 sm:w-12">
               <Image
                 src="/2026Logo.png"
                 alt="Hack the Ridge Logo"
-                width={44}
-                height={44}
-                className="h-10 w-10 object-contain sm:h-12 sm:w-12"
+                width={36}
+                height={36}
+                className="h-9 w-9 object-contain sm:h-12 sm:w-12"
                 priority
               />
             </div>
-            <div className="hidden flex-col leading-none sm:flex">
-              <span className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-[#AFD5BC]">
+            <div className="flex min-w-0 flex-col leading-none">
+              <span className="max-w-[8.5rem] truncate text-[0.52rem] font-semibold uppercase tracking-[0.22em] text-[#AFD5BC] sm:max-w-none sm:text-[0.68rem] sm:tracking-[0.35em]">
                 Hack The Ridge
               </span>
-              <span className="mt-1 text-[0.58rem] font-semibold uppercase tracking-[0.28em] text-white/70">
+              <span className="mt-1 hidden text-[0.58rem] font-semibold uppercase tracking-[0.28em] text-white/70 min-[420px]:block">
                 2026-2027
               </span>
             </div>

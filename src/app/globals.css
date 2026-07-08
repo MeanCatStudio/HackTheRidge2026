@@ -1220,12 +1220,33 @@ body {
   display: grid;
   place-items: center;
   aspect-ratio: 1;
+  overflow: hidden;
   border-radius: 9999px;
   border: 0.18rem solid rgba(223, 215, 215, 0.7);
   background: radial-gradient(circle, rgba(223, 215, 215, 0.2) 0 32%, transparent 33%);
 }
 
+.cassette-reel::before {
+  content: "";
+  position: absolute;
+  inset: 0.18rem;
+  border-radius: inherit;
+  background: conic-gradient(
+    from 0deg,
+    rgba(223, 215, 215, 0.08) 0deg 32deg,
+    rgba(223, 215, 215, 0.42) 32deg 88deg,
+    rgba(223, 215, 215, 0.14) 88deg 188deg,
+    rgba(223, 215, 215, 0.38) 188deg 244deg,
+    rgba(223, 215, 215, 0.12) 244deg 360deg
+  );
+  -webkit-mask: radial-gradient(circle, transparent 0 49%, black 50% 66%, transparent 67% 100%);
+  mask: radial-gradient(circle, transparent 0 49%, black 50% 66%, transparent 67% 100%);
+  opacity: 0.95;
+}
+
 .cassette-reel span {
+  position: relative;
+  z-index: 1;
   width: 54%;
   height: 54%;
   border-radius: inherit;
@@ -1300,6 +1321,10 @@ body {
 
 .cassette-notch--right {
   right: 0.48rem;
+}
+
+.cassette-main-button--playing .cassette-reel::before {
+  animation: cassette-reel-spin 1.7s linear infinite;
 }
 
 .cassette-main-button--playing .cassette-reel span {

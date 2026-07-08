@@ -105,11 +105,11 @@ export default function Home() {
             animate="visible"
             variants={fadeUp}
             transition={{ duration: 0.7 }}
-            className="min-w-0 text-center lg:text-left"
+            className="min-w-0 text-left"
           >
-            <CyberWordmark variant="hero" className="mx-auto max-w-[32rem] lg:mx-0 lg:max-w-[44rem] xl:max-w-[48rem]" />
+            <CyberWordmark variant="hero" className="mr-auto w-full max-w-[18rem] sm:max-w-[26rem] md:max-w-[32rem] lg:max-w-[44rem] xl:max-w-[48rem]" />
 
-            <p className="mx-auto mt-10 max-w-2xl text-base leading-8 text-htr-white/82 sm:text-lg lg:mx-0 lg:mt-12 lg:max-w-xl lg:text-xl">
+            <p className="mt-10 max-w-2xl text-base leading-8 text-htr-white/82 sm:text-lg lg:mt-12 lg:max-w-xl lg:text-xl">
               Bring an idea, find a team, learn as you go, and leave with something you actually built.
             </p>
 
