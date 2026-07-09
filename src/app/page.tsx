@@ -92,7 +92,7 @@ const fadeUp = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full overflow-x-hidden bg-htr-blue text-htr-white">
+    <main className="min-h-screen w-full overflow-x-hidden overflow-hidden bg-htr-blue text-htr-white">
       <AnimatedNavbar />
       <SoundDock />
 
