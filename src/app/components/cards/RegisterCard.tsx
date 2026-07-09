@@ -35,13 +35,10 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
   }, []);
   return (
     <div className="w-full h-full flex items-center justify-center relative overflow-hidden register-card-container shadow-none" style={{ boxShadow: 'none', filter: 'none' }}>
-      {/* Main Content Container - Centered Layout */}
       <div className="relative z-10 w-full h-full flex items-center justify-center">
         
-        {/* Mobile Version - Desktop Layout with Static Gradient (sm and below) */}
         <div className="block md:hidden">
           <div className="flex flex-col items-center space-y-4">
-            {/* REGISTER NOW Text - Above Button */}
             <div className="text-center">
               <h1
                 className="text-4xl sm:text-5xl font-bold text-white leading-none tracking-wider"
@@ -54,9 +51,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               </h1>
             </div>
 
-            {/* Central Static Gradient Container */}
             <div className="relative flex items-center justify-center">
-              {/* Static Gradient Button */}
               <a
                 href="https://dash.hacktheridge.ca/dashboard"
                 className="relative z-20 w-80 h-32 sm:w-96 sm:h-36 shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
@@ -65,7 +60,6 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
                   borderRadius: '60px'
                 }}
               >
-                {/* Date Text Overlay - Centered */}
                 <span
                   className="text-lg sm:text-2xl font-bold text-white leading-none tracking-wider"
                   style={{
@@ -81,18 +75,14 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </div>
         </div>
 
-        {/* Desktop Version - Complex Design (md and above) */}
         <div className="hidden md:block">
-          {/* Central Gradient Blob Container */}
           <div className="relative flex items-center justify-center">
-            {/* Dynamic Gradient Blob with color-changing balls */}
             <DynamicGradientBlob
               width="800px"
               height="280px"
               className="relative z-20"
               href="https://dash.hacktheridge.ca/dashboard"
             >
-              {/* Date Text Overlay - Centered */}
               <span
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-none tracking-wider"
                 style={{
@@ -105,7 +95,6 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               </span>
             </DynamicGradientBlob>
 
-            {/* REGISTER Text - Top Left, overlapping with gradient, higher z-index */}
             <div className="absolute -top-8 -left-24 lg:-top-12 lg:-left-32 xl:-top-16 xl:-left-40 z-30">
               <h1
                 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] font-bold text-white leading-none tracking-wider"
@@ -118,7 +107,6 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               </h1>
             </div>
 
-            {/* NOW Text - Bottom Right, overlapping with gradient, higher z-index */}
             <div className="absolute -bottom-8 -right-16 lg:-bottom-12 lg:-right-20 xl:-bottom-16 xl:-right-24 z-30">
               <h1
                 className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl xl:text-[10rem] 2xl:text-[12rem] font-bold text-white leading-none tracking-wider"
@@ -134,7 +122,6 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
         </div>
       </div>
 
-      {/* Social Links - Positioned at bottom for both mobile and desktop */}
       <div className="absolute bottom-1 sm:bottom-2 md:bottom-4 lg:bottom-8 xl:bottom-12 2xl:bottom-16 left-1/2 transform -translate-x-1/2 z-20">
         <div className="flex items-center justify-center flex-wrap gap-3 sm:gap-6 lg:gap-8 text-gray-400">
           <a
