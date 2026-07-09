@@ -119,21 +119,6 @@ const SoundDock: React.FC = () => {
           aria-pressed={isPlaying}
           aria-label={isPlaying ? "Pause site audio" : "Play site audio"}
         >
-          <span
-            className="pointer-events-none absolute left-2 top-1/2 z-0 h-20 w-20 -translate-x-[34%] -translate-y-1/2 rounded-full"
-            style={{
-              background:
-                "radial-gradient(circle at center, rgba(30, 49, 89, 0.96) 0 12%, rgba(175, 213, 188, 0.28) 12.5% 14.5%, rgba(30, 49, 89, 0.98) 15% 53%, rgba(223, 215, 215, 0.2) 53.5% 55.5%, rgba(18, 30, 56, 0.97) 56% 76%, transparent 76.5%), conic-gradient(from 0deg, rgba(175, 213, 188, 0.3), rgba(223, 215, 215, 0.08) 22%, rgba(125, 182, 173, 0.28) 48%, rgba(223, 215, 215, 0.08) 76%, rgba(175, 213, 188, 0.3))",
-              boxShadow:
-                "0 0 0 0.14rem rgba(223, 215, 215, 0.24) inset, 0 0 2rem rgba(175, 213, 188, 0.16)",
-              animation: isPlaying ? "cassette-reel-spin 2.6s linear infinite" : undefined,
-            }}
-            aria-hidden="true"
-          >
-            <span className="absolute inset-[0.55rem] rounded-full border border-dashed border-white/20" />
-            <span className="absolute inset-[1.15rem] rounded-full border border-[#AFD5BC]/30" />
-            <span className="absolute left-1/2 top-1/2 h-3.5 w-3.5 -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/35 bg-[#1E3159]" />
-          </span>
           <span className="cassette-player relative z-10" aria-hidden="true">
             <span className="cassette-top-strip" />
             <span className="cassette-window">
