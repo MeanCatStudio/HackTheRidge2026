@@ -12,8 +12,8 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { href: "#about", label: "ABOUT" },
-  { href: "#sponsors", label: "SPONSORS" },
   { href: "#register", label: "REGISTER" },
+  { href: "#sponsors", label: "SPONSORS" },
   { href: "#team", label: "TEAM" },
   { href: "#faq", label: "FAQ" },
 ];
@@ -79,7 +79,7 @@ const AnimatedNavbar: React.FC = () => {
           <Link href="#home" className="flex min-w-0 items-center gap-1.5 sm:gap-3" onClick={closeMobileMenu}>
             <div className="flex h-9 w-9 items-center justify-center rounded-full bg-transparent p-0 sm:h-12 sm:w-12">
               <Image
-                src="/2026Logo.png"
+                src="/Logo.png"
                 alt="Hack the Ridge Logo"
                 width={36}
                 height={36}

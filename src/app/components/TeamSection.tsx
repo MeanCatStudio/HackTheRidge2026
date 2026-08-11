@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { teamMembers } from "./TeamMember";
 import TeamCard from "./TeamCard";
+import { FaAngleLeft, FaGithub, FaLinkedinIn, FaTerminal } from "react-icons/fa";
 
 const pastBuilders = [
   {
@@ -113,6 +114,7 @@ type PlacedProp = {
 type PlacedPropsByBuilder = Record<string, PlacedProp[]>;
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
 const StickerGraphic: React.FC<{ kind: ClownProp; size?: "tray" | "photo" }> = ({ kind, size = "photo" }) => {
   const isTray = size === "tray";
   const emoji = kind === "nose" ? "🔴" : "🎀";
@@ -134,9 +136,61 @@ const TeamSection: React.FC = () => {
   const [isClownOpen, setIsClownOpen] = useState(false);
   const [selectedProp, setSelectedProp] = useState<ClownProp | null>(null);
   const [placedProps, setPlacedProps] = useState<PlacedPropsByBuilder>({});
+  const [activeCard, setActiveCard] = useState(1);
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+  const visibleLogCount = 3;
+
+  // Dynamic Terminal Logs Feed
+  const [logs, setLogs] = useState<string[]>([]);
+  const [typingLine, setTypingLine] = useState("");
 
   useEffect(() => {
     setMounted(true);
+
+    const logMessages = [
+      "> INIT_RECRUIT_SEQUENCE: [RUNNING]",
+      "> System Build 2.0.26 deployed.",
+      "> Checking roster integrity... [OK]",
+      "> Injecting high-voltage creativity... [OK]",
+      "> HTR_2026_INTERFACE_LOADED",
+      "> Signal lock: 99.4% stable",
+      "> Compiling team executive matrices...",
+      "> Ready for user interaction.",
+    ];
+
+    let isCancelled = false;
+    let lineIndex = 0;
+    let charIndex = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const typeNext = () => {
+      if (isCancelled || lineIndex >= logMessages.length) return;
+
+      const line = logMessages[lineIndex];
+
+      if (charIndex <= line.length) {
+        setTypingLine(line.slice(0, charIndex));
+        charIndex += 1;
+        timer = setTimeout(typeNext, 24);
+        return;
+      }
+
+      setLogs((prev) => [...prev.slice(-2), line]);
+      setTypingLine("");
+      lineIndex += 1;
+      charIndex = 0;
+
+      if (lineIndex < logMessages.length) {
+        timer = setTimeout(typeNext, 620);
+      }
+    };
+
+    timer = setTimeout(typeNext, 380);
+
+    return () => {
+      isCancelled = true;
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   const addPropToBuilder = (builderName: string, kind: ClownProp, x: number, y: number) => {
@@ -179,48 +233,271 @@ const TeamSection: React.FC = () => {
     addPropToBuilder(builderName, selectedProp, x, y);
   };
 
+  const getCarouselStep = (track: HTMLDivElement) => {
+    const firstCard = track.querySelector<HTMLElement>("[data-carousel-card='true']");
+    if (!firstCard) return 0;
+
+    const styles = window.getComputedStyle(track);
+    const gapValue = styles.columnGap || styles.gap || "12px";
+    const gap = Number.parseFloat(gapValue) || 12;
+    return firstCard.getBoundingClientRect().width + gap;
+  };
+
+  const scrollCarousel = (direction: 1 | -1) => {
+    const track = carouselRef.current;
+    if (!track) return;
+
+    const step = getCarouselStep(track);
+    if (!step) return;
+    const maxLeft = track.scrollWidth - track.clientWidth;
+
+    if (direction === 1) {
+      const next = track.scrollLeft + step >= maxLeft - 2 ? 0 : track.scrollLeft + step;
+      track.scrollTo({ left: next, behavior: "smooth" });
+      return;
+    }
+
+    const next = track.scrollLeft <= 2 ? maxLeft : track.scrollLeft - step;
+    track.scrollTo({ left: next, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    const track = carouselRef.current;
+    if (!track) return;
+
+    const updateActiveCard = () => {
+      const step = getCarouselStep(track);
+      if (!step) return;
+
+      const index = Math.round(track.scrollLeft / step) + 1;
+      setActiveCard(clamp(index, 1, teamMembers.length));
+    };
+
+    updateActiveCard();
+    track.addEventListener("scroll", updateActiveCard, { passive: true });
+    window.addEventListener("resize", updateActiveCard);
+
+    return () => {
+      track.removeEventListener("scroll", updateActiveCard);
+      window.removeEventListener("resize", updateActiveCard);
+    };
+  }, [mounted]);
+
   if (!mounted) {
     return <section id="team" className="relative z-10 w-full scroll-mt-28 bg-app-bg" aria-label="Team" />;
   }
 
+  const leadMembers = teamMembers.filter((member) => !member.isRoleCard);
+  const pendingMembers = teamMembers.filter((member) => member.isRoleCard);
+
+  const carouselMembers = [
+    ...leadMembers,
+    ...pendingMembers.map((member) => ({
+      ...member,
+      role: "Photo pending",
+    })),
+  ];
+  const visibleLogs = typingLine && logs.length >= visibleLogCount ? logs.slice(-(visibleLogCount - 1)) : logs;
+
   return (
-    <section id="team" className="relative z-10 w-full scroll-mt-28 bg-app-bg px-5 py-24 text-[#dfd7d7] sm:px-8 lg:px-12 lg:py-32">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-start">
-          <div className="lg:pt-4">
-            <div className="flex items-center justify-center gap-1 lg:justify-start" style={{ fontFamily: "Palalabas Wide, Impact, Arial Black, sans-serif" }}>
-              <span className="text-4xl font-medium tracking-wide text-[#AFD5BC] sm:text-5xl md:text-6xl">THE</span>
-              <Image src="/logo.svg" alt="Hack The Ridge logo mark" width={92} height={92} className="h-14 w-14 opacity-90 sm:h-20 sm:w-20 md:h-24 md:w-24" />
-              <span className="text-4xl font-medium tracking-wide text-[#AFD5BC] sm:text-5xl md:text-6xl">TEAM</span>
+    <section id="team" className="relative z-10 w-full scroll-mt-28 bg-app-bg px-5 py-16 text-[#dfd7d7] sm:px-8 lg:px-12 lg:py-20">
+      <div className="mx-auto max-w-9xl">
+        <div className="grid gap-6 lg:grid-cols-[minmax(320px,420px)_1fr] lg:items-stretch">
+          
+          {/* ================= OVERCLOCKED LEFT TERMINAL PANEL ================= */}
+          <div className="relative flex h-full flex-col gap-4 overflow-hidden rounded-[1.8rem] border border-[#AFD5BC]/30 bg-[#0c182e]/80 p-5 shadow-[0_12px_40px_rgba(0,0,0,0.4)] backdrop-blur-xl sm:p-6">
+            
+            {/* Background Code Stream Overlay */}
+            <div className="pointer-events-none absolute inset-0 select-none overflow-hidden font-mono text-[9px] leading-relaxed text-[#AFD5BC]/10 opacity-40">
+              <pre className="p-2">
+                {`if (hacker_found) {
+  recruit();
+}
+const team = await fetch('/api/HTR');
+const data = await team.json();
+
+useEffect(() => {
+  console.log("System operational");
+}, []);
+// 01010100 01001000 01000101`}
+              </pre>
             </div>
 
-            <div className="mt-9 space-y-5 text-center lg:text-left" style={{ fontFamily: "Palalabas Wide, Impact, Arial Black, sans-serif" }}>
-              <p className="text-3xl font-normal uppercase tracking-wide text-[#AFD5BC] sm:text-[34px] md:text-[38px]">
-                Planning began early
+            {/* Top Bar: Diagnostic Controls */}
+            <div className="relative z-10 flex items-center justify-between border-b border-[#AFD5BC]/15 pb-3 font-mono text-[10px] tracking-wider text-[#AFD5BC]/80">
+              <div className="flex items-center gap-2">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#AFD5BC] opacity-75"></span>
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-[#AFD5BC]"></span>
+                </span>
+                <span>SYS_STATUS: ACTIVE</span>
+              </div>
+              <span className="rounded bg-[#AFD5BC]/10 px-1.5 py-0.5 text-[#AFD5BC]">SIG_LOCK: 98%</span>
+            </div>
+
+            {/* Center Section: Main Header & Code Flow */}
+            <div className="relative z-10">
+              <p className="font-mono text-[10px] font-black uppercase tracking-[0.3em] text-[#7DB6AD]">
+                // NODE: EXECUTIVE_TEAM
               </p>
-              <p className="text-3xl font-normal uppercase tracking-wide sm:text-[34px] md:text-[38px]">
-                <span className="text-[#dfd7d7]">$6,000</span>{" "}
-                <span className="text-[#AFD5BC]">was raised for prizes</span>
-              </p>
-              <div>
-                <p className="text-3xl font-normal uppercase tracking-wide text-[#dfd7d7]/85 sm:text-[34px] md:text-[38px]">
-                  One day became a
-                </p>
-                <p className="mt-2 text-6xl font-medium uppercase tracking-wide text-[#dfd7d7] sm:text-7xl lg:text-8xl">
-                  Launchpad
-                </p>
+              
+              <div className="mt-2 flex items-center gap-2" style={{ fontFamily: "Palalabas Wide, Impact, Arial Black, sans-serif" }}>
+                <span className="text-4xl font-medium tracking-wide text-[#AFD5BC] sm:text-5xl">THE</span>
+                <span className="text-4xl font-medium tracking-wide text-[#AFD5BC] sm:text-5xl">TEAM</span>
+              </div>
+
+              {/* Functional Code Display Box */}
+              <div className="mt-5 rounded-xl border border-[#AFD5BC]/20 bg-[#112349]/70 p-3.5 font-mono text-xs shadow-inner">
+                <div className="text-[#7DB6AD]/80">{`if (hacker_found) {`}</div>
+                <div className="pl-4 text-[#AFD5BC]">{`recruit();`}</div>
+                <div className="text-[#7DB6AD]/80">{`}`}</div>
+                <div className="mt-2 text-[#dfd7d7]/60">{`console.log("Welcome to HTR!");`}</div>
+              </div>
+
+              <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="rounded-xl border border-[#AFD5BC]/20 bg-[#0E1F3F]/70 p-3">
+                  <div className="mb-2 flex items-center justify-between font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#AFD5BC]/75">
+                    <span>Engagement</span>
+                    <span>100%</span>
+                  </div>
+                  <div className="flex h-14 items-end gap-1">
+                    {[20, 44, 32, 57, 73, 62, 78, 69, 82, 74, 88, 80, 90, 78, 90, 100].map((height, idx) => (
+                      <span
+                        key={`engagement-bar-${idx}`}
+                        className="w-1.5 rounded-sm bg-[#AFD5BC]/85 shadow-[0_0_8px_rgba(175,213,188,0.45)]"
+                        style={{ height: `${height}%` }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-xl border border-[#AFD5BC]/20 bg-[#0E1F3F]/70 p-3">
+                  <div className="mb-2 flex items-center justify-between font-mono text-[9px] font-bold uppercase tracking-[0.18em] text-[#AFD5BC]/75">
+                    <span>Signal Drift</span>
+                    <span>Stable</span>
+                  </div>
+                  <svg viewBox="0 0 120 56" className="h-14 w-full" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="signalLine" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%" stopColor="#7DB6AD" stopOpacity="0.55" />
+                        <stop offset="100%" stopColor="#AFD5BC" stopOpacity="0.95" />
+                      </linearGradient>
+                    </defs>
+                    <polyline
+                      fill="none"
+                      stroke="url(#signalLine)"
+                      strokeWidth="2.6"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      points="0,36 12,32 24,34 36,18 48,24 60,20 72,28 84,14 96,18 108,12 120,16"
+                    />
+                    <polyline
+                      fill="none"
+                      stroke="#AFD5BC"
+                      strokeOpacity="0.3"
+                      strokeWidth="1"
+                      points="0,42 120,42"
+                    />
+                  </svg>
+                </div>
+              </div>
+
+              {/* Developer Links as Interactive Terminal Buttons */}
+              
+            </div>
+
+            {/* Bottom Section: Dynamic System Terminal Log */}
+            <div className="relative z-10 mt-auto rounded-xl border border-[#AFD5BC]/20 bg-black/40 p-3 font-mono text-[10px]">
+              <div className="mb-2 flex items-center justify-between border-b border-[#AFD5BC]/10 pb-1 text-[#AFD5BC]/60">
+                <span className="flex items-center gap-1.5">
+                  <FaTerminal className="h-2.5 w-2.5" /> SYSTEM LOG
+                </span>
+                <span className="animate-pulse text-[9px] text-[#AFD5BC]">LIVE</span>
+              </div>
+              <div className="h-[3.9rem] overflow-hidden space-y-1 text-[#dfd7d7]/80">
+                {visibleLogs.map((log, idx) => (
+                  <p key={idx} className="truncate">
+                    {log}
+                  </p>
+                ))}
+                {typingLine && (
+                  <p className="truncate text-[#AFD5BC]">
+                    {typingLine}
+                    <span className="ml-0.5 inline-block h-3 w-[1px] animate-pulse bg-[#AFD5BC] align-[-2px]" />
+                  </p>
+                )}
+              </div>
+            </div>
+
+          </div>
+          {/* ================= END LEFT PANEL ================= */}
+
+          {/* Right Carousel Container */}
+          <div className="relative min-w-0 overflow-hidden rounded-[1.8rem] border border-[#AFD5BC]/25 bg-[#dfd7d7]/8 p-4 shadow-[0_18px_45px_rgba(17,35,73,0.34)] backdrop-blur-sm sm:p-5">
+            <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-[#AFD5BC]/20 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-28 left-1/4 h-56 w-56 rounded-full bg-[#7DB6AD]/14 blur-3xl" />
+
+            <div className="relative z-10 flex flex-wrap items-center gap-3 px-1 sm:flex-nowrap sm:px-2">
+              <div className="min-w-0">
+                <p className="text-[10px] font-black uppercase tracking-[0.32em] text-[#AFD5BC]/78">Command Deck</p>
+                <p className="mt-1 min-w-0 text-xs font-black uppercase tracking-[0.18em] text-[#7DB6AD] sm:tracking-[0.24em]">Executives for HTR</p>
+              </div>
+              <div className="ml-auto flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.18em] text-[#AFD5BC]/82">
+                
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(-1)}
+                  aria-label="Scroll carousel left"
+                  className="shrink-0 rounded-full border border-[#AFD5BC]/40 bg-[#1E3159]/60 px-2.5 py-2 text-xs font-black uppercase tracking-[0.1em] text-[#AFD5BC] shadow-md shadow-black/20 transition hover:-translate-x-0.5 hover:border-[#AFD5BC] hover:bg-[#AFD5BC] hover:text-[#1E3159]"
+                >
+                  <FaAngleLeft className="h-5 w-5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => scrollCarousel(1)}
+                  aria-label="Scroll carousel right"
+                  className="shrink-0 rounded-full border border-[#AFD5BC]/40 bg-[#1E3159]/60 px-2.5 py-2 text-xs font-black uppercase tracking-[0.1em] text-[#AFD5BC] shadow-md shadow-black/20 transition hover:translate-x-0.5 hover:border-[#AFD5BC] hover:bg-[#AFD5BC] hover:text-[#1E3159]"
+                >
+                  <FaAngleLeft className="h-5 w-5 rotate-180" />
+                </button>
+              </div>
+            </div>
+            <div className="relative mt-4 min-w-0">
+              <div
+                ref={carouselRef}
+                className="flex w-full min-w-0 snap-x snap-mandatory gap-3 overflow-x-auto pb-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              >
+                {carouselMembers.map((member) => (
+                  <div
+                    key={member.id}
+                    data-carousel-card="true"
+                    className="snap-start shrink-0 basis-[58%] transition-transform duration-300 hover:-translate-y-1 sm:basis-[36%] lg:basis-[24%] xl:basis-[19%]"
+                  >
+                    <TeamCard member={member} compact />
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex w-full flex-wrap items-center justify-center gap-3 px-1 sm:px-2">
+                <div className="flex items-center gap-1.5">
+                  {carouselMembers.map((member, index) => (
+                    <span
+                      key={member.id}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${
+                        index + 1 === activeCard ? "w-7 bg-[#AFD5BC]" : "w-2 bg-[#AFD5BC]/35"
+                      }`}
+                    />
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
-            {teamMembers.map((member) => (
-              <TeamCard key={member.id} member={member} />
-            ))}
-          </div>
         </div>
 
-        <div className="mt-20 border-t border-[#AFD5BC]/18 pt-12 lg:mt-24">
+        {/* Previous Execs Section */}
+        <div className="mt-10 border-t border-[#AFD5BC]/18 pt-10 lg:mt-12">
           <div className="mx-auto max-w-5xl text-center">
             <p className="text-sm font-black uppercase tracking-[0.35em] text-[#7DB6AD]">Previously on HTR</p>
             <h3 className="mt-4 font-sacco text-4xl font-black uppercase leading-[0.9] tracking-[0.05em] text-[#dfd7d7] sm:text-5xl lg:text-6xl">
@@ -241,7 +518,7 @@ const TeamSection: React.FC = () => {
 
             <div
               className={`mx-auto grid overflow-hidden transition-all duration-500 ease-out ${
-                isClownOpen ? "mt-8 max-h-[760px] opacity-100" : "max-h-0 opacity-0"
+                isClownOpen ? "mt-8 max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
               <div className="rounded-[2rem] border border-[#AFD5BC]/25 bg-[#dfd7d7]/8 p-5 shadow-2xl shadow-black/20 backdrop-blur-md sm:p-6">
@@ -288,51 +565,47 @@ const TeamSection: React.FC = () => {
                     Clear props
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-x-7 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
-            {pastBuilders.map((builder) => (
-              <div key={builder.name} className="group text-center">
-                <div
-                  className="relative mx-auto h-48 w-48 overflow-hidden rounded-[2.4rem] bg-[#1E3159] ring-2 ring-[#AFD5BC]/25 shadow-xl shadow-black/25 transition duration-300 group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:ring-[#AFD5BC]/80 sm:h-52 sm:w-52 xl:h-56 xl:w-56"
-                  onDragOver={(event) => event.preventDefault()}
-                  onDrop={(event) => handleDrop(event, builder.name)}
-                  onClick={(event) => handlePhotoClick(event, builder.name)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Place clown prop on ${builder.name}`}
-                >
-                  <Image
-                    src={builder.image}
-                    alt={builder.name}
-                    fill
-                    sizes="(max-width: 640px) 192px, (max-width: 1280px) 208px, 224px"
-                    className="object-cover transition duration-300 group-hover:scale-110"
-                    style={{ objectPosition: builder.objectPosition }}
-                  />
+                <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-5">
+                  {pastBuilders.map((builder) => (
+                    <div key={builder.name} className="group text-center">
+                      <div
+                        className="relative mx-auto h-32 w-32 overflow-hidden rounded-[1.7rem] bg-[#1E3159] ring-2 ring-[#AFD5BC]/25 shadow-xl shadow-black/25 transition duration-300 group-hover:-translate-y-1 group-hover:ring-[#AFD5BC]/80 sm:h-36 sm:w-36 xl:h-40 xl:w-40"
+                        onDragOver={(event) => event.preventDefault()}
+                        onDrop={(event) => handleDrop(event, builder.name)}
+                        onClick={(event) => handlePhotoClick(event, builder.name)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Place clown prop on ${builder.name}`}
+                      >
+                        <Image
+                          src={builder.image}
+                          alt={builder.name}
+                          fill
+                          sizes="(max-width: 640px) 160px, (max-width: 1280px) 176px, 192px"
+                          className="object-cover transition duration-300 group-hover:scale-110"
+                          style={{ objectPosition: builder.objectPosition }}
+                        />
 
-                  {(placedProps[builder.name] ?? []).map((prop) => (
-                    <div
-                      key={prop.id}
-                      className="pointer-events-none absolute z-30 -translate-x-1/2 -translate-y-1/2"
-                      style={{ left: `${prop.x}%`, top: `${prop.y}%` }}
-                    >
-                      <StickerGraphic kind={prop.kind} />
+                        {(placedProps[builder.name] ?? []).map((prop) => (
+                          <div
+                            key={prop.id}
+                            className="pointer-events-none absolute z-30 -translate-x-1/2 -translate-y-1/2"
+                            style={{ left: `${prop.x}%`, top: `${prop.y}%` }}
+                          >
+                            <StickerGraphic kind={prop.kind} />
+                          </div>
+                        ))}
+
+                        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#1E3159]/65 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                      </div>
+                      <p className="mt-3 text-[11px] font-black uppercase tracking-[0.14em] text-[#dfd7d7] sm:text-xs">{builder.name}</p>
+                      <p className="mt-1 text-[9px] font-black uppercase tracking-[0.17em] text-[#AFD5BC]/65">{builder.title}</p>
                     </div>
                   ))}
-
-                  <div className="absolute inset-0 z-10 flex flex-col justify-end bg-gradient-to-t from-[#1E3159]/96 via-[#1E3159]/45 to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100">
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#AFD5BC]">{builder.title}</p>
-                    <p className="mt-2 text-xs font-semibold leading-4 text-[#dfd7d7]">{builder.hoverText}</p>
-                    <p className="mt-3 text-[9px] font-black uppercase tracking-[0.16em] text-[#AFD5BC]/80">{builder.tag}</p>
-                  </div>
                 </div>
-                <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-[#dfd7d7] sm:text-sm">{builder.name}</p>
-                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.17em] text-[#AFD5BC]/65">{builder.title}</p>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>
