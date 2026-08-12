@@ -1,0 +1,16 @@
+{
+  "dependencies": {
+    "gsap": "3.12",
+    "lil-gui": "^0.21.0",
+    "three": "^0.185.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0",
+    "vite": "^8.2.1"
+  },
+  "homepage": "https://github.io",
+  "scripts": {
+    "predeploy": "npx vite build",
+    "deploy": "gh-pages -d dist" 
+  }
+}
