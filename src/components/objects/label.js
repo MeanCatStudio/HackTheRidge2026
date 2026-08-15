@@ -1,22 +1,26 @@
 import * as three from "three";
 import { TextGeometry } from "three/examples/jsm/Addons.js";
 
-import Utility from "./utility";
+import Utility from "../utility";
+import Assets from "../assets";
+import Earth from "./earth";
 
 export default class Label 
 {
-    #material;
+    static headerLabelConfigs = { size: 10, depth: 2, dist: 70 }
+    static nearLabelConfigs = { size: 2, depth: 1.5, letterSpacing: .5, dist: Earth.EARTH_RADIUS };
 
+    #material;
     root = new three.Group();
     #text = " ";
     #lettersFlatOffsets = []
 
-    constructor(text, font,  { size = 5, depth = 1, color = 0xffffff, letterSpacing = 1, disableShadow = false }) // creates the letters and label object
+    constructor(text,  { size = 5, depth = 1, color = 0xffffff, letterSpacing = 1, disableShadow = false }) // creates the letters and label object
     {
         this.#text = text;
         const textOptions = 
         { 
-            font: font,
+            font: Assets.assets.font,
             size: size,
             depth: depth,
             curveSegments: 1,
@@ -66,6 +70,14 @@ export default class Label
         //this.root.add(debugRootMesh);
         //this.#lettersFlatOffsets.push(debugRootMesh.position.x);
     };
+
+    static LabelFromConfigObj({ text = '', size = 5, depth = 1, color = 0xffffff, letterSpacing = 1, disableShadow = false, long = 0, lati: lati = 0, dist = 0 })
+    {
+        const label = new Label(text, { size: size, depth: depth, color: color, letterSpacing : letterSpacing, disableShadow: disableShadow });
+        label.PositionText(long, lati, dist);
+        //console.log(label);
+        return label;
+    }
 
     PositionText(long, lati, distance) // positions the label and letter objects
     {

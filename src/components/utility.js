@@ -1,14 +1,25 @@
 import * as three from "three";
 
+import World from "./world";
+
 export default class Utility
 {
-    static scene;
-
     // debug consts
     static debugSphereGeometry = new three.SphereGeometry(1, 4, 4);
-    static debugMaterialRed =  new three.MeshBasicMaterial({ color : 0xff0000, wireframe: true });
-    static debugMaterialGreen =  new three.MeshBasicMaterial({ color : 0x00ff00, wireframe: true });
-    static debugMaterialBlue =  new three.MeshBasicMaterial({ color : 0x0000ff, wireframe: true });
+    //static debugMaterialRed =  new three.MeshBasicMaterial({ color : 0xff0000, wireframe: true });
+    //static debugMaterialGreen =  new three.MeshBasicMaterial({ color : 0x00ff00, wireframe: true });
+    //static debugMaterialBlue =  new three.MeshBasicMaterial({ color : 0x0000ff, wireframe: true });
+
+    static CreateDebugSphere(pos, color = 0xffffff)
+    {
+        const sphere = new three.Mesh(this.debugSphereGeometry, new three.MeshBasicMaterial({ color: color, wireframe: true }));
+        World.scene.add(sphere);
+        sphere.position.copy(pos);
+        return sphere;
+    }
+
+    // math consts
+    static deg2Rad = Math.PI / 180;
 
     static right = new three.Vector3(1, 0, 0);
     static up = new three.Vector3(0, 1, 0);
