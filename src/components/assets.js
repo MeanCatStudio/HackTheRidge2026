@@ -5,7 +5,7 @@ import { FontLoader } from "three/examples/jsm/Addons.js";
 
 export default class Assets
 {
-    static assets = {};
+    static #assets = {};
     static #loadingManager = three.LoadingManager;
     static #textureLoader = three.TextureLoader;
     static #gltfLoader = GLTFLoader;
@@ -26,29 +26,43 @@ export default class Assets
 
     static Load({ name = '', type = '', path = '' }) // { name: item, type: stuff, path: ./item/stuff }
     {
-        console.assert(Assets.assets[name] == null, 'Duplicate names exsites in Assets!');
+        console.assert(Assets.#assets[name] == null, 'Duplicate names exsites in Assets!');
         switch(type)
         {
             case 'texture': 
                 Assets.#textureLoader.load(`${import.meta.env.BASE_URL}${path}`, (file) => {
                     file.colorSpace = three.SRGBColorSpace;
                     file.flipY = false;
-                    Assets.assets[name] = file;
+                    Assets.#assets[name] = file;
                 });
                 break;
             case 'model':
                 Assets.#gltfLoader.load(`${import.meta.env.BASE_URL}${path}`, (file) => {
-                    Assets.assets[name] = file;
+                    Assets.#assets[name] = file;
                 });
                 break;
             case 'font':
                 Assets.#fontLoader.load(`${import.meta.env.BASE_URL}${path}`, (file) => {
-                    Assets.assets[name] = file;
+                    Assets.#assets[name] = file;
                 });
                 break;
             default:
                 throw new Error("Invalid type for loading!");
         }
+    }
+    
+    static LoadList(list = [])
+    {
+        list.forEach(item => {
+            Assets.Load(item);
+        });
+    }
+
+    static GetAsset(name = '')
+    {
+        const asset = Assets.#assets[name];
+        console.assert(asset, `Unable to find requested asset! Name: ${name}`);
+        return asset;
     }
 };
 

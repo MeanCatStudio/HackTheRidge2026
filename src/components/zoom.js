@@ -11,6 +11,7 @@ export default class Zoom
     static #zoomListeners = [];
     static #endListeners = [];
     static #zoomConditions = [];
+    static #currentTween = {};
     
     static AddZoomListener(func)
     {
@@ -35,8 +36,19 @@ export default class Zoom
     static UpdateZoomLayer(change) // +1: zoom in, -1: zoom out
     {
         const newLayer = Utility.Clamp(Zoom.zoomLayer + change, 0, 2);
-        if (!Zoom.#canZoom || newLayer == Zoom.zoomLayer)
+        if (newLayer == Zoom.zoomLayer)
         { return }
+        if (!Utility.IsMoble())
+        { 
+            if (!Zoom.#canZoom)
+            { return; }    
+        }
+        else
+        {
+            if (!Zoom.#canZoom && Zoom.#currentTween.currentLayer - Zoom.#currentTween.newLayer == Zoom.zoomLayer - newLayer)
+            { return; }
+        }
+        
 
         const tweenObj = { 
             currentLayer: Zoom.zoomLayer,
@@ -44,7 +56,8 @@ export default class Zoom
             titleScale: Zoom.zoomLayer == 0 ? 1 : 0,
             farScale: Zoom.zoomLayer == 1 ? 1 : 0,
             nearScale: Zoom.zoomLayer == 2 ? 1 : 0,
-            progress: 0
+            progress: 0,
+            prevProgress: 0,
         };
         
         for (let i = 0; i < Zoom.#zoomConditions.length; i++)
@@ -65,39 +78,18 @@ export default class Zoom
             progress: 1,
             
             onUpdate: function() {
+                Zoom.#currentTween = { ...tweenObj };
                 if (tweenObj.currentLayer == Zoom.zoomLayer)
-                { return; }              
+                { return; }             
+                Zoom.#canZoom = false;
                 
                 Zoom.#zoomListeners.forEach((listener) => { listener(tweenObj); })
-        
-                /*if (zoomLayer != 2)
-                {
-                    camera.position.normalize();
-                    camera.position.multiplyScalar(tweenObj.zoomDistance);
-                }
-                else
-                { camera.position.set(tweenObj.cameraPosX, tweenObj.cameraPosY, tweenObj.cameraPosZ); }
-                
-                title.UpdateScale(tweenObj.titleScale);
-                for (let i = 0; i < farLabels.length; i++)
-                { farLabels[i].UpdateScale(tweenObj.farScale); }
-                for (let i = 0; i < nearLabels.length; i++)
-                { nearLabels[i].UpdateScale(tweenObj.nearScale); }
 
-                for (let i = 0; i < clouds.children.length; i++)
-                {
-                    clouds.children[i].scale.set(tweenObj.titleScale, tweenObj.titleScale, tweenObj.titleScale);
-                }
-
-                if (zoomLayer != 2)
-                {
-                    aboutUs.material = earthMaterial;
-                }
-                earthMaterial.color.lerpColors(FAR_EARTH_COLOR, NEAR_EARTH_COLOR, tweenObj.nearScale);*/
-
-        }, onComplete: function(){
-            Zoom.#canZoom = true;
-            Zoom.#endListeners.forEach((listener) => { listener(tweenObj); })
+                tweenObj.prevProgress = tweenObj.progress;
+            }, onComplete: function(){
+                Zoom.#canZoom = true;
+                Zoom.#currentTween = {};
+                Zoom.#endListeners.forEach((listener) => { listener(tweenObj); })
         }});
             
         Zoom.zoomLayer = newLayer;
@@ -106,5 +98,10 @@ export default class Zoom
     static OnScroll(event)
     {
         Zoom.UpdateZoomLayer(- Math.sign(event.deltaY));
+    }
+
+    static OnDoubleClick(event)
+    {
+        Zoom.UpdateZoomLayer(1);
     }
 }

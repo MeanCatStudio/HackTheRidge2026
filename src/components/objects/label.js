@@ -8,7 +8,7 @@ import Earth from "./earth";
 export default class Label 
 {
     static headerLabelConfigs = { size: 10, depth: 2, dist: 70 }
-    static nearLabelConfigs = { size: 2, depth: 1.5, letterSpacing: .5, dist: Earth.EARTH_RADIUS };
+    static nearLabelConfigs = { size: 2, depth: 1.5, letterSpacing: .5, dist: 64 };
 
     #material;
     root = new three.Group();
@@ -20,7 +20,7 @@ export default class Label
         this.#text = text;
         const textOptions = 
         { 
-            font: Assets.assets.font,
+            font: Assets.GetAsset('font'),
             size: size,
             depth: depth,
             curveSegments: 1,

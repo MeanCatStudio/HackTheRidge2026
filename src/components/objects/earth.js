@@ -19,7 +19,7 @@ export default class Earth
 
     constructor(scene)
     {
-        const earth = Assets.assets.earth.scene;
+        const earth = Assets.GetAsset('earth').scene;
         scene.add(earth); // adds the land and water
         earth.scale.multiplyScalar(Earth.MODEL_SCALE); // approximately 64 unit radius
         const land = earth.children[1]; // get land only;
@@ -39,7 +39,7 @@ export default class Earth
         //camera.attach(title.root);
         scene.add(title.root);
 
-        const clouds = Assets.assets.clouds.scene;
+        const clouds = Assets.GetAsset('clouds').scene;
         scene.add(clouds);
         clouds.scale.multiplyScalar(Earth.MODEL_SCALE);
         clouds.rotateY(Math.PI * .8);

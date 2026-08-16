@@ -1,7 +1,5 @@
 import * as three from "three";
 
-import World from "./world";
-
 export default class Utility
 {
     // debug consts
@@ -10,10 +8,10 @@ export default class Utility
     //static debugMaterialGreen =  new three.MeshBasicMaterial({ color : 0x00ff00, wireframe: true });
     //static debugMaterialBlue =  new three.MeshBasicMaterial({ color : 0x0000ff, wireframe: true });
 
-    static CreateDebugSphere(pos, color = 0xffffff)
+    static CreateDebugSphere(scene, pos, color = 0xffffff)
     {
         const sphere = new three.Mesh(this.debugSphereGeometry, new three.MeshBasicMaterial({ color: color, wireframe: true }));
-        World.scene.add(sphere);
+        scene.add(sphere);
         sphere.position.copy(pos);
         return sphere;
     }
@@ -61,8 +59,8 @@ export default class Utility
 
     static RotationMatrixFromDownVector(down)
     {
-        down.normalize();
         this.#matrixUp.copy(down);
+        this.#matrixUp.normalize();
         this.#matrixUp.negate();
         this.#matrixBack.copy(this.#matrixUp);
         this.#matrixBack.cross(this.right);

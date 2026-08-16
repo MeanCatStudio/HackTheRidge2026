@@ -1,11 +1,11 @@
 import * as three from "three";
 
-import World from "../world";
 import Label from "./label";
 import Earth from "./earth";
 import Zoom from "../zoom";
 import Utility from "../utility";
 import Camera from "../camera";
+import Button from "./button";
 
 export default class Continent
 {
@@ -17,12 +17,12 @@ export default class Continent
     #active = false;
     #cameraPos = new three.Vector3();
 
-    constructor({ headerConfig, modelFile, texture, labelConfigs, centerLong, centerLait })
+    constructor(scene, { headerConfig, modelFile, texture, labelConfigs, centerLong, centerLait, backButtonLong, backButtonLati })
     {
         const MODEL_SCALE = 62;
         const model = modelFile.scene.children[0];
 
-        World.scene.add(model);
+        scene.add(model);
         model.scale.multiplyScalar(MODEL_SCALE);
         model.receiveShadow = true;
 
@@ -30,24 +30,29 @@ export default class Continent
         model.material = material;
 
         const header = Label.LabelFromConfigObj({ long: centerLong, lati: centerLait, ...Label.headerLabelConfigs, ...headerConfig });
-        World.scene.add(header.root);
+        scene.add(header.root);
         header.UpdateScale(0);
 
         const nearLabels = [];
         labelConfigs.forEach(config => {
             const label = Label.LabelFromConfigObj({ ...Label.nearLabelConfigs, ...config });
-            World.scene.add(label.root);
+            scene.add(label.root);
             label.UpdateScale(0);
             nearLabels.push(label);
         });
 
         const cameraPos = Utility.GetSphericalPosition(centerLong, centerLait, Continent.#cameraPosHeight)
         this.#cameraPos.copy(cameraPos);
-        const debugSphere = Utility.CreateDebugSphere(cameraPos, 0xffff00);
+        const debugSphere = Utility.CreateDebugSphere(scene, cameraPos, 0xffff00);
         Continent.#continents.push(this);
+
+        //const button = new Button(scene, { long: backButtonLong, lait: backButtonLati, geometry: 'x' });
+        //button.UpdateScale(0);
+        //button.AddClickListener(() => { Zoom.UpdateZoomLayer(-1); })
 
         Zoom.AddZoomListener((tweenObj) => {
             header.UpdateScale(tweenObj.farScale);
+            //button.UpdateScale(tweenObj.nearScale);
             nearLabels.forEach(label => { label.UpdateScale(tweenObj.nearScale); });
             debugSphere.scale.set(1 - tweenObj.nearScale, 1 - tweenObj.nearScale, 1 - tweenObj.nearScale);
             material.color.lerpColors(Earth.farEarthColor, Earth.nearEarthColor, tweenObj.nearScale);
@@ -55,6 +60,16 @@ export default class Continent
             {
                 material.map = null;
                 material.needsUpdate = true;
+            }
+
+            if (tweenObj.newLayer != 2)
+            {
+                Continent.activeCamreaPositions = null;
+                this.#active = false;
+                Camera.controls.maxAzimuthAngle = Infinity;
+                Camera.controls.minAzimuthAngle = -Infinity;
+                Camera.controls.minPolarAngle = 0;
+                Camera.controls.maxPolarAngle = Math.PI;
             }
         });
         Zoom.AddZoomEndListener((tweenObj) => {
@@ -74,16 +89,8 @@ export default class Continent
                     //Camera.controls.minPolarAngle
                 }
             }
-            else
-            {
-                Continent.activeCamreaPositions = null;
-                this.#active = false;
-                Camera.controls.maxAzimuthAngle = Infinity;
-                Camera.controls.minAzimuthAngle = -Infinity;
-                Camera.controls.minPolarAngle = 0;
-                Camera.controls.maxPolarAngle = Math.PI;
-            }
         });
+
     }
 
     static #cameraPosAngleThreshold = Math.PI * .08;

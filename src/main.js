@@ -1,22 +1,19 @@
 import * as three from "three";
-import gsap from 'gsap';
 import GUI from 'lil-gui';
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { DRACOLoader } from "three/examples/jsm/Addons.js";
-import { FontLoader } from "three/examples/jsm/Addons.js";
-import { TextGeometry } from "three/examples/jsm/Addons.js";
 
-import Label from './components/objects/label.js';
+//import Label from './components/objects/label.js';
+import config from "./config.js";
 import Utility from './components/utility.js';
 import Assets from "./components/assets.js";
 import World from "./components/world.js";
-import Zoom from "./components/zoom.js";
+//import Zoom from "./components/zoom.js";
 import Camera from "./components/camera.js";
 import Input from "./components/input.js";
 
 const renderer = new three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = three.PCFShadowMap;
 document.body.appendChild(renderer.domElement);
 
 //const world = new World(renderer);
@@ -28,27 +25,10 @@ const camera = World.camera;
 const gui = new GUI({ width: 400 });
 const guiObject = {};
 gui.hide();
+export {gui};
 
-//const assets = new Assets();
-//assets.Load({ name: 'earth', type: 'model', path: 'assets/models/earth_2.glb' });
-
-let mouseDown = false;
-
-const loadItems = [
-    { name: 'earth', type: 'model', path: 'assets/models/earth_2.glb'},
-    { name: 'clouds', type: 'model', path: 'assets/models/clouds.glb'},
-    { name: 'aboutUs', type: 'model', path: 'assets/models/aboutUs_2.glb'},
-    { name: 'skybox', type: 'texture', path: 'assets/textures/lowresSkybox.jpg'},
-    { name: 'aboutUsTexture', type: 'texture', path: Utility.IsMoble() ? 'assets/textures/AboutUs_Moble.png' : 'assets/textures/AboutUs.png' },
-    { name: 'font', type: 'font', path: 'assets/fonts/roboto.json'}
-];
 Assets.Init(CreateScenePostLoad);
-//const assets = new Assets(CreateScenePostLoad);
-for (let i = 0; i < loadItems.length; i++)
-{
-    Assets.Load(loadItems[i]);
-}
-//console.log(Assets.assets);
+Assets.LoadList(config.assets);
 
 function CreateScenePostLoad()
 {
