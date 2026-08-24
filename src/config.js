@@ -3,12 +3,15 @@ import Utility from "./components/utility";
 export default 
 {
     assets: [
-        { name: 'earth', type: 'model', path: 'assets/models/earth_2.glb'},
+        { name: 'earth', type: 'model', path: 'assets/models/earth_4.glb'},
         { name: 'clouds', type: 'model', path: 'assets/models/clouds.glb'},
-        { name: 'aboutus', type: 'model', path: 'assets/models/aboutUs_2.glb'},
+        { name: 'aboutus', type: 'model', path: 'assets/models/aboutUs_4.glb'},
         { name: 'skybox', type: 'texture', path: 'assets/textures/lowresSkybox.jpg'},
         { name: 'aboutusTexture', type: 'texture', path: Utility.IsMoble() ? 'assets/textures/AboutUs_Moble.png' : 'assets/textures/AboutUs.png' },
-        { name: 'font', type: 'font', path: 'assets/fonts/roboto.json'}
+        { name: 'font', type: 'font', path: 'assets/fonts/roboto.json'},
+        { name: 'trees', type: 'model', path: 'assets/models/trees.glb'},
+        { name: 'treeDistribution', type: 'dataTexture', path: 'assets/textures/trees.png'},
+        { name: 'enviroment', type: 'enviroment', path: 'assets/textures/enviroment.hdr' }
     ],
     continents: [
         {

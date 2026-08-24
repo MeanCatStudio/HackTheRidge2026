@@ -2,8 +2,6 @@ import * as three from "three";
 
 import Zoom from "./zoom";
 import Utility from "./utility";
-import { gui } from "../main";
-import { Gyroscope } from "three/examples/jsm/Addons.js";
 
 export default class Input
 {

@@ -2,6 +2,7 @@ import * as three from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { DRACOLoader } from "three/examples/jsm/Addons.js";
 import { FontLoader } from "three/examples/jsm/Addons.js";
+import { HDRLoader } from "three/examples/jsm/Addons.js";
 
 export default class Assets
 {
@@ -10,6 +11,7 @@ export default class Assets
     static #textureLoader = three.TextureLoader;
     static #gltfLoader = GLTFLoader;
     static #fontLoader = FontLoader;
+    static #hdrLoader = HDRLoader;
 
     static Init(onLoadedCallback)
     {
@@ -19,6 +21,7 @@ export default class Assets
         this.#gltfLoader = new GLTFLoader(this.#loadingManager);
         this.#fontLoader = new FontLoader(this.#loadingManager);
         this.#gltfLoader.setDRACOLoader(dracoLoader);
+        this.#hdrLoader = new HDRLoader(this.#loadingManager);
         this.#loadingManager.onError = (url) => { console.error(`Loading error: ${url}`); }
         this.#loadingManager.onLoad = onLoadedCallback;
         //console.log('new assets');
@@ -36,6 +39,12 @@ export default class Assets
                     Assets.#assets[name] = file;
                 });
                 break;
+            case 'dataTexture':
+                Assets.#textureLoader.load(`${import.meta.env.BASE_URL}${path}`, (file) => {
+                    file.colorSpace = three.NoColorSpace;
+                    Assets.#assets[name] = file;
+                });
+                break;
             case 'model':
                 Assets.#gltfLoader.load(`${import.meta.env.BASE_URL}${path}`, (file) => {
                     Assets.#assets[name] = file;
@@ -43,6 +52,12 @@ export default class Assets
                 break;
             case 'font':
                 Assets.#fontLoader.load(`${import.meta.env.BASE_URL}${path}`, (file) => {
+                    Assets.#assets[name] = file;
+                });
+                break;
+            case 'enviroment':
+                Assets.#hdrLoader.load(`${import.meta.env.BASE_URL}${path}`, (file) => {
+                    file.mapping = three.EquirectangularRefractionMapping;
                     Assets.#assets[name] = file;
                 });
                 break;

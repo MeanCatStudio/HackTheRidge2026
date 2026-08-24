@@ -1,32 +1,23 @@
 import * as three from "three";
-import GUI from 'lil-gui';
 
 //import Label from './components/objects/label.js';
 import config from "./config.js";
-import Utility from './components/utility.js';
 import Assets from "./components/assets.js";
 import World from "./components/world.js";
-//import Zoom from "./components/zoom.js";
 import Camera from "./components/camera.js";
 import Input from "./components/input.js";
+import Debug from "./components/debug.js";
 
-const renderer = new three.WebGLRenderer();
+const renderer = new three.WebGLRenderer({ stencil: false });
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = three.PCFShadowMap;
 document.body.appendChild(renderer.domElement);
+renderer.toneMapping = three.CineonToneMapping;
 
 //const world = new World(renderer);
 World.Init(renderer);
-
-const scene = World.scene;
-const camera = World.camera;
-
-const gui = new GUI({ width: 400 });
-const guiObject = {};
-gui.hide();
-export {gui};
-
+Debug.Toggle();
 Assets.Init(CreateScenePostLoad);
 Assets.LoadList(config.assets);
 
@@ -56,3 +47,10 @@ function OnWindowResize(event)
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 window.addEventListener('resize', OnWindowResize);
+
+function OnKeydown(event)
+{
+    if (event.key == '`' || event.key == '~')
+    { Debug.Toggle(); }
+}
+window.addEventListener('keydown', OnKeydown)

@@ -131,7 +131,6 @@ export default class Label
             this.root.worldToLocal(letter.position);
             
             letter.setRotationFromMatrix(Utility.RotationMatrixFromDownVector(pos.negate().normalize()));
-            letter.rotateZ(-letter.rotation.z * .5); // rotation from down vector is buged, leading to z rotation being doubled of what it's intened, can't find solution
         }
 
         this.root.rotateY(rotation);

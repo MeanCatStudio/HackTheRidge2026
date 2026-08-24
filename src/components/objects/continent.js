@@ -6,6 +6,7 @@ import Zoom from "../zoom";
 import Utility from "../utility";
 import Camera from "../camera";
 import Button from "./button";
+import Assets from "../assets";
 
 export default class Continent
 {
@@ -24,10 +25,34 @@ export default class Continent
 
         scene.add(model);
         model.scale.multiplyScalar(MODEL_SCALE);
-        model.receiveShadow = true;
-
         const material = new three.MeshStandardMaterial({ color: Earth.farEarthColor });
-        model.material = material;
+
+        if (model.isGroup)
+        {
+            const surface = model.children[0];
+            const bellow = model.children[1];
+            surface.receiveShadow = true;
+            surface.material.dispose();
+            surface.material = material;            
+
+            bellow.material.copy(surface.material);
+
+            //Earth.SeperateLandMaterials(surface.material, bellow.material);
+
+            //surface.material.stencilWrite = true; // suface material writes to the stencil buffer
+            //surface.material.stencilRef = 1;
+            //surface.material.stencilFunc = three.AlwaysStencilFunc;
+            //surface.material.stencilZPass = three.ReplaceStencilOp;
+            //surface.material.stencilZFail = three.ReplaceStencilOp;
+        }
+        else
+        {
+            model.receiveShadow = true;
+            model.material.dispose();
+            model.material = material;
+        }
+
+
 
         const header = Label.LabelFromConfigObj({ long: centerLong, lati: centerLait, ...Label.headerLabelConfigs, ...headerConfig });
         scene.add(header.root);

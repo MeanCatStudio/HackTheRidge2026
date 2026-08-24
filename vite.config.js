@@ -1,5 +1,9 @@
-import { defineConfig } from 'vite'
+import { defineConfig } from 'vite';
+import glsl from 'vite-plugin-glsl';
 
 export default defineConfig({
-    base: '/hacktheearth/'
-})
+    base: '/hacktheearth/',
+    plugins: [
+        glsl()
+    ]
+});
