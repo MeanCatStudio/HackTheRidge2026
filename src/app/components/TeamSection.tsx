@@ -286,7 +286,7 @@ const TeamSection: React.FC = () => {
   }, [mounted]);
 
   if (!mounted) {
-    return <section id="team" className="relative z-10 w-full scroll-mt-28 bg-app-bg" aria-label="Team" />;
+    return <section id="team" className="relative z-10 w-full scroll-mt-28" aria-label="Team" />;
   }
 
   const leadMembers = teamMembers.filter((member) => !member.isRoleCard);
@@ -302,7 +302,7 @@ const TeamSection: React.FC = () => {
   const visibleLogs = typingLine && logs.length >= visibleLogCount ? logs.slice(-(visibleLogCount - 1)) : logs;
 
   return (
-    <section id="team" className="relative z-10 w-full scroll-mt-28 bg-app-bg px-5 py-16 text-[#dfd7d7] sm:px-8 lg:px-12 lg:py-20">
+    <section id="team" className="relative z-10 w-full scroll-mt-28 px-5 py-16 text-[#dfd7d7] sm:px-8 lg:px-12 lg:py-20">
       <div className="mx-auto max-w-9xl">
         <div className="grid gap-6 lg:grid-cols-[minmax(320px,420px)_1fr] lg:items-stretch">
           

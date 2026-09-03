@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Cedarville_Cursive, Share_Tech_Mono } from "next/font/google";
+import { Bebas_Neue, Cedarville_Cursive, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
 
 const cedarvilleCursive = Cedarville_Cursive({
@@ -12,6 +12,12 @@ const shareTechMono = Share_Tech_Mono({
   subsets: ["latin"],
   weight: "400",
   variable: "--font-share-tech-mono",
+});
+
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-bebas-neue",
 });
 
 export const metadata: Metadata = {
@@ -45,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} w-full`}>
+    <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} ${bebasNeue.variable} w-full`}>
       <body className="antialiased w-full min-w-full">
         {children}
       </body>

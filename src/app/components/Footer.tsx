@@ -2,7 +2,6 @@
 
 import React from "react";
 import Link from "next/link";
-import CyberWordmark from "./CyberWordmark";
 
 const quickLinks = [
   { name: "About", href: "#about" },
@@ -23,11 +22,10 @@ const Footer: React.FC = () => {
   const currentYear = "2026";
 
   return (
-    <footer id="contact" className="border-t border-[#AFD5BC]/18 bg-[#1E3159] px-5 py-12 text-[#dfd7d7] sm:px-8 lg:px-12">
+    <footer id="contact" className="border-t border-[#AFD5BC]/18 px-5 py-12 text-[#dfd7d7] sm:px-8 lg:px-12">
       <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1.2fr_0.8fr_0.8fr]">
         <div>
           <div>
-            <CyberWordmark variant="footer" />
             <p className="mt-2 text-sm font-semibold uppercase tracking-[0.18em] text-[#dfd7d7]/62">Next season</p>
           </div>
           <p className="mt-6 max-w-xl text-base leading-7 text-[#dfd7d7]/72">

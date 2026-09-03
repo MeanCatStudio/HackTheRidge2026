@@ -102,7 +102,7 @@ const SoundDock: React.FC = () => {
   };
 
   return (
-    <aside className="fixed bottom-4 right-4 z-50 flex flex-col items-end gap-2" aria-label="Site controls">
+    <aside className="sound-dock-position fixed z-50 flex flex-col items-end gap-2" aria-label="Site controls">
       <audio
         ref={audioRef}
         preload="metadata"
