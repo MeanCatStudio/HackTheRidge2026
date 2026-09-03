@@ -10,3 +10,16 @@ body
     height: 100%;
     display: block;
 }
+
+.loading-bar
+{
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    height: 3px;
+    background: #ffffff;
+    transform: scaleX(0);
+    transform-origin: top left;
+    transition: 0.1s;
+    opacity: 1;
+}

@@ -7,46 +7,45 @@ import World from "./components/world.js";
 import Camera from "./components/camera.js";
 import Input from "./components/input.js";
 import Debug from "./components/debug.js";
+import Renderer from "./components/renderer.js";
 
-const renderer = new three.WebGLRenderer({ stencil: false });
+/*const renderer = new three.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = three.PCFShadowMap;
 document.body.appendChild(renderer.domElement);
-renderer.toneMapping = three.CineonToneMapping;
+renderer.toneMapping = three.CineonToneMapping;*/
 
 //const world = new World(renderer);
+Debug.Init();
+Renderer.Init(World.scene, Camera.camera);
+const renderer = Renderer.renderer;
 World.Init(renderer);
 Debug.Toggle();
 Assets.Init(CreateScenePostLoad);
 Assets.LoadList(config.assets);
+let loaded = false;
 
 function CreateScenePostLoad()
 {
     console.log('Load');
     //console.log(World);
     World.CreateScene();
+    Camera.HideLoadingOverlay();
     Input.Init();
-    Start();
-}
-
-function Start()
-{
+    //Start();
+    loaded = true;
     console.log("Starting");
-
-    renderer.setAnimationLoop((time) => {
-        World.Update(time);
-        renderer.render(World.scene, Camera.camera);
-    });
 }
 
-function OnWindowResize(event)
-{
-    Camera.camera.aspect = window.innerWidth / window.innerHeight;
-    Camera.camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-window.addEventListener('resize', OnWindowResize);
+renderer.setAnimationLoop((time) => {
+    Debug.UpdateStart();
+    if (loaded)
+    { World.Update(time); }
+    //renderer.render(World.scene, Camera.camera);
+    Renderer.Render();
+    Debug.UpdateEnd();
+});
 
 function OnKeydown(event)
 {

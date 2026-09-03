@@ -1,6 +1,6 @@
 import * as three from "three";
 import { OrbitControls } from "three/examples/jsm/Addons.js";
-import { instance } from "three/tsl";
+import gsap from "gsap";
 
 import Zoom from "./zoom";
 import Input from "./input";
@@ -9,7 +9,7 @@ import Utility from "./utility";
 export default class Camera
 {
     static instance = null;
-    static camera = null; //three.PerspectiveCamera();
+    static camera = new three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000); //three.PerspectiveCamera();
     static controls = null; //new OrbitControls();
     static targetCameraPos = new three.Vector3(); // Probaly refactor this
     static #prevCameraPos = new three.Vector3();
@@ -19,6 +19,7 @@ export default class Camera
     static #baseRotationSpeed = Utility.IsMoble() ? .5 : 1;
     static #tweenPos = new three.Vector3();
     static #prevTweenPos = new three.Vector3();
+    static #loadingOverlay = null;
 
     static Init(scene, renderer)
     {
@@ -26,8 +27,7 @@ export default class Camera
         { return Camera.instance; }
         Camera.instance = this;
 
-        const DEFAULT_CAMERA_FOV = 75;
-        const camera = new three.PerspectiveCamera(DEFAULT_CAMERA_FOV, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const camera = Camera.camera;
         scene.add(camera);
 
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -78,15 +78,52 @@ export default class Camera
         Zoom.AddZoomEndListener((tweenObj) => {
             controls.enabled = true;
         })
+
+        const loadingOverlay = new three.Mesh(
+            new three.PlaneGeometry(2, 2),
+            new three.ShaderMaterial({
+                uniforms: {
+                    uAlpha: new three.Uniform(1)
+                },
+                vertexShader: `
+                    void main()
+                    {
+                        gl_Position = vec4(position, 1.0);
+                    }
+                `,
+                fragmentShader: `
+                    uniform float uAlpha;
+
+                    void main()
+                    {
+                        gl_FragColor = vec4(0.0, 0.0, 0.0, uAlpha);
+                    }
+                `,
+                transparent: true,
+                wireframe: false
+            })
+        )
+        camera.add(loadingOverlay);
+        Camera.#loadingOverlay = loadingOverlay;
     
-        Camera.camera = camera;        
+        //Camera.camera = camera;        
         Camera.controls = controls;
         Camera.#raycaster = raycaster;
+
+        window.addEventListener('resize', (event) => {            
+            Camera.camera.aspect = window.innerWidth / window.innerHeight;
+            Camera.camera.updateProjectionMatrix();
+        })
     }
 
     static AddRaycastListener(obj, hoverCallback, clickCallback)
     {
         Camera.#raycastListeners.push({ obj: obj, hover: hoverCallback, click: clickCallback });
+    }
+
+    static HideLoadingOverlay()
+    {
+        gsap.to(Camera.#loadingOverlay.material.uniforms.uAlpha, { delay: 0.5, duration: 3, value: 0 });
     }
 
     static Update(deltatime)

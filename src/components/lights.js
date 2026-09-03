@@ -11,13 +11,21 @@ export default class Lights
         const directionalLight = new three.DirectionalLight(0xffffff, 3);
         //World.#lightPosFormCamea = new three.Vector3(-100, 100, 100);
         scene.add(directionalLight);
-        scene.add(new three.DirectionalLightHelper(directionalLight, 10));
+        //scene.add(new three.DirectionalLightHelper(directionalLight, 10));
         directionalLight.position.set(100, 150, 0);
         directionalLight.castShadow = true;
         directionalLight.shadow.camera.top = 75;
         directionalLight.shadow.camera.bottom = -75;
         directionalLight.shadow.camera.left = -75;
         directionalLight.shadow.camera.right = 75;
+
+        const sunMesh = new three.Mesh(
+            new three.IcosahedronGeometry(10),
+            new three.MeshBasicMaterial()
+        );
+        scene.add(sunMesh);
+        sunMesh.position.copy(directionalLight.position);
+        sunMesh.position.multiplyScalar(5);
 
         scene.environment = Assets.GetAsset('enviroment');        
         scene.environmentIntensity = 0.5;

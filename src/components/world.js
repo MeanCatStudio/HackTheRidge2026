@@ -9,11 +9,12 @@ import Continent from "./objects/continent";
 import config from "../config";
 import Button from "./objects/button";
 import Lights from "./lights";
+import Debug from "./debug";
 
 export default class World
 {
     //static instance = null;
-    static scene = null;
+    static scene = new three.Scene();
     //static camera = null;
     static earth = null;
     //static controls = null;
@@ -24,7 +25,7 @@ export default class World
 
     static Init(renderer)
     {
-        const scene = new three.Scene();
+        //const scene = ;
 
         /*const directionalLight = new three.DirectionalLight(0xffffff, 3);
         World.#lightPosFormCamea = new three.Vector3(-100, 100, 100);
@@ -42,10 +43,7 @@ export default class World
         //scene.add(ambiantLight);
         scene.environmentIntensity = 0.5;*/
 
-        const axes = new three.AxesHelper(1000, 1000);
-        scene.add(axes);
-
-        World.scene = scene;
+        //World.scene = scene;
         //World.camera = camera;
         //World.controls = controls;
         //World.directionalLight = directionalLight;
@@ -55,11 +53,17 @@ export default class World
 
     static CreateScene()
     {
+        const worldGUI = Debug.GetFoulder("world");
+
         //const camera = new Camera(World.scene, World.#renderer);
         Camera.Init(World.scene, World.#renderer);
         Lights.Init(World.scene);
         //World.#tempObj.position.copy(Camera.camera.position);
         //World.#tempObj.lookAt(0, 0, 0);
+
+        const axes = new three.AxesHelper(1000, 1000);
+        World.scene.add(axes);
+        axes.visible = false;
 
         World.earth = new Earth(World.scene);
 
@@ -71,10 +75,17 @@ export default class World
 
         const skyboxTexture = Assets.GetAsset('skybox');
         skyboxTexture.colorSpace = three.SRGBColorSpace;
-        const skyboxGeo = new three.SphereGeometry(500);
+        const skyboxGeo = new three.SphereGeometry(900);
         const skyboxMat = new three.MeshBasicMaterial({ color: 0x999999, map: skyboxTexture, side: three.BackSide })
         const skybox = new three.Mesh(skyboxGeo, skyboxMat);
         World.scene.add(skybox);
+
+        const worldGUIObj = {
+            debugDraws: false
+        };
+        worldGUI.add(worldGUIObj, 'debugDraws').onChange(() => {
+            axes.visible = worldGUIObj.debugDraws;
+        });
     }
 
     static #CreateContinent(config = {})

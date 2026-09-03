@@ -9,9 +9,12 @@ export default
         { name: 'skybox', type: 'texture', path: 'assets/textures/lowresSkybox.jpg'},
         { name: 'aboutusTexture', type: 'texture', path: Utility.IsMoble() ? 'assets/textures/AboutUs_Moble.png' : 'assets/textures/AboutUs.png' },
         { name: 'font', type: 'font', path: 'assets/fonts/roboto.json'},
-        { name: 'trees', type: 'model', path: 'assets/models/trees.glb'},
+        { name: 'trees', type: 'model', path: 'assets/models/trees_2.glb'},
         { name: 'treeDistribution', type: 'dataTexture', path: 'assets/textures/trees.png'},
-        { name: 'enviroment', type: 'enviroment', path: 'assets/textures/enviroment.hdr' }
+        { name: 'enviroment', type: 'enviroment', path: 'assets/textures/enviroment.hdr' },
+
+        { name: 'waterShader', type: 'shader', path: 'shaders/water' },
+        { name: 'atmosphereShader', type: 'shader', path: 'shaders/atmosphere' }
     ],
     continents: [
         {

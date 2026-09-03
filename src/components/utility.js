@@ -92,6 +92,23 @@ export default class Utility
 
     static Clamp(num, min, max) { return Math.min(Math.max(num, min), max); }
 
+    // Random cut-points in [0, total]: sorting them and taking the gaps between
+    // consecutive cuts guarantees the parts sum exactly to total while staying integers.
+    static RandomIntegersSummingTo(total, count)
+    {
+        if (count <= 0) return [];
+        if (count === 1) return [total];
+
+        const cuts = [0];
+        for (let i = 0; i < count - 1; i++) cuts.push(Math.floor(Math.random() * (total + 1)));
+        cuts.sort((a, b) => a - b);
+        cuts.push(total);
+
+        const result = [];
+        for (let i = 0; i < count; i++) result.push(cuts[i + 1] - cuts[i]);
+        return result;
+    }
+
     static IsMoble() { return window.innerHeight / window.innerWidth > 1; }
 
     static AzimuthalToLong(angle)

@@ -2,6 +2,7 @@
   "dependencies": {
     "gsap": "3.12",
     "lil-gui": "^0.21.0",
+    "stats.js": "^0.17.0",
     "three": "^0.185.1",
     "vite-plugin-glsl": "^1.6.1"
   },

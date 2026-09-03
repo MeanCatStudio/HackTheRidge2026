@@ -68,7 +68,7 @@ export default class Continent
 
         const cameraPos = Utility.GetSphericalPosition(centerLong, centerLait, Continent.#cameraPosHeight)
         this.#cameraPos.copy(cameraPos);
-        const debugSphere = Utility.CreateDebugSphere(scene, cameraPos, 0xffff00);
+        //const debugSphere = Utility.CreateDebugSphere(scene, cameraPos, 0xffff00);
         Continent.#continents.push(this);
 
         //const button = new Button(scene, { long: backButtonLong, lait: backButtonLati, geometry: 'x' });
@@ -79,7 +79,7 @@ export default class Continent
             header.UpdateScale(tweenObj.farScale);
             //button.UpdateScale(tweenObj.nearScale);
             nearLabels.forEach(label => { label.UpdateScale(tweenObj.nearScale); });
-            debugSphere.scale.set(1 - tweenObj.nearScale, 1 - tweenObj.nearScale, 1 - tweenObj.nearScale);
+            //debugSphere.scale.set(1 - tweenObj.nearScale, 1 - tweenObj.nearScale, 1 - tweenObj.nearScale);
             material.color.lerpColors(Earth.farEarthColor, Earth.nearEarthColor, tweenObj.nearScale);
             if (material.map)
             {

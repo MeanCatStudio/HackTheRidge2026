@@ -8,8 +8,6 @@ import Camera from "../camera";
 import Lights from "../lights";
 import Debug from "../debug";
 
-import waterIncludesShader from '../../shaders/water/includes.glsl'
-import waterVertexShader from '../../shaders/water/vertex.glsl';
 import atmosphereVertexShader from '../../shaders/atmosphere/vertex.glsl';
 import atmosphereFragmentShader from '../../shaders/atmosphere/fragment.glsl';
 
@@ -25,6 +23,7 @@ export default class Earth
     #title = null;
     #clouds = null;
     #atmosphereUniforms = null;
+    #atmospherePlane = null;
 
     constructor(scene)
     {
@@ -57,13 +56,14 @@ export default class Earth
         water.material.metalness = .3;
         water.material.flatShading = true;
 
+        const waterShader = Assets.GetAsset('waterShader');
         const waterCustomUniforms = {
             uTime: { value: 0.0 }
         };
         water.material.onBeforeCompile = (shader) => {
             shader.uniforms.uTime = waterCustomUniforms.uTime;
-            shader.vertexShader = shader.vertexShader.replace('#include <common>', waterIncludesShader);
-            shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', waterVertexShader);
+            shader.vertexShader = shader.vertexShader.replace('#include <common>', waterShader.includes);
+            shader.vertexShader = shader.vertexShader.replace('#include <begin_vertex>', waterShader.vertex);
             this.#waterUniforms = shader.uniforms;
         }; // add custom shader to water material
 
@@ -85,18 +85,21 @@ export default class Earth
             dayColor: 0x88bbff,
             nightColor: 0x061a41
         };
+        const atmosphereShader = Assets.GetAsset('atmosphereShader');
         const atmosphere = new three.Mesh(
             new three.IcosahedronGeometry(1.15, 3),
             new three.ShaderMaterial({
-                vertexShader: atmosphereVertexShader,
-                fragmentShader: atmosphereFragmentShader,
+                vertexShader: atmosphereShader.vertex,
+                fragmentShader: atmosphereShader.fragment,
                 uniforms: {
                     uLightPosition: new three.Uniform(new three.Vector3()),
                     uDayColor: new three.Uniform(new three.Color(atmosphereConfig.dayColor)),
                     uNightColor: new three.Uniform(new three.Color(atmosphereConfig.nightColor))
                 },
+                precision: 'lowp',
                 side: three.BackSide,
-                transparent: true
+                transparent: true,
+                depthWrite: false
             })
         );
         atmosphereGUI.addColor(atmosphereConfig, 'dayColor').onChange(() => {
@@ -108,6 +111,16 @@ export default class Earth
 
         earth.add(atmosphere);
         this.#atmosphereUniforms = atmosphere.material.uniforms;
+
+        /*const atmospherePlane = new three.Mesh(
+            new three.CircleGeometry(1.25),
+            new three.MeshBasicMaterial({
+                transparent: true,
+                opacity: 0.5
+            })
+        );
+        earth.add(atmospherePlane);
+        this.#atmospherePlane = atmospherePlane;*/
 
         const nearProps = this.#CreateProps(scene).children;
         
@@ -132,7 +145,7 @@ export default class Earth
                 clouds.children[i].scale.set(tweenObj.titleScale, tweenObj.titleScale, tweenObj.titleScale);
             }
 
-            const propScale = 1 - tweenObj.nearScale;
+            const propScale = 1 - tweenObj.nearScale * 0.2;
             nearProps.forEach(prop => {
                 prop.scale.set(propScale, propScale, propScale);
             });
@@ -170,28 +183,24 @@ export default class Earth
     #CreateProps(scene)
     {
         const trees = Assets.GetAsset('trees').scene.children;
-        const treeScale = 70;
+        const modelScale = 70;
         
         trees.forEach(tree => {
             tree.traverse((obj) => {
                 if (obj.isMesh)
-                { obj.geometry.scale(treeScale, treeScale, treeScale); }                
+                { 
+                    obj.geometry.scale(modelScale, modelScale, modelScale); 
+                    //treeInstance.push(new three.instance)
+                }                
             });
-            const shadowRef = new three.Mesh(
-                new three.ConeGeometry(3, 10, 4).translate(0, 6, 0), 
-                new three.MeshBasicMaterial({ 
-                    transparent: true,
-                    opacity: 0.0
-            }));
-            shadowRef.castShadow = true;
-            tree.add(shadowRef);
         });
         
         const treeDistribution = Assets.GetAsset('treeDistribution');
-
+        const treeMatrixes = [];
+        let count = 0;
         const points = Utility.GeneratePoissonDiskPoints(0.04, 2, 1);
-        const treesGroup = new three.Group();
-        scene.add(treesGroup);
+        const treeQuaternion = new three.Quaternion();
+
         points.forEach(point => {
             const u =  point.x / 2;
             const v = point.y;
@@ -200,17 +209,65 @@ export default class Earth
 
             const position = Utility.GetSphericalPosition(-point.x * Math.PI + Math.PI, (point.y - 0.5) * Math.PI, Earth.EARTH_RADIUS + 0.5); // due mismatched texture and spherical coords positions, remapping of u/x is requred
 
-            const tree = trees[Math.ceil(Math.random() * 4)].clone();
-            //const tree = new three.Mesh(new three.BoxGeometry(1, 10, 1), new three.MeshBasicMaterial());
-            treesGroup.add(tree);
-            tree.position.copy(position);
-            tree.setRotationFromMatrix(Utility.RotationMatrixFromDownVector({x: -position.x, y: -position.y, z: -position.z}));
+            const treeMatrix = new three.Matrix4();
+            treeQuaternion.setFromRotationMatrix(Utility.RotationMatrixFromDownVector({x: -position.x, y: -position.y, z: -position.z}));
             const scale = Math.random() * 0.5 + 0.5;
-            tree.traverse((obj) => {
-                if (obj.isMesh)
-                { obj.scale.set(scale, scale, scale); }                
-            });
+            treeMatrix.compose(position, treeQuaternion, {x: scale, y: scale, z: scale});
+            treeMatrixes.push(treeMatrix);
+
+            count += 1;
         });
+
+        const treesGroup = new three.Group();
+        scene.add(treesGroup);
+        const shadowInstanceMesh = new three.InstancedMesh(
+            new three.ConeGeometry(3, 10, 4).translate(0, 6, 0), 
+            new three.MeshBasicMaterial({ 
+                transparent: true,
+                opacity: 0.0,
+                depthWrite: false                
+            }),
+            count
+        );
+        shadowInstanceMesh.castShadow = true;
+
+        const treeMaterial = new three.MeshStandardMaterial({
+            roughness: 0.7,
+            vertexColors: true
+        });
+        const treeInstances = [];
+        const treeInstanceCounts = Utility.RandomIntegersSummingTo(count, 5);
+        for (let i = 0; i < 5; i++)
+        {
+            trees[i].material.dispose();
+            const instance = new three.InstancedMesh(trees[i].geometry, treeMaterial, treeInstanceCounts[i]);
+            treesGroup.add(instance);
+            treeInstances.push({
+                instance: instance,
+                remainingCount: treeInstanceCounts[i]
+            });
+        }
+        
+        for (let i = 0; i < count; i++)
+        {
+            shadowInstanceMesh.setMatrixAt(i, treeMatrixes[i]);
+            let instance = null;
+            while (!instance)
+            {   
+                instance = treeInstances[Math.floor(Math.random() * treeInstances.length)];
+                if (instance.remainingCount <= 0)
+                {
+                    treeInstances.splice(treeInstances.indexOf(instance), 1);
+                    instance = null;
+                }
+                else
+                {
+                    instance.instance.setMatrixAt(instance.instance.count - instance.remainingCount, treeMatrixes[i]);
+                    instance.remainingCount -= 1;
+                }
+            }
+        }
+        treesGroup.add(shadowInstanceMesh);
 
         return treesGroup;
     }
@@ -232,6 +289,8 @@ export default class Earth
             laitRemap: (angle) => {
             return angle * 0.5 + Math.PI * 0.5;
         } });
+
+        //this.#atmospherePlane.lookAt(camera.position);
 
         this.#clouds.rotation.y += deltaTime * .0001;
     }

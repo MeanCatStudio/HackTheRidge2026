@@ -19,11 +19,11 @@ void main()
     vec3 atmosphereColor = mix(uNightColor, uDayColor, atmosphereColorMix);
     color += atmosphereColor;
 
-    vec3 cameraRight = normalize(viewMatrix[0].xyz);
-    vec3 reflection = normalize(reflect(-uLightPosition, cameraRight));
-    float specular = max(-dot(viewDir, reflection), 0.0);
-    specular = pow(specular, 40.0);
-    color *= (specular * 10.0 + 1.0);
+    //vec3 cameraRight = normalize(viewMatrix[0].xyz);
+    //vec3 reflection = normalize(reflect(-uLightPosition, cameraRight));
+    //float specular = max(-dot(viewDir, reflection), 0.0);
+    //specular = pow(specular, 40.0);
+    //color *= (specular * 10.0 + 1.0);
 
     float edgeAlpha = dot(viewDir, normal);
     edgeAlpha = smoothstep(0.0, 0.5, edgeAlpha);
