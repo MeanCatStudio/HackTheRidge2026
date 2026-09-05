@@ -24,6 +24,7 @@ import InteractiveBackground from "./components/InteractiveBackground";
 import CyberWordmark from "./components/CyberWordmark";
 import SoundDock from "./components/SoundDock";
 import AboutDotsBackground from "./components/AboutDotsBackground";
+import Background from './components/Background';
 
 const stats = [
   { value: "150+", label: "students built last year", icon: Users },
@@ -95,9 +96,10 @@ export default function Home() {
     <main className="min-h-screen w-full overflow-x-hidden overflow-hidden bg-htr-blue text-htr-white">
       <AnimatedNavbar />
       <SoundDock />
+      <Background />
 
       <section id="home" className="relative isolate min-h-screen overflow-hidden px-5 pt-28 sm:px-8 lg:px-12">
-        <InteractiveBackground mode="full" />
+        {/* <InteractiveBackground mode="full" /> */}
 
         <div className="relative z-10 mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,500px)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_520px] 2xl:grid-cols-[minmax(0,1fr)_540px]">
           <motion.div
@@ -198,10 +200,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="about" className="relative min-h-screen overflow-hidden bg-htr-white px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
-        <AboutDotsBackground />
+      <section id="about" className="relative min-h-screen overflow-hidden px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
+        {/* <AboutDotsBackground />
         <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-htr-green/60 blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-htr-shaded/35 blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-htr-shaded/35 blur-3xl" /> */}
         <div className="relative z-10 mx-auto max-w-7xl">
           <motion.div
             initial="hidden"
@@ -249,10 +251,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="winners" className="relative min-h-screen overflow-hidden bg-[#162746] px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
-        <div className="absolute -left-28 top-12 h-72 w-72 rounded-full bg-htr-green/20 blur-3xl" />
+      <section id="winners" className="relative min-h-screen overflow-hidden px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
+        {/* <div className="absolute -left-28 top-12 h-72 w-72 rounded-full bg-htr-green/20 blur-3xl" />
         <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-htr-shaded/18 blur-3xl" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(223,215,215,.06)_1px,transparent_1px),linear-gradient(rgba(223,215,215,.06)_1px,transparent_1px)] bg-[size:34px_34px] opacity-35" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(223,215,215,.06)_1px,transparent_1px),linear-gradient(rgba(223,215,215,.06)_1px,transparent_1px)] bg-[size:34px_34px] opacity-35" /> */}
         <div className="relative z-10 mx-auto max-w-7xl">
           <motion.div
             initial="hidden"
@@ -302,8 +304,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative min-h-screen overflow-hidden bg-htr-blue px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
-        <InteractiveBackground mode="lite" />
+      <section className="relative min-h-screen overflow-hidden px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
+        {/* <InteractiveBackground mode="lite" /> */}
         <div className="relative z-10 mx-auto max-w-7xl">
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <motion.div
@@ -354,9 +356,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="register" className="relative min-h-screen overflow-hidden bg-htr-shaded px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
-        <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-htr-white/25 blur-3xl" />
-        <div className="absolute -bottom-28 left-10 h-80 w-80 rounded-full bg-htr-green/35 blur-3xl" />
+      <section id="register" className="relative min-h-screen overflow-hidden px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
+        {/* <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-htr-white/25 blur-3xl" />
+        <div className="absolute -bottom-28 left-10 h-80 w-80 rounded-full bg-htr-green/35 blur-3xl" /> */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
@@ -385,7 +387,7 @@ export default function Home() {
         </motion.div>
       </section>
 
-      <section id="sponsors" className="relative z-0 min-h-screen overflow-hidden bg-htr-blue px-5 pb-32 pt-20 text-htr-white sm:px-8 lg:px-12 lg:pb-40 lg:pt-28">
+      <section id="sponsors" className="relative z-0 min-h-screen overflow-hidden px-5 pb-32 pt-20 text-htr-white sm:px-8 lg:px-12 lg:pb-40 lg:pt-28">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_20%,rgba(175,213,188,.16),transparent_30%),radial-gradient(circle_at_90%_30%,rgba(125,182,173,.16),transparent_30%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(223,215,215,.08)_1px,transparent_1px),linear-gradient(rgba(223,215,215,.08)_1px,transparent_1px)] bg-[size:42px_42px] opacity-35" />
         <motion.div
