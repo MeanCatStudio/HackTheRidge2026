@@ -1,42 +1,54 @@
 import * as three from 'three';
 import { useEffect, useRef } from "react"
+import { useControls } from 'leva';
+
+import Lights from './Lights';
 
 export default function Buildings()
 {
+    const configs = useControls('buildings', {
+        rows: { value: 20, min: 0, max: 50, step: 1 },
+        columes: { value: 20, min: 0, max: 50, step: 1 },
+        hieghtPow: { value: 5, min: 1, max: 20, step: 1 }
+    })
+    const rows = configs.rows;
+    const columes = configs.columes;
+
     const mesh = useRef();
-    const rows = 30;
-    const columes = 20;
     const count = rows * columes;
+    const matrixes = [];
 
     const tempObj = new three.Object3D();
-    useEffect(() => {
-        for (let i = 0; i < rows; i++)
+    for (let i = 0; i < rows; i++)
+    {
+        for (let j = 0; j < columes; j++)
         {
-            for (let j = 0; j < columes; j++)
-            {
-                tempObj.position.x = (j - (columes - 1) * 0.5) * 10;
-                tempObj.position.z = -i * 10;
-                const height = 5 + Math.pow(Math.random(), 5) * 50;
-                tempObj.scale.y = height;
-                tempObj.position.y = height * 0.5;
+            tempObj.position.x = (j - (columes - 1) * 0.5) * 10;
+            tempObj.position.z = -i * 10;
+            const height = 5 + Math.pow(Math.random(), configs.hieghtPow) * 50;
+            tempObj.scale.set(5, height, 5);
+            tempObj.position.y = height * 0.5;
 
-                tempObj.updateMatrix();
-                mesh.current.setMatrixAt(i * columes + j, tempObj.matrix);
-            }
+            tempObj.updateMatrix();
+            matrixes.push(tempObj.matrix.clone());
+        }
+    }
+    
+    useEffect(() => {
+        for (let i = 0; i < count; i++)
+        {
+            mesh.current.setMatrixAt(i, matrixes[i]);
         }
         mesh.current.instanceMatrix.needsUpdate = true;
+        mesh.current.computeBoundingBox();
+        mesh.current.computeBoundingSphere();
     })
 
-    return <>
-        {/* {[...Array(10)].map((item, index) => {
-            <mesh>
-                <boxGeometry />
-                <meshStandardMaterial />
-            </mesh>
-        })} */}        
-        <instancedMesh position={[0, -20, 0]} args={[null, null, count]} ref={mesh}>
-            <boxGeometry args={[5, 1, 5]} />
+    return <>      
+        <instancedMesh position={[0, -19.99, 0]} args={[null, null, count]} ref={mesh}>
+            <boxGeometry args={[1, 1, 1]} />
             <meshLambertMaterial />
         </instancedMesh>
+        <Lights rows={rows} columes={columes} buildingMatrixes={matrixes} />
     </>
 }
