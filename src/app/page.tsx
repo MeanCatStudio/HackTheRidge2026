@@ -10,10 +10,9 @@ import {
   Cpu,
   MapPin,
   Rocket,
-  Sparkles,
   Trophy,
   Users,
-  Wifi,
+  Sparkles,
   Zap,
 } from "lucide-react";
 import GradientSection from "./components/GradientSection";
@@ -93,15 +92,15 @@ const fadeUp = {
 
 export default function Home() {
   return (
-    <main className="min-h-screen w-full overflow-x-hidden overflow-hidden bg-htr-blue text-htr-white">
+    <main className="site-shell min-h-screen w-full overflow-x-hidden overflow-hidden text-htr-white">
       <AnimatedNavbar />
       <SoundDock />
       <Background />
 
-      <section id="home" className="relative isolate min-h-screen overflow-hidden px-5 pt-28 sm:px-8 lg:px-12">
+      <section id="home" className="min-h-screen flex items0center justify-center px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
         {/* <InteractiveBackground mode="full" /> */}
 
-        <div className="relative z-10 mx-auto grid min-h-[calc(100vh-7rem)] max-w-7xl items-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,500px)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_520px] 2xl:grid-cols-[minmax(0,1fr)_540px]">
+        <div className="section-glass relative z-10 mx-auto grid min-h-[calc(100vh-7rem)] bg-black/30 px-15 max-w-7xl items-center gap-10 py-10 lg:grid-cols-[minmax(0,1fr)_minmax(360px,500px)] lg:gap-12 xl:grid-cols-[minmax(0,1fr)_520px] 2xl:grid-cols-[minmax(0,1fr)_540px]">
           <motion.div
             initial="hidden"
             animate="visible"
@@ -109,17 +108,13 @@ export default function Home() {
             transition={{ duration: 0.7 }}
             className="min-w-0 text-left"
           >
-            <CyberWordmark variant="hero" className="mr-auto w-full max-w-[18rem] sm:max-w-[26rem] md:max-w-[32rem] lg:max-w-[44rem] xl:max-w-[48rem]" />
+            <CyberWordmark variant="hero" className="mx-auto w-full max-w-[18rem] pb-10 sm:max-w-[26rem] md:max-w-[32rem] lg:max-w-[44rem] xl:max-w-[48rem]" />
 
-            <p className="mt-10 max-w-2xl text-base leading-8 text-htr-white/82 sm:text-lg lg:mt-12 lg:max-w-xl lg:text-xl">
-              Bring an idea, find a team, learn as you go, and leave with something you actually built.
-            </p>
-
-            <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row lg:mt-10 lg:justify-start">
+            {/* <div className="mt-9 flex flex-col items-center gap-4 sm:flex-row lg:mt-10 lg:justify-start">
               <Link href="#register" className="button-shine group inline-flex w-full items-center justify-center overflow-hidden rounded-full bg-htr-green px-7 py-4 text-sm font-black uppercase tracking-[0.22em] text-htr-blue shadow-2xl shadow-htr-green/20 transition hover:-translate-y-1 hover:bg-htr-white sm:w-auto">
                 Register Interest
                 <ArrowRight className="ml-3 h-4 w-4 transition group-hover:translate-x-1" />
-              </Link></div>
+              </Link></div> */}
 
             <div className="mt-10 grid grid-cols-2 gap-3 sm:grid-cols-4 lg:max-w-2xl">
               {stats.map((stat, index) => {
@@ -130,7 +125,7 @@ export default function Home() {
                     initial={{ opacity: 0, y: 22 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.55, delay: 0.25 + index * 0.08 }}
-                    className="tilt-card rounded-[1.4rem] border border-htr-green/20 bg-htr-white/10 p-4 text-left shadow-xl shadow-black/10 backdrop-blur-xl"
+                    className="tilt-card rounded-[1.4rem] border border-htr-green/20 bg-black/60 p-4 text-left shadow-xl shadow-black/10 backdrop-blur-xl"
                   >
                     <Icon className="mb-4 h-5 w-5 text-htr-green" />
                     <div className="font-sacco text-4xl font-black leading-none text-htr-green sm:text-5xl">{stat.value}</div>
@@ -175,24 +170,49 @@ export default function Home() {
                     </div>
                   </div>
 
-                  <div className="grid gap-3 sm:grid-cols-2">
-                    <div className="rounded-3xl border border-htr-green/20 bg-htr-white/10 p-5">
-                      <div className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.18em] text-htr-green">
-                        <MapPin className="h-4 w-4" />
-                        Location
-                      </div>
-                      <p className="mt-3 text-lg font-black leading-snug">Iroquois Ridge High School</p>
-                      <p className="mt-1 text-sm text-htr-white/60">Oakville, Ontario</p>
+                    <div className="grid gap-3 sm:grid-cols-2 pt-2">
+                      <Link
+                        href="https://www.google.com/maps/search/?api=1&query=Iroquois+Ridge+High+School+Oakville+Ontario"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="dashboard-action group rounded-3xl border border-htr-green/20 bg-htr-white/10 p-4"
+                      >
+                        <span className="dashboard-action__content">
+                          <span className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.18em] text-htr-green">
+                            <MapPin className="h-4 w-4" />
+                            Location
+                          </span>
+                          <span className="mt-3 block text-md font-black leading-snug text-htr-white">Iroquois Ridge HS</span>
+                          <span className="mt-1 block text-sm text-htr-white/60">Oakville, Ontario</span>
+                        </span>
+                        <span className="dashboard-action__hover-content">
+                          <MapPin className="h-5 w-5" />
+                          Open in maps
+                        </span>
+                      </Link>
+                      <Link
+                        href="#register"
+                        onClick={(event) => {
+                          event.preventDefault();
+                          document.getElementById("register")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                          window.history.pushState(null, "", "#register");
+                        }}
+                        className="dashboard-action group rounded-3xl border border-htr-green/20 bg-htr-white/10 p-4"
+                      >
+                        <span className="dashboard-action__content">
+                          <span className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.18em] text-htr-green">
+                            <Sparkles className="h-4 w-4" />
+                            Register
+                          </span>
+                          <span className="mt-3 block text-md font-black text-htr-white leading-snug">Register Interest</span>
+                          <span className="mt-1 block text-sm text-htr-white/60">Become a part of HTR</span>
+                        </span>
+                        <span className="dashboard-action__hover-content">
+                          <Sparkles className="h-5 w-5" />
+                          Register now
+                        </span>
+                      </Link>
                     </div>
-                    <div className="rounded-3xl border border-htr-green/20 bg-htr-white/10 p-5">
-                      <div className="flex items-center gap-3 text-sm font-black uppercase tracking-[0.18em] text-htr-green">
-                        <Wifi className="h-4 w-4" />
-                        Site mode
-                      </div>
-                      <p className="mt-3 text-lg font-black leading-snug">Interactive design upgraded</p>
-                      <p className="mt-1 text-sm text-htr-white/60">Layout polished</p>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -204,7 +224,7 @@ export default function Home() {
         {/* <AboutDotsBackground />
         <div className="absolute left-0 top-0 h-72 w-72 rounded-full bg-htr-green/60 blur-3xl" />
         <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-htr-shaded/35 blur-3xl" /> */}
-        <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="section-glass relative z-10 mx-auto max-w-7xl p-6 sm:p-8 lg:p-12">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -255,7 +275,7 @@ export default function Home() {
         {/* <div className="absolute -left-28 top-12 h-72 w-72 rounded-full bg-htr-green/20 blur-3xl" />
         <div className="absolute right-0 bottom-0 h-96 w-96 rounded-full bg-htr-shaded/18 blur-3xl" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(223,215,215,.06)_1px,transparent_1px),linear-gradient(rgba(223,215,215,.06)_1px,transparent_1px)] bg-[size:34px_34px] opacity-35" /> */}
-        <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="section-glass relative z-10 mx-auto max-w-7xl p-6 sm:p-8 lg:p-12">
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -306,7 +326,7 @@ export default function Home() {
 
       <section className="relative min-h-screen overflow-hidden px-5 py-20 text-htr-white sm:px-8 lg:px-12 lg:py-28">
         {/* <InteractiveBackground mode="lite" /> */}
-        <div className="relative z-10 mx-auto max-w-7xl">
+        <div className="section-glass relative z-10 mx-auto max-w-7xl p-6 sm:p-8 lg:p-12">
           <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
             <motion.div
               initial={{ opacity: 0, y: 24 }}
@@ -356,7 +376,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="register" className="relative min-h-screen overflow-hidden px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
+      <section id="register" className="relative min-h-screen scroll-mt-28 overflow-hidden px-5 py-20 text-htr-blue sm:px-8 lg:px-12 lg:py-28">
         {/* <div className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-htr-white/25 blur-3xl" />
         <div className="absolute -bottom-28 left-10 h-80 w-80 rounded-full bg-htr-green/35 blur-3xl" /> */}
         <motion.div
@@ -364,7 +384,7 @@ export default function Home() {
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative mx-auto max-w-5xl overflow-hidden rounded-[2.5rem] border border-htr-blue/15 bg-htr-white/92 p-8 text-center shadow-2xl shadow-htr-blue/16 backdrop-blur-xl sm:p-12"
+          className="section-glass relative mx-auto max-w-5xl overflow-hidden rounded-[2.5rem] border border-htr-blue/15 bg-htr-white/20 p-8 text-center shadow-2xl shadow-htr-blue/16 backdrop-blur-xl sm:p-12"
         >
           <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-3xl bg-htr-blue text-htr-green shadow-xl shadow-htr-blue/15">
             <Rocket className="h-8 w-8" />
@@ -395,7 +415,7 @@ export default function Home() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="relative z-10 mx-auto max-w-5xl rounded-[2.5rem] border border-htr-green/25 bg-htr-white/10 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-12"
+          className="section-glass relative z-10 mx-auto max-w-5xl rounded-[2.5rem] border border-htr-green/25 bg-htr-white/10 p-8 text-center shadow-2xl shadow-black/20 backdrop-blur-xl sm:p-12"
         >
           <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Sponsors</p>
           <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] text-htr-white sm:text-7xl lg:text-8xl">

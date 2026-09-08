@@ -275,7 +275,7 @@ const InteractiveFAQ: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-16">
+    <div className="section-glass w-full max-w-7xl mx-auto px-6 py-16">
       <motion.div
         className="text-left mb-12"
         initial={{ opacity: 0, y: 30 }}

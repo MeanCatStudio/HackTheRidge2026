@@ -22,13 +22,9 @@ const AnimatedNavbar: React.FC = () => {
   const [mounted, setMounted] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    const storedTheme = window.localStorage.getItem("htr-theme");
-    const shouldUseDark = storedTheme === "dark";
-    document.documentElement.classList.toggle("htr-dark", shouldUseDark);
-    setIsDarkMode(shouldUseDark);
+    document.documentElement.classList.add("htr-dark");
 
     const handleScroll = () => {
       const landingPageHeight = window.innerHeight;
@@ -51,13 +47,6 @@ const AnimatedNavbar: React.FC = () => {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
-  };
-
-  const toggleDarkMode = () => {
-    const nextMode = !isDarkMode;
-    setIsDarkMode(nextMode);
-    document.documentElement.classList.toggle("htr-dark", nextMode);
-    window.localStorage.setItem("htr-theme", nextMode ? "dark" : "classic");
   };
 
   if (!mounted) {
@@ -121,15 +110,6 @@ const AnimatedNavbar: React.FC = () => {
                 </motion.div>
               );
             })}
-
-            <button
-              type="button"
-              className="rounded-full border border-[#AFD5BC]/30 bg-[#AFD5BC]/10 px-3.5 py-2 text-sm font-semibold uppercase tracking-[0.24em] text-white/85 transition-all duration-300 hover:bg-[#AFD5BC]/20 hover:text-[#AFD5BC]"
-              onClick={toggleDarkMode}
-              aria-pressed={isDarkMode}
-            >
-              {isDarkMode ? "CLASSIC" : "DARK"}
-            </button>
           </div>
 
           <motion.button
@@ -177,14 +157,6 @@ const AnimatedNavbar: React.FC = () => {
                   Navigate
                 </p>
                 <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    className="rounded-full border border-[#AFD5BC]/30 bg-[#AFD5BC]/10 px-3 py-2 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#AFD5BC]/20"
-                    onClick={toggleDarkMode}
-                    aria-pressed={isDarkMode}
-                  >
-                    {isDarkMode ? "Classic" : "Dark"}
-                  </button>
                   <button
                     type="button"
                     className="rounded-full border border-[#AFD5BC]/30 bg-[#AFD5BC]/10 px-3 py-2 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#AFD5BC]/20"

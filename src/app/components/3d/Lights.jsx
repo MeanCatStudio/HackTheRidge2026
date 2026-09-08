@@ -1,19 +1,20 @@
 import * as three from 'three';
-import { useEffect, useRef } from "react"
+import { useEffect, useMemo, useRef } from "react"
 import { useControls } from 'leva';
 import { col } from 'framer-motion/client';
 
 export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
 {
     const configs = useControls('buildingLights', {
-        color: { r: 255, g: 255, b: 255},
-        brightness: { value: 1.1, min: 0.5, max: 5 },
+        color: { r: 193, g: 179, b: 116 },
+        brightness: { value: 1.18, min: 0.5, max: 5 },
         heightThreshould: { value: 0, min: 0, max: 50 },
         lineThicknesMult: { value: 1, min: 0, max: 1 }
     });
 
-    const matrixs = [];
-    let count = 0;        
+    const { matrixs, count } = useMemo(() => {
+        const nextMatrixs = [];
+        let nextCount = 0;
 
     const tempMatrix = new three.Matrix4();
     const tempVector = new three.Vector3();
@@ -53,8 +54,8 @@ export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
                             // matrix.multiply(tempMatrix);
 
                             matrix.premultiply(parent);
-                            matrixs.push(matrix);                    
-                            count += 1;                        
+                            nextMatrixs.push(matrix);
+                            nextCount += 1;
                         }
                     }
 
@@ -84,8 +85,8 @@ export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
                             matrix.setPosition((5 - length) * 0.1 - Math.round(Math.random() * (5 - length)) * 0.2, (height - i - 1) / height - 0.5, 0.51);
 
                             matrix.premultiply(parent);
-                            matrixs.push(matrix);                    
-                            count += 1;            
+                            nextMatrixs.push(matrix);
+                            nextCount += 1;
                         }
                     }
 
@@ -95,7 +96,10 @@ export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
                 }
             }
         }
-    }
+        }
+
+        return { matrixs: nextMatrixs, count: nextCount };
+    }, [rows, columes, buildingMatrixes, configs.heightThreshould, configs.lineThicknesMult]);
 
     const mesh = useRef();
     useEffect(() => {

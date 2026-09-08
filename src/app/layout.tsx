@@ -45,7 +45,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} w-full`}>
+    <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} htr-dark w-full`}>
       <body className="antialiased w-full min-w-full">
         {children}
       </body>
