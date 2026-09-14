@@ -83,9 +83,10 @@ export function VideoText({
   textAnchor = "middle",
   dominantBaseline = "middle",
   fontFamily = "sans-serif",
-  as: Component = "div",
+  as = "div",
   maskScale = 1.12,
 }: VideoTextProps) {
+  const Component = as as React.ElementType<any>;
   const [svgMask, setSvgMask] = useState("");
   const content = React.Children.toArray(children).join("");
 
@@ -122,12 +123,13 @@ export function VideoText({
 
   const dataUrlMask = `url("data:image/svg+xml,${encodeURIComponent(svgMask)}")`;
 
-  return (
-    <Component className={cn(`relative size-full overflow-visible`, className)}>
+  return React.createElement(
+    Component as any,
+    { className: cn(`relative size-full overflow-visible`, className) },
+    <>
       <div
         className="absolute flex items-center justify-center overflow-visible"
         style={{
-          
           left: "50%",
           top: "50%",
           transform: "translate(-50%, -50%)",
@@ -155,8 +157,7 @@ export function VideoText({
           Your browser does not support the video tag.
         </video>
       </div>
-
       <span className="sr-only">{content}</span>
-    </Component>
+    </>,
   );
 }

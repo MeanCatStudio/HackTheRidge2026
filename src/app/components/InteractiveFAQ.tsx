@@ -19,16 +19,16 @@ const faqData: FAQItem[] = [
   {
     id: "what-is-htr",
     question: "What is Hack the Ridge?",
-    answer: `Hack The Ridge is a student-led hackathon at Iroquois Ridge High School where students build projects, learn new skills, and turn ideas into working demos.
+    answer: `Hack The Ridge is a student led hackathon at Iroquois Ridge High School where students build projects, learn new skills, and turn ideas into working demos.
 
 It is made for beginners, experienced builders, designers, problem-solvers, and anyone who wants to make something with a team.`,
   },
   {
     id: "who-can-participate",
     question: "Who can participate?",
-    answer: `Students with an interest in technology, design, creativity, or problem-solving can participate.
+    answer: `Students with an interest in technology, design, creativity, or problem solving can participate.
 
-You do not need to be an expert. First-time hackers are welcome, and the event includes support to help people get started.`,
+You do not need to be an expert. First time hackers are welcome, and the event includes support to help people get started.`,
   },
   {
     id: "registration-cost",
@@ -49,7 +49,7 @@ Bring an idea if you have one, but it is also fine to show up and find one with 
     question: "Do I need a team?",
     answer: `No. You can come with a team, join a team at the event, or work solo.
 
-Teams are usually strongest with a mix of coding, design, presentation, and idea-building skills.`,
+Teams are usually strongest with a mix of coding, design, presentation, and idea building skills.`,
   },
   {
     id: "prizes-judging",
@@ -129,18 +129,17 @@ const trainArt = String.raw`      ====        ________                __________
   |______|__|_________________|________|_|___|_|____|______________________|
    (O)     (O)           (O)     (O)        (O)              (O)       (O)`;
 
-const bootRows = [
-  ["███████╗ █████╗  ██████╗", "              .--."],
-  ["██╔════╝██╔══██╗██╔═══██╗", "             |o_o |"],
-  ["█████╗  ███████║██║   ██║", "             |:_/ |"],
-  ["██╔══╝  ██╔══██║██║▄▄ ██║", "            //   \\ \\"],
-  ["██║     ██║  ██║╚██████╔╝", "           (|     | )"],
-  ["╚═╝     ╚═╝  ╚═╝ ╚══▀▀═╝", "          /'\\_   _/'\\"],
-  ["   GNU/LINUX QUESTION NODE", "          \\___)=(___/"],
-  ["   help  list  bug  sl  cls", "        tux is watching the logs"],
-];
+const tuxArt = [
+  "      .--.",
+  "     |o_o |",
+  "     |:_/ |",
+  "    //   \\",
+  "   (|     | )",
+  "   /\\'_   _/\\",
+  "   \\___)=(___/",
+].join("\n");
 
-const bootLines: TerminalLine[] = [{ type: "boot", text: "FAQ GNU/Linux" }];
+const bootLines: TerminalLine[] = [{ type: "boot", text: "FAQ GNU Linux Node" }];
 
 const formatFAQ = (faq: FAQItem) => [`${faq.question}`, faq.answer];
 
@@ -245,13 +244,16 @@ const InteractiveFAQ: React.FC = () => {
   const renderLine = (line: TerminalLine, index: number) => {
     if (line.type === "boot") {
       return (
-        <span key={`${line.type}-${index}`} className="terminal-ascii-block" aria-label="FAQ GNU Linux and Tux penguin ASCII art">
-          {bootRows.map(([left, right], rowIndex) => (
-            <span key={rowIndex} className="terminal-ascii-row">
-              <span className="terminal-ascii-faq">{left}</span>
-              <span className="terminal-ascii-tux">{right}</span>
-            </span>
-          ))}
+        <span key={`${line.type}-${index}`} className="terminal-boot" aria-label="FAQ GNU Linux Node and Tux">
+          <span className="terminal-boot-faq">
+            <span className="terminal-faq-word">FAQ</span>
+            <span className="terminal-faq-node">GNU Linux Node</span>
+            <span className="terminal-faq-commands">help&nbsp;&nbsp;list&nbsp;&nbsp;bug&nbsp;&nbsp;sl&nbsp;&nbsp;cls</span>
+          </span>
+          <span className="terminal-boot-tux">
+            <span className="terminal-tux-art">{tuxArt}</span>
+            <span className="terminal-tux-caption">Tux is always watching</span>
+          </span>
         </span>
       );
     }
@@ -266,7 +268,7 @@ const InteractiveFAQ: React.FC = () => {
               ? "text-[#dfd7d7]"
               : line.type === "train"
                 ? "sl-train text-[#AFD5BC]"
-                : "text-[#dfd7d7]/90"
+                : "text-[#dfd7d7]"
         }`}
       >
         {line.text}
@@ -278,10 +280,6 @@ const InteractiveFAQ: React.FC = () => {
     <div className="w-full max-w-7xl mx-auto px-6 py-16">
       <motion.div
         className="text-left mb-12"
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8 }}
       >
         <h2
           className="text-4xl md:text-5xl lg:text-6xl font-bold text-[#dfd7d7] mb-4 tracking-wider"
@@ -293,10 +291,6 @@ const InteractiveFAQ: React.FC = () => {
 
       <motion.div
         className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.8, delay: 0.2 }}
       >
         <div className="lg:col-span-1 rounded-3xl border border-[#AFD5BC]/12 bg-transparent p-2 lg:p-6">
           <div className="hidden h-[390px] w-full lg:block">
@@ -326,7 +320,7 @@ const InteractiveFAQ: React.FC = () => {
                 className={`rounded-2xl border px-4 py-3 text-left text-sm font-semibold transition ${
                   selectedFAQ?.id === faq.id
                     ? "border-[#AFD5BC]/60 bg-[#AFD5BC]/15 text-[#dfd7d7]"
-                    : "border-[#AFD5BC]/20 bg-[#1E3159]/30 text-[#dfd7d7]/80 hover:border-[#AFD5BC]/50"
+                    : "border-[#AFD5BC]/28 bg-[#091426]/72 text-[#dfd7d7] hover:border-[#AFD5BC]/60"
                 }`}
               >
                 {faq.question}
@@ -362,7 +356,7 @@ const InteractiveFAQ: React.FC = () => {
                 onChange={(event) => setCommand(event.target.value)}
                 autoComplete="off"
                 spellCheck={false}
-                className="min-w-0 flex-1 bg-transparent font-mono text-sm text-[#dfd7d7] outline-none placeholder:text-[#dfd7d7]/35"
+                className="min-w-0 flex-1 bg-transparent font-mono text-sm text-[#dfd7d7] outline-none placeholder:text-[#dfd7d7]/60"
                 placeholder=""
               />
               <button

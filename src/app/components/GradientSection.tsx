@@ -9,10 +9,6 @@ const GradientSection: React.FC = () => {
     <motion.section
       id="faq"
       className="relative min-h-screen w-full overflow-hidden scroll-mt-24"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 1 }}
     >
       <div
         className="absolute inset-0 w-full h-full"
@@ -28,7 +24,7 @@ const GradientSection: React.FC = () => {
       
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-transparent" />
       
-      <div className="relative z-10 flex items-center justify-center min-h-screen px-4 sm:px-6 md:px-8 lg:px-12">
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-20 sm:px-6 sm:py-24 md:px-8 lg:px-12 lg:py-28">
         <InteractiveFAQ />
       </div>
       
