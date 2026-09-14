@@ -1,10 +1,1 @@
-Hack The Ridge 2026-2027 website.
-
-Run locally:
-
-```bash
-npm install
-npm run dev
-```
-
-Open http://localhost:3000.
+Hack The Ridge 2026 website project with the 2025 archive, history puzzle, winners, sponsors, team placeholder, FAQ terminal and footer.

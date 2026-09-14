@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import { teamMembers } from "./TeamMember";
 import TeamCard from "./TeamCard";
+import { Terminal } from "lucide-react";
 
 const pastBuilders = [
   {
@@ -113,6 +114,7 @@ type PlacedProp = {
 type PlacedPropsByBuilder = Record<string, PlacedProp[]>;
 
 const clamp = (value: number, min: number, max: number) => Math.max(min, Math.min(max, value));
+
 const StickerGraphic: React.FC<{ kind: ClownProp; size?: "tray" | "photo" }> = ({ kind, size = "photo" }) => {
   const isTray = size === "tray";
   const emoji = kind === "nose" ? "🔴" : "🎀";
@@ -134,9 +136,58 @@ const TeamSection: React.FC = () => {
   const [isClownOpen, setIsClownOpen] = useState(false);
   const [selectedProp, setSelectedProp] = useState<ClownProp | null>(null);
   const [placedProps, setPlacedProps] = useState<PlacedPropsByBuilder>({});
+  const visibleLogCount = 3;
+
+  const [logs, setLogs] = useState<string[]>([]);
+  const [typingLine, setTypingLine] = useState("");
 
   useEffect(() => {
     setMounted(true);
+
+    const logMessages = [
+      "> INIT_RECRUIT_SEQUENCE: [RUNNING]",
+      "> System Build 2.0.26 deployed.",
+      "> Checking roster integrity... [OK]",
+      "> Injecting high-voltage creativity... [OK]",
+      "> HTR_2026_INTERFACE_LOADED",
+      "> Signal lock: 99.4% stable",
+      "> Compiling team executive matrices...",
+      "> Ready for user interaction.",
+    ];
+
+    let isCancelled = false;
+    let lineIndex = 0;
+    let charIndex = 0;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+
+    const typeNext = () => {
+      if (isCancelled || lineIndex >= logMessages.length) return;
+
+      const line = logMessages[lineIndex];
+
+      if (charIndex <= line.length) {
+        setTypingLine(line.slice(0, charIndex));
+        charIndex += 1;
+        timer = setTimeout(typeNext, 24);
+        return;
+      }
+
+      setLogs((prev) => [...prev.slice(-2), line]);
+      setTypingLine("");
+      lineIndex += 1;
+      charIndex = 0;
+
+      if (lineIndex < logMessages.length) {
+        timer = setTimeout(typeNext, 620);
+      }
+    };
+
+    timer = setTimeout(typeNext, 380);
+
+    return () => {
+      isCancelled = true;
+      if (timer) clearTimeout(timer);
+    };
   }, []);
 
   const addPropToBuilder = (builderName: string, kind: ClownProp, x: number, y: number) => {
@@ -180,53 +231,40 @@ const TeamSection: React.FC = () => {
   };
 
   if (!mounted) {
-    return <section id="team" className="relative z-10 w-full scroll-mt-28 bg-app-bg" aria-label="Team" />;
+    return <section id="team" className="relative z-10 w-full scroll-mt-28" aria-label="Team" />;
   }
 
-  return (
-    <section id="team" className="relative z-10 w-full scroll-mt-28 bg-app-bg px-5 py-24 text-[#dfd7d7] sm:px-8 lg:px-12 lg:py-32">
-      <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[minmax(280px,420px)_1fr] lg:items-start">
-          <div className="lg:pt-4">
-            <div className="flex items-center justify-center gap-1 lg:justify-start" style={{ fontFamily: "Palalabas Wide, Impact, Arial Black, sans-serif" }}>
-              <span className="text-4xl font-medium tracking-wide text-[#AFD5BC] sm:text-5xl md:text-6xl">THE</span>
-              <Image src="/logo.svg" alt="Hack The Ridge logo mark" width={92} height={92} className="h-14 w-14 opacity-90 sm:h-20 sm:w-20 md:h-24 md:w-24" />
-              <span className="text-4xl font-medium tracking-wide text-[#AFD5BC] sm:text-5xl md:text-6xl">TEAM</span>
-            </div>
+  const gridMembers = teamMembers;
+  const visibleLogs = typingLine && logs.length >= visibleLogCount ? logs.slice(-(visibleLogCount - 1)) : logs;
 
-            <div className="mt-9 space-y-5 text-center lg:text-left" style={{ fontFamily: "Palalabas Wide, Impact, Arial Black, sans-serif" }}>
-              <p className="text-3xl font-normal uppercase tracking-wide text-[#AFD5BC] sm:text-[34px] md:text-[38px]">
-                Planning began early
-              </p>
-              <p className="text-3xl font-normal uppercase tracking-wide sm:text-[34px] md:text-[38px]">
-                <span className="text-[#dfd7d7]">$6,000</span>{" "}
-                <span className="text-[#AFD5BC]">was raised for prizes</span>
-              </p>
-              <div>
-                <p className="text-3xl font-normal uppercase tracking-wide text-[#dfd7d7]/85 sm:text-[34px] md:text-[38px]">
-                  One day became a
-                </p>
-                <p className="mt-2 text-6xl font-medium uppercase tracking-wide text-[#dfd7d7] sm:text-7xl lg:text-8xl">
-                  Launchpad
-                </p>
-              </div>
+  return (
+    <section id="team" className="relative z-10 w-full scroll-mt-28 px-5 py-24 text-[#dfd7d7] sm:px-8 sm:py-28 lg:px-12 lg:py-32">
+      <div className="section-glass section-glass--dark mx-auto max-w-9xl p-7 sm:p-9 lg:p-12">
+        <div className="w-full">
+          <div className="relative mb-10 flex items-center justify-between px-1 sm:px-2">
+            <div>
+              <p className="text-[10px] font-black uppercase tracking-[0.32em] text-[#AFD5BC]">Command Deck</p>
+              <p className="mt-1 text-xs font-black uppercase tracking-[0.18em] text-[#7DB6AD] sm:tracking-[0.24em]">Executives for HTR</p>
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 xl:grid-cols-4">
-            {teamMembers.map((member) => (
-              <TeamCard key={member.id} member={member} />
+          <div className="grid w-full grid-cols-2 gap-5 sm:grid-cols-3 sm:gap-6 lg:grid-cols-4 xl:grid-cols-5 xl:gap-7">
+            {gridMembers.map((member) => (
+              <div key={member.id} className="min-w-0 transition-transform duration-300 hover:-translate-y-1">
+                <TeamCard member={member} compact />
+              </div>
             ))}
           </div>
         </div>
 
-        <div className="mt-20 border-t border-[#AFD5BC]/18 pt-12 lg:mt-24">
+        
+        <div className="mt-16 border-t border-[#AFD5BC]/18 pt-14 lg:mt-20 lg:pt-16">
           <div className="mx-auto max-w-5xl text-center">
             <p className="text-sm font-black uppercase tracking-[0.35em] text-[#7DB6AD]">Previously on HTR</p>
             <h3 className="mt-4 font-sacco text-4xl font-black uppercase leading-[0.9] tracking-[0.05em] text-[#dfd7d7] sm:text-5xl lg:text-6xl">
               Former teammates. Current lore.
             </h3>
-            <p className="mx-auto mt-5 max-w-2xl text-sm font-semibold leading-7 text-[#dfd7d7]/72 sm:text-base">
+            <p className="mx-auto mt-5 max-w-2xl text-sm font-semibold leading-7 text-[#dfd7d7] sm:text-base">
               Former execs get a small shoutout here, plus a harmless photo prop station.
             </p>
 
@@ -241,12 +279,12 @@ const TeamSection: React.FC = () => {
 
             <div
               className={`mx-auto grid overflow-hidden transition-all duration-500 ease-out ${
-                isClownOpen ? "mt-8 max-h-[760px] opacity-100" : "max-h-0 opacity-0"
+                isClownOpen ? "mt-8 max-h-[2000px] opacity-100" : "max-h-0 opacity-0"
               }`}
             >
               <div className="rounded-[2rem] border border-[#AFD5BC]/25 bg-[#dfd7d7]/8 p-5 shadow-2xl shadow-black/20 backdrop-blur-md sm:p-6">
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#AFD5BC]">Photo prop tray</p>
-                <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#dfd7d7]/76">
+                <p className="mx-auto mt-3 max-w-2xl text-sm font-semibold leading-6 text-[#dfd7d7]">
                   Drag a nose or bow onto any photo. On phones, tap a prop first, then tap the face. Stack as many as you want.
                 </p>
 
@@ -271,14 +309,14 @@ const TeamSection: React.FC = () => {
                       <p className={`mt-4 text-sm font-black uppercase tracking-[0.15em] ${selectedProp === prop.key ? "text-[#1E3159]" : "text-[#AFD5BC]"}`}>
                         {prop.title}
                       </p>
-                      <p className={`mt-2 text-xs font-semibold leading-5 ${selectedProp === prop.key ? "text-[#1E3159]/75" : "text-[#dfd7d7]/72"}`}>
+                      <p className={`mt-2 text-xs font-semibold leading-5 ${selectedProp === prop.key ? "text-[#1E3159]/75" : "text-[#dfd7d7]"}`}>
                         {prop.copy}
                       </p>
                     </button>
                   ))}
                 </div>
 
-                <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-[1.25rem] border border-[#AFD5BC]/15 bg-[#1E3159]/45 px-4 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#dfd7d7]/70 sm:flex-row">
+                <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-[1.25rem] border border-[#AFD5BC]/15 bg-[#1E3159]/45 px-4 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#dfd7d7] sm:flex-row">
                   <span>{selectedProp ? "Tap a face to place the selected prop." : "Drag from the tray, or select a prop for tap-to-place."}</span>
                   <button
                     type="button"
@@ -288,51 +326,47 @@ const TeamSection: React.FC = () => {
                     Clear props
                   </button>
                 </div>
-              </div>
-            </div>
-          </div>
 
-          <div className="mt-12 grid grid-cols-2 gap-x-7 gap-y-12 sm:grid-cols-3 lg:grid-cols-5">
-            {pastBuilders.map((builder) => (
-              <div key={builder.name} className="group text-center">
-                <div
-                  className="relative mx-auto h-48 w-48 overflow-hidden rounded-[2.4rem] bg-[#1E3159] ring-2 ring-[#AFD5BC]/25 shadow-xl shadow-black/25 transition duration-300 group-hover:-translate-y-2 group-hover:rotate-[-1deg] group-hover:ring-[#AFD5BC]/80 sm:h-52 sm:w-52 xl:h-56 xl:w-56"
-                  onDragOver={(event) => event.preventDefault()}
-                  onDrop={(event) => handleDrop(event, builder.name)}
-                  onClick={(event) => handlePhotoClick(event, builder.name)}
-                  role="button"
-                  tabIndex={0}
-                  aria-label={`Place clown prop on ${builder.name}`}
-                >
-                  <Image
-                    src={builder.image}
-                    alt={builder.name}
-                    fill
-                    sizes="(max-width: 640px) 192px, (max-width: 1280px) 208px, 224px"
-                    className="object-cover transition duration-300 group-hover:scale-110"
-                    style={{ objectPosition: builder.objectPosition }}
-                  />
+                <div className="mt-10 grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+                  {pastBuilders.map((builder) => (
+                    <div key={builder.name} className="group text-center">
+                      <div
+                        className="relative mx-auto h-32 w-32 overflow-hidden rounded-[1.7rem] bg-[#1E3159] ring-2 ring-[#AFD5BC]/25 shadow-xl shadow-black/25 transition duration-300 group-hover:-translate-y-1 group-hover:ring-[#AFD5BC]/80 sm:h-36 sm:w-36 xl:h-40 xl:w-40"
+                        onDragOver={(event) => event.preventDefault()}
+                        onDrop={(event) => handleDrop(event, builder.name)}
+                        onClick={(event) => handlePhotoClick(event, builder.name)}
+                        role="button"
+                        tabIndex={0}
+                        aria-label={`Place clown prop on ${builder.name}`}
+                      >
+                        <Image
+                          src={builder.image}
+                          alt={builder.name}
+                          fill
+                          sizes="(max-width: 640px) 160px, (max-width: 1280px) 176px, 192px"
+                          className="object-cover transition duration-300 group-hover:scale-110"
+                          style={{ objectPosition: builder.objectPosition }}
+                        />
 
-                  {(placedProps[builder.name] ?? []).map((prop) => (
-                    <div
-                      key={prop.id}
-                      className="pointer-events-none absolute z-30 -translate-x-1/2 -translate-y-1/2"
-                      style={{ left: `${prop.x}%`, top: `${prop.y}%` }}
-                    >
-                      <StickerGraphic kind={prop.kind} />
+                        {(placedProps[builder.name] ?? []).map((prop) => (
+                          <div
+                            key={prop.id}
+                            className="pointer-events-none absolute z-30 -translate-x-1/2 -translate-y-1/2"
+                            style={{ left: `${prop.x}%`, top: `${prop.y}%` }}
+                          >
+                            <StickerGraphic kind={prop.kind} />
+                          </div>
+                        ))}
+
+                        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#1E3159]/65 via-transparent to-transparent opacity-0 transition duration-300 group-hover:opacity-100" />
+                      </div>
+                      <p className="mt-3 text-[11px] font-black uppercase tracking-[0.14em] text-[#dfd7d7] sm:text-xs">{builder.name}</p>
+                      <p className="mt-1 text-[9px] font-black uppercase tracking-[0.17em] text-[#AFD5BC]">{builder.title}</p>
                     </div>
                   ))}
-
-                  <div className="absolute inset-0 z-10 flex flex-col justify-end bg-gradient-to-t from-[#1E3159]/96 via-[#1E3159]/45 to-transparent p-4 opacity-0 transition duration-300 group-hover:opacity-100">
-                    <p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#AFD5BC]">{builder.title}</p>
-                    <p className="mt-2 text-xs font-semibold leading-4 text-[#dfd7d7]">{builder.hoverText}</p>
-                    <p className="mt-3 text-[9px] font-black uppercase tracking-[0.16em] text-[#AFD5BC]/80">{builder.tag}</p>
-                  </div>
                 </div>
-                <p className="mt-4 text-xs font-black uppercase tracking-[0.14em] text-[#dfd7d7] sm:text-sm">{builder.name}</p>
-                <p className="mt-1 text-[10px] font-black uppercase tracking-[0.17em] text-[#AFD5BC]/65">{builder.title}</p>
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </div>

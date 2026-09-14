@@ -1,0 +1,15 @@
+This version changes only the glass-container tint/readability treatment.
+
+Changed:
+- Removed blue/black tint from .section-glass and .glass-card containers.
+- Kept the existing borders, sizing, spacing, layout, blur, animations, and background.
+- Improved text contrast using text color/shadow only.
+
+Not changed:
+- Animated background
+- Section order/layout
+- Existing boxes/cards and their dimensions
+- Motion/animations
+- Calendar/maps behavior
+- Sponsor conveyor
+- Team/winners/FAQ content and interactions

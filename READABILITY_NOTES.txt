@@ -1,0 +1,20 @@
+HTR restored layout + readability pass
+
+Base restored from: HackTheRidge2026_SPONSOR_CONVEYOR
+
+Intentionally NOT changed:
+- animated background
+- animations/transitions
+- section order and arrangement
+- card/box sizing and placement
+- padding/layout
+- calendar and map behavior
+- sponsor conveyor
+- winners/team/FAQ structure
+- shader hide-file behavior
+
+Changed only:
+- stronger body-copy contrast
+- slightly stronger body-copy weight
+- subtle text shadow on dark sections
+- removed the decorative inner outline on section-glass so it does not look like a box inside a box

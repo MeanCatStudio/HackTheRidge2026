@@ -1,30 +1,16 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
+
+type InteractiveBackgroundProps = {
+  mode?: "full" | "lite";
+};
 
 const codeBits = [
   "<HTR />",
   "CSS",
   "JS",
-  "Atharv",
-  "Luqman",
-  "Mythili",
-  "Sebastian",
-  "Evelyn",
-  "Jason",
-  "Joyce",
-  "Aiden",
-  "Darwin",
-  "Thomas",
-  "Sumedh",
-  "Ali",
-  "Ryan",
-  "Peter",
-  "Aahan",
-  "Michelle",
-  "Jerry",
   "BUILD",
-  "BREAK",
   "DEMO",
   "SHIP",
   "LAUNCH",
@@ -69,138 +55,108 @@ const orbitTags = [
   { text: "ship", delay: "-9s", size: "16rem", left: "70%", top: "67%" },
 ];
 
-interface Ripple {
-  id: number;
-  x: number;
-  y: number;
-}
-
-export default function InteractiveBackground() {
-  const rootRef = useRef<HTMLDivElement | null>(null);
-  const rippleId = useRef(0);
-  const frameId = useRef<number | null>(null);
-  const [ripples, setRipples] = useState<Ripple[]>([]);
+export default function InteractiveBackground({ mode = "full" }: InteractiveBackgroundProps) {
+  const [liteMode, setLiteMode] = useState(true);
 
   useEffect(() => {
-    const updatePosition = (event: PointerEvent) => {
-      if (frameId.current !== null) {
-        cancelAnimationFrame(frameId.current);
-      }
+    if (typeof window === "undefined") {
+      return;
+    }
 
-      frameId.current = requestAnimationFrame(() => {
-        const root = rootRef.current;
-        if (!root) return;
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-        const x = event.clientX / window.innerWidth;
-        const y = event.clientY / window.innerHeight;
-        root.style.setProperty("--bg-shift-x", `${(x - 0.5) * 28}px`);
-        root.style.setProperty("--bg-shift-y", `${(y - 0.5) * 28}px`);
-        root.style.setProperty("--bg-tilt", `${(x - 0.5) * 4}deg`);
-        root.style.setProperty("--bg-pulse-x", `${x * 100}%`);
-        root.style.setProperty("--bg-pulse-y", `${y * 100}%`);
-      });
+    const updateMode = () => {
+      const nextLiteMode = mode === "lite" || mediaQuery.matches || window.innerWidth < 1024;
+      setLiteMode(nextLiteMode);
     };
 
-    const addRipple = (event: PointerEvent) => {
-      rippleId.current += 1;
-      const nextRipple = {
-        id: rippleId.current,
-        x: (event.clientX / window.innerWidth) * 100,
-        y: (event.clientY / window.innerHeight) * 100,
-      };
+    updateMode();
 
-      setRipples((current) => [...current.slice(-5), nextRipple]);
-      window.setTimeout(() => {
-        setRipples((current) => current.filter((ripple) => ripple.id !== nextRipple.id));
-      }, 1000);
-    };
-
-    window.addEventListener("pointermove", updatePosition, { passive: true });
-    window.addEventListener("pointerdown", addRipple, { passive: true });
+    mediaQuery.addEventListener("change", updateMode);
+    window.addEventListener("resize", updateMode, { passive: true });
 
     return () => {
-      window.removeEventListener("pointermove", updatePosition);
-      window.removeEventListener("pointerdown", addRipple);
-      if (frameId.current !== null) {
-        cancelAnimationFrame(frameId.current);
-      }
+      mediaQuery.removeEventListener("change", updateMode);
+      window.removeEventListener("resize", updateMode);
     };
-  }, []);
+  }, [mode]);
 
   return (
-    <div ref={rootRef} className="interactive-bg" aria-hidden="true">
+    <div className="interactive-bg" aria-hidden="true">
       <div className="aurora aurora-one" />
       <div className="aurora aurora-two" />
-      <div className="aurora aurora-three" />
-      <div className="aurora aurora-four" />
+      {!liteMode && <div className="aurora aurora-three" />}
+      {!liteMode && <div className="aurora aurora-four" />}
       <div className="grid-layer" />
-      <div className="deep-grid-layer" />
-      <div className="cyber-lines" />
-      <div className="diagonal-lanes" />
-      <div className="pulse-network">
-        {nodes.map((node) => (
+      {!liteMode && <div className="deep-grid-layer" />}
+      {!liteMode && <div className="cyber-lines" />}
+      {!liteMode && <div className="diagonal-lanes" />}
+      {!liteMode && (
+        <div className="pulse-network">
+          {nodes.map((node) => (
+            <span
+              key={`${node.left}-${node.top}`}
+              className="energy-node"
+              style={{ left: node.left, top: node.top, animationDelay: node.delay }}
+            >
+              <span className="node-label">{node.label}</span>
+            </span>
+          ))}
+        </div>
+      )}
+      {!liteMode && (
+        <div className="orbit-layer">
+          {orbitTags.map((tag) => (
+            <span
+              key={tag.text}
+              className="orbit-ring"
+              style={{ width: tag.size, height: tag.size, left: tag.left, top: tag.top, animationDelay: tag.delay }}
+            >
+              <span>{tag.text}</span>
+            </span>
+          ))}
+        </div>
+      )}
+      {!liteMode && (
+        <div className="spark-layer">
+          {sparks.map((spark, index) => (
+            <span
+              key={`${spark.top}-${index}`}
+              className="data-spark"
+              style={{ top: spark.top, animationDelay: spark.delay, animationDuration: spark.duration, width: spark.width }}
+            />
+          ))}
+        </div>
+      )}
+      {!liteMode && (
+        <div className="data-rain">
+          {dataDrops.map((drop) => (
+            <span
+              key={`${drop.left}-${drop.text}`}
+              style={{ left: drop.left, animationDelay: drop.delay, animationDuration: drop.duration }}
+            >
+              {drop.text}
+            </span>
+          ))}
+        </div>
+      )}
+      {!liteMode && <div className="scan-lines" />}
+      {!liteMode && <div className="noise-layer" />}
+      {!liteMode &&
+        codeBits.map((bit, index) => (
           <span
-            key={`${node.left}-${node.top}`}
-            className="energy-node"
-            style={{ left: node.left, top: node.top, animationDelay: node.delay }}
+            key={`${bit}-${index}`}
+            className="float-code"
+            style={{
+              left: `${6 + ((index * 11) % 86)}%`,
+              top: `${12 + ((index * 19) % 72)}%`,
+              animationDelay: `${index * -1.05}s`,
+              animationDuration: `${14 + (index % 6) * 2.5}s`,
+            }}
           >
-            <span className="node-label">{node.label}</span>
+            {bit}
           </span>
         ))}
-      </div>
-      <div className="orbit-layer">
-        {orbitTags.map((tag) => (
-          <span
-            key={tag.text}
-            className="orbit-ring"
-            style={{ width: tag.size, height: tag.size, left: tag.left, top: tag.top, animationDelay: tag.delay }}
-          >
-            <span>{tag.text}</span>
-          </span>
-        ))}
-      </div>
-      <div className="spark-layer">
-        {sparks.map((spark, index) => (
-          <span
-            key={`${spark.top}-${index}`}
-            className="data-spark"
-            style={{ top: spark.top, animationDelay: spark.delay, animationDuration: spark.duration, width: spark.width }}
-          />
-        ))}
-      </div>
-      <div className="data-rain">
-        {dataDrops.map((drop) => (
-          <span
-            key={`${drop.left}-${drop.text}`}
-            style={{ left: drop.left, animationDelay: drop.delay, animationDuration: drop.duration }}
-          >
-            {drop.text}
-          </span>
-        ))}
-      </div>
-      <div className="scan-lines" />
-      <div className="noise-layer" />
-      {ripples.map((ripple) => (
-        <span
-          key={ripple.id}
-          className="bg-ripple"
-          style={{ left: `${ripple.x}%`, top: `${ripple.y}%` }}
-        />
-      ))}
-      {codeBits.map((bit, index) => (
-        <span
-          key={`${bit}-${index}`}
-          className="float-code"
-          style={{
-            left: `${6 + ((index * 11) % 86)}%`,
-            top: `${12 + ((index * 19) % 72)}%`,
-            animationDelay: `${index * -1.05}s`,
-            animationDuration: `${14 + (index % 6) * 2.5}s`,
-          }}
-        >
-          {bit}
-        </span>
-      ))}
     </div>
   );
 }

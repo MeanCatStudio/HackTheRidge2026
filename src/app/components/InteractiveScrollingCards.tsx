@@ -713,7 +713,7 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
               <div className="text-2xl mb-2 font-black">02</div>
               <div className="font-semibold text-sm">Network</div>
-              <div className="text-xs opacity-75 mt-1">Meet like-minded devs</div>
+              <div className="text-xs opacity-75 mt-1">Meet like minded devs</div>
             </div>
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
               <div className="text-2xl mb-2 font-black">03</div>
@@ -732,7 +732,7 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
             </div>
             <div className="text-center p-4 bg-white/10 rounded-lg backdrop-blur-sm">
               <div className="text-2xl mb-2 font-black">06</div>
-              <div className="font-semibold text-sm">Fast-Paced</div>
+              <div className="font-semibold text-sm">Fast Paced</div>
               <div className="text-xs opacity-75 mt-1">Intense but fun</div>
             </div>
           </div>
@@ -741,7 +741,7 @@ const getHighlightElement = (index: number, textColor: string, hasHeightForWorks
     case 1: 
       return (
         <div className="mt-8 p-6 bg-white/10 rounded-lg backdrop-blur-sm">
-          <div className="text-4xl font-bold mb-2">5 Years Strong</div>
+          <div className="text-4xl font-bold mb-2">10+ Years Strong</div>
           <div className="text-sm opacity-75">Growing community since 2019</div>
         </div>
       );
