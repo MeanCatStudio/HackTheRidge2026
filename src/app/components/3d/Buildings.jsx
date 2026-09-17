@@ -3,8 +3,9 @@ import { useEffect, useMemo, useRef } from "react"
 import { useControls } from 'leva';
 
 import Lights from './Lights';
+import CityDetails from './CityDetails';
 
-export default function Buildings()
+export default function Buildings({ night = false })
 {
     const configs = useControls('buildings', {
         rows: { value: 20, min: 0, max: 50, step: 1 },
@@ -26,7 +27,8 @@ export default function Buildings()
             {
                 tempObj.position.x = (j - (columes - 1) * 0.5) * 10;
                 tempObj.position.z = -i * 10;
-                const height = 5 + Math.pow(Math.random(), configs.heightPow) * 50;
+                const noise = Math.abs(Math.sin((i * 37 + j * 17 + 11) * 12.9898) * 43758.5453) % 1;
+                const height = 6 + Math.pow(noise, Math.max(1, configs.heightPow / 2)) * (i < 4 ? 9 : 38);
                 tempObj.scale.set(5, height, 5);
                 tempObj.position.y = height * 0.5;
 
@@ -42,17 +44,20 @@ export default function Buildings()
         for (let i = 0; i < count; i++)
         {
             mesh.current.setMatrixAt(i, matrixes[i]);
+            mesh.current.setColorAt(i, new three.Color(["#c5b395", "#9fae98", "#bc9f81", "#a6aaa0"][i % 4]));
         }
         mesh.current.instanceMatrix.needsUpdate = true;
+        mesh.current.instanceColor.needsUpdate = true;
         mesh.current.computeBoundingBox();
         mesh.current.computeBoundingSphere();
-    })
+    }, [count, matrixes])
 
     return <>      
         <instancedMesh position={[0, -19.99, 0]} args={[null, null, count]} ref={mesh}>
             <boxGeometry args={[1, 1, 1]} />
-            <meshLambertMaterial />
+            <meshLambertMaterial color={night ? "#72899c" : "#ffffff"} />
         </instancedMesh>
+        <CityDetails buildings={matrixes} />
         <Lights rows={rows} columes={columes} buildingMatrixes={matrixes} />
     </>
 }

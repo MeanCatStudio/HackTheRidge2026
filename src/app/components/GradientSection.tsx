@@ -10,17 +10,7 @@ const GradientSection: React.FC = () => {
       id="faq"
       className="relative min-h-screen w-full overflow-hidden scroll-mt-24"
     >
-      <div
-        className="absolute inset-0 w-full h-full"
-        style={{
-          background: `linear-gradient(180deg,
-            #1E3159 0%,
-            #1E3159 25%,
-            #7DB6AD 78%,
-            #AFD5BC 100%
-          )`
-        }}
-      />
+      <div className="faq-backdrop absolute inset-0 w-full h-full" />
       
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/5 to-transparent" />
       

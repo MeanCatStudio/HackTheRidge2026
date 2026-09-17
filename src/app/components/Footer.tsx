@@ -6,9 +6,11 @@ import { Instagram, Mail, MapPin, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { name: "About", href: "#about" },
-  { name: "Sponsors", href: "#sponsors" },
   { name: "Register", href: "#register" },
+  { name: "Sponsors", href: "#sponsors" },
+  { name: "Team", href: "#team" },
   { name: "FAQ", href: "#faq" },
+  { name: "View 2025 Website", href: "/2025" },
 ];
 
 export default function Footer() {

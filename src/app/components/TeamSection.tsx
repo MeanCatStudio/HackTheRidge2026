@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import { teamMembers } from "./TeamMember";
 import TeamCard from "./TeamCard";
-import { Terminal } from "lucide-react";
+const SHOW_PREVIOUS_EXECUTIVES = false;
 
 const pastBuilders = [
   {
@@ -98,7 +98,7 @@ const clownProps = [
   {
     key: "bow",
     title: "Bow pin",
-    copy: "Add this for event-committee style points.",
+    copy: "Add this for event committee style points.",
   },
 ] as const;
 
@@ -132,64 +132,9 @@ const StickerGraphic: React.FC<{ kind: ClownProp; size?: "tray" | "photo" }> = (
 };
 
 const TeamSection: React.FC = () => {
-  const [mounted, setMounted] = useState(false);
   const [isClownOpen, setIsClownOpen] = useState(false);
   const [selectedProp, setSelectedProp] = useState<ClownProp | null>(null);
   const [placedProps, setPlacedProps] = useState<PlacedPropsByBuilder>({});
-  const visibleLogCount = 3;
-
-  const [logs, setLogs] = useState<string[]>([]);
-  const [typingLine, setTypingLine] = useState("");
-
-  useEffect(() => {
-    setMounted(true);
-
-    const logMessages = [
-      "> INIT_RECRUIT_SEQUENCE: [RUNNING]",
-      "> System Build 2.0.26 deployed.",
-      "> Checking roster integrity... [OK]",
-      "> Injecting high-voltage creativity... [OK]",
-      "> HTR_2026_INTERFACE_LOADED",
-      "> Signal lock: 99.4% stable",
-      "> Compiling team executive matrices...",
-      "> Ready for user interaction.",
-    ];
-
-    let isCancelled = false;
-    let lineIndex = 0;
-    let charIndex = 0;
-    let timer: ReturnType<typeof setTimeout> | undefined;
-
-    const typeNext = () => {
-      if (isCancelled || lineIndex >= logMessages.length) return;
-
-      const line = logMessages[lineIndex];
-
-      if (charIndex <= line.length) {
-        setTypingLine(line.slice(0, charIndex));
-        charIndex += 1;
-        timer = setTimeout(typeNext, 24);
-        return;
-      }
-
-      setLogs((prev) => [...prev.slice(-2), line]);
-      setTypingLine("");
-      lineIndex += 1;
-      charIndex = 0;
-
-      if (lineIndex < logMessages.length) {
-        timer = setTimeout(typeNext, 620);
-      }
-    };
-
-    timer = setTimeout(typeNext, 380);
-
-    return () => {
-      isCancelled = true;
-      if (timer) clearTimeout(timer);
-    };
-  }, []);
-
   const addPropToBuilder = (builderName: string, kind: ClownProp, x: number, y: number) => {
     setPlacedProps((current) => ({
       ...current,
@@ -230,21 +175,15 @@ const TeamSection: React.FC = () => {
     addPropToBuilder(builderName, selectedProp, x, y);
   };
 
-  if (!mounted) {
-    return <section id="team" className="relative z-10 w-full scroll-mt-28" aria-label="Team" />;
-  }
-
   const gridMembers = teamMembers;
-  const visibleLogs = typingLine && logs.length >= visibleLogCount ? logs.slice(-(visibleLogCount - 1)) : logs;
 
   return (
     <section id="team" className="relative z-10 w-full scroll-mt-28 px-5 py-24 text-[#dfd7d7] sm:px-8 sm:py-28 lg:px-12 lg:py-32">
-      <div className="section-glass section-glass--dark mx-auto max-w-9xl p-7 sm:p-9 lg:p-12">
+      <div className="htr-open-content mx-auto max-w-7xl">
         <div className="w-full">
           <div className="relative mb-10 flex items-center justify-between px-1 sm:px-2">
             <div>
-              <p className="text-[10px] font-black uppercase tracking-[0.32em] text-[#AFD5BC]">Command Deck</p>
-              <p className="mt-1 text-xs font-black uppercase tracking-[0.18em] text-[#7DB6AD] sm:tracking-[0.24em]">Executives for HTR</p>
+              <h2 className="mt-4 font-sacco text-6xl uppercase leading-none text-htr-white sm:text-7xl">Meet the Team.</h2>
             </div>
           </div>
 
@@ -258,9 +197,8 @@ const TeamSection: React.FC = () => {
         </div>
 
         
-        <div className="mt-16 border-t border-[#AFD5BC]/18 pt-14 lg:mt-20 lg:pt-16">
+        {SHOW_PREVIOUS_EXECUTIVES && <div className="mt-16 border-t border-[#AFD5BC]/18 pt-14 lg:mt-20 lg:pt-16">
           <div className="mx-auto max-w-5xl text-center">
-            <p className="text-sm font-black uppercase tracking-[0.35em] text-[#7DB6AD]">Previously on HTR</p>
             <h3 className="mt-4 font-sacco text-4xl font-black uppercase leading-[0.9] tracking-[0.05em] text-[#dfd7d7] sm:text-5xl lg:text-6xl">
               Former teammates. Current lore.
             </h3>
@@ -317,7 +255,7 @@ const TeamSection: React.FC = () => {
                 </div>
 
                 <div className="mt-5 flex flex-col items-center justify-between gap-3 rounded-[1.25rem] border border-[#AFD5BC]/15 bg-[#1E3159]/45 px-4 py-3 text-xs font-black uppercase tracking-[0.16em] text-[#dfd7d7] sm:flex-row">
-                  <span>{selectedProp ? "Tap a face to place the selected prop." : "Drag from the tray, or select a prop for tap-to-place."}</span>
+                  <span>{selectedProp ? "Tap a face to place the selected prop." : "Drag from the tray, or select a prop for tap to place."}</span>
                   <button
                     type="button"
                     onClick={() => setPlacedProps({})}
@@ -368,7 +306,7 @@ const TeamSection: React.FC = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </section>
   );

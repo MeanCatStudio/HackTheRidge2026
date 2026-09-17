@@ -1,61 +1,23 @@
-import { Environment, MeshReflectorMaterial } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
-import { useControls } from 'leva';
-
+import { useFrame } from '@react-three/fiber';
 import Buildings from './Buildings';
-
-export default function Scene()
-{
-    //const cube = useRef();
-
-    useFrame((state, delta) => {
-        //cube.current.rotation.y += delta * 0.2;
-        //cube.current.rotation.x += delta * 0.15;
-
-        const targetY = -window.scrollY / window.innerHeight * 2.5;
-        state.camera.position.y += (targetY - state.camera.position.y) * Math.min(1, delta * 10);
-
-        const fadeProgress = Math.max(0, Math.min(1, (window.scrollY / window.innerHeight - 5.8) / 1.1));
-        state.gl.domElement.style.opacity = String(1 - fadeProgress);
-    });
-
-    const lighting = useControls('lighting', { 
-        intensity: { value: 0.02, min: 0, max: 0.5 } 
-    });
-
-    return <>
-        <Environment preset='city' resolution={32} environmentIntensity={lighting.intensity} />
-        {/* <ContactShadows 
-            position={[0, -19.99, 0]} 
-            opacity={0.5} 
-            scale={500} 
-            blur={0.2} 
-            far={100} 
-            resolution={256 * 8}
-        /> */}
-
-        <Buildings />
-
-        <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -20, -121]}>
-            <planeGeometry args={[250, 250]} />
-            <MeshReflectorMaterial
-                blur={[120, 45]}
-                resolution={512}
-                mixBlur={0.6}
-                mixStrength={1.2}
-                roughness={0.55}
-                mirror={0.28}
-                depthScale={0.5}
-                minDepthThreshold={0.35}
-                maxDepthThreshold={1}
-                color="#292d31"
-                metalness={0.3}
-            />
-        </mesh>
-
-        {/* <mesh position={[0, -25, -496]} >
-            <boxGeometry args={[1000, 10, 1000]} />
-            <meshLambertMaterial color={0xbbbbbb} />
-        </mesh> */}
-    </>
+import Train from './Train';
+import StreetLife from './StreetLife';
+export default function Scene({ reducedMotion = false, night = false }) {
+  useFrame((state, delta) => {
+    const distance = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    const progress = Math.max(0, Math.min(1, window.scrollY / distance));
+    const targetY = reducedMotion ? 0 : -3.5 * progress;
+    state.camera.position.y += (targetY - state.camera.position.y) * (1 - Math.exp(-5 * delta));
+  });
+  return <>
+    <fog attach="fog" args={[night ? '#162936' : '#c5b998', 40, 170]} />
+    <hemisphereLight args={[night ? '#93a8bd' : '#fff4d5', night ? '#233442' : '#867459', night ? 0.85 : 2.4]} />
+    <directionalLight position={[25,45,15]} intensity={night ? 0.6 : 2.2} color={night ? '#aec9ec' : '#ffe0a3'} />
+    <Buildings night={night} /><StreetLife night={night} />
+    <Train reducedMotion={reducedMotion} night={night} />
+    <mesh rotation={[-Math.PI / 2,0,0]} position={[0,-20,-90]}>
+      <planeGeometry args={[1000,1000]} />
+      <meshStandardMaterial color={night ? '#293b41' : '#a69c80'} roughness={0.95} />
+    </mesh>
+  </>;
 }

@@ -9,12 +9,10 @@ const TeamCard: React.FC<{ member: TeamMember; compact?: boolean }> = ({ member,
 
   return (
     <article
-      className={`group relative overflow-hidden rounded-[1.2rem] border border-[#AFD5BC]/20 bg-[#0d1b33]/90 shadow-lg shadow-black/20 backdrop-blur-md transition duration-300 hover:-translate-y-1.5 hover:border-[#AFD5BC]/70 hover:shadow-[0_0_25px_rgba(175,213,188,0.25)] ${
-        compact ? "rounded-[1rem]" : ""
+      className={`group relative overflow-hidden border-b border-[#AFD5BC]/25 transition duration-300 hover:-translate-y-1.5 ${
+        compact ? "pb-3" : "pb-5"
       }`}
     >
-      
-      <div className="absolute right-2 top-2 z-20 h-1.5 w-1.5 rounded-full bg-[#AFD5BC]/40 transition group-hover:bg-[#AFD5BC] group-hover:shadow-[0_0_8px_#AFD5BC]" />
 
       <div className={`relative w-full overflow-hidden bg-[#1E3159] ${compact ? "aspect-[6/7]" : "aspect-[4/5]"}`}>
         {member.image.endsWith(".svg") ? (
@@ -43,20 +41,14 @@ const TeamCard: React.FC<{ member: TeamMember; compact?: boolean }> = ({ member,
 
       <div className={`${compact ? "min-h-[4.25rem] p-2.5" : "min-h-[6.25rem] p-4"} relative z-10 flex flex-col justify-between`}>
         <div>
-          <h3 className={`${compact ? "text-[13px]" : member.isRoleCard ? "text-sm sm:text-base" : "text-base sm:text-lg"} font-black leading-tight text-[#dfd7d7]`}>
+          <h3 className={`${compact ? "text-lg" : member.isRoleCard ? "text-sm sm:text-base" : "text-base sm:text-lg"} font-black leading-tight text-[#dfd7d7]`}>
             {title}
           </h3>
           {member.role && (
-            <p className={`${compact ? "mt-0.5 text-[9px]" : "text-xs sm:text-sm"} font-mono font-semibold uppercase tracking-[0.12em] text-[#AFD5BC]`}>
+            <p className={`${compact ? "mt-2 text-sm" : "text-xs sm:text-sm"} font-medium text-[#AFD5BC]`}>
               {member.role}
             </p>
           )}
-        </div>
-
-        
-        <div className="mt-2 flex items-center justify-between border-t border-[#AFD5BC]/10 pt-1 font-mono text-[8px] text-[#7DB6AD]/70">
-          <span>ID: {member.id || "00"}</span>
-          <span className="opacity-0 transition group-hover:opacity-100 text-[#AFD5BC]">// READY</span>
         </div>
       </div>
     </article>
