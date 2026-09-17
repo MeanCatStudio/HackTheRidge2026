@@ -8,6 +8,17 @@ import { Leva, useControls } from "leva";
 import Scene from './3d/Scene';
 import { useCityTheme } from './CityTheme';
 
+const skyStars = [
+    { left: '8%', top: '18%', delay: '-1.2s' },
+    { left: '17%', top: '36%', delay: '-3.8s' },
+    { left: '29%', top: '12%', delay: '-5.1s' },
+    { left: '41%', top: '27%', delay: '-2.6s' },
+    { left: '54%', top: '16%', delay: '-4.4s' },
+    { left: '67%', top: '34%', delay: '-1.9s' },
+    { left: '78%', top: '14%', delay: '-6.2s' },
+    { left: '89%', top: '29%', delay: '-3.1s' },
+];
+
 export default function Background()
 {
     const { theme } = useCityTheme();
@@ -52,6 +63,9 @@ export default function Background()
                     <Bloom luminanceThreshold={bloom.threshold} intensity={bloom.intensity} mipmapBlur />
                 </EffectComposer>
             </Canvas>
+            <div className="htr-sky-stars">
+                {skyStars.map((star) => <span key={`${star.left}-${star.top}`} style={{ left: star.left, top: star.top, animationDelay: star.delay }} />)}
+            </div>
         </div>
     </>;
 }

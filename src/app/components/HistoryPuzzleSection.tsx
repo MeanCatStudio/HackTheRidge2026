@@ -22,7 +22,6 @@ const historyImages = [
   "/history%20photos/photo3.jpg",
 ];
 
-
 const communityLinks = [
   {
     name: "Instagram",
@@ -181,6 +180,7 @@ export default function HistoryPuzzleSection() {
   const [isMobile, setIsMobile] = useState(false);
   const [viewport, setViewport] = useState({ width: 1440, height: 900 });
   const [pieces, setPieces] = useState<Piece[]>([]);
+  const [hasCompletedPuzzle, setHasCompletedPuzzle] = useState(false);
   const dragRef = useRef<{
     index: number;
     pointerId: number;
@@ -195,7 +195,7 @@ export default function HistoryPuzzleSection() {
     () => getTargets(viewport.width, viewport.height, isMobile),
     [viewport, isMobile],
   );
-  const solved = pieces.length > 0 && pieces.every((piece) => piece.snapped);
+  const solved = hasCompletedPuzzle || (pieces.length > 0 && pieces.every((piece) => piece.snapped));
 
   useEffect(() => {
     const syncViewport = () => {
@@ -212,6 +212,11 @@ export default function HistoryPuzzleSection() {
   }, [puzzleImages.length]);
 
   useEffect(() => {
+    if (!solved || hasCompletedPuzzle) return;
+    setHasCompletedPuzzle(true);
+  }, [hasCompletedPuzzle, solved]);
+
+  useEffect(() => {
     if (!mounted) return;
     document.documentElement.classList.toggle("htr-puzzle-active", open);
     document.body.style.overflow = open ? "hidden" : "";
@@ -222,7 +227,7 @@ export default function HistoryPuzzleSection() {
   }, [open, mounted]);
 
   const openPuzzle = () => {
-    setPieces(randomPieces(puzzleImages.length));
+    if (!hasCompletedPuzzle) setPieces(randomPieces(puzzleImages.length));
     setOpen(true);
   };
 
@@ -288,7 +293,7 @@ export default function HistoryPuzzleSection() {
       </div>
 
       <div className="htr-puzzle-stage">
-        {targets.map((target, index) => {
+        {!solved && targets.map((target, index) => {
           const path = piecePath(getEdges(index, isMobile));
           return (
             <div
@@ -304,7 +309,7 @@ export default function HistoryPuzzleSection() {
           );
         })}
 
-        {puzzleImages.map((src, index) => {
+        {!solved && puzzleImages.map((src, index) => {
           const piece = pieces[index];
           if (!piece) return null;
           const path = piecePath(getEdges(index, isMobile));

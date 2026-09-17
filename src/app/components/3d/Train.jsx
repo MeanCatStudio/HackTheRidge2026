@@ -33,7 +33,8 @@ export default function Train({ reducedMotion = false, night = false }) {
   useFrame((_, delta) => {
     if (!train.current || reducedMotion || document.hidden) return;
     travel.current += Math.min(delta, 0.1) * 3.2;
-    train.current.position.x = ((travel.current + 106) % 240) - 120;
+    if (travel.current >= 240) travel.current = 0;
+    train.current.position.x = travel.current - 120;
   });
   return <group position={[0,-5.2,-26]}>
     <DetailInstances parts={trackDetails} />

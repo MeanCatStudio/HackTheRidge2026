@@ -295,14 +295,13 @@ export default function Home() {
 
           <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2 xl:grid-cols-6">
             {winnerCards.map((card, index) => {
-              const Icon = card.icon;
               return (
               <motion.article
                 key={card.title}
                 whileHover={{ y: -8 }}
                 className={`group relative overflow-hidden ${index < 3 ? "xl:col-span-2" : "xl:col-span-3"}`}
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className={`relative overflow-hidden ${index < 3 ? "aspect-[4/3]" : "aspect-[16/9]"}`}>
                   <Image
                     src={card.image}
                     alt={`${card.title} winners at Hack The Ridge 2025`}
@@ -310,17 +309,9 @@ export default function Home() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 34vw"
                     className="object-cover object-center transition duration-500 group-hover:scale-[1.035]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
-                </div>
-
-                <div className="relative py-6">
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-htr-green via-htr-white to-htr-shaded" />
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-htr-green text-htr-blue shadow-lg shadow-htr-green/15 transition duration-300 group-hover:rotate-6 group-hover:scale-105">
-                      <Icon className="h-5 w-5" />
-                    </div>
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/65 to-transparent px-5 pb-3 pt-5">
+                    <h3 className="winner-placement-label text-xl font-black sm:text-2xl">{card.title}</h3>
                   </div>
-                  <h3 className="mt-5 text-3xl font-black text-htr-white">{card.title}</h3>
                 </div>
               </motion.article>
               );
@@ -365,7 +356,6 @@ export default function Home() {
                   { number: "03", title: "Workshops + mentors", body: "Give your team a chance to share what they know. A short workshop or time spent mentoring can help a student get unstuck and see a future in your field.", icon: Users },
                   { number: "04", title: "Community support", body: "Build a connection with the students and schools around your business. Your support creates space for young people in Oakville to learn, meet peers, and try something new.", icon: Sparkles },
                 ].map((item, index) => {
-                  const Icon = item.icon;
                   return (
                     <div
                       key={item.title}
@@ -374,9 +364,7 @@ export default function Home() {
                       } ${index % 2 === 0 ? "lg:pr-14" : "lg:pl-14"}`}
                     >
                       <div className="flex items-start gap-5 sm:gap-6">
-                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-htr-green/30 bg-htr-green/10 text-htr-green backdrop-blur-md">
-                          <Icon className="h-6 w-6" />
-                        </div>
+                        
 
                         <div className="min-w-0 flex-1">
                           <div className="flex items-baseline justify-between gap-5">
@@ -399,7 +387,7 @@ export default function Home() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-htr-green">Sponsor HTR 2026</p>
             </div>
-            <Link href="#contact" className="button-shine inline-flex shrink-0 items-center justify-center rounded-full bg-htr-green px-6 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-htr-blue transition hover:-translate-y-1">
+            <Link href="#contact" className="inline-flex shrink-0 items-center justify-center rounded-full bg-htr-green px-6 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-htr-blue transition hover:-translate-y-1">
               Contact the team
               <ArrowRight className="ml-2 h-4 w-4" />
             </Link>

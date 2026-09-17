@@ -72,11 +72,30 @@
   .htr-date-link { grid-template-columns: auto 1fr; }
   .htr-date-link .htr-text-link { grid-column: 1 / -1; }
 }
-@media (prefers-reduced-motion: reduce) { .htr-date-day, .htr-register-link { transition: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .htr-date-day,
+  .htr-register-link,
+  .htr-sky-stars span { animation: none; }
+}
 
 body { background: #63828d; }
 .site-shell { background: linear-gradient(180deg,#6b8993,#3f6575); }
 #background { background: linear-gradient(180deg,#809ba4 0%,#577d88 65%,#426476 100%); pointer-events: none; }
+.htr-sky-stars { position: fixed; inset: 0; overflow: hidden; pointer-events: none; opacity: 0; }
+.htr-sky-stars span {
+  position: absolute;
+  width: .22rem;
+  height: .22rem;
+  border-radius: 50%;
+  background: #f7eedb;
+  box-shadow: 0 0 8px 2px rgba(247,238,219,.72);
+  animation: htrStarTwinkle 3.6s ease-in-out infinite;
+}
+[data-city-theme="night"] .htr-sky-stars { opacity: 1; }
+@keyframes htrStarTwinkle {
+  0%, 100% { opacity: .28; transform: scale(.7); }
+  50% { opacity: 1; transform: scale(1.35); }
+}
 .htr-open-content { color: #183b4b; }
 .htr-open-content::before { inset: -2.5rem calc(50% - 50vw); background: rgba(232,240,227,.95); filter: none; }
 .htr-hero > div::before { background: rgba(29,57,72,.48); filter: blur(24px); }
@@ -190,6 +209,75 @@ body, .site-shell { background: #b8aa8c; }
 .metro-horizontal-line, .metro-horizontal-dot, .metro-horizontal-copy::after { background: var(--city-accent); }
 .metro-horizontal-station { background: var(--city-paper); border-color: var(--city-accent); }
 #faq { color: var(--city-ink); }
+.sponsors-grid-fade-left { background: linear-gradient(90deg, #fff 0%, #fff 55%, transparent 100%); }
+.sponsors-grid-fade-right { background: linear-gradient(270deg, #fff 0%, #fff 55%, transparent 100%); }
+[data-city-theme="night"] .sponsors-grid-fade-left { background: linear-gradient(90deg, #1e3159 0%, #000 55%, transparent 100%); }
+[data-city-theme="night"] .sponsors-grid-fade-right { background: linear-gradient(270deg, #1e3159 0%, #000 55%, transparent 100%); }
+
+:root:not([data-city-theme="night"]) .htr-puzzle-overlay {
+  color: var(--city-ink);
+  background:
+    radial-gradient(circle at 18% 20%, rgba(128, 64, 34, .14), transparent 28rem),
+    radial-gradient(circle at 82% 70%, rgba(98, 103, 72, .16), transparent 30rem),
+    rgba(247, 238, 219, .94);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-noise {
+  background-image:
+    linear-gradient(rgba(128, 64, 34, .08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(128, 64, 34, .06) 1px, transparent 1px);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-topbar h2,
+:root:not([data-city-theme="night"]) .htr-puzzle-complete strong,
+:root:not([data-city-theme="night"]) .htr-puzzle-reveal-card b {
+  color: var(--city-ink);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-close {
+  border-color: var(--city-rule);
+  background: rgba(247, 238, 219, .86);
+  color: var(--city-ink);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-close:hover {
+  border-color: var(--city-accent);
+  background: rgba(128, 64, 34, .12);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-target path {
+  fill: rgba(128, 64, 34, .05);
+  stroke: rgba(128, 64, 34, .4);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-piece-outline {
+  stroke: rgba(36, 55, 44, .82);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-piece.is-snapped .htr-puzzle-piece-outline {
+  stroke: var(--city-accent);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-complete {
+  border-color: rgba(128, 64, 34, .4);
+  background: rgba(247, 238, 219, .97);
+  box-shadow: 0 36px 110px rgba(52, 61, 49, .24), 0 0 80px rgba(128, 64, 34, .1);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-complete p {
+  color: var(--city-accent);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-reveal-card {
+  border-color: rgba(128, 64, 34, .24);
+  color: var(--city-ink);
+  background: rgba(255, 255, 255, .34);
+  box-shadow: 0 18px 42px rgba(52, 61, 49, .12);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-reveal-card:hover {
+  border-color: rgba(128, 64, 34, .58);
+  background: rgba(128, 64, 34, .09);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-progress > span,
+:root:not([data-city-theme="night"]) .htr-puzzle-link-hint {
+  color: var(--city-muted);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-progress > div {
+  background: rgba(36, 55, 44, .14);
+}
+:root:not([data-city-theme="night"]) .htr-puzzle-progress i {
+  background: var(--city-accent);
+}
 #faq .terminal-faq-word { letter-spacing: -.045em; line-height: 1; }
 #faq .terminal-boot { gap: 1rem; padding: .4rem 0 .7rem; }
 #faq .terminal-boot-faq { gap: .3rem; }
@@ -246,8 +334,22 @@ footer { background: #3d493b !important; }
 .htr-open-content :is(div,span)[class*="text-htr-white"] { color: var(--city-ink); }
 .htr-open-content a:not([class*="bg-"]):not(.htr-register-link) { color: var(--city-accent); }
 .htr-open-content .htr-register-link, .htr-open-content .button-shine { color: #18372b; background: #c5ddbd; }
+:root:not([data-city-theme="night"]) .htr-open-content .htr-register-link,
+:root:not([data-city-theme="night"]) .htr-open-content .button-shine,
+:root:not([data-city-theme="night"]) .htr-open-content a[href="#contact"],
+:root:not([data-city-theme="night"]) .htr-register-link {
+  background: #bbc49f;
+  color: #724027;
+}
+:root:not([data-city-theme="night"]) .htr-open-content .htr-register-link:hover,
+:root:not([data-city-theme="night"]) .htr-open-content .button-shine:hover,
+:root:not([data-city-theme="night"]) .htr-open-content a[href="#contact"]:hover,
+:root:not([data-city-theme="night"]) .htr-register-link:hover {
+  background: #bbc49f;
+  color: #724027;
+}
 .htr-open-content h2:first-child, .htr-open-content h3:first-child, .htr-open-content h4:first-child { margin-top: 0; }
-:root:not([data-city-theme="night"]) .htr-hero > div::before { background: rgba(247,238,219,.72); filter: blur(24px); }
+:root:not([data-city-theme="night"]) .htr-hero > div::before { background: rgba(247,238,219,.46); filter: blur(24px); }
 :root:not([data-city-theme="night"]) .htr-hero :is(p,span,strong,dt,dd,svg),
 :root:not([data-city-theme="night"]) .htr-hero .hero-wordmark__text { color: #24372c; text-shadow: none; }
 :root:not([data-city-theme="night"]) .htr-hero .htr-text-link { color: #714027; }
@@ -256,3 +358,5 @@ footer { background: #3d493b !important; }
 .htr-open-content .htr-history-puzzle-link { color: var(--city-accent); }
 #faq .faq-questions button[aria-expanded="true"] { color: var(--city-ink); }
 :root:not([data-city-theme="night"]) .htr-hero span { text-shadow: none !important; }
+.winner-placement-label { color: #f4f1ef; }
+:root:not([data-city-theme="night"]) .winner-placement-label { color: #F7EEDB !important; }
