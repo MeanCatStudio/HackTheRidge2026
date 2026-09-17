@@ -99,7 +99,7 @@ const LAST_YEAR_SPONSORS: Sponsor[] = [
   },
   {
     id: 16,
-    name: "Town of Oakville - CAG",
+    name: "Town of Oakville CAG",
     logoUrl: "/oakville.png.png",
     tier: 2,
   },

@@ -21,7 +21,7 @@ const faqData: FAQItem[] = [
     question: "What is Hack the Ridge?",
     answer: `Hack The Ridge is a student led hackathon at Iroquois Ridge High School where students build projects, learn new skills, and turn ideas into working demos.
 
-It is made for beginners, experienced builders, designers, problem-solvers, and anyone who wants to make something with a team.`,
+It is made for beginners, experienced builders, designers, problem solvers, and anyone who wants to make something with a team.`,
   },
   {
     id: "who-can-participate",
@@ -89,14 +89,14 @@ const treeData: TreeViewElement[] = [
 const commandList = [
   "help",
   "list",
-  "open what-is-htr",
-  "open who-can-participate",
-  "open registration-cost",
-  "open what-to-bring",
-  "open team-formation",
-  "open prizes-judging",
-  "open schedule-timeline",
-  "open found-a-bug",
+  "open what is htr",
+  "open who can participate",
+  "open registration cost",
+  "open what to bring",
+  "open team formation",
+  "open prizes judging",
+  "open schedule timeline",
+  "open found a bug",
   "bug",
   "sl",
   "cls",
@@ -141,12 +141,16 @@ const tuxArt = [
 
 const bootLines: TerminalLine[] = [{ type: "boot", text: "FAQ GNU Linux Node" }];
 
+const terminalUsers = ["sudo_sandwich", "404_brain_not_found", "ctrl_alt_delulu", "captain_semicolon"];
+
 const formatFAQ = (faq: FAQItem) => [`${faq.question}`, faq.answer];
 
 const InteractiveFAQ: React.FC = () => {
   const [selectedFAQ, setSelectedFAQ] = useState<FAQItem | null>(null);
   const [command, setCommand] = useState("");
   const [lines, setLines] = useState<TerminalLine[]>(bootLines);
+  const [terminalUser, setTerminalUser] = useState(terminalUsers[0]);
+  useEffect(() => { setTerminalUser(terminalUsers[Math.floor(Math.random() * terminalUsers.length)]); }, []);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalScrollRef = useRef<HTMLDivElement>(null);
 
@@ -168,7 +172,7 @@ const InteractiveFAQ: React.FC = () => {
     if (!trimmed) return;
 
     const lower = trimmed.toLowerCase();
-    const inputLine: TerminalLine = { type: "input", text: `htr-terminal> ${trimmed}` };
+    const inputLine: TerminalLine = { type: "input", text: `${terminalUser}> ${trimmed}` };
 
     if (lower === "clear" || lower === "cls") {
       setLines(bootLines);
@@ -188,7 +192,7 @@ const InteractiveFAQ: React.FC = () => {
       setLines((current) => [
         ...current,
         inputLine,
-        { type: "output", text: faqData.map((faq) => `${faq.id}  -  ${faq.question}`).join("\n") },
+        { type: "output", text: faqData.map((faq) => `${faq.id.replaceAll("-", " ")}: ${faq.question}`).join("\n") },
       ]);
       return;
     }
@@ -204,7 +208,7 @@ const InteractiveFAQ: React.FC = () => {
     }
 
     const requestedId = lower.startsWith("open ") ? lower.replace(/^open\s+/, "").trim() : lower;
-    const resolvedId = aliases[requestedId] ?? requestedId;
+    const resolvedId = aliases[requestedId] ?? requestedId.replaceAll(" ", "-");
     const faq = questionMap[resolvedId];
 
     if (faq) {
@@ -236,7 +240,7 @@ const InteractiveFAQ: React.FC = () => {
     setSelectedFAQ(faq);
     setLines((current) => [
       ...current,
-      { type: "input", text: `htr-terminal> open ${faq.id}` },
+      { type: "input", text: `${terminalUser}> open ${faq.id.replaceAll("-", " ")}` },
       ...formatFAQ(faq).map<TerminalLine>((text) => ({ type: "output", text })),
     ]);
   };
@@ -261,7 +265,7 @@ const InteractiveFAQ: React.FC = () => {
     return (
       <span
         key={`${line.type}-${index}`}
-        className={`${
+        className={`terminal-line ${
           line.type === "input"
             ? "text-[#AFD5BC]"
             : line.type === "error"
@@ -277,7 +281,7 @@ const InteractiveFAQ: React.FC = () => {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 py-16">
+    <div className="w-full min-w-0 max-w-7xl mx-auto py-8">
       <motion.div
         className="text-left mb-12"
       >
@@ -292,7 +296,7 @@ const InteractiveFAQ: React.FC = () => {
       <motion.div
         className="grid grid-cols-1 lg:grid-cols-3 gap-4 items-start"
       >
-        <div className="lg:col-span-1 rounded-3xl border border-[#AFD5BC]/12 bg-transparent p-2 lg:p-6">
+        <div className="faq-questions min-w-0 lg:col-span-1 border-t border-[#AFD5BC]/25 bg-transparent py-4 lg:pr-5">
           <div className="hidden h-[390px] w-full lg:block">
             <Tree className="h-full w-full text-[#dfd7d7]" elements={treeData} initialExpandedItems={["faq-root"]} indicator={true}>
               <Folder element="FAQ" value="faq-root" className="text-[#dfd7d7] text-lg font-semibold p-2">
@@ -329,7 +333,7 @@ const InteractiveFAQ: React.FC = () => {
           </div>
         </div>
 
-        <div className="lg:col-span-2 h-[430px] w-full">
+        <div className="min-w-0 lg:col-span-2 h-[480px] w-full">
           <div className="faq-terminal-window h-full w-full" onClick={() => inputRef.current?.focus()}>
             <div className="faq-terminal-header">
               <div className="flex flex-row gap-x-2">
@@ -339,15 +343,15 @@ const InteractiveFAQ: React.FC = () => {
               </div>
             </div>
 
-            <div ref={terminalScrollRef} className="terminal-scrollbar flex-1 overflow-y-auto overflow-x-auto p-4 font-mono text-sm leading-relaxed text-[#dfd7d7]">
-              <code className="terminal-lines min-w-[760px]">
+            <div ref={terminalScrollRef} role="log" aria-label="FAQ terminal output" aria-live="polite" className="terminal-scrollbar min-h-0 flex-1 overflow-y-auto overflow-x-hidden p-4 sm:p-6 font-mono text-sm leading-relaxed text-[#dfd7d7]">
+              <code className="terminal-lines">
                 {lines.map(renderLine)}
               </code>
             </div>
 
             <form onSubmit={submitCommand} className="faq-terminal-input-row">
               <label htmlFor="faq-terminal-input" className="shrink-0 text-[#AFD5BC] font-mono text-sm">
-                htr-terminal&gt;
+                {terminalUser}&gt;
               </label>
               <input
                 id="faq-terminal-input"
@@ -356,6 +360,7 @@ const InteractiveFAQ: React.FC = () => {
                 onChange={(event) => setCommand(event.target.value)}
                 autoComplete="off"
                 spellCheck={false}
+                aria-label="Terminal command"
                 className="min-w-0 flex-1 bg-transparent font-mono text-sm text-[#dfd7d7] outline-none placeholder:text-[#dfd7d7]/60"
                 placeholder=""
               />

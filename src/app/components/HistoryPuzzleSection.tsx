@@ -9,7 +9,7 @@ import {
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { ExternalLink, X } from "lucide-react";
+import { X } from "lucide-react";
 
 const historyImages = [
   "/last_year/history1.jpg",
@@ -385,18 +385,14 @@ export default function HistoryPuzzleSection() {
   return (
     <>
       <section id="history" className="relative scroll-mt-28 overflow-hidden px-5 py-24 text-htr-white sm:px-8 sm:py-28 lg:px-12 lg:py-36">
-        <div className="section-glass section-glass--dark relative z-10 mx-auto max-w-7xl p-8 sm:p-10 lg:p-14">
+        <div className="htr-open-content relative z-10 mx-auto max-w-7xl">
           <div className="grid gap-9 lg:grid-cols-[1.08fr_0.92fr] lg:items-end lg:gap-16">
             <div>
-              <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">History</p>
               <h2 className="font-sacco mt-4 max-w-4xl text-6xl font-black uppercase leading-[0.88] tracking-[0.035em] text-htr-white sm:text-7xl lg:text-8xl">
                 10+ years of Hack The Ridge.
               </h2>
             </div>
             <div className="lg:pb-2">
-              <p className="max-w-xl text-base font-semibold leading-7 text-htr-white/82 sm:text-lg">
-                A decade plus of students building together, sharing ideas, shipping projects and turning one school day into something people remember.
-              </p>
               <div className="htr-history-actions">
                 <a
                   href="#history-puzzle"
@@ -408,21 +404,13 @@ export default function HistoryPuzzleSection() {
                 >
                   Piece together the HTR story
                 </a>
-                <a
-                  href="/2025"
-                  className="htr-history-2025-button"
-                  aria-label="View the Hack The Ridge 2025 website"
-                >
-                  View 2025 Website
-                  <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                </a>
               </div>
             </div>
           </div>
 
           <div className="mt-12 grid gap-4 sm:grid-cols-3 lg:gap-5">
             {historyStats.map((stat) => (
-              <div key={stat.label} className="rounded-[1.5rem] border border-htr-green/18 bg-black/34 p-5 sm:p-6 lg:p-7">
+              <div key={stat.label} className="border-t border-htr-green/30 py-6 sm:py-8">
                 <CountUp value={stat.value} prefix={stat.prefix} suffix={stat.suffix} />
                 <p className="mt-3 text-[0.68rem] font-black uppercase leading-5 tracking-[0.15em] text-htr-white/72 sm:text-xs">{stat.label}</p>
               </div>

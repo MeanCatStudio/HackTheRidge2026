@@ -1,7 +1,7 @@
-/* Archive compatibility layer. It restores states that were captured mid-animation. */
+
 html { scroll-behavior: smooth; }
 
-/* Framer Motion states captured as invisible in the saved frontend. */
+
 #faq > section,
 #faq [style*="opacity: 0"],
 footer [style*="opacity: 0"] {
@@ -14,7 +14,7 @@ footer [style*="transform: translate"] {
   transform: none !important;
 }
 
-/* The sponsor intro was captured with Tailwind opacity-0 classes. Only reveal the intro, not hover overlays. */
+
 #sponsors > div:first-child > div,
 #sponsors > div:first-child > div > div {
   opacity: 1 !important;
@@ -100,3 +100,12 @@ footer [style*="transform: translate"] {
     opacity: .85 !important;
   }
 }
+
+html, body { cursor: auto !important; }
+a, button, [role="button"] { cursor: pointer !important; }
+input, textarea { cursor: text !important; }
+body > .pointer-events-none.fixed.left-0.top-0 { display: none !important; }
+html body, html body * { cursor: auto !important; }
+html body :is(a, button, [role="button"]),
+html body :is(a, button, [role="button"]) * { cursor: pointer !important; }
+html body :is(input, textarea, select) { cursor: text !important; }
