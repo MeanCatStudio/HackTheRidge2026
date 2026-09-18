@@ -5,9 +5,10 @@ import Plane from './Plane';
 import StreetLife from './StreetLife';
 export default function Scene({ reducedMotion = false, night = false }) {
   useFrame((state, delta) => {
-    const distance = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
-    const progress = Math.max(0, Math.min(1, window.scrollY / distance));
-    const targetY = reducedMotion ? 0 : -3.5 * progress;
+    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const scrollProgress = scrollHeight > 0 ? (document.documentElement.scrollTop / scrollHeight) : 0;
+    const progress = Math.sqrt(scrollProgress); // using sqrt to accelerate y motion at title page, and slow down at the bottem
+    const targetY = reducedMotion ? 0 : -19 * progress; // camera goes from 0 to -19 y
     state.camera.position.y += (targetY - state.camera.position.y) * (1 - Math.exp(-5 * delta));
   });
   return <>
