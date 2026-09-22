@@ -9,9 +9,10 @@ const TeamCard: React.FC<{ member: TeamMember; compact?: boolean }> = ({ member,
 
   return (
     <article
-      className={`group relative overflow-hidden border-b border-[#AFD5BC]/25 transition duration-300 hover:-translate-y-1.5 ${
+      className={`team-card group relative overflow-hidden border-b border-[#AFD5BC]/25 transition duration-300 hover:-translate-y-1.5 ${
         compact ? "pb-3" : "pb-5"
       }`}
+      style={{ "--team-glow": member.accent, "--team-night-glow": member.nightAccent } as React.CSSProperties}
     >
 
       <div className={`relative w-full overflow-hidden bg-[#1E3159] ${compact ? "aspect-[6/7]" : "aspect-[4/5]"}`}>

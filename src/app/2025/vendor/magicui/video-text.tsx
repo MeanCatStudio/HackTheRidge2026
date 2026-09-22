@@ -83,9 +83,10 @@ export function VideoText({
   textAnchor = "middle",
   dominantBaseline = "middle",
   fontFamily = "sans-serif",
-  as: Component = "div",
+  as: ComponentTag = "div",
   maskScale = 1.12,
 }: VideoTextProps) {
+  const Component = ComponentTag as React.ElementType<any>;
   const [svgMask, setSvgMask] = useState("");
   const content = React.Children.toArray(children).join("");
 
@@ -122,13 +123,13 @@ export function VideoText({
 
   const dataUrlMask = `url("data:image/svg+xml,${encodeURIComponent(svgMask)}")`;
 
-  return (
-    <Component className={cn(`relative size-full overflow-visible`, className)}>
-      {/* Create a container that masks the video to only show within text */}
+  return React.createElement(
+    Component as any,
+    { className: cn(`relative size-full overflow-visible`, className) },
+    <>
       <div
         className="absolute flex items-center justify-center overflow-visible"
         style={{
-          // Center the masked container and scale its size so the text never clips at edges
           left: "50%",
           top: "50%",
           transform: "translate(-50%, -50%)",
@@ -157,8 +158,7 @@ export function VideoText({
         </video>
       </div>
 
-      {/* Add a backup text element for SEO/accessibility */}
       <span className="sr-only">{content}</span>
-    </Component>
+    </>,
   );
 }

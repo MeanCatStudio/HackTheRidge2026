@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -23,9 +25,9 @@ import TeamSection from "./components/TeamSection";
 import { openMapsForDevice } from "@/lib/maps";
 
 const stats = [
-  { value: "150+", label: "students built last year", icon: Users },
+  { value: "150+", label: "students participated last year", icon: Users },
   { value: "$6K+", label: "was raised for prizes", icon: Trophy },
-  { value: "1", label: "day turned into demo time", icon: Zap },
+  { value: "12+", label: "hours of building", icon: Zap },
 ];
 
 const tracks = [
@@ -102,7 +104,91 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 },
 };
 
+const contactLinks = [
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/hacktheridge/",
+    qr: "/instagram-qr.png",
+  },
+  {
+    name: "Email",
+    href: "mailto:hacktheridge24@gmail.com",
+    qr: "/email-qr.png",
+    detail: "hacktheridge24@gmail.com",
+  },
+  {
+    name: "Discord",
+    href: "https://discord.gg/RdEwzSeN",
+    qr: "/discord-qr.png",
+  },
+];
+
+function ContactTeamModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return createPortal(
+    <div className="htr-puzzle-overlay" role="dialog" aria-modal="true" aria-label="Contact the Hack The Ridge team">
+      <div className="htr-puzzle-noise" aria-hidden="true" />
+      <div className="htr-puzzle-topbar">
+        <div>
+          <h2>Contact the team.</h2>
+        </div>
+        <button type="button" onClick={onClose} className="htr-puzzle-close" aria-label="Close contact details">
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
+            <path d="M6 6L18 18M18 6L6 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
+
+      <div className="htr-puzzle-complete is-visible" aria-live="polite">
+        <p>HTR TEAM</p>
+        <strong>Reach out anytime.</strong>
+        <div className="htr-puzzle-community-links">
+          {contactLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              target={link.href.startsWith("http") ? "_blank" : undefined}
+              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="htr-puzzle-reveal-card"
+              aria-label={`Open Hack The Ridge ${link.name}`}
+            >
+              {link.qr ? (
+                <span className="htr-puzzle-qr-wrap">
+                  <img src={link.qr} alt={`${link.name} QR code`} />
+                </span>
+              ) : (
+                <span className="htr-puzzle-qr-wrap flex items-center justify-center border border-htr-green/25 bg-htr-blue/20 text-center text-[0.7rem] font-black uppercase tracking-[0.18em] text-htr-white">
+                  {link.name}
+                </span>
+              )}
+              <b>{link.name}</b>
+              <span className="htr-puzzle-link-hint">
+                {link.detail ?? `Open ${link.name}`}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
+
 export default function Home() {
+  const [contactOpen, setContactOpen] = useState(false);
+
   const addToCalendar = () => {
     const userAgent = navigator.userAgent || "";
     const isApple = /iPhone|iPad|iPod|Macintosh/i.test(userAgent);
@@ -152,14 +238,24 @@ export default function Home() {
               <span><strong>Iroquois Ridge HS</strong><span className="block text-sm text-htr-white/80">Oakville, Ontario</span></span>
             </button>
             <p className="htr-event-invitation">Join Hack The Ridge</p>
-            <Link href="#register" className="htr-register-link group">Register interest <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" /></Link>
+            <a
+              href="#register"
+              onClick={(event) => {
+                event.preventDefault();
+                const section = document.getElementById("register");
+                section?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="htr-register-link group"
+            >
+              Register interest <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+            </a>
           </div>
           <dl className="htr-hero-stats">
             {stats.map((stat) => {
               const Icon = stat.icon;
               return (
                 <div key={stat.label} className="htr-hero-stat">
-                  <dt className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider"><Icon className="h-4 w-4 shrink-0 text-htr-green" />{stat.label}</dt>
+                  <dt className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">{stat.label}</dt>
                   <dd className="font-sacco text-5xl leading-none text-htr-green sm:text-6xl">{stat.value}</dd>
                 </div>
               );
@@ -205,7 +301,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-16 grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:gap-16">
+          {/* <div className="mt-16 grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:gap-16">
             <div>
               <h3 className="mt-3 max-w-lg text-4xl font-black leading-tight text-htr-white sm:text-5xl">Choose what interests you.</h3>
             </div>
@@ -222,7 +318,7 @@ export default function Home() {
                 );
               })}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -329,7 +425,7 @@ export default function Home() {
           </div>
           <div className="lg:justify-self-end">
             <p className="max-w-md text-lg leading-8">Interested in joining us on December 12? Ask the team about registration and we will help you get started.</p>
-            <a href="mailto:hi@hacktheridge.ca?subject=HTR%202026%20registration%20interest" className="htr-register-link mt-7">Register interest <ArrowRight className="h-5 w-5" /></a>
+            <a href="mailto:hacktheridge24@gmail.com?subject=HTR%202026%20registration%20interest" className="htr-register-link mt-7" style={{ borderRadius: 99 }}>Register interest <ArrowRight className="h-5 w-5" /></a>
           </div>
         </div>
       </section>
@@ -387,10 +483,15 @@ export default function Home() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-htr-green">Sponsor HTR 2026</p>
             </div>
-            <Link href="#contact" className="inline-flex shrink-0 items-center justify-center rounded-full bg-htr-green px-6 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-htr-blue transition hover:-translate-y-1">
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              className="htr-register-link rounded-full"
+              style={{ borderRadius: 9999 }}
+            >
               Contact the team
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+              <ArrowRight className="h-4 w-4" />
+            </button>
           </div>
 
           <div className="mt-20 border-t border-htr-green/16 pt-12">
@@ -410,6 +511,7 @@ export default function Home() {
       <TeamSection />
       <GradientSection />
       <Footer />
+      <ContactTeamModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </main>
   );
 }

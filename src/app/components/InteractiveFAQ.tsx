@@ -70,7 +70,7 @@ A proper schedule will be posted when the event timeline is ready.`,
     question: "Found a bug?",
     answer: `Do not tell me. The website is perfect and definitely has no bugs.
 
-Jokes aside, if something is actually broken or serious, email Atharv at mahajanatharv2009@gmail.com.`,
+Jokes aside, if something is actually broken or serious, email us at hacktheridge24@gmail.com.`,
   },
 ];
 

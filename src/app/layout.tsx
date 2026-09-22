@@ -66,7 +66,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} w-full`} suppressHydrationWarning>
       <body className="antialiased w-full min-w-full">
-        <script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.cityTheme=localStorage.getItem('htr-city-theme')==='night'?'night':'day'}catch(e){document.documentElement.dataset.cityTheme='day'}" }} />
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              const savedTheme = localStorage.getItem('htr-city-theme');
+              const preferredDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+              const nextTheme = savedTheme === 'day' || savedTheme === 'night' ? savedTheme : (preferredDark ? 'night' : 'day');
+              document.documentElement.dataset.cityTheme = nextTheme;
+            } catch (e) {
+              document.documentElement.dataset.cityTheme = 'day';
+            }
+          })();
+        ` }} />
         <CityTheme>{children}</CityTheme>
       </body>
     </html>

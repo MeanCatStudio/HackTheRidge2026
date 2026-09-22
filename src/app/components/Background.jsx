@@ -23,9 +23,16 @@ export default function Background()
 {
     const { theme } = useCityTheme();
     const [reducedMotion, setReducedMotion] = useState(false);
+    const [lowPower, setLowPower] = useState(false);
     useEffect(() => {
         const query = window.matchMedia('(prefers-reduced-motion: reduce)');
         const update = () => setReducedMotion(query.matches);
+        update(); query.addEventListener('change', update);
+        return () => query.removeEventListener('change', update);
+    }, []);
+    useEffect(() => {
+        const query = window.matchMedia('(max-width: 768px), (prefers-reduced-motion: reduce)');
+        const update = () => setLowPower(query.matches);
         update(); query.addEventListener('change', update);
         return () => query.removeEventListener('change', update);
     }, []);
@@ -57,11 +64,11 @@ export default function Background()
         
         <Leva hidden={!showControls} collapsed />
         <div id="background" aria-hidden="true">
-            <Canvas dpr={[1, 1.5]} gl={{ alpha: true, antialias: true }} style={{ background: 'transparent' }}>
+            <Canvas dpr={lowPower ? [1, 1] : [1, 1.25]} gl={{ alpha: true, antialias: !lowPower }} style={{ background: 'transparent' }}>
                 <Scene reducedMotion={reducedMotion} night={theme === "night"} />
-                <EffectComposer>
+                {!lowPower && <EffectComposer>
                     <Bloom luminanceThreshold={bloom.threshold} intensity={bloom.intensity} mipmapBlur />
-                </EffectComposer>
+                </EffectComposer>}
             </Canvas>
             <div className="htr-sky-stars">
                 {skyStars.map((star) => <span key={`${star.left}-${star.top}`} style={{ left: star.left, top: star.top, animationDelay: star.delay }} />)}

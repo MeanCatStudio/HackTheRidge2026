@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useCityTheme } from "./CityTheme";
 
 const sections = [
-  ["#about", "About HTR"], ["#experience", "Build experience"],
+  ["#about", "About HTR"], ["#experience", "A Day at HTR"],
   ["#winners", "2025 Hall of Fame"], ["#history", "History"],
   ["#register", "Registration"], ["#sponsors", "Sponsors"],
   ["#team", "Team"], ["#faq", "FAQ Terminal"],

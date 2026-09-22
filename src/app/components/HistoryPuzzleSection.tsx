@@ -41,9 +41,9 @@ const communityLinks = [
 ];
 
 const historyStats = [
-  { value: 150, prefix: "", suffix: "+", label: "students built last year" },
+  { value: 150, prefix: "", suffix: "+", label: "students participated last year" },
   { value: 6, prefix: "$", suffix: "K+", label: "raised for prizes" },
-  { value: 1, prefix: "", suffix: "", label: "day of building + demos" },
+  { value: 12, prefix: "", suffix: "+", label: "hours of building" },
 ];
 
 type Point = { x: number; y: number };

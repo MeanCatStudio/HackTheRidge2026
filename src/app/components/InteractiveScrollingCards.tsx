@@ -887,9 +887,11 @@ const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ c
   const [progress, setProgress] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const scrollFrame = useRef<number | null>(null);
   const numCards = cards.length;
 
-  const handleScroll = useCallback(() => {
+  const updateProgress = useCallback(() => {
+    scrollFrame.current = null;
     const element = ref.current;
     if (element) {
       const { top, height } = element.getBoundingClientRect();
@@ -900,6 +902,12 @@ const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ c
     }
   }, []);
 
+  const handleScroll = useCallback(() => {
+    if (scrollFrame.current === null) {
+      scrollFrame.current = window.requestAnimationFrame(updateProgress);
+    }
+  }, [updateProgress]);
+
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 768);
@@ -908,13 +916,16 @@ const InteractiveScrollingCards: React.FC<InteractiveScrollingCardsProps> = ({ c
     checkMobile();
     window.addEventListener('resize', checkMobile);
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll(); 
+    updateProgress();
     
     return () => {
       window.removeEventListener('resize', checkMobile);
       window.removeEventListener('scroll', handleScroll);
+      if (scrollFrame.current !== null) {
+        window.cancelAnimationFrame(scrollFrame.current);
+      }
     };
-  }, [handleScroll]);
+  }, [handleScroll, updateProgress]);
 
   if (!cards || numCards === 0) {
     return null;

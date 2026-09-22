@@ -27,8 +27,8 @@
 .htr-event-location { display: flex; align-items: center; gap: 1rem; text-align: left; cursor: pointer; }
 .htr-event-location strong { display: block; margin-bottom: .2rem; font-size: 1.05rem; }
 .htr-event-invitation { font-size: .82rem; color: #dfd7d7; }
-.htr-register-link { display: inline-flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 3.1rem; padding: .9rem 1.6rem; border-radius: 999px; background: #afd5bc; color: #1e3159; font-weight: 800; font-size: .85rem; transition: background 180ms ease, transform 180ms ease; }
-.htr-register-link:hover { background: #dfd7d7; transform: translateY(-2px); }
+.htr-register-link { display: inline-flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 3.1rem; padding: .9rem 1.6rem; border-radius: 99px; background: #afd5bc; color: #1e3159; font-weight: 800; font-size: .85rem; transition: background 180ms ease, transform 180ms ease; }
+.htr-register-link:hover { background: background/90; transform: translateY(-2px); }
 .htr-hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; padding-top: 2rem; }
 .htr-hero-stat { display: flex; flex-direction: column-reverse; align-items: flex-start; gap: .75rem; }
 .htr-hero-stat + .htr-hero-stat { border-left: 1px solid #afd5bc33; padding-left: 2rem; }
@@ -309,6 +309,18 @@ footer { background: #3d493b !important; }
 #faq .faq-questions button:hover { background: #a3ac7830; }
 #faq .faq-terminal-window { background: #152623; border-color: #c6b48060; }
 #faq .faq-terminal-header, #faq .faq-terminal-input-row { background: #1b302b; }
+.team-card {
+  --team-glow: #afd5bc;
+  --team-night-glow: #afd5bc;
+  box-shadow: 0 0 0 0 transparent;
+  transition: box-shadow 300ms ease;
+}
+.team-card:hover {
+  box-shadow: 0 0 28px color-mix(in srgb, var(--team-glow) 58%, transparent);
+}
+[data-city-theme="night"] .team-card:hover {
+  box-shadow: 0 0 36px color-mix(in srgb, var(--team-night-glow) 72%, transparent);
+}
 .htr-hero-stat { flex-direction: column; }
 .htr-hero-stat dd { order: -1; }
 @media (max-width:767px) {

@@ -29,10 +29,10 @@ const LAST_YEAR_SPONSORS: Sponsor[] = [
   {
     id: 5,
     name: "Brock University",
-    logoUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/2560px-Brock_University_Logo_2022.svg.png",
+    logoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/1280px-Brock_University_Logo_2022.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20230630120706",
     websiteUrl: "https://brocku.ca/",
     tier: 5,
-  },
+  },  
   {
     id: 6,
     name: "Queen's University",
