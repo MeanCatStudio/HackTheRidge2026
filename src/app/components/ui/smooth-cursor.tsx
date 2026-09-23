@@ -26,8 +26,8 @@ const DefaultCursorSVG = () => (
   >
     <path
       d="M5.65376 12.3673H5.46026L5.31717 12.4976L0.500002 16.8829L0.500002 1.19841L11.7841 12.3673H5.65376Z"
-      fill="#a7c0b8"
-      stroke="#a7c0b8"
+      fill="#AFD5BC"
+      stroke="#AFD5BC"
       strokeWidth="1"
       strokeLinejoin="round"
       strokeLinecap="round"
@@ -42,7 +42,7 @@ const defaultSpringConfig: SpringConfig = {
   restDelta: 0.001,
 };
 
-// Separate config for rotation - smoother and more responsive
+
 const rotationSpringConfig: SpringConfig = {
   damping: 30,
   stiffness: 200,
@@ -70,7 +70,7 @@ export function SmoothCursor({
     const handleMouseMove = (e: MouseEvent) => {
       const { clientX, clientY } = e;
       
-      // Initialize position on first move
+      
       if (!isInitialized) {
         lastX = clientX;
         lastY = clientY;
@@ -80,13 +80,13 @@ export function SmoothCursor({
         return;
       }
       
-      // Use RAF for smoother updates
+      
       if (rafId) {
         cancelAnimationFrame(rafId);
       }
       
       rafId = requestAnimationFrame(() => {
-        // Always update position for smooth movement
+        
         mouseX.set(clientX);
         mouseY.set(clientY);
         

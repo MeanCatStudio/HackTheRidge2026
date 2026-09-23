@@ -1,40 +1,61 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Cedarville_Cursive, Share_Tech_Mono } from "next/font/google";
 import "./globals.css";
-import ClientSmoothCursor from "./components/ClientSmoothCursor";
+import "./review.css";
+import CityTheme from "./components/CityTheme";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const cedarvilleCursive = Cedarville_Cursive({
   subsets: ["latin"],
-  display: "swap",
-  fallback: ["system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "Helvetica Neue", "Arial", "sans-serif"],
+  weight: "400",
+  variable: "--font-cedarville-cursive",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const shareTechMono = Share_Tech_Mono({
   subsets: ["latin"],
-  display: "swap",
-  fallback: ["ui-monospace", "SFMono-Regular", "Menlo", "Monaco", "Consolas", "Liberation Mono", "Courier New", "monospace"],
+  weight: "400",
+  variable: "--font-share-tech-mono",
 });
 
 export const metadata: Metadata = {
-  title: "Hack The Ridge 2025",
-  description: "Hack the Ridge is where innovation meets community. We are an annual hackathon at Iroquois Ridge High School that hosts over 150+ leaders in STEM every year to innovate and push the limit of technology.",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=5",
+  metadataBase: new URL("https://hacktheridge.ca"),
+  alternates: { canonical: "/" },
+  title: "Hack The Ridge 2026",
+  applicationName: "Hack The Ridge 2026",
+  description: "Hack The Ridge 2026 is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
+  openGraph: {
+    url: "/",
+    siteName: "Hack The Ridge 2026",
+    title: "Hack The Ridge 2026",
+    description: "Hack The Ridge 2026 is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
+    type: "website",
+    images: [{ url: "/2026Logo.png", alt: "Hack The Ridge 2026 logo" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Hack The Ridge 2026",
+    description: "Hack The Ridge 2026 is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
+    images: ["/2026Logo.png"],
+  },
   icons: {
     icon: [
-      { url: '/favicon-16x16.png', sizes: '16x16', type: 'image/png' },
-      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
-      { url: '/favicon.ico', sizes: 'any' }
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-48x48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon.ico", sizes: "any" },
     ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }
-    ],
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     other: [
-      { url: '/android-chrome-192x192.png', sizes: '192x192', type: 'image/png' },
-      { url: '/android-chrome-512x512.png', sizes: '512x512', type: 'image/png' }
-    ]
-  }
+      { url: "/android-chrome-192x192.png", sizes: "192x192", type: "image/png" },
+      { url: "/android-chrome-512x512.png", sizes: "512x512", type: "image/png" },
+    ],
+  },
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
 };
 
 export default function RootLayout({
@@ -43,15 +64,21 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="w-full">
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
-      </head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased w-full min-w-full`}
-      >
-        <ClientSmoothCursor />
-        {children}
+    <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} w-full`} suppressHydrationWarning>
+      <body className="antialiased w-full min-w-full">
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              const savedTheme = localStorage.getItem('htr-city-theme');
+              const preferredDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+              const nextTheme = savedTheme === 'day' || savedTheme === 'night' ? savedTheme : (preferredDark ? 'night' : 'day');
+              document.documentElement.dataset.cityTheme = nextTheme;
+            } catch (e) {
+              document.documentElement.dataset.cityTheme = 'day';
+            }
+          })();
+        ` }} />
+        <CityTheme>{children}</CityTheme>
       </body>
     </html>
   );

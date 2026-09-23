@@ -1,432 +1,517 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import InteractiveScrollingCards, { CardData } from "./components/InteractiveScrollingCards";
-import SponsorsTitle from "./components/SponsorsTitle";
-import SponsorsGrid from "./components/SponsorsGrid";
+import {
+  ArrowRight,
+  MapPin,
+  Rocket,
+  Trophy,
+  Users,
+  Sparkles,
+  Zap,
+} from "lucide-react";
 import GradientSection from "./components/GradientSection";
-import TeamSection from "./components/TeamSection";
 import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
+import CyberWordmark from "./components/CyberWordmark";
+import Background from './components/Background';
+import SponsorsGrid from "./components/SponsorsGrid";
+import HistoryPuzzleSection from "./components/HistoryPuzzleSection";
+import TeamSection from "./components/TeamSection";
+import { openMapsForDevice } from "@/lib/maps";
 
-// Card data for the second page
-const CARDS_DATA: CardData[] = [
+const stats = [
+  { value: "150+", label: "students participated last year", icon: Users },
+  { value: "$6K+", label: "was raised for prizes", icon: Trophy },
+  { value: "12+", label: "hours of building", icon: Zap },
+];
+
+const tracks = [
   {
-    id: 1,
-    headerTitle: 'ABOUT HTR.',
-    title: 'Where Innovation Meets Community',
-    content: 'Hack the Ridge is where innovation meets community. We are an annual hackathon at Iroquois Ridge High School that hosts over 150+ leaders in STEM every year to innovate and push the limit of technology.',
-    imageUrl: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-card-green',
-    textColor: 'text-white',
+    title: "Automation + Tools",
+    body: "Build useful tools that save time, solve small problems, or make everyday tasks easier.",
   },
   {
-    id: 2,
-    headerTitle: 'HISTORY',
-    title: '500+ Past Participants',
-    content: 'Since 2019, we\'ve grown from 50 to 200+ hackers annually, creating lasting impact.',
-    imageUrl: 'https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-card-brown',
-    textColor: 'text-white',
+    title: "Climate + Community",
+    body: "Create apps that support schools, local communities, sustainability, accessibility, or wellbeing.",
   },
   {
-    id: 3,
-    headerTitle: 'Last year...',
-    title: 'Healthcare Revolution',
-    content: '2024 marked our most impactful year as 300+ innovators pushed healthcare boundaries with cutting-edge AI solutions.',
-    imageUrl: '',
-    bgColor: 'bg-[#c39c74]',
-    textColor: 'text-white',
-  },
-  {
-    id: 4,
-    headerTitle: '2025',
-    title: 'Ready to Build?',
-    content: 'Join us for our biggest event yet. Registration opens soon.',
-    imageUrl: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=2070&auto=format&fit=crop',
-    bgColor: 'bg-app-bg',
-    textColor: 'text-white',
+    title: "Web + Games",
+    body: "Design polished websites, games, visual tools, dashboards, and interactive experiences.",
   },
 ];
 
-export default function Home() {
-  const [showOldHomepage, setShowOldHomepage] = useState(false);
+const featureCards = [
+  "Start with an idea. Leave with a prototype people can actually try.",
+  "Meet builders, designers, and first time hackers in a space made for learning.",
+  "Turn blank screens into games, apps, tools, and demos with friendly support nearby.",
+  "Create something you can show in a portfolio, presentation, or future application.",
+  "Move through the day with checkpoints, feedback, mini wins, and team energy.",
+  "Celebrate every project, polished, weird, ambitious, simple, or still evolving.",
+];
 
-  if (!showOldHomepage) {
-    return (
-      <div className="w-full min-h-screen flex flex-col items-center justify-center overflow-hidden relative" style={{ backgroundColor: '#2E2E2E' }}>
-        {/* Animated grid background */}
-        <div className="absolute inset-0 opacity-5">
-          <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#D9BE6A" strokeWidth="0.5"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
+
+const winnerCards = [
+  {
+    title: "First Place",
+    image: "/winners/1.JPG",
+    icon: Trophy,
+  },
+  {
+    title: "Second Place",
+    image: "/winners/2.JPG",
+    icon: Sparkles,
+  },
+  {
+    title: "Third Place",
+    image: "/winners/3.JPG",
+    icon: Rocket,
+  },
+  {
+    title: "Best Solo",
+    image: "/winners/solo.JPG",
+    icon: Zap,
+  },
+  {
+    title: "Best Women's Team",
+    image: "/winners/Best_Womens.JPG",
+    icon: Users,
+  },
+];
+
+const gallery = [
+  "/last_year/history1.jpg",
+  "/last_year/history2.jpeg",
+  "/last_year/history3.jpg",
+  "/last_year/history4.jpg",
+  "/last_year/history5.jpg",
+  "/history%20photos/photo1.jpg",
+  "/history%20photos/photo2.jpeg",
+  "/history%20photos/photo3.jpg",
+  "/history%20photos/photo4.jpg",
+  "/history%20photos/photo5.jpeg",
+  "/history%20photos/photo6.jpg",
+  "/history%20photos/photo7.jpg",
+  "/history%20photos/photo8.jpg",
+];
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 26 },
+  visible: { opacity: 1, y: 0 },
+};
+
+const contactLinks = [
+  {
+    name: "Instagram",
+    href: "https://www.instagram.com/hacktheridge/",
+    qr: "/instagram-qr.png",
+  },
+  {
+    name: "Email",
+    href: "mailto:hacktheridge24@gmail.com",
+    qr: "/email-qr.png",
+    detail: "hacktheridge24@gmail.com",
+  },
+  {
+    name: "Discord",
+    href: "https://discord.gg/RdEwzSeN",
+    qr: "/discord-qr.png",
+  },
+];
+
+function ContactTeamModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return createPortal(
+    <div className="htr-puzzle-overlay" role="dialog" aria-modal="true" aria-label="Contact the Hack The Ridge team">
+      <div className="htr-puzzle-noise" aria-hidden="true" />
+      <div className="htr-puzzle-topbar">
+        <div>
+          <h2>Contact the team.</h2>
         </div>
+        <button type="button" onClick={onClose} className="htr-puzzle-close" aria-label="Close contact details">
+          <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
+            <path d="M6 6L18 18M18 6L6 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
+          </svg>
+        </button>
+      </div>
 
-        {/* Glow orbs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#D9BE6A]/20 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '4s' }} />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-[#D9BE6A]/15 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '5s', animationDelay: '1s' }} />
-        <div className="absolute top-1/2 right-1/3 w-80 h-80 bg-[#D9BE6A]/10 rounded-full blur-3xl animate-pulse" style={{ animationDuration: '6s', animationDelay: '2s' }} />
-        
-        <div className="flex-1 flex flex-col items-center md:items-center justify-center text-center px-4 md:px-0 z-10 relative">
-          {/* Top accent line */}
-          <motion.div
-            animate={{ scaleX: [0.5, 1, 0.5] }}
-            transition={{ duration: 3, repeat: Infinity }}
-            className="hidden md:block mb-12 h-1 bg-gradient-to-r from-transparent via-[#D9BE6A] to-transparent"
-            style={{ width: '120px' }}
-          />
+      <div className="htr-puzzle-complete is-visible" aria-live="polite">
+        <p>HTR TEAM</p>
+        <strong>Reach out anytime.</strong>
+        <div className="htr-puzzle-community-links">
+          {contactLinks.map((link) => (
+            <a
+              key={link.name}
+              href={link.href}
+              target={link.href.startsWith("http") ? "_blank" : undefined}
+              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
+              className="htr-puzzle-reveal-card"
+              aria-label={`Open Hack The Ridge ${link.name}`}
+            >
+              {link.qr ? (
+                <span className="htr-puzzle-qr-wrap">
+                  <img src={link.qr} alt={`${link.name} QR code`} />
+                </span>
+              ) : (
+                <span className="htr-puzzle-qr-wrap flex items-center justify-center border border-htr-green/25 bg-htr-blue/20 text-center text-[0.7rem] font-black uppercase tracking-[0.18em] text-htr-white">
+                  {link.name}
+                </span>
+              )}
+              <b>{link.name}</b>
+              <span className="htr-puzzle-link-hint">
+                {link.detail ?? `Open ${link.name}`}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+}
 
-          {/* Status label */}
+export default function Home() {
+  const [contactOpen, setContactOpen] = useState(false);
+
+  const addToCalendar = () => {
+    const userAgent = navigator.userAgent || "";
+    const isApple = /iPhone|iPad|iPod|Macintosh/i.test(userAgent);
+
+    if (isApple) {
+      window.location.href = "/hack-the-ridge-2026.ics";
+      return;
+    }
+
+    const googleCalendarUrl = new URL("https://calendar.google.com/calendar/render");
+    googleCalendarUrl.searchParams.set("action", "TEMPLATE");
+    googleCalendarUrl.searchParams.set("text", "Hack The Ridge 2026");
+    googleCalendarUrl.searchParams.set("dates", "20261212/20261213");
+    googleCalendarUrl.searchParams.set("location", "Iroquois Ridge High School, Oakville, Ontario");
+    googleCalendarUrl.searchParams.set("details", "Hack The Ridge 2026 hackathon.");
+    window.open(googleCalendarUrl.toString(), "_blank", "noopener,noreferrer");
+  };
+
+  const openMaps = () => {
+    openMapsForDevice("Iroquois Ridge High School, Oakville, Ontario");
+  };
+
+  return (
+    <main className="site-shell min-h-screen w-full overflow-x-hidden overflow-hidden text-htr-white">
+      <AnimatedNavbar />
+      <Background />
+
+      <section id="home" className="htr-hero relative px-5 text-htr-white sm:px-8 lg:px-12" aria-labelledby="home-title">
+        <div className="relative z-10 mx-auto w-full max-w-7xl">
+          <h1 id="home-title" className="sr-only">Hack The Ridge 2026</h1>
+          <motion.div initial="hidden" animate="visible" variants={fadeUp} transition={{ duration: 0.7 }} className="htr-hero-stage">
+            <div className="htr-hero-wordmark-wrap" aria-hidden="true">
+              <CyberWordmark variant="hero" className="mx-auto w-full" />
+            </div>
+            <div className="htr-hero-date">
+              <p className="htr-eyebrow">Hack The Ridge 2026</p>
+              <button type="button" onClick={addToCalendar} className="htr-date-link group" aria-label="December 12, 2026. Add Hack The Ridge to calendar">
+                <span className="htr-date-day">12</span>
+                <span className="htr-date-month">December<br />2026</span>
+                <span className="htr-text-link mt-5">Add to calendar <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
+              </button>
+            </div>
+          </motion.div>
+          <div className="htr-event-strip" aria-label="Quick event info">
+            <button type="button" onClick={openMaps} className="htr-event-location group" aria-label="Open Iroquois Ridge High School in Maps">
+              <MapPin className="h-5 w-5 shrink-0 text-htr-green" />
+              <span><strong>Iroquois Ridge HS</strong><span className="block text-sm text-htr-white/80">Oakville, Ontario</span></span>
+            </button>
+            <p className="htr-event-invitation">Join Hack The Ridge</p>
+            <a
+              href="#register"
+              onClick={(event) => {
+                event.preventDefault();
+                const section = document.getElementById("register");
+                section?.scrollIntoView({ behavior: "smooth", block: "start" });
+              }}
+              className="htr-register-link group"
+            >
+              Register interest <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+            </a>
+          </div>
+          <dl className="htr-hero-stats">
+            {stats.map((stat) => {
+              const Icon = stat.icon;
+              return (
+                <div key={stat.label} className="htr-hero-stat">
+                  <dt className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">{stat.label}</dt>
+                  <dd className="font-sacco text-5xl leading-none text-htr-green sm:text-6xl">{stat.value}</dd>
+                </div>
+              );
+            })}
+          </dl>
+        </div>
+      </section>
+
+      <section id="about" className="relative overflow-hidden px-5 py-24 text-htr-white sm:px-8 sm:py-28 lg:px-12 lg:py-36">
+        <div className="htr-open-content relative z-10 mx-auto max-w-7xl">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-end lg:gap-16">
+            <div>
+              <h2 className="font-sacco mt-4 max-w-3xl text-6xl font-black uppercase leading-[0.86] tracking-[0.035em] text-htr-white sm:text-7xl lg:text-8xl">
+                A day to build something of your own.
+              </h2>
+            </div>
+
+            <div className="lg:pb-2">
+              <p className="text-lg font-semibold leading-8 text-htr-white sm:text-xl">
+                Hack The Ridge is a student led hackathon at Iroquois Ridge High School in Oakville. Spend the day making a project with other students, getting help from mentors, and sharing what you built. Come with friends or meet a team here. No coding experience is required.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 text-xs font-black uppercase tracking-[0.18em] text-htr-shaded sm:text-sm">
+                <span>Beginners welcome.</span>
+                <span>All skills welcome.</span>
+                <span>Bring your curiosity.</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-14 grid border-y border-htr-green/25 md:grid-cols-3">
+            {[
+              ["Choose an idea", "Start with a problem you care about. Keep it small enough to try in a day."],
+              ["Build together", "Split the work, ask for help, and make the project better as a team."],
+              ["Share your work", "Show what you made, explain how it works, and see what other teams tried."],
+            ].map(([title, body], index) => (
+              <div
+                key={title}
+                className={`py-7 md:px-7 md:py-9 ${index > 0 ? "border-t border-htr-green/25 md:border-l md:border-t-0" : ""}`}
+              >
+                <h3 className="mt-2 text-2xl font-black text-htr-white sm:text-3xl">{title}</h3>
+                <p className="mt-3 max-w-sm text-base font-semibold leading-7 text-htr-white/85">{body}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* <div className="mt-16 grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:gap-16">
+            <div>
+              <h3 className="mt-3 max-w-lg text-4xl font-black leading-tight text-htr-white sm:text-5xl">Choose what interests you.</h3>
+            </div>
+
+            <div className="divide-y divide-htr-blue/12 border-y border-htr-green/25">
+              {tracks.map((track) => {
+                return (
+                  <div key={track.title} className="py-7 sm:py-8">
+                    <div>
+                      <h4 className="mt-1 text-2xl font-black text-htr-white sm:text-3xl">{track.title}</h4>
+                      <p className="mt-2 max-w-2xl text-base font-semibold leading-7 text-htr-white/85">{track.body}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div> */}
+        </div>
+      </section>
+
+      <section id="experience" className="relative min-h-screen overflow-hidden px-5 py-24 text-htr-white sm:px-8 sm:py-28 lg:px-12 lg:py-36">
+        <div className="htr-open-content relative z-10 mx-auto max-w-7xl">
+          <div>
+            <motion.div
+              className="max-w-3xl"
+            >
+              <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.88] tracking-[0.045em] sm:text-7xl lg:text-8xl">
+                What the day looks like.
+              </h2>
+              <p className="readable-copy readable-copy--dark mt-6 max-w-xl text-lg leading-8 text-htr-white">
+                Try a tool you have never used, work through a problem with your team, and leave with a project you can keep developing. Mentors and workshops will help along the way.
+              </p>
+            </motion.div>
+
+            <div className="metro-horizontal-wrap mt-16 sm:mt-20 lg:mt-24">
+              <div className="metro-horizontal-scroll">
+                <div className="metro-horizontal" role="list" aria-label="Hack The Ridge build experience">
+                  <div className="metro-horizontal-line" aria-hidden="true" />
+
+                  {featureCards.map((feature, index) => (
+                    <div
+                      key={feature}
+                      role="listitem"
+                      className={`metro-horizontal-stop ${index % 2 === 0 ? "metro-horizontal-stop--top" : "metro-horizontal-stop--bottom"}`}
+                    >
+                      <div className="metro-horizontal-copy">
+                        <span className="metro-horizontal-number font-sacco">
+                          {String(index + 1).padStart(2, "0")}
+                        </span>
+                        <p className="metro-horizontal-text">{feature}</p>
+                      </div>
+
+                      <div className="metro-horizontal-station" aria-hidden="true">
+                        <span className="metro-horizontal-dot" />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-20 overflow-hidden rounded-[2.2rem] border border-htr-green/20 bg-htr-white/10 p-4 shadow-2xl shadow-black/20 backdrop-blur-xl">
+            <div className="marquee-track flex gap-3">
+              {[...gallery, ...gallery].map((src, index) => (
+                <div key={`${src}-${index}`} className="relative h-48 w-72 shrink-0 overflow-hidden rounded-[1.5rem] sm:h-56 sm:w-96">
+                  <Image src={src} alt="Hack the Ridge previous event" fill sizes="(max-width: 768px) 18rem, 24rem" className="object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-htr-blue/55 to-transparent" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="winners" className="relative min-h-screen overflow-hidden px-5 py-24 text-htr-white sm:px-8 sm:py-28 lg:px-12 lg:py-36">
+        <div className="htr-open-content relative z-10 mx-auto max-w-7xl">
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="mb-8"
+            className="border-b border-htr-green/25 pb-10"
           >
-            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-[#D9BE6A]/40 bg-[#D9BE6A]/5 backdrop-blur-md">
-              <div className="w-2 h-2 rounded-full bg-[#D9BE6A] animate-pulse" />
-              <span className="text-xs uppercase tracking-widest text-[#D9BE6A]/80 font-medium">Project Status: In Development</span>
+            <div className="max-w-5xl">
+              <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.86] tracking-[0.035em] text-htr-white sm:text-7xl lg:text-8xl">
+                The 2025 winners.
+              </h2>
             </div>
           </motion.div>
 
-          {/* Main heading */}
-          <motion.div
-            initial={{ opacity: 0, y: -30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.1 }}
-            className="mb-6"
-          >
-            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A]/20 via-[#A7C0B7]/80 to-[#A7C0B7] bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Website Under
-            </h1>
-
-            <h1 className="lg:ext-7xl text-8xl md:text-8xl lg:text-9xl font-bold leading-tight tracking-tight bg-gradient-to-r from-[#D9BE6A] via-[#D9BE6A] to-[#A7C0B7]/20 bg-clip-text text-transparent" style={{ fontFamily: 'Sacco, Arial, sans-serif' }}>
-              Construction
-            </h1>
-          </motion.div>
-
-          {/* Tech badges */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-6 sm:mb-10"
-          >
-            {['2026-27 Season', 'Coming Soon'].map((badge, i) => (
-              <motion.div
-                key={badge}
-                animate={{ y: [0, -5, 0] }}
-                transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
-                className="px-2 sm:px-3 py-1 text-[10px] sm:text-xs uppercase tracking-wider font-bold rounded-full border border-[#D9BE6A]/30 bg-black/40 text-[#D9BE6A]/90"
+          <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2 xl:grid-cols-6">
+            {winnerCards.map((card, index) => {
+              return (
+              <motion.article
+                key={card.title}
+                whileHover={{ y: -8 }}
+                className={`group relative overflow-hidden ${index < 3 ? "xl:col-span-2" : "xl:col-span-3"}`}
               >
-                {badge}
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* Divider */}
-          <div className="w-20 h-px bg-gradient-to-r from-transparent via-[#D9BE6A]/50 to-transparent mb-8" />          
-
-          {/* CTA Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.9, delay: 0.4 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16"
-          >
-
-            <motion.button
-              onClick={() => setShowOldHomepage(true)}
-              whileHover={{ 
-                scale: 1.08,
-                boxShadow: '0 0 40px rgba(217, 190, 106, 0.5), inset 0 0 20px rgba(217, 190, 106, 0.1)',
-              }}
-              whileTap={{ scale: 0.95 }}
-              className="group relative px-4 py-3 sm:px-8 sm:py-4 font-bold text-sm sm:text-base md:text-lg uppercase transition-all duration-300 rounded-lg sm:rounded-xl overflow-hidden"
-              style={{
-                fontFamily: 'Sacco, Impact, Arial, sans-serif',
-                letterSpacing: '0.08em',
-                fontWeight: 700
-              }}
-            >
-              {/* Gradient background */}
-              <div className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/30 to-[#D9BE6A]/10" />
-              
-              {/* Animated glow effect on hover */}
-              <motion.div
-                className="absolute inset-0 bg-gradient-to-r from-[#D9BE6A]/20 via-transparent to-[#D9BE6A]/20"
-                animate={{ x: ['100%', '-100%'] }}
-                transition={{ duration: 2, repeat: 2, ease: "linear" }}
-                initial={{ x: '100%' }}
-              />
-
-              {/* Content */}
-              <div className="relative z-10 flex items-center justify-center gap-3 px-5">
-                <span className="text-[#A7C1BA] md:text-2xl text-lg">View Previous Year's Site</span>
-              </div>
-
-              {/* Border glow */}
-              <div className="absolute inset-0 rounded-xl border-2 border-[#D9BE6A]/0 group-hover:border-[#D9BE6A]/100 transition-all duration-300" />
-            </motion.button>
-          </motion.div>
-
-          {/* Tech specs footer */}
-          
+                <div className={`relative overflow-hidden ${index < 3 ? "aspect-[4/3]" : "aspect-[16/9]"}`}>
+                  <Image
+                    src={card.image}
+                    alt={`${card.title} winners at Hack The Ridge 2025`}
+                    fill
+                    sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 34vw"
+                    className="object-cover object-center transition duration-500 group-hover:scale-[1.035]"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/65 to-transparent px-5 pb-3 pt-5">
+                    <h3 className="winner-placement-label text-xl font-black sm:text-2xl">{card.title}</h3>
+                  </div>
+                </div>
+              </motion.article>
+              );
+            })}
+          </div>
         </div>
-      </div>
-    );
-  }
+      </section>
 
-  return (
-    <div className="bg-app-bg w-full min-w-full">
-      {/* Animated Navbar - Fixed Position */}
-      <AnimatedNavbar />
-      
-      {/* First Page - Landing Section */}
-      <div id="home" className="min-h-screen flex flex-col w-full" style={{ backgroundColor: '#2e2e2e' }}>
-        {/* Main Content */}
-        <main className="flex-1 flex items-center justify-center relative overflow-hidden px-4 sm:px-6 md:px-8">
-          <div className="text-center relative z-10">
-            {/* Main Title */}
-            <motion.h1
-              className="text-8xl sm:text-7xl md:text-9xl lg:text-[11rem] xl:text-[12rem] 2xl:text-[13rem] font-bold text-white leading-none px-2 sm:px-4"
-              style={{
-                fontFamily: 'Sacco, Arial, sans-serif',
-                letterSpacing: '0.05em'
-              }}
-              animate={{
-                textShadow: [
-                  "0 0 0px rgba(94,234,212,0)",
-                  "-4px 0 0px rgba(94,234,212,0.8), 4px 0 0px rgba(251,207,130,0.8)",
-                  "3px 0 0px rgba(94,234,212,0.8), -3px 0 0px rgba(251,207,130,0.8)",
-                  "-2px 0 0px rgba(94,234,212,0.6), 2px 0 0px rgba(251,207,130,0.6)",
-                  "2px 0 0px rgba(94,234,212,0.4), -2px 0 0px rgba(251,207,130,0.4)",
-                  "0 0 0px rgba(94,234,212,0)"
-                ]
-              }}
-              transition={{
-                duration: 0.8,
-                delay: 0.7,
-                times: [0, 0.15, 0.35, 0.6, 0.8, 1]
-              }}
-            >
-              <motion.span
-                className="inline-block"
-                initial={{ x: -150, opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  x: 0, 
-                  opacity: 1, 
-                  scale: 1,
-                }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: 0.2,
-                  ease: [0.7, 0, 0.84, 0]
-                }}
-                style={{ display: 'inline-block' }}
-              >
-                HACK THE
-              </motion.span>
-              {' '}
-              <motion.span
-                className="inline-block"
-                initial={{ x: 150, opacity: 0, scale: 0.9 }}
-                animate={{ 
-                  x: 0,
-                  opacity: 1, 
-                  scale: 1,
-                }}
-                transition={{ 
-                  duration: 0.5,
-                  delay: 0.2,
-                  ease: [0.7, 0, 0.84, 0]
-                }}
-                style={{ 
-                  display: 'inline-block',
-                  marginLeft: '0.5rem'
-                }}
-              >
-                RIDGE
-              </motion.span>
-            </motion.h1>
-            
-            {/* Date and Location - Below title */}
-            <motion.div
-              className="flex flex-col sm:flex-row justify-center sm:justify-between items-center sm:items-start w-full mt-2 sm:mt-1 md:mt-2 px-2 sm:px-4 gap-1 sm:gap-0"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.9 }}
-            >
-              {/* Date - Left aligned with HACK THE on desktop, centered on mobile */}
-              <div className="text-center sm:text-left flex-shrink-0">
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold font-impact" style={{ letterSpacing: '0.05em' }}>
-                  2025/12/06
-                </p>
+      <HistoryPuzzleSection />
+
+      <section id="register" className="relative scroll-mt-28 px-5 py-24 text-htr-white sm:px-8 sm:py-28 lg:px-12 lg:py-36">
+        <div className="htr-open-content relative mx-auto grid max-w-7xl gap-10 border-y border-htr-green/30 py-12 lg:grid-cols-[1.3fr_1fr] lg:items-center lg:gap-20 lg:py-16">
+          <div>
+            <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.95] tracking-[0.035em] sm:text-7xl lg:text-8xl">See you at the Ridge.</h2>
+          </div>
+          <div className="lg:justify-self-end">
+            <p className="max-w-md text-lg leading-8">Interested in joining us on December 12? Ask the team about registration and we will help you get started.</p>
+            <a href="mailto:hacktheridge24@gmail.com?subject=HTR%202026%20registration%20interest" className="htr-register-link mt-7" style={{ borderRadius: 99 }}>Register interest <ArrowRight className="h-5 w-5" /></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="sponsors" className="relative z-0 overflow-hidden px-5 pb-36 pt-24 text-htr-white sm:px-8 sm:pt-28 lg:px-12 lg:pb-44 lg:pt-36">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_12%,rgba(175,213,188,.15),transparent_34%),radial-gradient(circle_at_90%_32%,rgba(125,182,173,.14),transparent_32%)]" />
+        <div className="htr-open-content relative z-10 mx-auto max-w-7xl">
+          <motion.div
+            className="relative"
+          >
+            <div className="max-w-3xl">
+              <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.87] tracking-[0.035em] text-htr-white sm:text-7xl lg:text-8xl">
+                Help make HTR happen.
+              </h2>
+            </div>
+
+            <div className="relative mt-16 overflow-hidden border-y border-htr-green/20 lg:mt-20">
+              <div className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px bg-htr-green/16 lg:block" />
+
+              <div className="grid lg:grid-cols-2">
+                {[
+                  { number: "01", title: "Prizes + gear", body: "Your company can recognise students’ effort with prizes, equipment, or software they can keep using after the event. Help a first project become the start of a longer interest.", icon: Trophy },
+                  { number: "02", title: "Food + event support", body: "A meal, supplies, or help with event costs can make a real difference to a student’s day. Your support helps us keep the event free and makes more students feel welcome.", icon: Zap },
+                  { number: "03", title: "Workshops + mentors", body: "Give your team a chance to share what they know. A short workshop or time spent mentoring can help a student get unstuck and see a future in your field.", icon: Users },
+                  { number: "04", title: "Community support", body: "Build a connection with the students and schools around your business. Your support creates space for young people in Oakville to learn, meet peers, and try something new.", icon: Sparkles },
+                ].map((item, index) => {
+                  return (
+                    <div
+                      key={item.title}
+                      className={`group relative min-h-[14rem] py-8 sm:py-10 lg:p-10 ${
+                        index < 2 ? "border-b border-htr-green/16" : ""
+                      } ${index % 2 === 0 ? "lg:pr-14" : "lg:pl-14"}`}
+                    >
+                      <div className="flex items-start gap-5 sm:gap-6">
+                        
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-baseline justify-between gap-5">
+                            <h3 className="text-xl font-black tracking-[-0.02em] text-htr-white sm:text-2xl">{item.title}</h3>
+                            <span className="font-sacco text-2xl font-black tracking-[0.08em] text-htr-green/45 sm:text-3xl">{item.number}</span>
+                          </div>
+                          <p className="mt-4 max-w-md text-base font-semibold leading-7 text-htr-white/80">{item.body}</p>
+                        </div>
+                      </div>
+
+                      <div className="mt-8 h-px w-16 bg-htr-green/45 transition-all duration-300 group-hover:w-28" />
+                    </div>
+                  );
+                })}
               </div>
-              
-              {/* Location - Right aligned with RIDGE on desktop, centered on mobile */}
-              <div className="text-center sm:text-right flex-shrink-0 sm:pr-2 md:pr-4 lg:pr-6 xl:pr-8">
-                <p className="text-white text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl font-bold font-impact" style={{ letterSpacing: '0.05em' }}>
-                  Iroquois Ridge High School
-                </p>
+            </div>
+          </motion.div>
+
+          <div className="mt-12 flex flex-col gap-6 border-b border-htr-green/25 pb-10 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-htr-green">Sponsor HTR 2026</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setContactOpen(true)}
+              className="htr-register-link rounded-full"
+              style={{ borderRadius: 9999 }}
+            >
+              Contact the team
+              <ArrowRight className="h-4 w-4" />
+            </button>
+          </div>
+
+          <div className="mt-20 border-t border-htr-green/16 pt-12">
+            <div>
+              <div>
+                <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Thank you, 2025</p>
               </div>
-            </motion.div>
+            </div>
+
+            <div className="mt-10">
+              <SponsorsGrid />
+            </div>
           </div>
-          
-          {/* Wolf Logo positioned at bottom with 1/4 cut off - maintaining aspect ratio */}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-[35%] sm:translate-y-1/4 z-20">
-            <Image
-              src="/logo.png"
-              alt="Wolf Logo"
-              width={400}
-              height={400}
-              className="w-[500px] h-[500px] sm:w-[350px] sm:h-[350px] md:w-[450px] md:h-[450px] lg:w-[500px] lg:h-[500px] xl:w-[550px] xl:h-[550px] 2xl:w-[600px] 2xl:h-[600px] opacity-100 object-contain"
-              priority
-            />
-          </div>
+        </div>
+      </section>
 
-          {/* Animated Corner Images - Flying from bottom center to fixed corner positions */}
-          
-          {/* Top Left - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              left: 'clamp(2rem, 8vw, 12rem)',
-              top: 'clamp(2rem, 8vh, 9rem)',
-              transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToTopLeft 1s ease-out forwards',
-              animationDelay: '0.7s'
-            }}
-          >
-            <Image
-              src="/homepage/bubble.svg"
-              alt="Top left decoration"
-              width={100}
-              height={100}
-              className="bg-transparent"
-              style={{
-                width: 'clamp(60px, 8vw, 150px)',
-                height: 'clamp(60px, 8vw, 150px)',
-                maxWidth: 'min(12vh, 150px)',
-                maxHeight: 'min(12vh, 150px)'
-              }}
-            />
-          </div>
-
-          {/* Top Right - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              right: 'clamp(2rem, 8vw, 12rem)',
-              top: 'clamp(3rem, 10vh, 11rem)',
-              transform: 'translate(50vw, 100vh)',
-              animation: 'flyToTopRight 1s ease-out forwards',
-              animationDelay: '0.75s'
-            }}
-          >
-            <Image
-              src="/homepage/cloud.svg"
-              alt="Top right decoration"
-              width={90}
-              height={90}
-              className="bg-transparent"
-              style={{
-                width: 'clamp(55px, 7vw, 130px)',
-                height: 'clamp(55px, 7vw, 130px)',
-                maxWidth: 'min(11vh, 130px)',
-                maxHeight: 'min(11vh, 130px)'
-              }}
-            />
-          </div>
-
-          {/* Bottom Left - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              left: 'clamp(1rem, 6vw, 10rem)',
-              bottom: 'clamp(3rem, 10vh, 11rem)',
-              transform: 'translate(-50vw, 100vh)',
-              animation: 'flyToBottomLeft 1s ease-out forwards',
-              animationDelay: '0.8s'
-            }}
-          >
-            <Image
-              src="/homepage/headphones.svg"
-              alt="Bottom left decoration"
-              width={140}
-              height={140}
-              className="bg-transparent -rotate-45"
-              style={{
-                width: 'clamp(70px, 9vw, 180px)',
-                height: 'clamp(70px, 9vw, 180px)',
-                maxWidth: 'min(14vh, 180px)',
-                maxHeight: 'min(14vh, 180px)'
-              }}
-            />
-          </div>
-
-          {/* Bottom Right - Scaled with viewport height */}
-          <div
-            className="absolute z-30 hidden sm:block"
-            style={{
-              right: 'clamp(2rem, 8vw, 12rem)',
-              bottom: 'clamp(2rem, 8vh, 9rem)',
-              transform: 'translate(50vw, 100vh)',
-              animation: 'flyToBottomRight 1s ease-out forwards',
-              animationDelay: '0.85s'
-            }}
-          >
-            <Image
-              src="/homepage/usb.svg"
-              alt="Bottom right decoration"
-              width={100}
-              height={100}
-              className="bg-transparent rotate-20"
-              style={{
-                width: 'clamp(60px, 8vw, 150px)',
-                height: 'clamp(60px, 8vw, 150px)',
-                maxWidth: 'min(12vh, 150px)',
-                maxHeight: 'min(12vh, 150px)'
-              }}
-            />
-          </div>
-        </main>
-      </div>
-
-      {/* Second Page - Interactive Scrolling Cards */}
-      <div id="about" className="w-full">
-        <InteractiveScrollingCards cards={CARDS_DATA} />
-      </div>
-
-      {/* Third Page - Sponsors Section */}
-      <div id="sponsors" className="min-h-screen w-full" style={{ backgroundColor: '#2e2e2e' }}>
-        <SponsorsTitle />
-        <SponsorsGrid />
-      </div>
-
-      {/* Team Section */}
-      <div className="w-full">
-        <TeamSection />
-      </div>
-
-      {/* Gradient Section */}
-      <div id="faq" className="w-full">
-        <GradientSection />
-      </div>
-      
-
-      {/* Footer */}
-      <div className="w-full">
-        <Footer />
-      </div>
-    </div>
+      <TeamSection />
+      <GradientSection />
+      <Footer />
+      <ContactTeamModal open={contactOpen} onClose={() => setContactOpen(false)} />
+    </main>
   );
 }
