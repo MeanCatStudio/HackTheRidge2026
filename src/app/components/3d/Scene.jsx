@@ -10,9 +10,10 @@ export default function Scene({ reducedMotion = false, lowPower = false, night =
   useEffect(() => {
     const updateScrollProgress = () => {
       const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-      scrollProgress.current = scrollHeight > 0
+      const rawProgress = scrollHeight > 0
         ? document.documentElement.scrollTop / scrollHeight
         : 0;
+      scrollProgress.current = Math.max(0, Math.min(1, rawProgress));
     };
 
     updateScrollProgress();
