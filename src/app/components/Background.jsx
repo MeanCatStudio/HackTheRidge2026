@@ -76,7 +76,7 @@ export default function Background()
         <Leva hidden={!showControls} collapsed />
         <div id="background" aria-hidden="true">
             <Canvas
-                dpr={lowPower ? 1 : [1, 1.25]}
+                dpr={lowPower ? [1, 2] : [1, 1.25]}
                 gl={{ alpha: true, antialias: !lowPower, powerPreference: 'low-power' }}
                 fallback={<div className="background-fallback" />}
                 style={{ background: 'transparent' }}
