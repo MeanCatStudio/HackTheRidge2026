@@ -4,7 +4,7 @@ import Buildings from './Buildings';
 import Train from './Train';
 import Plane from './Plane';
 import StreetLife from './StreetLife';
-export default function Scene({ reducedMotion = false, night = false }) {
+export default function Scene({ reducedMotion = false, lowPower = false, night = false }) {
   const scrollProgress = useRef(0);
 
   useEffect(() => {
@@ -33,7 +33,7 @@ export default function Scene({ reducedMotion = false, night = false }) {
     <fog attach="fog" args={[night ? '#162936' : '#c5b998', 40, 170]} />
     <hemisphereLight args={[night ? '#93a8bd' : '#fff4d5', night ? '#233442' : '#867459', night ? 0.85 : 2.4]} />
     <directionalLight position={[25,45,15]} intensity={night ? 0.6 : 2.2} color={night ? '#aec9ec' : '#ffe0a3'} />
-    <Buildings night={night} /><StreetLife night={night} />
+    <Buildings lowPower={lowPower} night={night} /><StreetLife night={night} />
     <Train reducedMotion={reducedMotion} night={night} />
     <Plane reducedMotion={reducedMotion} night={night} />
     <mesh rotation={[-Math.PI / 2,0,0]} position={[0,-20,-90]}>

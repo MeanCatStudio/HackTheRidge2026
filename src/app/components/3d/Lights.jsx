@@ -2,7 +2,7 @@ import * as three from 'three';
 import { useEffect, useMemo, useRef } from "react"
 import { useControls } from 'leva';
 
-export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
+export default function Lights({ rows = 30, columes = 20, buildingMatrixes, lowPower = false })
 {
     const configs = useControls('buildingLights', {
         color: { r: 219, g: 230, b: 191 },
@@ -30,13 +30,13 @@ export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
             tempVector.setFromMatrixPosition(building);
             const side = tempVector.x > 0 ? 'right' : 'left';
 
-            switch (Math.ceil(Math.random() * 2))
+            switch (lowPower ? 2 : Math.ceil(Math.random() * 2))
             {
                 case 1: {
                     
                     function create(parent) 
                     {
-                        const stripsCount = 4;
+                        const stripsCount = lowPower ? 2 : 4;
                         const offset = 1 / (1 + stripsCount)
                         for (let i = 0; i < stripsCount; i++)
                         {
@@ -60,14 +60,19 @@ export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
 
                     function create(parent) 
                     {
-                        const stripsCount = height;
+                        const stripsCount = lowPower ? Math.min(5, Math.ceil(height / 4)) : height;
                         for (let i = 0; i < stripsCount; i++)
                         {
                             const matrix = new three.Matrix4();
 
-                            const length = Math.round(Math.pow(Math.random(), 3) * 5);
+                            const length = lowPower
+                                ? 2 + Math.round(Math.random() * 2)
+                                : Math.round(Math.pow(Math.random(), 3) * 5);
                             matrix.makeScale(length * 0.2, 0.5 / height * configs.lineThicknesMult, 1);
-                            matrix.setPosition((5 - length) * 0.1 - Math.round(Math.random() * (5 - length)) * 0.2, (height - i - 1) / height - 0.5, 0.51);
+                            const verticalPosition = lowPower
+                                ? (i + 1) / (stripsCount + 1) - 0.5
+                                : (height - i - 1) / height - 0.5;
+                            matrix.setPosition((5 - length) * 0.1 - Math.round(Math.random() * (5 - length)) * 0.2, verticalPosition, 0.51);
 
                             matrix.premultiply(parent);
                             nextMatrixs.push(matrix);
@@ -84,7 +89,7 @@ export default function Lights({ rows = 30, columes = 20, buildingMatrixes })
         }
 
         return { matrixs: nextMatrixs, count: nextCount };
-    }, [rows, columes, buildingMatrixes, configs.heightThreshould, configs.lineThicknesMult]);
+    }, [rows, columes, buildingMatrixes, lowPower, configs.heightThreshould, configs.lineThicknesMult]);
 
     const mesh = useRef();
     useEffect(() => {

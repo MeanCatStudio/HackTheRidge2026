@@ -5,15 +5,15 @@ import { useControls } from 'leva';
 import Lights from './Lights';
 import CityDetails from './CityDetails';
 
-export default function Buildings({ night = false })
+export default function Buildings({ lowPower = false, night = false })
 {
     const configs = useControls('buildings', {
         rows: { value: 20, min: 0, max: 50, step: 1 },
         columes: { value: 20, min: 0, max: 50, step: 1 },
         heightPow: { value: 5, min: 1, max: 20, step: 1 }
     })
-    const rows = configs.rows;
-    const columes = configs.columes;
+    const rows = lowPower ? Math.min(configs.rows, 14) : configs.rows;
+    const columes = lowPower ? Math.min(configs.columes, 14) : configs.columes;
 
     const mesh = useRef();
     const count = rows * columes;
@@ -58,6 +58,6 @@ export default function Buildings({ night = false })
             <meshLambertMaterial color={night ? "#72899c" : "#ffffff"} />
         </instancedMesh>
         <CityDetails buildings={matrixes} />
-        <Lights rows={rows} columes={columes} buildingMatrixes={matrixes} />
+        <Lights lowPower={lowPower} rows={rows} columes={columes} buildingMatrixes={matrixes} />
     </>
 }
