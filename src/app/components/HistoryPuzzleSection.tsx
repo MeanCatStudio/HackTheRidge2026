@@ -9,17 +9,17 @@ import {
   type CSSProperties,
   type PointerEvent as ReactPointerEvent,
 } from "react";
-import { X } from "lucide-react";
+import { X, Puzzle } from "lucide-react";
 
 const historyImages = [
-  "/last_year/history1.jpg",
-  "/last_year/history2.jpeg",
-  "/last_year/history3.jpg",
-  "/last_year/history4.jpg",
-  "/last_year/history5.jpg",
-  "/history%20photos/photo1.jpg",
-  "/history%20photos/photo2.jpeg",
-  "/history%20photos/photo3.jpg",
+  "/puzzle-photos/htr-1683.webp",
+  "/puzzle-photos/htr-1686.webp",
+  "/puzzle-photos/htr-1688.webp",
+  "/puzzle-photos/htr-1691.webp",
+  "/puzzle-photos/htr-1698.webp",
+  "/puzzle-photos/htr-1701.webp",
+  "/puzzle-photos/htr-1703.webp",
+  "/puzzle-photos/htr-1714.webp",
 ];
 
 const communityLinks = [
@@ -41,9 +41,9 @@ const communityLinks = [
 ];
 
 const historyStats = [
-  { value: 150, prefix: "", suffix: "+", label: "students participated last year" },
-  { value: 6, prefix: "$", suffix: "K+", label: "raised for prizes" },
-  { value: 12, prefix: "", suffix: "+", label: "hours of building" },
+  { value: 150, prefix: "", suffix: "", label: "students participated last year" },
+  { value: 6, prefix: "$", suffix: "K", label: "raised for prizes" },
+  { value: 12, prefix: "", suffix: "", label: "hours of building" },
 ];
 
 type Point = { x: number; y: number };
@@ -123,10 +123,13 @@ function getTargets(width: number, height: number, isMobile: boolean): Point[] {
 }
 
 function randomPieces(count: number): Piece[] {
-  return Array.from({ length: count }, () => ({
-    x: 8 + Math.random() * 84,
-    y: 17 + Math.random() * 70,
-    rotation: -22 + Math.random() * 44,
+  const mobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const cols = mobile ? 2 : 4;
+  const slots = Array.from({length: count}, (_, i) => i).sort(() => Math.random() - 0.5);
+  return Array.from({ length: count }, (_, i) => ({
+    x: mobile ? 25 + (slots[i] % cols) * 50 : 14 + (slots[i] % cols) * 24,
+    y: mobile ? 23 + Math.floor(slots[i] / cols) * 20 : 27 + Math.floor(slots[i] / cols) * 48,
+    rotation: -5 + Math.random() * 10,
     snapped: false,
   }));
 }
@@ -405,9 +408,10 @@ export default function HistoryPuzzleSection() {
                     event.preventDefault();
                     openPuzzle();
                   }}
-                  className="htr-history-puzzle-link"
+                  className="htr-history-puzzle-link htr-puzzle-launch"
+              aria-label="Piece together the HTR story" title="Piece together the HTR story"
                 >
-                  Piece together the HTR story
+                  <Puzzle size={52} strokeWidth={1.5} aria-hidden="true" />
                 </a>
               </div>
             </div>

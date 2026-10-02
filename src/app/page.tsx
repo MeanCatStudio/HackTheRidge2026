@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { createPortal } from "react-dom";
 import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
@@ -19,16 +17,13 @@ import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
 import CyberWordmark from "./components/CyberWordmark";
 import Background from './components/Background';
+import ContactTeam from "./components/ContactTeam";
 import SponsorsGrid from "./components/SponsorsGrid";
 import HistoryPuzzleSection from "./components/HistoryPuzzleSection";
 import TeamSection from "./components/TeamSection";
 import { openMapsForDevice } from "@/lib/maps";
 
-const stats = [
-  { value: "150+", label: "students participated last year", icon: Users },
-  { value: "$6K+", label: "was raised for prizes", icon: Trophy },
-  { value: "12+", label: "hours of building", icon: Zap },
-];
+
 
 const tracks = [
   {
@@ -104,109 +99,7 @@ const fadeUp = {
   visible: { opacity: 1, y: 0 },
 };
 
-const contactLinks = [
-  {
-    name: "Instagram",
-    href: "https://www.instagram.com/hacktheridge/",
-    qr: "/instagram-qr.png",
-  },
-  {
-    name: "Email",
-    href: "mailto:hacktheridge24@gmail.com",
-    qr: "/email-qr.png",
-    detail: "hacktheridge24@gmail.com",
-  },
-  {
-    name: "Discord",
-    href: "https://discord.gg/RdEwzSeN",
-    qr: "/discord-qr.png",
-  },
-];
-
-function ContactTeamModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  useEffect(() => {
-    if (!open) return;
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [open]);
-
-  if (!open) return null;
-
-  return createPortal(
-    <div className="htr-puzzle-overlay" role="dialog" aria-modal="true" aria-label="Contact the Hack The Ridge team">
-      <div className="htr-puzzle-noise" aria-hidden="true" />
-      <div className="htr-puzzle-topbar">
-        <div>
-          <h2>Contact the team.</h2>
-        </div>
-        <button type="button" onClick={onClose} className="htr-puzzle-close" aria-label="Close contact details">
-          <svg viewBox="0 0 24 24" aria-hidden="true" className="h-6 w-6">
-            <path d="M6 6L18 18M18 6L6 18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-          </svg>
-        </button>
-      </div>
-
-      <div className="htr-puzzle-complete is-visible" aria-live="polite">
-        <p>HTR TEAM</p>
-        <strong>Reach out anytime.</strong>
-        <div className="htr-puzzle-community-links">
-          {contactLinks.map((link) => (
-            <a
-              key={link.name}
-              href={link.href}
-              target={link.href.startsWith("http") ? "_blank" : undefined}
-              rel={link.href.startsWith("http") ? "noopener noreferrer" : undefined}
-              className="htr-puzzle-reveal-card"
-              aria-label={`Open Hack The Ridge ${link.name}`}
-            >
-              {link.qr ? (
-                <span className="htr-puzzle-qr-wrap">
-                  <img src={link.qr} alt={`${link.name} QR code`} />
-                </span>
-              ) : (
-                <span className="htr-puzzle-qr-wrap flex items-center justify-center border border-htr-green/25 bg-htr-blue/20 text-center text-[0.7rem] font-black uppercase tracking-[0.18em] text-htr-white">
-                  {link.name}
-                </span>
-              )}
-              <b>{link.name}</b>
-              <span className="htr-puzzle-link-hint">
-                {link.detail ?? `Open ${link.name}`}
-              </span>
-            </a>
-          ))}
-        </div>
-      </div>
-    </div>,
-    document.body,
-  );
-}
-
 export default function Home() {
-  const [contactOpen, setContactOpen] = useState(false);
-
-  const addToCalendar = () => {
-    const userAgent = navigator.userAgent || "";
-    const isApple = /iPhone|iPad|iPod|Macintosh/i.test(userAgent);
-
-    if (isApple) {
-      window.location.href = "/hack-the-ridge-2026.ics";
-      return;
-    }
-
-    const googleCalendarUrl = new URL("https://calendar.google.com/calendar/render");
-    googleCalendarUrl.searchParams.set("action", "TEMPLATE");
-    googleCalendarUrl.searchParams.set("text", "Hack The Ridge 2026");
-    googleCalendarUrl.searchParams.set("dates", "20261212/20261213");
-    googleCalendarUrl.searchParams.set("location", "Iroquois Ridge High School, Oakville, Ontario");
-    googleCalendarUrl.searchParams.set("details", "Hack The Ridge 2026 hackathon.");
-    window.open(googleCalendarUrl.toString(), "_blank", "noopener,noreferrer");
-  };
-
   const openMaps = () => {
     openMapsForDevice("Iroquois Ridge High School, Oakville, Ontario");
   };
@@ -225,11 +118,7 @@ export default function Home() {
             </div>
             <div className="htr-hero-date">
               <p className="htr-eyebrow">Hack The Ridge 2026</p>
-              <button type="button" onClick={addToCalendar} className="htr-date-link group" aria-label="December 12, 2026. Add Hack The Ridge to calendar">
-                <span className="htr-date-day">12</span>
-                <span className="htr-date-month">December<br />2026</span>
-                <span className="htr-text-link mt-5">Add to calendar <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
-              </button>
+              <div className="htr-coming-soon"><span className="htr-date-day">Coming<br />Soon</span></div>
             </div>
           </motion.div>
           <div className="htr-event-strip" aria-label="Quick event info">
@@ -239,28 +128,13 @@ export default function Home() {
             </button>
             <p className="htr-event-invitation">Join Hack The Ridge</p>
             <a
-              href="#register"
-              onClick={(event) => {
-                event.preventDefault();
-                const section = document.getElementById("register");
-                section?.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
+              href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer"
               className="htr-register-link group"
             >
-              Register interest <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+              Check Instagram for updates <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
             </a>
           </div>
-          <dl className="htr-hero-stats">
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <div key={stat.label} className="htr-hero-stat">
-                  <dt className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider">{stat.label}</dt>
-                  <dd className="font-sacco text-5xl leading-none text-htr-green sm:text-6xl">{stat.value}</dd>
-                </div>
-              );
-            })}
-          </dl>
+
         </div>
       </section>
 
@@ -400,14 +274,17 @@ export default function Home() {
                 <div className={`relative overflow-hidden ${index < 3 ? "aspect-[4/3]" : "aspect-[16/9]"}`}>
                   <Image
                     src={card.image}
-                    alt={`${card.title} winners at Hack The Ridge 2025`}
+                    alt={card.title === "Best Women's Team" ? "Women's team at Hack The Ridge 2025" : `${card.title} winners at Hack The Ridge 2025`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 34vw"
                     className="object-cover object-center transition duration-500 group-hover:scale-[1.035]"
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/65 to-transparent px-5 pb-3 pt-5">
-                    <h3 className="winner-placement-label text-xl font-black sm:text-2xl">{card.title}</h3>
-                  </div>
+                  {/* Hide the women's team award name until the correct wording is confirmed. */}
+                  {card.title !== "Best Women's Team" && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/65 to-transparent px-5 pb-3 pt-5">
+                      <h3 className="winner-placement-label text-xl font-black sm:text-2xl">{card.title}</h3>
+                    </div>
+                  )}
                 </div>
               </motion.article>
               );
@@ -424,8 +301,8 @@ export default function Home() {
             <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.95] tracking-[0.035em] sm:text-7xl lg:text-8xl">See you at the Ridge.</h2>
           </div>
           <div className="lg:justify-self-end">
-            <p className="max-w-md text-lg leading-8">Interested in joining us on December 12? Ask the team about registration and we will help you get started.</p>
-            <a href="mailto:hacktheridge24@gmail.com?subject=HTR%202026%20registration%20interest" className="htr-register-link mt-7" style={{ borderRadius: 99 }}>Register interest <ArrowRight className="h-5 w-5" /></a>
+            <p className="max-w-md text-lg leading-8">The date and registration details are coming soon. Follow us on Instagram for updates.</p>
+            <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-register-link mt-7" style={{ borderRadius: 99 }}>Check Instagram for updates <ArrowRight className="h-5 w-5" /></a>
           </div>
         </div>
       </section>
@@ -483,21 +360,13 @@ export default function Home() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-htr-green">Sponsor HTR 2026</p>
             </div>
-            <button
-              type="button"
-              onClick={() => setContactOpen(true)}
-              className="htr-register-link rounded-full"
-              style={{ borderRadius: 9999 }}
-            >
-              Contact the team
-              <ArrowRight className="h-4 w-4" />
-            </button>
+            <ContactTeam />
           </div>
 
           <div className="mt-20 border-t border-htr-green/16 pt-12">
             <div>
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Thank you, 2025</p>
+                <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Thank you, sponsors 2025</p>
               </div>
             </div>
 
@@ -511,7 +380,6 @@ export default function Home() {
       <TeamSection />
       <GradientSection />
       <Footer />
-      <ContactTeamModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </main>
   );
 }

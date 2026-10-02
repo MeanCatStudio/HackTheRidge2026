@@ -372,3 +372,88 @@ footer { background: #3d493b !important; }
 :root:not([data-city-theme="night"]) .htr-hero span { text-shadow: none !important; }
 .winner-placement-label { color: #f4f1ef; }
 :root:not([data-city-theme="night"]) .winner-placement-label { color: #F7EEDB !important; }
+
+.htr-coming-soon .htr-date-day { font-size: clamp(3.3rem, 6vw, 6.5rem); line-height: .95; }
+html, body { overflow-x: clip; overscroll-behavior-x: none; }
+.terminal-toy { color: #afd5bc; min-width: 0; margin-top: 1rem; }
+.terminal-aquarium { white-space: pre; font-family: monospace; font-size: clamp(9px, 1.8vw, 13px); line-height: 1.3; overflow: hidden; }
+.terminal-train-track { position: relative; height: 130px; overflow: hidden; }
+.terminal-train { position: absolute; white-space: pre; font: 12px/1.3 monospace; width: max-content; animation: htr-terminal-train 12s linear forwards; }
+@keyframes htr-terminal-train { from { left:100%; transform:translateX(0); } to { left:0; transform:translateX(-100%); } }
+
+/* Puzzle launcher keeps the familiar palette, with a puzzle-piece silhouette. */
+.htr-history-actions .htr-puzzle-launch { padding: 8px; border: 0; background: transparent; min-width: 68px; min-height: 68px; display: inline-flex; justify-content: center; }
+.htr-puzzle-launch svg { fill: var(--htr-green, #263e31); stroke: #c9c8ac; transition: transform .2s; }
+.htr-puzzle-launch:hover svg { transform: rotate(-10deg); }
+.htr-puzzle-launch:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
+.terminal-toy-hint { font-size: 11px; line-height: 1.6; color: #afd5bc; margin-bottom: 8px; }
+.terminal-aquarium { font: 10px/1.1 monospace; white-space: pre; letter-spacing: 0; overflow: hidden; }
+@media (max-width: 480px) { .terminal-aquarium { font-size: 9px; } }
+
+/* More room for commands and the aquarium, with intact ASCII spacing. */
+.htr-terminal-container { min-height: 0; }
+.terminal-neofetch { display: flex; flex-wrap: wrap; align-items: flex-start; gap: 1.5rem 2rem; padding: 1rem 0; min-width: 0; }
+.terminal-htr-brand { display: flex; flex-direction: column; gap: .85rem; flex-shrink: 0; color: #afd5bc; }
+.terminal-htr-art { display: block; white-space: pre; font: 700 clamp(13px, 1.2vw, 17px)/1.15 "Courier New", monospace; letter-spacing: 0; }
+.terminal-htr-caption { font-size: .7rem; font-weight: 700; letter-spacing: .22em; text-align: center; }
+.terminal-neofetch-info { flex: 1 1 240px; min-width: 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+
+
+/* Brief recurring invitation to open the history puzzle. */
+.htr-puzzle-launch svg { transform-origin: center; animation: htr-puzzle-wiggle 4.5s ease-in-out infinite; }
+.htr-puzzle-launch:hover svg, .htr-puzzle-launch:focus-visible svg { animation: none; transform: rotate(-10deg) scale(1.06); }
+@keyframes htr-puzzle-wiggle {
+  0%, 20%, 100% { transform: rotate(0); }
+  4%, 12% { transform: rotate(-9deg); }
+  8%, 16% { transform: rotate(9deg); }
+}
+html, body { max-width: 100%; overflow-x: hidden; }
+@supports (overflow: clip) { html, body { overflow-x: clip; } }
+.faq-terminal-window, .faq-terminal-input-row { min-width: 0; max-width: 100%; }
+.faq-terminal-input-row input { width: 0; }
+@media (prefers-reduced-motion: reduce) { .htr-puzzle-launch svg { animation: none; } }
+
+/* Stable terminal dimensions and readable command output. */
+.htr-terminal-container { height: 420px; }
+@media (max-width: 767px) { .htr-terminal-container { height: 520px; } }
+#faq .terminal-output { color: #edf4ed; font-size: 15px; line-height: 1.6; }
+#faq .terminal-lines { grid-template-columns: minmax(0, 1fr); gap: .5rem; font-size: inherit; line-height: inherit; }
+#faq [data-terminal-entry] { min-width: 0; max-width: 100%; }
+#faq .terminal-lines[hidden] { display: none; }
+#faq .terminal-line { display: block; white-space: pre-wrap; overflow-wrap: anywhere; }
+#faq .terminal-neofetch { gap: 1rem 1.5rem; padding: .4rem 0; }
+#faq .terminal-htr-art { font: 14px/1.2 "Courier New", monospace; }
+#faq .terminal-neofetch-info { flex-basis: 200px; }
+#faq .terminal-tux-art { font: 15px/1.15 "Courier New", monospace; }
+#faq .terminal-boot { min-width: 0; max-width: 100%; align-items: center; }
+#faq .terminal-boot-tux { align-items: center; }
+#faq .faq-terminal-input-row { flex-shrink: 0; }
+#faq .faq-terminal-input-row input,
+#faq .faq-terminal-input-row input:focus,
+#faq .faq-terminal-input-row input:focus-visible {
+  outline: none; box-shadow: none; border: 0; border-radius: 0;
+  background: transparent; caret-color: #afd5bc;
+}
+#faq .terminal-output-toy { display: flex; overflow: hidden; padding: 12px; }
+#faq .terminal-toy-stage { flex: 1; min-width: 0; min-height: 0; }
+#faq .terminal-toy { display: flex; flex-direction: column; width: 100%; height: 100%; min-height: 0; margin: 0; }
+#faq .terminal-toy-hint { flex-shrink: 0; font-size: 12px; line-height: 1.5; margin: 0 0 8px; }
+#faq .terminal-aquarium {
+  flex: 1; min-width: 0; min-height: 0; width: 100%; margin: 0; padding: 0;
+  font: 12px/14px "Courier New", monospace; letter-spacing: 0; white-space: pre; overflow: hidden;
+}
+#faq .terminal-train-track { flex: 1; min-height: 0; height: auto; display: flex; align-items: center; }
+#faq .terminal-train { font: 12px/1.2 "Courier New", monospace; }
+@media (max-width: 767px) {
+  #faq .terminal-output { font-size: 14px; line-height: 1.5; }
+  #faq .terminal-boot { grid-template-columns: minmax(0, 1fr) auto; gap: 12px; }
+  #faq .terminal-faq-word { font-size: clamp(2rem, 9vw, 3.5rem); }
+  #faq .terminal-faq-node, #faq .terminal-tux-caption { font-size: 11px; }
+  #faq .terminal-tux-art { font-size: 11px; }
+  #faq .terminal-htr-art { font-size: 10px; line-height: 12px; }
+  #faq .terminal-htr-brand { gap: 4px; }
+  #faq .terminal-htr-caption { font-size: 9px; }
+  #faq .terminal-neofetch { gap: 8px; }
+  #faq .terminal-aquarium { font-size: 11px; line-height: 13px; }
+  #faq .terminal-train { font-size: 10px; }
+}
