@@ -8,8 +8,8 @@ import { useCityTheme } from "./CityTheme";
 const sections = [
   ["#about", "About HTR"], ["#experience", "A Day at HTR"],
   ["#winners", "2025 Hall of Fame"], ["#history", "History"],
-  ["#register", "Registration"], ["#sponsors", "Sponsors"],
-  ["#team", "Team"], ["#faq", "FAQ Terminal"],
+  ["#register", "Updates"], ["#sponsors", "Sponsors"],
+  ["#team", "Team"], ["#faq", "FAQ"],
 ];
 
 export default function AnimatedNavbar() {
@@ -41,7 +41,7 @@ export default function AnimatedNavbar() {
         </Link>
         <nav className="city-header-actions" aria-label="Main navigation">
           <button className="city-theme-toggle" type="button" aria-label="Night mode" aria-pressed={theme === "night"} onClick={toggleTheme}><span className="city-theme-orb" aria-hidden="true" />{theme === "night" ? "Night" : "Day"}</button>
-          <Link href="#register" className="city-register" onClick={() => setOpen(false)}>Register</Link>
+          <Link href="#register" className="city-register" onClick={() => setOpen(false)}>Updates</Link>
           <button ref={toggle} type="button" aria-expanded={open} aria-controls="city-navigation" onClick={() => setOpen(!open)}>
             {open ? "Close" : "Explore"}<span aria-hidden="true">{open ? "−" : "+"}</span>
           </button>

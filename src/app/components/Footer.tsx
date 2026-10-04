@@ -6,7 +6,7 @@ import { Instagram, Mail, MapPin, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { name: "About", href: "#about" },
-  { name: "Register", href: "#register" },
+  { name: "Updates", href: "#register" },
   { name: "Sponsors", href: "#sponsors" },
   { name: "Team", href: "#team" },
   { name: "FAQ", href: "#faq" },
@@ -62,7 +62,7 @@ export default function Footer() {
                 className="flex items-start gap-3 text-sm font-semibold text-htr-white/82 transition hover:text-htr-green"
               >
                 <Mail className="mt-0.5 h-5 w-5 shrink-0 text-htr-green" />
-                <span>hacktheridge24@gmail.com</span>
+                <span>hi@hacktheridge.ca</span>
               </a>
 
               <a

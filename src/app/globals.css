@@ -60,12 +60,14 @@
 html {
   scroll-behavior: smooth;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
 }
 
 body {
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: clip;
+  overscroll-behavior-x: none;
   background: #000;
 }
 
@@ -2205,8 +2207,8 @@ p[class*="text-[#1E3159]/75"] {
 
 @media (max-width: 767px) {
   .metro-horizontal-scroll {
-    margin-right: -1.25rem;
-    padding-right: 1.25rem;
+    max-width: 100%;
+    overscroll-behavior-x: contain;
   }
 
   .metro-horizontal {
