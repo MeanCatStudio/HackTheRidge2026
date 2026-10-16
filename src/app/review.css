@@ -29,6 +29,9 @@
 .htr-event-invitation { font-size: .82rem; color: #dfd7d7; }
 .htr-register-link { display: inline-flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 3.1rem; padding: .9rem 1.6rem; border-radius: 99px; background: #afd5bc; color: #1e3159; font-weight: 800; font-size: .85rem; transition: background 180ms ease, transform 180ms ease; }
 .htr-register-link:hover { background: background/90; transform: translateY(-2px); }
+.htr-interest-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.75rem; }
+.htr-instagram-updates { display: inline-flex; align-items: center; gap: .5rem; min-height: 3.1rem; font-size: .875rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.htr-instagram-updates:hover { text-decoration-thickness: 2px; }
 .htr-hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; padding-top: 2rem; }
 .htr-hero-stat { display: flex; flex-direction: column-reverse; align-items: flex-start; gap: .75rem; }
 .htr-hero-stat + .htr-hero-stat { border-left: 1px solid #afd5bc33; padding-left: 2rem; }

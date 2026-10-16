@@ -22,6 +22,7 @@ import SponsorsGrid from "./components/SponsorsGrid";
 import HistoryPuzzleSection from "./components/HistoryPuzzleSection";
 import TeamSection from "./components/TeamSection";
 import { openMapsForDevice } from "@/lib/maps";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 
 
@@ -302,7 +303,10 @@ export default function Home() {
           </div>
           <div className="lg:justify-self-end">
             <p className="max-w-md text-lg leading-8">The date and registration details are coming soon. Follow us on Instagram for updates.</p>
-            <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-register-link mt-7" style={{ borderRadius: 99 }}>Check Instagram for updates <ArrowRight className="h-5 w-5" /></a>
+            <div className="htr-interest-actions">
+              <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates">Check Instagram for updates <ArrowRight className="h-4 w-4 shrink-0" /></a>
+              <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested <ArrowRight className="h-5 w-5 shrink-0" /></a>
+            </div>
           </div>
         </div>
       </section>
