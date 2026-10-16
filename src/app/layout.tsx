@@ -19,22 +19,22 @@ const shareTechMono = Share_Tech_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://hacktheridge.ca"),
   alternates: { canonical: "/" },
-  title: "Hack The Ridge 2026",
-  applicationName: "Hack The Ridge 2026",
-  description: "Hack The Ridge 2026 is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
+  title: "Hack The Ridge",
+  applicationName: "Hack The Ridge",
+  description: "Hack The Ridge is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
   openGraph: {
     url: "/",
-    siteName: "Hack The Ridge 2026",
-    title: "Hack The Ridge 2026",
-    description: "Hack The Ridge 2026 is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
+    siteName: "Hack The Ridge",
+    title: "Hack The Ridge",
+    description: "Hack The Ridge is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
     type: "website",
-    images: [{ url: "/2026Logo.png", alt: "Hack The Ridge 2026 logo" }],
+    images: [{ url: "/social-preview-2026.png", width: 1200, height: 630, alt: "Hack The Ridge" }],
   },
   twitter: {
-    card: "summary",
-    title: "Hack The Ridge 2026",
-    description: "Hack The Ridge 2026 is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
-    images: ["/2026Logo.png"],
+    card: "summary_large_image",
+    title: "Hack The Ridge",
+    description: "Hack The Ridge is a student led hackathon at Iroquois Ridge High School in Oakville, Ontario.",
+    images: ["/social-preview-2026.png"],
   },
   icons: {
     icon: [
@@ -66,7 +66,18 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cedarvilleCursive.variable} ${shareTechMono.variable} w-full`} suppressHydrationWarning>
       <body className="antialiased w-full min-w-full">
-        <script dangerouslySetInnerHTML={{ __html: "try{document.documentElement.dataset.cityTheme=localStorage.getItem('htr-city-theme')==='night'?'night':'day'}catch(e){document.documentElement.dataset.cityTheme='day'}" }} />
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function() {
+            try {
+              const savedTheme = localStorage.getItem('htr-city-theme');
+              const preferredDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+              const nextTheme = savedTheme === 'day' || savedTheme === 'night' ? savedTheme : (preferredDark ? 'night' : 'day');
+              document.documentElement.dataset.cityTheme = nextTheme;
+            } catch (e) {
+              document.documentElement.dataset.cityTheme = 'day';
+            }
+          })();
+        ` }} />
         <CityTheme>{children}</CityTheme>
       </body>
     </html>

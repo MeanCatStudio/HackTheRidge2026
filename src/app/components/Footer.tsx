@@ -6,7 +6,7 @@ import { Instagram, Mail, MapPin, MessageCircle } from "lucide-react";
 
 const quickLinks = [
   { name: "About", href: "#about" },
-  { name: "Register", href: "#register" },
+  { name: "Updates", href: "#register" },
   { name: "Sponsors", href: "#sponsors" },
   { name: "Team", href: "#team" },
   { name: "FAQ", href: "#faq" },

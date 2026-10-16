@@ -17,16 +17,14 @@ import AnimatedNavbar from "./components/AnimatedNavbar";
 import Footer from "./components/Footer";
 import CyberWordmark from "./components/CyberWordmark";
 import Background from './components/Background';
+import ContactTeam from "./components/ContactTeam";
 import SponsorsGrid from "./components/SponsorsGrid";
 import HistoryPuzzleSection from "./components/HistoryPuzzleSection";
 import TeamSection from "./components/TeamSection";
 import { openMapsForDevice } from "@/lib/maps";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
-const stats = [
-  { value: "150+", label: "students built last year", icon: Users },
-  { value: "$6K+", label: "was raised for prizes", icon: Trophy },
-  { value: "1", label: "day turned into demo time", icon: Zap },
-];
+
 
 const tracks = [
   {
@@ -103,24 +101,6 @@ const fadeUp = {
 };
 
 export default function Home() {
-  const addToCalendar = () => {
-    const userAgent = navigator.userAgent || "";
-    const isApple = /iPhone|iPad|iPod|Macintosh/i.test(userAgent);
-
-    if (isApple) {
-      window.location.href = "/hack-the-ridge-2026.ics";
-      return;
-    }
-
-    const googleCalendarUrl = new URL("https://calendar.google.com/calendar/render");
-    googleCalendarUrl.searchParams.set("action", "TEMPLATE");
-    googleCalendarUrl.searchParams.set("text", "Hack The Ridge 2026");
-    googleCalendarUrl.searchParams.set("dates", "20261212/20261213");
-    googleCalendarUrl.searchParams.set("location", "Iroquois Ridge High School, Oakville, Ontario");
-    googleCalendarUrl.searchParams.set("details", "Hack The Ridge 2026 hackathon.");
-    window.open(googleCalendarUrl.toString(), "_blank", "noopener,noreferrer");
-  };
-
   const openMaps = () => {
     openMapsForDevice("Iroquois Ridge High School, Oakville, Ontario");
   };
@@ -139,11 +119,7 @@ export default function Home() {
             </div>
             <div className="htr-hero-date">
               <p className="htr-eyebrow">Hack The Ridge 2026</p>
-              <button type="button" onClick={addToCalendar} className="htr-date-link group" aria-label="December 12, 2026. Add Hack The Ridge to calendar">
-                <span className="htr-date-day">12</span>
-                <span className="htr-date-month">December<br />2026</span>
-                <span className="htr-text-link mt-5">Add to calendar <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></span>
-              </button>
+              <div className="htr-coming-soon"><span className="htr-date-day">Coming<br />Soon</span></div>
             </div>
           </motion.div>
           <div className="htr-event-strip" aria-label="Quick event info">
@@ -152,19 +128,14 @@ export default function Home() {
               <span><strong>Iroquois Ridge HS</strong><span className="block text-sm text-htr-white/80">Oakville, Ontario</span></span>
             </button>
             <p className="htr-event-invitation">Join Hack The Ridge</p>
-            <Link href="#register" className="htr-register-link group">Register interest <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" /></Link>
+            <a
+              href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer"
+              className="htr-register-link group"
+            >
+              Check Instagram for updates <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+            </a>
           </div>
-          <dl className="htr-hero-stats">
-            {stats.map((stat) => {
-              const Icon = stat.icon;
-              return (
-                <div key={stat.label} className="htr-hero-stat">
-                  <dt className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider"><Icon className="h-4 w-4 shrink-0 text-htr-green" />{stat.label}</dt>
-                  <dd className="font-sacco text-5xl leading-none text-htr-green sm:text-6xl">{stat.value}</dd>
-                </div>
-              );
-            })}
-          </dl>
+
         </div>
       </section>
 
@@ -205,7 +176,7 @@ export default function Home() {
             ))}
           </div>
 
-          <div className="mt-16 grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:gap-16">
+          {/* <div className="mt-16 grid gap-10 lg:grid-cols-[0.62fr_1.38fr] lg:gap-16">
             <div>
               <h3 className="mt-3 max-w-lg text-4xl font-black leading-tight text-htr-white sm:text-5xl">Choose what interests you.</h3>
             </div>
@@ -222,7 +193,7 @@ export default function Home() {
                 );
               })}
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 
@@ -295,32 +266,26 @@ export default function Home() {
 
           <div className="mt-10 grid gap-x-8 gap-y-12 md:grid-cols-2 xl:grid-cols-6">
             {winnerCards.map((card, index) => {
-              const Icon = card.icon;
               return (
               <motion.article
                 key={card.title}
                 whileHover={{ y: -8 }}
                 className={`group relative overflow-hidden ${index < 3 ? "xl:col-span-2" : "xl:col-span-3"}`}
               >
-                <div className="relative aspect-[4/3] overflow-hidden">
+                <div className={`relative overflow-hidden ${index < 3 ? "aspect-[4/3]" : "aspect-[16/9]"}`}>
                   <Image
                     src={card.image}
-                    alt={`${card.title} winners at Hack The Ridge 2025`}
+                    alt={card.title === "Best Women's Team" ? "Women's team at Hack The Ridge 2025" : `${card.title} winners at Hack The Ridge 2025`}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 34vw"
                     className="object-cover object-center transition duration-500 group-hover:scale-[1.035]"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/5 to-transparent" />
-                </div>
-
-                <div className="relative py-6">
-                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-htr-green via-htr-white to-htr-shaded" />
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-htr-green text-htr-blue shadow-lg shadow-htr-green/15 transition duration-300 group-hover:rotate-6 group-hover:scale-105">
-                      <Icon className="h-5 w-5" />
+                  {/* Hide the women's team award name until the correct wording is confirmed. */}
+                  {card.title !== "Best Women's Team" && (
+                    <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/65 to-transparent px-5 pb-3 pt-5">
+                      <h3 className="winner-placement-label text-xl font-black sm:text-2xl">{card.title}</h3>
                     </div>
-                  </div>
-                  <h3 className="mt-5 text-3xl font-black text-htr-white">{card.title}</h3>
+                  )}
                 </div>
               </motion.article>
               );
@@ -337,8 +302,11 @@ export default function Home() {
             <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.95] tracking-[0.035em] sm:text-7xl lg:text-8xl">See you at the Ridge.</h2>
           </div>
           <div className="lg:justify-self-end">
-            <p className="max-w-md text-lg leading-8">Interested in joining us on December 12? Ask the team about registration and we will help you get started.</p>
-            <a href="mailto:hi@hacktheridge.ca?subject=HTR%202026%20registration%20interest" className="htr-register-link mt-7">Register interest <ArrowRight className="h-5 w-5" /></a>
+            <p className="max-w-md text-lg leading-8">Interested in joining us? Fill out our interest form. The date and registration details are coming soon.</p>
+            <div className="htr-interest-actions">
+              <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates">Check Instagram for updates <ArrowRight className="h-4 w-4 shrink-0" /></a>
+              <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested <ArrowRight className="h-5 w-5 shrink-0" /></a>
+            </div>
           </div>
         </div>
       </section>
@@ -365,7 +333,6 @@ export default function Home() {
                   { number: "03", title: "Workshops + mentors", body: "Give your team a chance to share what they know. A short workshop or time spent mentoring can help a student get unstuck and see a future in your field.", icon: Users },
                   { number: "04", title: "Community support", body: "Build a connection with the students and schools around your business. Your support creates space for young people in Oakville to learn, meet peers, and try something new.", icon: Sparkles },
                 ].map((item, index) => {
-                  const Icon = item.icon;
                   return (
                     <div
                       key={item.title}
@@ -374,9 +341,7 @@ export default function Home() {
                       } ${index % 2 === 0 ? "lg:pr-14" : "lg:pl-14"}`}
                     >
                       <div className="flex items-start gap-5 sm:gap-6">
-                        <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-htr-green/30 bg-htr-green/10 text-htr-green backdrop-blur-md">
-                          <Icon className="h-6 w-6" />
-                        </div>
+                        
 
                         <div className="min-w-0 flex-1">
                           <div className="flex items-baseline justify-between gap-5">
@@ -399,16 +364,13 @@ export default function Home() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-htr-green">Sponsor HTR 2026</p>
             </div>
-            <Link href="#contact" className="button-shine inline-flex shrink-0 items-center justify-center rounded-full bg-htr-green px-6 py-3.5 text-xs font-black uppercase tracking-[0.18em] text-htr-blue transition hover:-translate-y-1">
-              Contact the team
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Link>
+            <ContactTeam />
           </div>
 
           <div className="mt-20 border-t border-htr-green/16 pt-12">
             <div>
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Thank you, 2025</p>
+                <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Thank you, sponsors 2025</p>
               </div>
             </div>
 

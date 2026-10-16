@@ -33,13 +33,14 @@ export default function Train({ reducedMotion = false, night = false }) {
   useFrame((_, delta) => {
     if (!train.current || reducedMotion || document.hidden) return;
     travel.current += Math.min(delta, 0.1) * 3.2;
-    train.current.position.x = ((travel.current + 106) % 240) - 120;
+    if (travel.current >= 240) travel.current = 0;
+    train.current.position.x = travel.current - 120;
   });
   return <group position={[0,-5.2,-26]}>
     <DetailInstances parts={trackDetails} />
     <Part position={[0,-1.45,0]} size={[240,0.5,3.6]} color="#867b67" />
     {[-1.1,1.1].map(z=><Part key={z} position={[0,-1.08,z]} size={[240,0.14,0.15]} color="#bdb9a7" />)}
-    {Array.from({length:25},(_,i)=><Part key={i} position={[(i-12)*10,-10.5,0]} size={[0.75,17.6,1.4]} color="#887e6e" />)}
+    {Array.from({length:25},(_,i)=><Part key={i} position={[(i-12)*10-5,-10.5,0]} size={[0.75,17.6,1.4]} color="#887e6e" />)}
     <group ref={train} position={[-14,0,0]}>
       {[0,1,2,3].map(car=><group key={car} position={[-car*7,0,0]}>
         <Part position={[0,0.28,0]} size={[6.5,2.05,2.5]} radius={0.48} color="#f2e7cb" />

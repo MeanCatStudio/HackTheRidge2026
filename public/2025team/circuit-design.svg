@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Circuit pattern">
+<defs>
+<linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1E3159"/><stop offset="1" stop-color="#7DB6AD"/></linearGradient>
+<radialGradient id="r" cx="50%" cy="40%" r="70%"><stop stop-color="#AFD5BC" stop-opacity="0.35"/><stop offset="1" stop-color="#1E3159" stop-opacity="0"/></radialGradient>
+</defs>
+<rect width="128" height="128" rx="20" fill="#1E3159"/>
+<rect width="128" height="128" rx="20" fill="url(#g)" opacity="0.34"/>
+<rect width="128" height="128" rx="20" fill="url(#r)"/>
+<g fill="none" stroke="#AFD5BC" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.92">
+<path d="M12 32 H54 L74 52 H118" />
+<path d="M28 78 H82 L96 94 H122" />
+<path d="M50 16 V64 H88 V112" />
+</g>
+<g fill="#dfd7d7" opacity="0.92">
+<circle cx="54" cy="32" r="4.5" />
+<circle cx="74" cy="52" r="4.5" />
+<circle cx="82" cy="78" r="4.5" />
+<circle cx="96" cy="94" r="4.5" />
+<circle cx="50" cy="64" r="4.5" />
+</g>
+<g fill="#AFD5BC" opacity="0.5">
+<circle cx="17" cy="49" r="2" />
+<circle cx="29" cy="21" r="2" />
+<circle cx="85" cy="23" r="2" />
+<circle cx="55" cy="103" r="2" />
+<circle cx="117" cy="81" r="2" />
+</g>
+<path d="M-20 122 C28 94 70 148 148 102" fill="none" stroke="#dfd7d7" stroke-opacity="0.18" stroke-width="18"/>
+</svg>
