@@ -302,7 +302,7 @@ export default function Home() {
             <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.95] tracking-[0.035em] sm:text-7xl lg:text-8xl">See you at the Ridge.</h2>
           </div>
           <div className="lg:justify-self-end">
-            <p className="max-w-md text-lg leading-8">Interested in joining us? Fill out our interest form. The date and registration details are coming soon.</p>
+            <p className="max-w-md text-lg leading-8">The date and registration details are coming soon. Follow us on Instagram for updates.</p>
             <div className="htr-interest-actions">
               <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates">Check Instagram for updates <ArrowRight className="h-4 w-4 shrink-0" /></a>
               <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested <ArrowRight className="h-5 w-5 shrink-0" /></a>
