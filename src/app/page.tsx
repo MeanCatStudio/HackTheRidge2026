@@ -4,7 +4,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
-  ArrowRight,
   MapPin,
   Rocket,
   Trophy,
@@ -22,6 +21,7 @@ import SponsorsGrid from "./components/SponsorsGrid";
 import HistoryPuzzleSection from "./components/HistoryPuzzleSection";
 import TeamSection from "./components/TeamSection";
 import { openMapsForDevice } from "@/lib/maps";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 
 
@@ -128,10 +128,10 @@ export default function Home() {
             </button>
             <p className="htr-event-invitation">Join Hack The Ridge</p>
             <a
-              href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer"
-              className="htr-register-link group"
+              href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer"
+              className="htr-register-link"
             >
-              Check Instagram for updates <ArrowRight className="h-5 w-5 transition group-hover:translate-x-1" />
+              I’m interested
             </a>
           </div>
 
@@ -301,8 +301,11 @@ export default function Home() {
             <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.95] tracking-[0.035em] sm:text-7xl lg:text-8xl">See you at the Ridge.</h2>
           </div>
           <div className="lg:justify-self-end">
-            <p className="max-w-md text-lg leading-8">The date and registration details are coming soon. Follow us on Instagram for updates.</p>
-            <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-register-link mt-7" style={{ borderRadius: 99 }}>Check Instagram for updates <ArrowRight className="h-5 w-5" /></a>
+            <p className="max-w-md text-lg leading-8">Interested in joining us? Fill out our interest form. The date and registration details are coming soon.</p>
+            <div className="htr-interest-actions">
+              <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates"><span>Check Instagram for updates</span></a>
+              <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested</a>
+            </div>
           </div>
         </div>
       </section>
