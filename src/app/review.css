@@ -30,8 +30,10 @@
 .htr-register-link { display: inline-flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 3.1rem; padding: .9rem 1.6rem; border-radius: 99px; background: #afd5bc; color: #1e3159; font-weight: 800; font-size: .85rem; transition: background 180ms ease, transform 180ms ease; }
 .htr-register-link:hover { background: background/90; transform: translateY(-2px); }
 .htr-interest-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.75rem; }
-.htr-instagram-updates { display: inline-flex; align-items: center; gap: .5rem; min-height: 3.1rem; font-size: .875rem; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
-.htr-instagram-updates:hover { text-decoration-thickness: 2px; }
+.htr-interest-actions .htr-register-link { width: auto; }
+.htr-instagram-updates { display: inline-flex; flex: 0 0 8.25rem; align-items: center; justify-content: center; width: 8.25rem; height: 8.25rem; padding: 1rem; border: 1px solid currentColor; border-radius: 50%; font-size: .875rem; line-height: 1.4; font-weight: 600; text-align: center; transition: background 180ms ease; }
+.htr-instagram-updates span { max-width: 6rem; }
+.htr-instagram-updates:hover { background: color-mix(in srgb, currentColor 10%, transparent); }
 .htr-hero-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2rem; padding-top: 2rem; }
 .htr-hero-stat { display: flex; flex-direction: column-reverse; align-items: flex-start; gap: .75rem; }
 .htr-hero-stat + .htr-hero-stat { border-left: 1px solid #afd5bc33; padding-left: 2rem; }
