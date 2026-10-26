@@ -366,10 +366,10 @@ export default function Home() {
             <ContactTeam />
           </div>
 
-          <div className="mt-20 border-t border-htr-green/16 pt-12">
+          <div className="mt-20 border-htr-green/16 ">
             <div>
               <div>
-                <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Thank you, sponsors 2025</p>
+                <p className="text-sm font-black uppercase tracking-[0.35em] text-htr-green">Thank you, sponsors 2026</p>
               </div>
             </div>
 

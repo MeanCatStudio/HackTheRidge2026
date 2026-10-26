@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { element } from "three/tsl";
+import { twMerge } from "tailwind-merge";
 
 export interface Sponsor {
   id: number;
@@ -109,87 +110,82 @@ const LAST_YEAR_SPONSORS: Sponsor[] = [
 const CURRENT_YEAR_SPONSORS: Sponsor[] = [
     {
         id: 1,
-        name: "trailblazer sponsor",
-        logoUrl: LAST_YEAR_SPONSORS[Math.floor(Math.random() * LAST_YEAR_SPONSORS.length)].logoUrl,
-        websiteUrl: "https://www.dm-ind.com/main/",
+        name: "Emkal",
+        //logoUrl: "https://www.emkal.ca/wp-content/uploads/2019/08/emkal-logo-1.png", Alt
+        logoUrl: "https://www.dillonr.ca/user/pages/images/emkal.png",
+        websiteUrl: "https://www.emkal.ca/",
         tier: 1,
     },
     {
         id: 2,
-        name: "visionary sponsor",
-        logoUrl: LAST_YEAR_SPONSORS[Math.floor(Math.random() * LAST_YEAR_SPONSORS.length)].logoUrl,
-        websiteUrl: "https://www.dm-ind.com/main/",
-        tier: 2,
+        name: "Brock University",
+        logoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/1280px-Brock_University_Logo_2022.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20230630120706",
+        websiteUrl: "https://brocku.ca/",
+        tier: 5,
     },
     {
         id: 3,
-        name: "pioneer sponsor",
-        logoUrl: LAST_YEAR_SPONSORS[Math.floor(Math.random() * LAST_YEAR_SPONSORS.length)].logoUrl,
-        websiteUrl: "https://www.dm-ind.com/main/",
-        tier: 3,
-    },
-    {
-        id: 4,
-        name: "catalyst sponsor",
-        logoUrl: LAST_YEAR_SPONSORS[Math.floor(Math.random() * LAST_YEAR_SPONSORS.length)].logoUrl,
-        websiteUrl: "https://www.dm-ind.com/main/",
-        tier: 4,
-    },
-    {
-        id: 5,
-        name: "torchbearer sponsor",
-        logoUrl: LAST_YEAR_SPONSORS[Math.floor(Math.random() * LAST_YEAR_SPONSORS.length)].logoUrl,
-        websiteUrl: "https://www.dm-ind.com/main/",
+        name: "Art of Problem Solving",
+        logoUrl: "https://artofproblemsolving.com/assets/images/logos/aops-online.svg",
+        websiteUrl: "https://artofproblemsolving.com/",
         tier: 5,
     }
 ];
 
 
-function SponserCard({ sponsor }: { sponsor: Sponsor })
+function SponserCard({ sponsor, className = "" }: { sponsor: Sponsor, className: string })
 {
   const styling = [
     {
-      root: "flex h-42 items-center justify-center border-10 rounded-full m-1",
-      middle: "flex h-full w-full items-center justify-center border-10 rounded-full",
+      root: "flex h-52 items-center justify-center border-10 rounded-full m-1 group",
+      middle: "flex h-full w-full items-center justify-center border-10 rounded-full group",
       outerBorder: '#1e3159',
       innerBorder: '#3f7972',
-      background: '#afd5bc',
-      imageSize: 30
+      background: '#afd5bc'
     },
     {
-      root: "flex h-30 items-center justify-center border-10 rounded-full m-1",
+      root: "flex h-30 items-center justify-center border-10 rounded-full m-1 group",
       outerBorder: '#547a71',
-      background: '#f8fff0',
-      imageSize: 20      
+      background: '#f8fff0'
     },
     {
-      root: "flex h-20 items-center justify-center border-3 rounded-full m-1",
-      outerBorder: '#6b572d',
-      imageSize: 10      
+      root: "flex h-20 items-center justify-center border-3 rounded-full m-1 group",
+      outerBorder: '#6b572d'
+    },
+    {
+      root: "flex h-20 items-center justify-center m-1 group"
+    },
+    {
+      root: "flex h-20 items-center justify-center m-1 group"
     }
   ];
   const style = styling[sponsor.tier - 1];
 
   const logo = (
-    <img
-      src={sponsor.logoUrl}
-      alt={`${sponsor.name} logo`}
-      className={`max-h-30 max-w-full object-contain sm:max-h-${style.imageSize} ${
-        sponsor.name === "YRI Fellowship" ? "max-w-[54%]" : ""
-      }`}
-      loading="lazy"
-      draggable={false}
-    />
+    <a
+      href={sponsor.websiteUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Visit ${sponsor.name}`}
+      className="h-3/4 w-3/4"
+    >
+      <img
+        src={sponsor.logoUrl}
+        alt={`${sponsor.name} logo`}
+        className={'h-full w-full object-contain opacity-90 transition duration-300 group-hover:scale-[1.06] group-hover:opacity-100'}
+        loading="lazy"
+        draggable={false}
+      />
+    </a>
   );
 
   return <div
-    className={style.root}
+    className={twMerge(style.root, className)}
     //className=".htr-trailblazer-card"
     style={{backgroundColor: style.background, borderColor: style.outerBorder}}
     title={sponsor.name}
     key={sponsor.id}
   >
-
     { sponsor.tier == 1 ? <div
         className="flex h-full w-full items-center justify-center border-10 rounded-full"
         //className=".htr-trailblazer-card"
@@ -200,7 +196,6 @@ function SponserCard({ sponsor }: { sponsor: Sponsor })
       </div> : 
       logo 
     }
-
   </div>
 }
 
@@ -250,10 +245,10 @@ function SponsorRow({ sponsors }: { sponsors: Sponsor[] }) {
 export default function SponsorsGrid() {
   const reduceMotion = useReducedMotion();
 
-  function FilterSponsors(teir : number)
+  function FilterSponsors(tier : number)
   {
     return CURRENT_YEAR_SPONSORS.filter((value: Sponsor) => {
-      return value.id == teir;
+      return value.tier == tier;
     });
   }
 
@@ -262,17 +257,22 @@ export default function SponsorsGrid() {
       {/* <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-black/35 to-transparent sm:w-20" /> */}
       {/* <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-black/35 to-transparent sm:w-20" /> */}
 
-      {FilterSponsors(1).map((value : Sponsor, i : number) => {
+      <SponserCard sponsor={CURRENT_YEAR_SPONSORS[0]} className="row-1"/>
+      <div className="flex">
+        <SponserCard sponsor={CURRENT_YEAR_SPONSORS[1]} className="flex-1"/>
+        <SponserCard sponsor={CURRENT_YEAR_SPONSORS[2]} className="flex-1"/>
+      </div>
+      {/* {FilterSponsors(1).map((value : Sponsor) => {
         return <SponserCard sponsor={value} />
       })}
-      {FilterSponsors(2).map((value : Sponsor, i : number) => {
+      {FilterSponsors(2).map((value : Sponsor) => {
         return <SponserCard sponsor={value} />
       })}
-      {FilterSponsors(3).map((value : Sponsor, i : number) => {
+      {FilterSponsors(3).map((value : Sponsor) => {
         return <SponserCard sponsor={value} />
-      })}
+      })} */}
 
-      <motion.div
+      {/* <motion.div
         className="flex w-max items-center"
         animate={reduceMotion ? undefined : { x: ["0%", "-50%"] }}
         transition={
@@ -287,9 +287,12 @@ export default function SponsorsGrid() {
               }
         }
       >
-        <SponsorRow sponsors={FilterSponsors(4)} />
+        {/* duplicated a cople of times cuz wraping gotta happen, add tier 4 sponsors once they show up
         <SponsorRow sponsors={FilterSponsors(5)} />
-      </motion.div>
+        <SponsorRow sponsors={FilterSponsors(5)} />
+        <SponsorRow sponsors={FilterSponsors(5)} />
+        <SponsorRow sponsors={FilterSponsors(5)} />
+      </motion.div> */}
     </div>
   );
 }
