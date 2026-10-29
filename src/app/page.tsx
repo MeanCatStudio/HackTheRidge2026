@@ -10,6 +10,7 @@ import {
   Users,
   Sparkles,
   Zap,
+  Instagram,
 } from "lucide-react";
 import GradientSection from "./components/GradientSection";
 import AnimatedNavbar from "./components/AnimatedNavbar";
@@ -303,7 +304,7 @@ export default function Home() {
           <div className="lg:justify-self-end">
             <p className="max-w-md text-lg leading-8">Interested in joining us? Fill out our interest form. The date and registration details are coming soon.</p>
             <div className="htr-interest-actions">
-              <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates"><span>Check Instagram for updates</span></a>
+              <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates" aria-label="Check Instagram for updates" title="Check Instagram for updates"><Instagram aria-hidden="true" size={22} strokeWidth={1.8} /><span>Check Instagram for updates</span></a>
               <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested</a>
             </div>
           </div>

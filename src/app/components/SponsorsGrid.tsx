@@ -1,298 +1,122 @@
 "use client";
 
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
-import { element } from "three/tsl";
-import { twMerge } from "tailwind-merge";
 
 export interface Sponsor {
   id: number;
   name: string;
   logoUrl: string;
-  websiteUrl?: string;
+  websiteUrl: string;
   tier: 1 | 2 | 3 | 4 | 5;
 }
 
-const LAST_YEAR_SPONSORS: Sponsor[] = [
+const CURRENT_YEAR_SPONSORS: Sponsor[] = [
+  {
+    id: 1,
+    name: "Emkal",
+    logoUrl: "https://www.dillonr.ca/user/pages/images/emkal.png",
+    websiteUrl: "https://www.emkal.ca/",
+    tier: 1,
+  },
   {
     id: 2,
-    name: "Dm Industries",
-    logoUrl: "https://www.dm-ind.com/main/wp-content/uploads/2015/12/DM_logo_withlogo2.svg",
-    websiteUrl: "https://www.dm-ind.com/main/",
-    tier: 2,
+    name: "Brock University",
+    logoUrl:
+      "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/1280px-Brock_University_Logo_2022.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20230630120706",
+    websiteUrl: "https://brocku.ca/",
+    tier: 5,
   },
   {
     id: 3,
-    name: "YRI Fellowship",
-    logoUrl: "https://www.yriscience.com/logo.png",
-    websiteUrl: "https://www.yriscience.com/",
-    tier: 3,
-  },
-  {
-    id: 5,
-    name: "Brock University",
-    logoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/1280px-Brock_University_Logo_2022.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20230630120706",
-    websiteUrl: "https://brocku.ca/",
+    name: "Art of Problem Solving",
+    logoUrl: "https://artofproblemsolving.com/assets/images/logos/aops-online.svg",
+    websiteUrl: "https://artofproblemsolving.com/",
     tier: 5,
-  },  
-  {
-    id: 6,
-    name: "Queen's University",
-    logoUrl: "https://www.queensu.ca/resources/assets/logos/Queens-logo-reversed.svg",
-    tier: 5,
-  },
-  {
-    id: 7,
-    name: "University of Waterloo",
-    logoUrl: "https://uwaterloo.ca/profiles/uw_base_profile/modules/custom/uw_wcms_ohana/dist/images/uwaterloo-logo.svg",
-    websiteUrl: "https://uwaterloo.ca/",
-    tier: 5,
-  },
-  {
-    id: 8,
-    name: "US CAN Visa",
-    logoUrl: "/ucv.png",
-    websiteUrl: "https://uscanvisa.com",
-    tier: 5,
-  },
-  {
-    id: 9,
-    name: "Hatch Engineering",
-    logoUrl: "/hatch.png",
-    websiteUrl: "https://www.hatch.com/",
-    tier: 5,
-  },
-  {
-    id: 10,
-    name: "Toronto Metropolitan University",
-    logoUrl: "/tmu.png.png",
-    websiteUrl: "https://www.torontomu.ca/",
-    tier: 5,
-  },
-  {
-    id: 11,
-    name: "CoLab Software",
-    logoUrl: "/colab.png",
-    tier: 4,
-  },
-  {
-    id: 12,
-    name: "Western CPA",
-    logoUrl: "/westcpa.png",
-    tier: 4,
-  },
-  {
-    id: 13,
-    name: "Deloitte",
-    logoUrl: "/deloitte.png",
-    tier: 4,
-  },
-  {
-    id: 14,
-    name: "Zebra Robotics",
-    logoUrl: "/zebra.png",
-    tier: 5,
-  },
-  {
-    id: 15,
-    name: "Geotab",
-    logoUrl: "/geotab.png",
-    tier: 5,
-  },
-  {
-    id: 16,
-    name: "Town of Oakville CAG",
-    logoUrl: "/oakville.png.png",
-    tier: 2,
   },
 ];
 
-const CURRENT_YEAR_SPONSORS: Sponsor[] = [
-    {
-        id: 1,
-        name: "Emkal",
-        //logoUrl: "https://www.emkal.ca/wp-content/uploads/2019/08/emkal-logo-1.png", Alt
-        logoUrl: "https://www.dillonr.ca/user/pages/images/emkal.png",
-        websiteUrl: "https://www.emkal.ca/",
-        tier: 1,
-    },
-    {
-        id: 2,
-        name: "Brock University",
-        logoUrl: "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/1280px-Brock_University_Logo_2022.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20230630120706",
-        websiteUrl: "https://brocku.ca/",
-        tier: 5,
-    },
-    {
-        id: 3,
-        name: "Art of Problem Solving",
-        logoUrl: "https://artofproblemsolving.com/assets/images/logos/aops-online.svg",
-        websiteUrl: "https://artofproblemsolving.com/",
-        tier: 5,
-    }
-];
+const FEATURED_SPONSOR = CURRENT_YEAR_SPONSORS.find(
+  (sponsor) => sponsor.tier === 1,
+);
+const SUPPORTING_SPONSORS = CURRENT_YEAR_SPONSORS.filter(
+  (sponsor) => sponsor.tier !== 1,
+);
 
-
-function SponserCard({ sponsor, className = "" }: { sponsor: Sponsor, className: string })
-{
-  const styling = [
-    {
-      root: "flex h-52 items-center justify-center border-10 rounded-full m-1 group",
-      middle: "flex h-full w-full items-center justify-center border-10 rounded-full group",
-      outerBorder: '#1e3159',
-      innerBorder: '#3f7972',
-      background: '#afd5bc'
-    },
-    {
-      root: "flex h-30 items-center justify-center border-10 rounded-full m-1 group",
-      outerBorder: '#547a71',
-      background: '#f8fff0'
-    },
-    {
-      root: "flex h-20 items-center justify-center border-3 rounded-full m-1 group",
-      outerBorder: '#6b572d'
-    },
-    {
-      root: "flex h-20 items-center justify-center m-1 group"
-    },
-    {
-      root: "flex h-20 items-center justify-center m-1 group"
-    }
-  ];
-  const style = styling[sponsor.tier - 1];
-
-  const logo = (
-    <a
-      href={sponsor.websiteUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Visit ${sponsor.name}`}
-      className="h-3/4 w-3/4"
+function SponsorCard({
+  sponsor,
+  featured = false,
+}: {
+  sponsor: Sponsor;
+  featured?: boolean;
+}) {
+  return (
+    <article
+      className={`flex min-w-0 flex-col border p-3 sm:p-4 ${
+        featured
+          ? "col-span-full border-2 sm:col-span-2 sm:grid sm:grid-cols-2 sm:items-stretch"
+          : ""
+      }`}
+      style={{
+        borderColor: featured ? "var(--city-accent)" : "var(--city-rule)",
+        backgroundColor: "var(--city-paper)",
+      }}
     >
-      <img
-        src={sponsor.logoUrl}
-        alt={`${sponsor.name} logo`}
-        className={'h-full w-full object-contain opacity-90 transition duration-300 group-hover:scale-[1.06] group-hover:opacity-100'}
-        loading="lazy"
-        draggable={false}
-      />
-    </a>
-  );
-
-  return <div
-    className={twMerge(style.root, className)}
-    //className=".htr-trailblazer-card"
-    style={{backgroundColor: style.background, borderColor: style.outerBorder}}
-    title={sponsor.name}
-    key={sponsor.id}
-  >
-    { sponsor.tier == 1 ? <div
-        className="flex h-full w-full items-center justify-center border-10 rounded-full"
-        //className=".htr-trailblazer-card"
-        style={{backgroundColor: style.background, borderColor: style.innerBorder}}
-        title={sponsor.name}
-      >
-        {logo}
-      </div> : 
-      logo 
-    }
-  </div>
-}
-
-function SponsorLogo({ sponsor }: { sponsor: Sponsor }) {
-  const logo = (
-    <div
-      className="group flex h-24 w-[180px] shrink-0 items-center justify-center px-5 sm:h-28 sm:w-[220px] lg:w-[250px]"
-      title={sponsor.name}
-    >
-      <img
-        src={sponsor.logoUrl}
-        alt={`${sponsor.name} logo`}
-        className={`max-h-14 max-w-full object-contain opacity-90 transition duration-300 group-hover:scale-[1.06] group-hover:opacity-100 sm:max-h-16 ${
-          sponsor.name === "YRI Fellowship" ? "max-w-[54%]" : ""
+      <a
+        href={sponsor.websiteUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Visit ${sponsor.name}`}
+        className={`group flex min-h-32 items-center justify-center p-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--city-accent)] sm:min-h-36 sm:p-6 ${
+          featured ? "bg-[#263b37]" : "bg-[#f7eedb]"
         }`}
-        loading="lazy"
-        draggable={false}
-      />
-    </div>
-  );
-
-  if (!sponsor.websiteUrl) return logo;
-
-  return (
-    <a
-      href={sponsor.websiteUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Visit ${sponsor.name}`}
-      className="shrink-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-htr-green/80 focus-visible:ring-offset-4 focus-visible:ring-offset-transparent"
-    >
-      {logo}
-    </a>
-  );
-}
-
-function SponsorRow({ sponsors }: { sponsors: Sponsor[] }) {
-  return (
-    <div className="flex shrink-0 items-center gap-8 pr-8 sm:gap-12 sm:pr-12 lg:gap-16 lg:pr-16">
-      {sponsors.map((sponsor) => (
-        <SponsorLogo key={sponsor.id} sponsor={sponsor} />
-      ))}
-    </div>
+      >
+        <img
+          src={sponsor.logoUrl}
+          alt={`${sponsor.name} logo`}
+          className={`w-full object-contain transition-transform duration-200 group-hover:scale-[1.04] ${
+            featured
+              ? "max-h-36 sm:max-h-48"
+              : "max-h-16 sm:max-h-20"
+          }`}
+          loading="lazy"
+          draggable={false}
+        />
+      </a>
+      <div
+        className={`flex flex-col justify-center ${
+          featured ? "px-2 py-5 sm:px-5 sm:py-6" : "px-2 pb-1 pt-4"
+        }`}
+      >
+        <h3
+          className={`font-semibold ${
+            featured
+              ? "font-sacco text-3xl sm:text-4xl"
+              : "text-sm sm:text-base"
+          }`}
+        >
+          {sponsor.name}
+        </h3>
+        {featured && (
+          <p className="mt-2 text-sm leading-6">
+            Thank you for supporting Hack the Ridge 2026.
+          </p>
+        )}
+      </div>
+    </article>
   );
 }
 
 export default function SponsorsGrid() {
-  const reduceMotion = useReducedMotion();
-
-  function FilterSponsors(tier : number)
-  {
-    return CURRENT_YEAR_SPONSORS.filter((value: Sponsor) => {
-      return value.tier == tier;
-    });
+  if (!FEATURED_SPONSOR) {
+    throw new Error("The featured 2026 sponsor is missing.");
   }
 
   return (
-    <div className="relative w-full overflow-hidden">
-      {/* <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-black/35 to-transparent sm:w-20" /> */}
-      {/* <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-black/35 to-transparent sm:w-20" /> */}
-
-      <SponserCard sponsor={CURRENT_YEAR_SPONSORS[0]} className="row-1"/>
-      <div className="flex">
-        <SponserCard sponsor={CURRENT_YEAR_SPONSORS[1]} className="flex-1"/>
-        <SponserCard sponsor={CURRENT_YEAR_SPONSORS[2]} className="flex-1"/>
-      </div>
-      {/* {FilterSponsors(1).map((value : Sponsor) => {
-        return <SponserCard sponsor={value} />
-      })}
-      {FilterSponsors(2).map((value : Sponsor) => {
-        return <SponserCard sponsor={value} />
-      })}
-      {FilterSponsors(3).map((value : Sponsor) => {
-        return <SponserCard sponsor={value} />
-      })} */}
-
-      {/* <motion.div
-        className="flex w-max items-center"
-        animate={reduceMotion ? undefined : { x: ["0%", "-50%"] }}
-        transition={
-          reduceMotion
-            ? undefined
-            : {
-                x: {
-                  duration: 38,
-                  repeat: Infinity,
-                  ease: "linear",
-                },
-              }
-        }
-      >
-        {/* duplicated a cople of times cuz wraping gotta happen, add tier 4 sponsors once they show up
-        <SponsorRow sponsors={FilterSponsors(5)} />
-        <SponsorRow sponsors={FilterSponsors(5)} />
-        <SponsorRow sponsors={FilterSponsors(5)} />
-        <SponsorRow sponsors={FilterSponsors(5)} />
-      </motion.div> */}
+    <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+      <SponsorCard sponsor={FEATURED_SPONSOR} featured />
+      {SUPPORTING_SPONSORS.map((sponsor) => (
+        <SponsorCard key={sponsor.id} sponsor={sponsor} />
+      ))}
     </div>
   );
 }

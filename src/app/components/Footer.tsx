@@ -58,11 +58,11 @@ export default function Footer() {
             <h4 className="text-xs font-black uppercase tracking-[0.28em] text-htr-green">Connect</h4>
             <div className="mt-6 grid gap-5">
               <a
-                href="mailto:hi@hacktheridge.ca"
+                href="mailto:hacktheridge24@gmail.com"
                 className="flex items-start gap-3 text-sm font-semibold text-htr-white/82 transition hover:text-htr-green"
               >
                 <Mail className="mt-0.5 h-5 w-5 shrink-0 text-htr-green" />
-                <span>hi@hacktheridge.ca</span>
+                <span>hacktheridge24@gmail.com</span>
               </a>
 
               <a
