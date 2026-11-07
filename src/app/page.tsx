@@ -22,7 +22,7 @@ import SponsorsGrid from "./components/SponsorsGrid";
 import HistoryPuzzleSection from "./components/HistoryPuzzleSection";
 import TeamSection from "./components/TeamSection";
 import { openMapsForDevice } from "@/lib/maps";
-import { INTEREST_FORM_URL } from "@/lib/links";
+import { DASH_BOARD_URL } from "@/lib/links";
 
 
 
@@ -129,7 +129,7 @@ export default function Home() {
             </button>
             <p className="htr-event-invitation">Join Hack The Ridge</p>
             <a
-              href={"https://62c3ac57.htr-dashboard2026.pages.dev/auth"} target="_blank" rel="noopener noreferrer"
+              href={DASH_BOARD_URL} target="_blank" rel="noopener noreferrer"
               className="htr-register-link"
             >
               Sign Up!
