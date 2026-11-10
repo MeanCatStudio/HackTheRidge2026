@@ -87,7 +87,7 @@ export default function Footer() {
                   <Instagram className="h-5 w-5" />
                 </a>
                 <a
-                  href="https://discord.gg/RdEwzSeN"
+                  href="https://discord.gg/aJMCvs2dNb"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Discord"

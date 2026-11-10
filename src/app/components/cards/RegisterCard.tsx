@@ -53,7 +53,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
 
             <div className="relative flex items-center justify-center">
               <a
-                href="https://dash.hacktheridge.ca/dashboard"
+                href="https://dash.hacktheridge.ca/"
                 className="relative z-20 w-80 h-32 sm:w-96 sm:h-36 shadow-2xl transform hover:scale-105 transition-all duration-300 flex items-center justify-center"
                 style={{
                   background: 'linear-gradient(135deg, #a8e6a3 0%, #88d8a3 25%, #ffd89b 50%, #ffb347 75%, #ff8c69 100%)',
@@ -81,7 +81,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
               width="800px"
               height="280px"
               className="relative z-20"
-              href="https://dash.hacktheridge.ca/dashboard"
+              href="https://dash.hacktheridge.ca/"
             >
               <span
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-none tracking-wider"
@@ -145,7 +145,7 @@ const RegisterCard: React.FC<RegisterCardProps> = ({ textColor }) => {
           </a>
           <span className="text-gray-500 hidden sm:inline">|</span>
           <a
-            href="https://discord.gg/RdEwzSeN"
+            href="https://discord.gg/aJMCvs2dNb"
             className="hover:text-white transition-colors duration-300 text-sm sm:text-base lg:text-lg xl:text-xl font-bold tracking-wider"
             style={{
               fontFamily: 'Impact, Arial Black, sans-serif'

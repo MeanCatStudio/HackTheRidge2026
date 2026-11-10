@@ -27,10 +27,8 @@
 .htr-event-location { display: flex; align-items: center; gap: 1rem; text-align: left; cursor: pointer; }
 .htr-event-location strong { display: block; margin-bottom: .2rem; font-size: 1.05rem; }
 .htr-event-invitation { font-size: .82rem; color: #dfd7d7; }
-/* .htr-register-text { opacity: 1; } */
-.htr-register-link { display: inline-flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 3.1rem; padding: .9rem 1.6rem; width: 20rem; border-width: 1px; border-radius: 99px; background: #afd5bcaa; color: #1e3159; border-color: #afd5bc; font-weight: 800; backdrop-filter: blur(10px) saturate(1.8); font-size: 1.5rem; transition: background 180ms ease, transform 180ms ease; }
-/* .htr-register-link { font-size: 1.05rem; padding: 1rem 1.5rem; border-radius: 5px; } */
-.htr-register-link:hover { background: background/90; transform: scale(1.05); background: #afd5bc; }
+.htr-register-link { display: inline-flex; align-items: center; justify-content: center; gap: 1.5rem; min-height: 3.1rem; padding: .9rem 1.6rem; border-radius: 99px; background: #afd5bc; color: #1e3159; font-weight: 800; font-size: .85rem; transition: background 180ms ease, transform 180ms ease; }
+.htr-register-link:hover { background: background/90; transform: translateY(-2px); }
 .htr-interest-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; margin-top: 1.75rem; }
 .htr-interest-actions .htr-register-link { width: auto; }
 .htr-instagram-updates {
@@ -149,6 +147,7 @@ body { background: #63828d; }
 .htr-event-location strong { font-size: 1.3rem; }
 .htr-event-location span span { font-size: 1.05rem; }
 .htr-event-invitation { font-size: 1.1rem; }
+.htr-register-link { font-size: 1.05rem; padding: 1rem 1.5rem; border-radius: 5px; }
 .htr-hero-stat dt { font-size: 1rem; letter-spacing: normal; text-transform: none; line-height: 1.45; }
 .htr-date-month { font-size: 1.6rem; }
 #team .htr-open-content h3 { font-size: 1.18rem; }
@@ -354,7 +353,6 @@ footer { background: #3d493b !important; }
   .htr-hero-stats { gap: .6rem; }
   .htr-hero-stat + .htr-hero-stat { padding-left: .6rem; }
   .htr-hero-stat dd { font-size: clamp(2rem,9vw,2.4rem); }
-  .htr-hero-date { justify-items: center; }
 }
 
 :root {
@@ -378,17 +376,15 @@ footer { background: #3d493b !important; }
 :root:not([data-city-theme="night"]) .htr-open-content .button-shine,
 :root:not([data-city-theme="night"]) .htr-open-content a[href="#contact"],
 :root:not([data-city-theme="night"]) .htr-register-link {
-  background: #f1e7d366;
+  background: #bbc49f;
   color: #724027;
-  border-color: #724027;
 }
 :root:not([data-city-theme="night"]) .htr-open-content .htr-register-link:hover,
 :root:not([data-city-theme="night"]) .htr-open-content .button-shine:hover,
 :root:not([data-city-theme="night"]) .htr-open-content a[href="#contact"]:hover,
 :root:not([data-city-theme="night"]) .htr-register-link:hover {
-  background: #f1e7d3;
+  background: #bbc49f;
   color: #724027;
-  border-color: #724027;
 }
 .htr-open-content h2:first-child, .htr-open-content h3:first-child, .htr-open-content h4:first-child { margin-top: 0; }
 :root:not([data-city-theme="night"]) .htr-hero > div::before { background: rgba(247,238,219,.46); filter: blur(24px); }

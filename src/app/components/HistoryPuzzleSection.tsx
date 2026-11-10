@@ -35,7 +35,7 @@ const communityLinks = [
   },
   {
     name: "Discord",
-    href: "https://discord.gg/RdEwzSeN",
+    href: "https://discord.gg/aJMCvs2dNb",
     qr: "/discord-qr.png",
   },
 ];

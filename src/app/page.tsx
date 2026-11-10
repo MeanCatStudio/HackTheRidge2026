@@ -22,7 +22,7 @@ import SponsorsGrid from "./components/SponsorsGrid";
 import HistoryPuzzleSection from "./components/HistoryPuzzleSection";
 import TeamSection from "./components/TeamSection";
 import { openMapsForDevice } from "@/lib/maps";
-import { DASH_BOARD_URL } from "@/lib/links";
+import { INTEREST_FORM_URL } from "@/lib/links";
 
 
 
@@ -119,7 +119,7 @@ export default function Home() {
             </div>
             <div className="htr-hero-date">
               <p className="htr-eyebrow">Hack The Ridge 2026</p>
-              <div className="htr-coming-soon"><span className="htr-date-day">December 12th</span></div>
+              <div className="htr-coming-soon"><span className="htr-date-day">Coming<br />Soon</span></div>
             </div>
           </motion.div>
           <div className="htr-event-strip" aria-label="Quick event info">
@@ -129,10 +129,10 @@ export default function Home() {
             </button>
             <p className="htr-event-invitation">Join Hack The Ridge</p>
             <a
-              href={DASH_BOARD_URL} target="_blank" rel="noopener noreferrer"
+              href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer"
               className="htr-register-link"
             >
-              Sign Up!
+              I’m interested
             </a>
           </div>
 
@@ -305,7 +305,7 @@ export default function Home() {
             <p className="max-w-md text-lg leading-8">Interested in joining us? Fill out our interest form. The date and registration details are coming soon.</p>
             <div className="htr-interest-actions">
               <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates" aria-label="Check Instagram for updates" title="Check Instagram for updates"><Instagram aria-hidden="true" size={22} strokeWidth={1.8} /><span>Check Instagram for updates</span></a>
-              {/* <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested</a> */}
+              <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested</a>
             </div>
           </div>
         </div>

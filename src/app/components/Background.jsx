@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { Canvas } from "@react-three/fiber";
 import { EffectComposer, Bloom } from '@react-three/postprocessing';
 import { Leva, useControls } from "leva";
-import { Perf } from 'r3f-perf';
 
 import Scene from './3d/Scene';
 import { useCityTheme } from './CityTheme';
@@ -67,14 +66,14 @@ export default function Background()
 
     return <>
         
+        
         <Leva hidden={!showControls} collapsed />
         <div id="background" aria-hidden="true">
             <Canvas dpr={lowPower ? 1 : [1, 1.25]} gl={{ alpha: true, antialias: !lowPower, powerPreference: lowPower ? 'low-power' : 'high-performance' }} fallback={<div className="background-fallback" />} style={{ background: 'transparent' }}>
-                {/* <Perf hidden={!showControls} position='bottom-left' />     use webpack builder instead of turbo pack when testing  */}
-                <Scene reducedMotion={reducedMotion} night={theme === "night"} />
-                {!lowPower && <EffectComposer>
-                    <Bloom luminanceThreshold={bloom.threshold} intensity={bloom.intensity} mipmapBlur />
-                </EffectComposer>}
+                    <Scene reducedMotion={reducedMotion} night={theme === "night"} />
+                    {!lowPower && <EffectComposer>
+                        <Bloom luminanceThreshold={bloom.threshold} intensity={bloom.intensity} mipmapBlur />
+                    </EffectComposer>}
             </Canvas>
             <div className="htr-sky-stars">
                 {skyStars.map((star) => <span key={`${star.left}-${star.top}`} style={{ left: star.left, top: star.top, animationDelay: star.delay }} />)}
