@@ -9,7 +9,7 @@ import { INTEREST_FORM_URL } from "@/lib/links";
 const sections = [
   ["#about", "About HTR"], ["#experience", "A Day at HTR"],
   ["#winners", "2025 Hall of Fame"], ["#history", "History"],
-  ["#register", "Interested?"], ["#sponsors", "Sponsors"],
+  ["#register", "Sign Up"], ["#sponsors", "Sponsors"],
   ["#team", "Team"], ["#faq", "FAQ"],
 ];
 
@@ -42,7 +42,7 @@ export default function AnimatedNavbar() {
         </Link>
         <nav className="city-header-actions" aria-label="Main navigation">
           <button className="city-theme-toggle" type="button" aria-label="Night mode" aria-pressed={theme === "night"} onClick={toggleTheme}><span className="city-theme-orb" aria-hidden="true" />{theme === "night" ? "Night" : "Day"}</button>
-          <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="city-register" onClick={() => setOpen(false)}>Interested?</a>
+          <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="city-register" onClick={() => setOpen(false)}>Sign Up</a>
           <button ref={toggle} type="button" aria-expanded={open} aria-controls="city-navigation" onClick={() => setOpen(!open)}>
             {open ? "Close" : "Explore"}<span aria-hidden="true">{open ? "−" : "+"}</span>
           </button>

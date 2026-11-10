@@ -119,7 +119,7 @@ export default function Home() {
             </div>
             <div className="htr-hero-date">
               <p className="htr-eyebrow">Hack The Ridge 2026</p>
-              <div className="htr-coming-soon"><span className="htr-date-day">Coming<br />Soon</span></div>
+              <div className="htr-event-date" aria-label="December 12, 2026"><span className="htr-date-day">December<br />12, 2026</span></div>
             </div>
           </motion.div>
           <div className="htr-event-strip" aria-label="Quick event info">
@@ -132,7 +132,7 @@ export default function Home() {
               href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer"
               className="htr-register-link"
             >
-              I’m interested
+              Sign Up
             </a>
           </div>
 
@@ -302,10 +302,10 @@ export default function Home() {
             <h2 className="font-sacco mt-4 text-6xl font-black uppercase leading-[0.95] tracking-[0.035em] sm:text-7xl lg:text-8xl">See you at the Ridge.</h2>
           </div>
           <div className="lg:justify-self-end">
-            <p className="max-w-md text-lg leading-8">Interested in joining us? Fill out our interest form. The date and registration details are coming soon.</p>
+            <p className="max-w-md text-lg leading-8">Join us on December 12, 2026 at Iroquois Ridge High School. Sign up through the Hack the Ridge dashboard.</p>
             <div className="htr-interest-actions">
               <a href="https://www.instagram.com/hacktheridge/" target="_blank" rel="noopener noreferrer" className="htr-instagram-updates" aria-label="Check Instagram for updates" title="Check Instagram for updates"><Instagram aria-hidden="true" size={22} strokeWidth={1.8} /><span>Check Instagram for updates</span></a>
-              <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>I’m interested</a>
+              <a href={INTEREST_FORM_URL} target="_blank" rel="noopener noreferrer" className="htr-register-link" style={{ borderRadius: 99 }}>Sign Up</a>
             </div>
           </div>
         </div>

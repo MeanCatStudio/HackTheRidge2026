@@ -399,7 +399,7 @@ footer { background: #3d493b !important; }
 .winner-placement-label { color: #f4f1ef; }
 :root:not([data-city-theme="night"]) .winner-placement-label { color: #F7EEDB !important; }
 
-.htr-coming-soon .htr-date-day { font-size: clamp(3.3rem, 6vw, 6.5rem); line-height: .95; }
+.htr-event-date .htr-date-day { font-size: clamp(3.3rem, 6vw, 6.5rem); line-height: .95; }
 html, body { overflow-x: clip; overscroll-behavior-x: none; }
 .terminal-toy { color: #afd5bc; min-width: 0; margin-top: 1rem; }
 .terminal-aquarium { white-space: pre; font-family: monospace; font-size: clamp(9px, 1.8vw, 13px); line-height: 1.3; overflow: hidden; }
@@ -483,3 +483,6 @@ html, body { max-width: 100%; overflow-x: hidden; }
   #faq .terminal-aquarium { font-size: 11px; line-height: 13px; }
   #faq .terminal-train { font-size: 10px; }
 }
+
+#footer-contact-email{scroll-margin-block:120px;border-radius:6px;outline:3px solid transparent;outline-offset:8px}
+#footer-contact-email[data-contact-highlight="true"]{outline-color:#ffca65;background:rgba(255,202,101,.18);box-shadow:0 0 0 8px rgba(255,202,101,.18)}
