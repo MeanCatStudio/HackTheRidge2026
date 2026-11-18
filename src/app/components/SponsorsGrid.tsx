@@ -20,6 +20,13 @@ const CURRENT_YEAR_SPONSORS: Sponsor[] = [
   },
   {
     id: 2,
+    name: "Shopify",
+    logoUrl: "https://shopify-assets.shopifycdn.com/shopifycloud/brochure/assets/brand-assets/shopify-logo-primary-logo-456baa801ee66a0a435671082365958316831c9960c480451dd0330bcdae304f.svg",
+    websiteUrl: "https://www.shopify.com",
+    tier: 4,
+  },
+  {
+    id: 3,
     name: "Brock University",
     logoUrl:
       "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8a/Brock_University_Logo_2022.svg/1280px-Brock_University_Logo_2022.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20230630120706",
@@ -27,7 +34,7 @@ const CURRENT_YEAR_SPONSORS: Sponsor[] = [
     tier: 5,
   },
   {
-    id: 3,
+    id: 4,
     name: "Art of Problem Solving",
     logoUrl: "https://artofproblemsolving.com/assets/images/logos/aops-online.svg",
     websiteUrl: "https://artofproblemsolving.com/",
@@ -53,11 +60,14 @@ function SponsorCard({
     <article
       className={`flex min-w-0 flex-col border p-3 sm:p-4 ${
         featured
-          ? "col-span-full border-2 sm:col-span-2 sm:grid sm:grid-cols-2 sm:items-stretch"
+          ? "col-span-full border-2 sm:col-span-3 sm:grid sm:grid-cols-2 sm:items-stretch"
+          : sponsor.tier == 4 ? "border-2"
           : ""
       }`}
       style={{
-        borderColor: featured ? "var(--city-accent)" : "var(--city-rule)",
+        borderColor: featured ? "var(--city-accent)" 
+        // : sponsor.tier == 4 ? "var(--city-muted)" 
+        : "var(--city-rule)",
         backgroundColor: "var(--city-paper)",
       }}
     >
